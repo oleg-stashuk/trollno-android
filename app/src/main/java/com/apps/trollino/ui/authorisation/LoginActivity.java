@@ -30,8 +30,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.forgot_login:
-//                startActivity(new Intent(this, ForgotPasswordActivity.class));
-//                finish();
+                startActivity(new Intent(this, ForgotPasswordActivity.class));
+                finish();
                 break;
             case R.id.login_button_login:
                 showToast("LOGIN");
