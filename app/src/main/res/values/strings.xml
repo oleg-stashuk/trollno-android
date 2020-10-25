@@ -1,3 +1,27 @@
 <resources>
-    <string name="app_name">Trollino</string>
+    <string name="app_name">Trollno</string>
+    <string name="app_version">Версия 1.0.0</string>
+    <string name="copyright">© 2020 Тролльно Медиа.</string>
+
+    <string name="edt_email">example@gmail.com</string>
+    <string name="edt_password">Пароль</string>
+    <string name="title_login">Войти</string>
+    <string name="forgot_password">Забыли пароль?</string>
+    <string name="do_not_have_account">Нет аккаунта?</string>
+    <string name="register">Зарегистрироваться</string>
+    <string name="forgot_message">Для сброса пароля введите почту, указанную при регистрации</string>
+    <string name="btn_send">Сбросить пароль</string>
+    <string name="edt_name">Имя</string>
+    <string name="have_account">Есть аккаунт?</string>
+    <string name="terms_and_privacy">Политикой конфиденциалдьности</string>
+    <string name="title_terms_and_privacy">Политика конфиденциалдьности</string>
+    <string name="terms_text">Создавая учетную запись, вы соглашаетесь с нашими</string>
+    <string name="title_profile">Профиль</string>
+    <string name="hello">Привет!</string>
+    <string name="create_account">Новичок? <b>Создайте аккаунт</b></string>
+    <string name="dark_theme">Темная тема</string>
+    <string name="rate_app">Оцените приложение</string>
+    <string name="app_info">О приложении</string>
+    <string name="tape">Лента</string>
+    <string name="favorites">Избранное</string>
 </resources>
