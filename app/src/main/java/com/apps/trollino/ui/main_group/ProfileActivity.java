@@ -1,11 +1,13 @@
 package com.apps.trollino.ui.main_group;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import com.apps.trollino.R;
+import com.apps.trollino.ui.authorisation.LoginActivity;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.InformationAboutAppDialog;
 
@@ -51,7 +53,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 //        startActivity(new Intent(this, RegistrationActivity.class));
         break;
         case R.id.login_account_profile:
-//        startActivity(new Intent(this, LoginActivity.class));
+        startActivity(new Intent(this, LoginActivity.class));
         break;
         case R.id.term_and_privacy_profile:
 //        startActivity(new Intent(this, PrivacyPolicyActivity.class));

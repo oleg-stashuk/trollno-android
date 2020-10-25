@@ -7,4 +7,6 @@
     <color name="colorLightTheme">#CAE4F5</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="colorGrey">#BCBEC1</color>
+    <color name="colorRipple">#BCBEC1</color>
 </resources>
