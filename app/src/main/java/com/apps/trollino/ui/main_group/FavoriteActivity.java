@@ -3,13 +3,20 @@ package com.apps.trollino.ui.main_group;
 import android.content.Intent;
 import android.view.View;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.apps.trollino.R;
+import com.apps.trollino.adapters.FavoriteVideoAdapter;
+import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
+import com.apps.trollino.model.FavoriteVideoModel;
 import com.apps.trollino.ui.base.BaseActivity;
+
+import java.util.List;
 
 public class FavoriteActivity extends BaseActivity implements View.OnClickListener{
     private RecyclerView favoriteRecyclerView;
+    private List<FavoriteVideoModel> favoriteVideoList = FavoriteVideoModel.makeFavoriteVideoList();
 
     @Override
     protected int getLayoutID() {
@@ -28,8 +35,18 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void makeFavoriteRecyclerView() {
-
+        favoriteRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        favoriteRecyclerView.setAdapter(new FavoriteVideoAdapter(this, favoriteVideoList, favoriteVideoItemListener));
     }
+
+    // Обработка нажатия на элемент списка
+    private final FavoriteVideoAdapter.OnItemClick<FavoriteVideoModel> favoriteVideoItemListener =
+            new BaseRecyclerAdapter.OnItemClick<FavoriteVideoModel>() {
+        @Override
+        public void onItemClick(FavoriteVideoModel item, int position) {
+            showToast("Press " + item.getVideoId());
+        }
+    };
 
     @Override
     public void onClick(View v) {
