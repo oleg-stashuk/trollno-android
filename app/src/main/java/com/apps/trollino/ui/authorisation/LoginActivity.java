@@ -1,5 +1,6 @@
 package com.apps.trollino.ui.authorisation;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.EditText;
 
@@ -36,8 +37,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 showToast("LOGIN");
                 break;
             case R.id.register_login:
-//                startActivity(new Intent(this, RegistrationActivity.class));
-//                finish();
+                startActivity(new Intent(this, RegistrationActivity.class));
+                finish();
                 break;
         }
     }

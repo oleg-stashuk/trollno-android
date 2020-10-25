@@ -4,17 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:gravity="center"
     android:padding="10dp"
-    tools:context=".ui.authorisation.LoginActivity">
+    android:orientation="vertical"
+    tools:context=".ui.authorisation.RegistrationActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="center"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -27,10 +26,10 @@
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:padding="10dp"
-            android:text="@string/title_login"
             android:textColor="@color/colorPrimary"
             android:textSize="20dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:text="@string/register"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -39,7 +38,24 @@
             app:boxBackgroundColor="@android:color/transparent">
 
             <EditText
-                android:id="@+id/edt_email_login"
+                android:id="@+id/edt_name_registration"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_person"
+                android:drawableStart="@drawable/ic_person"
+                android:drawablePadding="12dp"
+                android:hint="@string/edt_name"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:boxBackgroundColor="@android:color/transparent">
+
+            <EditText
+                android:id="@+id/edt_email_registration"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_email"
@@ -58,7 +74,7 @@
             app:passwordToggleEnabled="true">
 
             <EditText
-                android:id="@+id/edt_password_login"
+                android:id="@+id/edt_password_registration"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_key"
@@ -69,17 +85,6 @@
                 android:hint="@string/edt_password"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/forgot_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_margin="10dp"
-            android:padding="5dp"
-            android:textColor="@color/colorPrimary"
-            android:textStyle="bold"
-            android:text="@string/forgot_password"/>
-
         <com.balysv.materialripple.MaterialRippleLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -89,18 +94,17 @@
             app:mrl_rippleOverlay="true">
 
             <Button
-                android:id="@+id/login_button_login"
+                android:id="@+id/registration_button_registration"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@color/colorPrimary"
+                android:layout_marginTop="10dp"
                 android:padding="10dp"
+                android:background="@color/colorPrimary"
+                android:layout_gravity="center"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                android:text="@string/title_login" />
-
+                android:text="@string/register" />
         </com.balysv.materialripple.MaterialRippleLayout>
-
 
     </LinearLayout>
 
@@ -116,17 +120,17 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginStart="15dp"
-            android:text="@string/do_not_have_account" />
+            android:text="@string/have_account" />
 
         <TextView
-            android:id="@+id/register_login"
+            android:id="@+id/login_registration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:textColor="@color/colorPrimary"
             android:textAllCaps="true"
             android:textStyle="bold"
-            android:text="@string/register"/>
+            android:text="@string/title_login"/>
 
     </LinearLayout>
 

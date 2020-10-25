@@ -9,11 +9,13 @@
         android:roundIcon="@drawable/ic_icon_in_oval"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.authorisation.LoginActivity"/>
+        <activity android:name=".ui.authorisation.RegistrationActivity"></activity>
+        <activity android:name=".ui.authorisation.LoginActivity" />
         <activity android:name=".ui.main_group.ProfileActivity" />
         <activity android:name=".ui.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
