@@ -9,10 +9,12 @@
         android:roundIcon="@drawable/ic_icon_in_oval"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.authorisation.ForgotPasswordActivity"
+        <activity android:name=".ui.main_group.FavoriteActivity"></activity>
+        <activity
+            android:name=".ui.authorisation.ForgotPasswordActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".ui.authorisation.RegistrationActivity" />
         <activity android:name=".ui.authorisation.LoginActivity" />
         <activity android:name=".ui.main_group.ProfileActivity" />
