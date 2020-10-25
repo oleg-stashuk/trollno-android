@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.apps.trollino.R;
 import com.apps.trollino.ui.base.BaseActivity;
+import com.apps.trollino.utils.InformationAboutAppDialog;
 
 public class ProfileActivity extends BaseActivity implements View.OnClickListener{
     private TextView accountTextView;
@@ -59,7 +60,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         showToast("Оцените приложение");
         break;
         case R.id.info_profile:
-//        InformationAboutAppDialog.aboutDialog(this);
+        InformationAboutAppDialog.aboutDialog(this);
         break;
         case R.id.tape_button_profile: // "Перейти на экран Лента"
         showToast("Перейти на экран Лента");
