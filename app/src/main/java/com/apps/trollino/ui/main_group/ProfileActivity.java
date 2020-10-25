@@ -65,7 +65,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         InformationAboutAppDialog.aboutDialog(this);
         break;
         case R.id.tape_button_profile: // "Перейти на экран Лента"
-        showToast("Перейти на экран Лента");
+        startActivity(new Intent(this, TapeActivity.class));
+        finish();
         break;
         case R.id.activity_button_profile: // "Перейти на экран Активность"
         showToast("Перейти на экран Активность");

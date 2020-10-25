@@ -55,7 +55,8 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
                 showToast("drop_down_menu");
                 break;
             case R.id.tape_button_favorite: // "Перейти на экран Лента"
-                showToast("Перейти на экран Лента");
+                startActivity(new Intent(this, TapeActivity.class));
+                finish();
                 break;
             case R.id.activity_button_favorite: // "Перейти на экран Активность"
                 showToast("Перейти на экран Активность");
