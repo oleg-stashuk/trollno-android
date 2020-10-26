@@ -100,7 +100,8 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
     public void onClick(View view) {
         switch(view.getId()) {
             case R.id.search_button_tape: // "Перейти на экран Поиска"
-                showToast("Open SearchActivity");
+                startActivity(new Intent(this, SearchActivity.class));
+                finish();
                 break;
             case R.id.activity_button_tape: // "Перейти на экран Активность"
                 showToast("Перейти на экран Активность");
