@@ -17,7 +17,7 @@
             android:layout_weight="1"
             android:layout_gravity="center_vertical"
             android:background="@color/colorGrey">
-    
+
             <ImageView
                 android:layout_width="70dp"
                 android:layout_height="70dp"
@@ -25,7 +25,7 @@
                 android:layout_centerInParent="true"
                 android:layout_centerVertical="true"
                 android:src="@drawable/ic_video_player"/>
-            
+
             <TextView
                 android:id="@+id/comment_count_new_video_item"
                 android:layout_width="wrap_content"
@@ -37,7 +37,7 @@
                 android:textColor="@color/white"
                 android:hint="25"/>
         </RelativeLayout>
-    
+
         <TextView
             android:id="@+id/title_new_video_item"
             android:layout_width="0dp"
@@ -47,7 +47,7 @@
             android:hint="Описание видео"/>
 
     </LinearLayout>
-    
+
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
