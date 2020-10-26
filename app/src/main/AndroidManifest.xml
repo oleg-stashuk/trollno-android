@@ -9,7 +9,8 @@
         android:roundIcon="@drawable/ic_icon_in_oval"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.main_group.SearchActivity"></activity>
+        <activity android:name=".ui.main_group.PostActivity"></activity>
+        <activity android:name=".ui.main_group.SearchActivity" />
         <activity android:name=".ui.main_group.TapeActivity" />
         <activity android:name=".ui.main_group.FavoriteActivity" />
         <activity
