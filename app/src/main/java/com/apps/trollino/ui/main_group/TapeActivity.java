@@ -1,6 +1,7 @@
 package com.apps.trollino.ui.main_group;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,12 +12,14 @@ import com.apps.trollino.adapters.NewsVideoAdapter;
 import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
 import com.apps.trollino.model.FavoriteVideoModel;
 import com.apps.trollino.ui.base.BaseActivity;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.List;
 
 public class TapeActivity extends BaseActivity implements View.OnClickListener{
     private RecyclerView newsRecyclerView;
     private List<FavoriteVideoModel> newsVideoList = FavoriteVideoModel.makeFavoriteVideoList();
+    private TabLayout tabs;
 
     @Override
     protected int getLayoutID() {
@@ -25,6 +28,7 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
 
     @Override
     protected void initView() {
+        tabs = findViewById(R.id.tab_layout_tape);
         newsRecyclerView = findViewById(R.id.news_recycler_tape);
         findViewById(R.id.search_button_tape).setOnClickListener(this);
         findViewById(R.id.activity_button_tape).setOnClickListener(this);
@@ -32,7 +36,32 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
         findViewById(R.id.profile_button_tape).setOnClickListener(this);
 
         makeNewsRecyclerView();
+        makeTabSelectedListener();
     }
+
+    // Обработка нажатия на элементы
+    private void makeTabSelectedListener() {
+        Log.d("123456", tabs.getScrollBarSize() + " - " + tabs.getTabCount());
+        tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                Log.d("123456", "" + tabs.getSelectedTabPosition());
+                showToast("" + tabs.getSelectedTabPosition());
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+    }
+
 
     private void makeNewsRecyclerView() {
         newsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
