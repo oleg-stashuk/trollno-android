@@ -36,4 +36,6 @@
     <string name="life_hack">Лайфхак</string>
     <string name="nicely">Милота</string>
     <string name="search">Поиск</string>
+    <string name="swipe_left_or_right_for_more_post">Проведите пальцем влево или вправо, чтобы увидеть другие посты</string>
+    <string name="source_of_image">Источник:</string>
 </resources>

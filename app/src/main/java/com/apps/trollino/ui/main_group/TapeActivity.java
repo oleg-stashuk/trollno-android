@@ -83,6 +83,8 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
                 @Override
                 public void onItemClick(FavoriteVideoModel item, int position) {
                     showToast("Press " + item.getVideoId());
+                    startActivity(new Intent(TapeActivity.this, PostActivity.class));
+                    finish();
                 }
             };
 
@@ -91,6 +93,8 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
         @Override
         public void onItemClick(FavoriteVideoModel item, int position) {
             showToast("Press " + item.getVideoId());
+            startActivity(new Intent(TapeActivity.this, PostActivity.class));
+            finish();
         }
     };
 
