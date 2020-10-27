@@ -45,6 +45,8 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
         @Override
         public void onItemClick(FavoriteVideoModel item, int position) {
             showToast("Press " + item.getVideoId());
+            startActivity(new Intent(FavoriteActivity.this, PostActivity.class));
+            finish();
         }
     };
 

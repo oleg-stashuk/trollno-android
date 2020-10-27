@@ -46,6 +46,8 @@ public class ActivityInPostActivity extends BaseActivity implements View.OnClick
         @Override
         public void onItemClick(UserCommentActivityModel item, int position) {
             showToast("Press " + item.getTitleUserComment());
+            startActivity(new Intent(ActivityInPostActivity.this, PostActivity.class));
+            finish();
         }
     };
 

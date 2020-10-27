@@ -10,9 +10,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apps.trollino.R;
 import com.apps.trollino.ui.base.BaseActivity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CommentActivity extends BaseActivity implements View.OnClickListener{
-    TextView noCommentTextView;
-    RecyclerView commentsRecyclerView;
+
+    private List<String> commentList = new ArrayList<>();
+    private int countComment = 7;
+    private String title = "Заголовок поста";
+
+    private TextView noCommentTextView;
+    private RecyclerView commentsRecyclerView;
 
     @Override
     protected int getLayoutID() {
@@ -26,8 +34,23 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         findViewById(R.id.send_button_comment).setOnClickListener(this);
         EditText commentEditText = findViewById(R.id.comment_message_comment);
         TextView countTextView = findViewById(R.id.count_comment);
+        TextView titleTextVieww = findViewById(R.id.title_comment);
         noCommentTextView = findViewById(R.id.text_post_without_comment);
 
+        showCorrectVariant();
+        countTextView.setText(String.valueOf(countComment));
+        titleTextVieww.setText(title);
+    }
+
+    // Если на Пост нет комментариев,
+    private void showCorrectVariant() {
+        if(countComment > 0) {
+            noCommentTextView.setVisibility(View.GONE);
+            commentsRecyclerView.setVisibility(View.VISIBLE);
+        } else {
+            noCommentTextView.setVisibility(View.VISIBLE);
+            commentsRecyclerView.setVisibility(View.GONE);
+        }
     }
 
     @Override
