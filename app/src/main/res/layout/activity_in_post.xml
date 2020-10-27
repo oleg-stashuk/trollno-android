@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.main_group.ActivityInPostActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/colorPrimary"
+        android:padding="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:background="@android:color/transparent"
+            android:textColor="@color/white"
+            android:padding="10dp"
+            android:textSize="18dp"
+            android:text="@string/activity"/>
+
+        <ImageButton
+            android:id="@+id/menu_button_activity_in_post"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_vertical_menu" />
+    </LinearLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_activity_in_post"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tape_button_activity_in_post"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/ic_tape_grey"
+            android:gravity="center"
+            android:text="@string/tape" />
+
+        <TextView
+            android:id="@+id/activity_button_activity_in_post"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/ic_activity_green"
+            android:textColor="@color/colorPrimary"
+            android:gravity="center"
+            android:text="Активность" />
+
+        <TextView
+            android:id="@+id/favorites_button_activity_in_post"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/ic_favorite_grey"
+            android:gravity="center"
+            android:text="@string/favorites" />
+
+        <TextView
+            android:id="@+id/profile_button_activity_in_post"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/ic_profile_grey"
+            android:gravity="center"
+            android:text="@string/title_profile" />
+
+    </LinearLayout>
+
+</LinearLayout>

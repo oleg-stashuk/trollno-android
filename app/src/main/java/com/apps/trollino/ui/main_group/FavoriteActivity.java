@@ -59,7 +59,8 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
                 finish();
                 break;
             case R.id.activity_button_favorite: // "Перейти на экран Активность"
-                showToast("Перейти на экран Активность");
+                startActivity(new Intent(this, ActivityInPostActivity.class));
+                finish();
                 break;
             case R.id.profile_button_favorite: // "Перейти на экран Профиль"
                 startActivity(new Intent(this, ProfileActivity.class));
