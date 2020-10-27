@@ -41,4 +41,8 @@
     <string name="activity">Активность</string>
     <string name="comment_hint">Ваш комментарий...</string>
     <string name="post_without_comment">Комментариев пока нет, Вы можете быть первым</string>
+    <string name="change_profile_image">Сменить картинку профиля</string>
+    <string name="update">Сохранить изменения</string>
+    <string name="comments">Комментарии</string>
+    <string name="edit_profile">Изменить профиль</string>
 </resources>
