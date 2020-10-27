@@ -6,6 +6,7 @@ import android.os.Handler;
 import com.apps.trollino.R;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.ui.main_group.ProfileActivity;
+import com.apps.trollino.ui.main_group.TapeActivity;
 
 public class SplashActivity extends BaseActivity {
     private Handler handler;
@@ -40,7 +41,7 @@ public class SplashActivity extends BaseActivity {
         @Override
         public void run() {
             if (startTime >= maxTime - 1) {
-                startActivity(new Intent(SplashActivity.this, ProfileActivity.class));
+                startActivity(new Intent(SplashActivity.this, TapeActivity.class));
                 finish();
             }
         }
