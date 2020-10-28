@@ -55,7 +55,7 @@ public class ActivityInPostActivity extends BaseActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.menu_button_activity_in_post: // "Перейти на экран Лента"
-                showToast("menu pressed -> Пометить все как прочитанное");
+                showToast("Пометить все как прочитанное");
                 break;
             case R.id.tape_button_activity_in_post: // "Перейти на экран Лента"
                 startActivity(new Intent(this, TapeActivity.class));

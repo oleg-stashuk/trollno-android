@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:textSize="18dp"
+        android:textColor="@color/colorText"
         android:textStyle="bold"
         android:hint="Заголовок"/>
 
@@ -18,7 +19,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:padding="10dp"/>
+        android:background="@color/colorGreyBackgroundVideo"
+        android:padding="10dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,6 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
+            android:textColor="@color/colorText"
             android:text="@string/source_of_image"/>
 
         <TextView
@@ -50,16 +53,16 @@
         android:id="@+id/video_item_element_of_post"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
         android:layout_gravity="center_vertical"
-        android:background="@color/colorGrey">
+        android:layout_weight="1"
+        android:background="@color/colorGreyBackgroundVideo"
+        android:gravity="center">
 
         <ImageView
             android:layout_width="130dp"
             android:layout_height="130dp"
             android:padding="20dp"
-            android:src="@drawable/ic_video_player"/>
+            android:src="@drawable/ic_video_player" />
     </LinearLayout>
 
     <TextView
@@ -67,5 +70,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dp"
+        android:textColor="@color/colorText"
         android:hint="Описание"/>
 </LinearLayout>

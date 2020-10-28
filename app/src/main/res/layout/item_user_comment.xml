@@ -2,20 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginTop="10dp"
+    android:layout_marginTop="3dp"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="5dp"
-        android:padding="10dp">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:id="@+id/background_liner_layout_user_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="10dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -37,7 +35,7 @@
                     android:id="@+id/menu_item_user_comment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:padding="5dp"
                     android:background="@color/transparent"
                     android:src="@drawable/ic_horizontal_menu"/>
 
@@ -55,6 +53,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:padding="5dp"
+                    android:textColor="@color/colorText"
                     android:textStyle="bold"
                     android:hint="Comment"/>
 
@@ -62,7 +61,7 @@
                     android:id="@+id/count_like_item_user_comment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:padding="5dp"
                     android:textStyle="bold"
                     android:textColor="@color/colorLightGreen"
                     android:hint="+5"/>
@@ -77,23 +76,24 @@
 
                 <ImageView
                     android:id="@+id/new_comment_indicator_item_user_comment"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:padding="5dp"
                     android:src="@drawable/ic_red_comment_indicator"/>
 
                 <TextView
                     android:id="@+id/new_comment_item_user_comment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:textSize="11dp"
                     android:text="Есть новый ответ"/>
 
                 <TextView
                     android:id="@+id/time_item_user_comment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:layout_marginLeft="15dp"
+                    android:textSize="11dp"
                     android:hint="5 д. назад"/>
 
 

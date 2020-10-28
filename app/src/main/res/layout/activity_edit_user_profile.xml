@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+
     tools:context=".ui.main_group.EditUserProfileActivity">
 
     <LinearLayout
@@ -29,7 +30,8 @@
             android:gravity="center_vertical"
             android:background="@android:color/transparent"
             android:textColor="@color/white"
-            android:padding="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center_vertical"
             android:textSize="18dp"
             android:text="@string/edit_profile"/>
 
@@ -52,8 +54,8 @@
 
         <ImageView
             android:id="@+id/image_edit_user_profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:src="@drawable/cookie_icon" />
 
         <TextView
@@ -132,7 +134,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:padding="10dp"
-                android:background="@color/colorPrimary"
+                android:background="@drawable/button_background"
                 android:layout_gravity="center"
                 android:textColor="@color/white"
                 android:textStyle="bold"

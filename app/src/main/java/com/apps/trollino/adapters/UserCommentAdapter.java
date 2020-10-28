@@ -45,11 +45,11 @@ public class UserCommentAdapter extends BaseRecyclerAdapter<UserCommentActivityM
                 TextView newCommentTextView = view.findViewById(R.id.new_comment_item_user_comment);
                 TextView timeTextView = view.findViewById(R.id.time_item_user_comment);
 
-                if(item.isReadUserComment()) {
-                    linearLayout.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.white));
-                } else{
-                    linearLayout.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.colorLightGrey));
-                }
+//                if(item.isReadUserComment()) {
+//                    linearLayout.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.white));
+//                } else{
+//                    linearLayout.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.colorLightGrey));
+//                }
 
                 titleTextView.setText(item.getTitleUserComment());
                 commentTextView.setText(item.getCommentUserComment());
@@ -61,7 +61,12 @@ public class UserCommentAdapter extends BaseRecyclerAdapter<UserCommentActivityM
                     indicatorImageView.setVisibility(View.GONE);
                     newCommentTextView.setVisibility(View.GONE);
                 }
-                timeTextView.setText(item.getTimeUserComment());
+                if(item.getTimeUserComment().isEmpty()) {
+                    timeTextView.setVisibility(View.GONE);
+                } else {
+                    timeTextView.setVisibility(View.VISIBLE);
+                    timeTextView.setText(item.getTimeUserComment());
+                }
 
                 menuImageView.setOnClickListener(new View.OnClickListener() {
                     @Override

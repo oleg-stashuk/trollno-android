@@ -17,8 +17,8 @@ import java.util.List;
 
 public class FavoriteActivity extends BaseActivity implements View.OnClickListener{
     private RecyclerView favoriteRecyclerView;
-//    private List<FavoriteModel> favoriteVideoList = FavoriteModel.makeFavoriteVideoList();
-    private List<FavoriteModel> favoriteVideoList = new ArrayList<>();
+    private List<FavoriteModel> favoriteVideoList = FavoriteModel.makeFavoriteVideoList();
+//    private List<FavoriteModel> favoriteVideoList = new ArrayList<>();
     private View noFavoriteListView;
 
     @Override

@@ -29,7 +29,8 @@
             android:gravity="center_vertical"
             android:background="@android:color/transparent"
             android:textColor="@color/white"
-            android:padding="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center_vertical"
             android:textSize="18dp"
             android:text="@string/search"/>
 

@@ -1,5 +1,7 @@
 package com.apps.trollino.adapters;
 
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -51,7 +53,9 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<PostModel.OneElem
                     sourceTextView.setVisibility(View.VISIBLE);
                     sourceLinkTextView.setVisibility(View.VISIBLE);
 
-                    sourceLinkTextView.setText(item.getLinkResourceElement());
+                    SpannableString content = new SpannableString(item.getLinkResourceElement());
+                    content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+                    sourceLinkTextView.setText(content);
                     imageView.setImageResource(R.drawable.cookie_icon);
                 }
                 if(item.getLinkVideoElement().isEmpty()) {
