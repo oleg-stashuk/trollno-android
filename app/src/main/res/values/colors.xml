@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!--default theme color-->
     <color name="colorPrimary">#109f91</color>
     <color name="colorPrimaryDark">#109f91</color>
     <color name="colorAccent">#4aafff</color>
+    <color name="colorBackgroundLight">#F2F2F2</color>
 
+
+    <!--dark theme color-->
+    <color name="colorStatusBarDark">#0F1D24</color>
+    <color name="colorToolbarDark">#222D36</color>
+    <color name="colorToolbarDarkMain">#101D24</color>
+    <color name="colorBackgroundDark">#101D24</color>
+    <color name="colorCardDark">#222D36</color>
+
+    <!--others-->
     <color name="colorLightTheme">#CAE4F5</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>

@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:gravity="center"
-    android:padding="10dp"
+    android:padding="20dp"
     tools:context=".ui.authorisation.LoginActivity">
 
     <LinearLayout
@@ -17,8 +17,9 @@
         android:orientation="vertical" >
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:scaleType="centerCrop"
             android:src="@drawable/ic_icon_in_rectangle" />
 
         <TextView
@@ -93,7 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@color/colorPrimary"
+                android:background="@drawable/button_background"
                 android:padding="10dp"
                 android:textColor="@color/white"
                 android:textStyle="bold"
@@ -111,6 +112,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:layout_marginTop="20dp"
             android:text="@string/login_using_other_account"/>
 
         <LinearLayout
@@ -146,15 +148,16 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginStart="15dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
             android:text="@string/do_not_have_account" />
 
         <TextView
             android:id="@+id/register_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:padding="15dp"
+            android:foreground="?attr/selectableItemBackground"
             android:textColor="@color/colorPrimary"
             android:textAllCaps="true"
             android:textStyle="bold"
