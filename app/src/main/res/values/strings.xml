@@ -45,4 +45,6 @@
     <string name="update">Сохранить изменения</string>
     <string name="comments">Комментарии</string>
     <string name="edit_profile">Изменить профиль</string>
+    <string name="login_using_other_account">Или войти с помощью:</string>
+    <string name="registration_using_other_account">Зарегистрироваться с помощью:</string>
 </resources>

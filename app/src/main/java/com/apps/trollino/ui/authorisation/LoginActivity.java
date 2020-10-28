@@ -23,6 +23,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         findViewById(R.id.forgot_login).setOnClickListener(this);
         findViewById(R.id.login_button_login).setOnClickListener(this);
         findViewById(R.id.register_login).setOnClickListener(this);
+        findViewById(R.id.login_with_facebook_login).setOnClickListener(this);
+        findViewById(R.id.login_with_google_login).setOnClickListener(this);
 
     }
 
@@ -39,6 +41,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             case R.id.register_login:
                 startActivity(new Intent(this, RegistrationActivity.class));
                 finish();
+                break;
+            case R.id.login_with_facebook_login:
+                showToast("Войти через Facebook");
+                break;
+            case R.id.login_with_google_login:
+                showToast("Войти через Google");
                 break;
         }
     }

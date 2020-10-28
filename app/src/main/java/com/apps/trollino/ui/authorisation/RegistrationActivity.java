@@ -25,17 +25,25 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
 
         findViewById(R.id.registration_button_registration).setOnClickListener(this);
         findViewById(R.id.login_registration).setOnClickListener(this);
+        findViewById(R.id.register_with_facebook_registration).setOnClickListener(this);
+        findViewById(R.id.register_with_google_registration).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.registration_button_registration:
-                showToast("Registration");
+                showToast("Зарегистрироваться");
                 break;
             case R.id.login_registration:
                 startActivity(new Intent(this, LoginActivity.class));
                 finish();
+                break;
+            case R.id.register_with_facebook_registration:
+                showToast("Зарегистрироваться через Facebook");
+                break;
+            case R.id.register_with_google_registration:
+                showToast("Зарегистрироваться через Google");
                 break;
         }
     }
