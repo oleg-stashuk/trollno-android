@@ -1,25 +1,27 @@
 package com.apps.trollino.adapters;
 
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apps.trollino.R;
 import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
-import com.apps.trollino.model.FavoriteVideoModel;
+import com.apps.trollino.model.FavoriteModel;
 import com.apps.trollino.ui.base.BaseActivity;
 
 import java.util.List;
 
-public class NewsVideoForTwoColumnsAdapter extends BaseRecyclerAdapter<FavoriteVideoModel> {
+public class NewsVideoForTwoColumnsAdapter extends BaseRecyclerAdapter<FavoriteModel> {
 
-    public NewsVideoForTwoColumnsAdapter(BaseActivity baseActivity, List<FavoriteVideoModel> items, OnItemClick<FavoriteVideoModel> onItemClick) {
+    public NewsVideoForTwoColumnsAdapter(BaseActivity baseActivity, List<FavoriteModel> items, OnItemClick<FavoriteModel> onItemClick) {
         super(baseActivity, items, onItemClick);
     }
 
     @Override
-    public void setOnItemClick(OnItemClick<FavoriteVideoModel> onItemClick) {
+    public void setOnItemClick(OnItemClick<FavoriteModel> onItemClick) {
         super.setOnItemClick(onItemClick);
     }
 
@@ -32,8 +34,10 @@ public class NewsVideoForTwoColumnsAdapter extends BaseRecyclerAdapter<FavoriteV
     protected BaseItem createViewHolder(View view) {
         return new BaseItem(view) {
             @Override
-            public void bind(final FavoriteVideoModel item) {
+            public void bind(final FavoriteModel item) {
                 RelativeLayout video = itemView.findViewById(R.id.video_new_video_item_for_two_columns);
+                ImageView imageDiscussImageView = itemView.findViewById(R.id.discuss_image_for_two_columns);
+                TextView textDiscussImageView = itemView.findViewById(R.id.discuss_text_for_two_columns);
                 TextView titleVideoTextView = itemView.findViewById(R.id.title_new_video_item_for_two_columns);
 
                 titleVideoTextView.setText(item.getVideoTitle());
@@ -44,6 +48,14 @@ public class NewsVideoForTwoColumnsAdapter extends BaseRecyclerAdapter<FavoriteV
                         Toast.makeText(itemView.getContext(), "Video " + item.getVideoId(), Toast.LENGTH_SHORT).show();
                     }
                 });
+
+                if(item.isInDiscuss()) {
+                    imageDiscussImageView.setVisibility(View.VISIBLE);
+                    textDiscussImageView.setVisibility(View.VISIBLE);
+                } else {
+                    imageDiscussImageView.setVisibility(View.GONE);
+                    textDiscussImageView.setVisibility(View.GONE);
+                }
             }
         };
     }

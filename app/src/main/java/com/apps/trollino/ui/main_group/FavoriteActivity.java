@@ -9,15 +9,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apps.trollino.R;
 import com.apps.trollino.adapters.FavoriteVideoAdapter;
 import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
-import com.apps.trollino.model.FavoriteVideoModel;
+import com.apps.trollino.model.FavoriteModel;
 import com.apps.trollino.ui.base.BaseActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FavoriteActivity extends BaseActivity implements View.OnClickListener{
     private RecyclerView favoriteRecyclerView;
-    private List<FavoriteVideoModel> favoriteVideoList = FavoriteVideoModel.makeFavoriteVideoList();
-//    private List<FavoriteVideoModel> favoriteVideoList = new ArrayList<>();
+//    private List<FavoriteModel> favoriteVideoList = FavoriteModel.makeFavoriteVideoList();
+    private List<FavoriteModel> favoriteVideoList = new ArrayList<>();
     private View noFavoriteListView;
 
     @Override
@@ -54,10 +55,10 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
     }
 
     // Обработка нажатия на элемент списка
-    private final FavoriteVideoAdapter.OnItemClick<FavoriteVideoModel> favoriteVideoItemListener =
-            new BaseRecyclerAdapter.OnItemClick<FavoriteVideoModel>() {
+    private final FavoriteVideoAdapter.OnItemClick<FavoriteModel> favoriteVideoItemListener =
+            new BaseRecyclerAdapter.OnItemClick<FavoriteModel>() {
         @Override
-        public void onItemClick(FavoriteVideoModel item, int position) {
+        public void onItemClick(FavoriteModel item, int position) {
             showToast("Press " + item.getVideoId());
             startActivity(new Intent(FavoriteActivity.this, PostActivity.class));
             finish();

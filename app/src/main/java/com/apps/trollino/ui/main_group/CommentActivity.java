@@ -34,15 +34,15 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         findViewById(R.id.send_button_comment).setOnClickListener(this);
         EditText commentEditText = findViewById(R.id.comment_message_comment);
         TextView countTextView = findViewById(R.id.count_comment);
-        TextView titleTextVieww = findViewById(R.id.title_comment);
+        TextView titleTextView = findViewById(R.id.title_comment);
         noCommentTextView = findViewById(R.id.text_post_without_comment);
 
         showCorrectVariant();
         countTextView.setText(String.valueOf(countComment));
-        titleTextVieww.setText(title);
+        titleTextView.setText(title);
     }
 
-    // Если на Пост нет комментариев,
+    // Если для Поста нет комментариев, то выводится на экран сообщение что комментариев нет
     private void showCorrectVariant() {
         if(countComment > 0) {
             noCommentTextView.setVisibility(View.GONE);

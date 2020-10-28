@@ -8,19 +8,19 @@ import android.widget.Toast;
 
 import com.apps.trollino.R;
 import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
-import com.apps.trollino.model.FavoriteVideoModel;
+import com.apps.trollino.model.FavoriteModel;
 import com.apps.trollino.ui.base.BaseActivity;
 
 import java.util.List;
 
-public class FavoriteVideoAdapter extends BaseRecyclerAdapter<FavoriteVideoModel> {
+public class FavoriteVideoAdapter extends BaseRecyclerAdapter<FavoriteModel> {
 
-    public FavoriteVideoAdapter(BaseActivity baseActivity, List<FavoriteVideoModel> items, OnItemClick<FavoriteVideoModel> onItemClick) {
+    public FavoriteVideoAdapter(BaseActivity baseActivity, List<FavoriteModel> items, OnItemClick<FavoriteModel> onItemClick) {
         super(baseActivity, items, onItemClick);
     }
 
     @Override
-    public void setOnItemClick(OnItemClick<FavoriteVideoModel> onItemClick) {
+    public void setOnItemClick(OnItemClick<FavoriteModel> onItemClick) {
         super.setOnItemClick(onItemClick);
     }
 
@@ -33,7 +33,7 @@ public class FavoriteVideoAdapter extends BaseRecyclerAdapter<FavoriteVideoModel
     protected BaseItem createViewHolder(View view) {
         return new BaseItem(view) {
             @Override
-            public void bind(final FavoriteVideoModel item) {
+            public void bind(final FavoriteModel item) {
                 LinearLayout video = itemView.findViewById(R.id.video_favorite_video_item);
                 TextView titleVideoTextView = itemView.findViewById(R.id.title_favorite_video_item);
                 ImageButton deleteImageButton = itemView.findViewById(R.id.delete_button_favorite_video_item);
