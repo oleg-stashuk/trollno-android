@@ -51,6 +51,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         switch (v.getId()) {
         case R.id.create_account_profile:
 //        startActivity(new Intent(this, RegistrationActivity.class));
+            startActivity(new Intent(this, EditUserProfileActivity.class));
         break;
         case R.id.login_account_profile:
         startActivity(new Intent(this, LoginActivity.class));
