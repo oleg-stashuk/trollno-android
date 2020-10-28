@@ -2,7 +2,6 @@ package com.apps.trollino.adapters;
 
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,7 +26,7 @@ public class NewsVideoForTwoColumnsAdapter extends BaseRecyclerAdapter<FavoriteM
 
     @Override
     protected int getCardLayoutID() {
-        return R.layout.item_news_video_for_two_collumns;
+        return R.layout.item_news_video_for_two_columns;
     }
 
     @Override

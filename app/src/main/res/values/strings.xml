@@ -48,5 +48,5 @@
     <string name="login_using_other_account">Или войти с помощью:</string>
     <string name="registration_using_other_account">Зарегистрироваться с помощью:</string>
     <string name="whops">Упс</string>
-    <string name="have_no_favorites">Вы пока ничего не добавили в избранное</string>
+    <string name="have_no_favorites">Вы пока ничего не добавили в Избранное</string>
 </resources>
