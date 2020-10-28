@@ -17,6 +17,8 @@ import java.util.List;
 public class FavoriteActivity extends BaseActivity implements View.OnClickListener{
     private RecyclerView favoriteRecyclerView;
     private List<FavoriteVideoModel> favoriteVideoList = FavoriteVideoModel.makeFavoriteVideoList();
+//    private List<FavoriteVideoModel> favoriteVideoList = new ArrayList<>();
+    private View noFavoriteListView;
 
     @Override
     protected int getLayoutID() {
@@ -26,12 +28,24 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void initView() {
         favoriteRecyclerView = findViewById(R.id.recycler_favorite);
+        noFavoriteListView = findViewById(R.id.include_no_favorite);
         findViewById(R.id.drop_down_menu_favorite).setOnClickListener(this);
         findViewById(R.id.tape_button_favorite).setOnClickListener(this);
         findViewById(R.id.activity_button_favorite).setOnClickListener(this);
         findViewById(R.id.profile_button_favorite).setOnClickListener(this);
 
-        makeFavoriteRecyclerView();
+        checkFavoriteList();
+    }
+
+    private void checkFavoriteList() {
+        if(favoriteVideoList.isEmpty()) {
+            noFavoriteListView.setVisibility(View.VISIBLE);
+            favoriteRecyclerView.setVisibility(View.GONE);
+        } else {
+            noFavoriteListView.setVisibility(View.GONE);
+            favoriteRecyclerView.setVisibility(View.VISIBLE);
+            makeFavoriteRecyclerView();
+        }
     }
 
     private void makeFavoriteRecyclerView() {
