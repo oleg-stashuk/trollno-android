@@ -110,6 +110,10 @@ public class UserCommentActivityModel {
                 false, "5", true));
         commentsListToPost.add(new UserCommentActivityModel(R.drawable.ic_person, "Иван", "12 ч. назад", comment3,
                 false, "20", true));
+        commentsListToPost.add(new UserCommentActivityModel(R.drawable.ic_person, "Иван", "12 ч. назад", comment2,
+                false, "20", true));
+        commentsListToPost.add(new UserCommentActivityModel(R.drawable.ic_person, "Иван", "12 ч. назад", comment2,
+                false, "20", true));
 
         return commentsListToPost;
     }

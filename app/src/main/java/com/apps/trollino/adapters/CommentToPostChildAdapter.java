@@ -83,7 +83,7 @@ class CommentToPostChildAdapter extends BaseRecyclerAdapter<UserCommentActivityM
                 });
             }
 
-            private void checkCommentLength(final TextView commentTextView, TextView readAllCommentTextView, final String comment) {
+            private void checkCommentLength(final TextView commentTextView, final TextView readAllCommentTextView, final String comment) {
                 if (comment.length() > 100) {
                     String comment100 = comment.substring(0, 100).concat("...");
                     commentTextView.setText(comment100);
@@ -92,6 +92,7 @@ class CommentToPostChildAdapter extends BaseRecyclerAdapter<UserCommentActivityM
                         @Override
                         public void onClick(View v) {
                             commentTextView.setText(comment);
+                            readAllCommentTextView.setVisibility(View.GONE);
                         }
                     });
                 } else {
