@@ -1,5 +1,6 @@
 package com.apps.trollino.adapters;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -12,6 +13,7 @@ import com.apps.trollino.R;
 import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
 import com.apps.trollino.model.UserCommentActivityModel;
 import com.apps.trollino.ui.base.BaseActivity;
+import com.apps.trollino.utils.ClickableSpanText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +41,6 @@ public class CommentToPostParentAdapter extends BaseRecyclerAdapter<UserCommentA
                 TextView nameTextView = view.findViewById(R.id.name_user_single_comment_parent);
                 TextView timeTextView = view.findViewById(R.id.time_user_single_comment_parent);
                 final TextView commentTextView = view.findViewById(R.id.comment_user_single_comment_parent);
-                TextView readAllCommentTextView = view.findViewById(R.id.read_all_comment_single_comment_parent); // button
                 final ImageView likeImageView = view.findViewById(R.id.like_single_comment_parent);
                 TextView countLikeTextView = view.findViewById(R.id.count_like_single_comment_parent);
                 TextView answerTextView = view.findViewById(R.id.answer_single_comment_parent); // button
@@ -55,7 +56,7 @@ public class CommentToPostParentAdapter extends BaseRecyclerAdapter<UserCommentA
                 commentTextView.setText(comment);
                 countLikeTextView.setText(item.getLikeCount());
 
-                checkCommentLength(commentTextView, readAllCommentTextView, comment); // Проверить длинну комментария + обработка нажатия на кнопку "Весь комментарий"
+                checkCommentLength(commentTextView, comment, view.getContext()); // Проверить длинну комментария + обработка нажатия на кнопку "Весь комментарий"
                 changeLikeImage(isUserLikeIt, likeImageView); // Проверить пользователь оценил комент или нет
                 likeImageClickListener(likeImageView); // обработка нажатия на кномку "оценить комент"
                 answerClickListener(answerTextView, item.getUserName()); // обработка нажатия на кнопку "Ответить"
@@ -92,21 +93,11 @@ public class CommentToPostParentAdapter extends BaseRecyclerAdapter<UserCommentA
                 });
             }
 
-            private void checkCommentLength(final TextView commentTextView, final TextView readAllCommentTextView, final String comment) {
+            private void checkCommentLength(final TextView commentTextView, final String comment, Context context) {
                 if (comment.length() > 100) {
-                    String comment100 = comment.substring(0, 100).concat("...");
-                    commentTextView.setText(comment100);
-                    readAllCommentTextView.setVisibility(View.VISIBLE);
-                    readAllCommentTextView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            commentTextView.setText(comment);
-                            readAllCommentTextView.setVisibility(View.GONE);
-                        }
-                    });
+                    ClickableSpanText.makeClickableSpanText(commentTextView, comment, context); // Добавить кликабельную часть текста + обработка нажатия
                 } else {
                     commentTextView.setText(comment);
-                    readAllCommentTextView.setVisibility(View.GONE);
                 }
             }
 
@@ -147,8 +138,6 @@ public class CommentToPostParentAdapter extends BaseRecyclerAdapter<UserCommentA
                 childCommentRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
                 childCommentRecyclerView.setAdapter( new CommentToPostChildAdapter((BaseActivity) view.getContext(), commentList, commentEditText));
             }
-
-
         };
     }
 }

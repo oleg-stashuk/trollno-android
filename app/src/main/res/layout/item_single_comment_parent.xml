@@ -45,21 +45,11 @@
                 android:textColor="@color/colorText"
                 android:hint="comment" />
 
-            <TextView
-                android:id="@+id/read_all_comment_single_comment_parent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_below="@+id/comment_user_single_comment_parent"
-                style="@style/PressedTextStyle"
-                android:text="Весь комментарий" />
-
             <ImageView
                 android:id="@+id/like_single_comment_parent"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginTop="11dp"
-                android:layout_toLeftOf="@+id/count_like_single_comment_parent"
                 android:layout_below="@+id/comment_user_single_comment_parent"
                 android:src="@drawable/ic_favorite_border_color"/>
 
@@ -69,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="10dp"
-                android:layout_toLeftOf="@+id/answer_single_comment_parent"
+                android:layout_toRightOf="@+id/like_single_comment_parent"
                 android:layout_below="@+id/comment_user_single_comment_parent"
                 android:hint="50" />
 
@@ -79,28 +69,28 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
-                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@+id/count_like_single_comment_parent"
                 android:layout_below="@+id/comment_user_single_comment_parent"
                 android:text="Ответить" />
 
         </RelativeLayout>
     </LinearLayout>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_item_single_comment_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="30dp" />
+
     <TextView
         android:id="@+id/show_more_comment_single_comment_parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_marginLeft="30dp"
         style="@style/PressedTextStyle"
         android:text="Больше комментариев" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_item_single_comment_parent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="30dp" />
 
 </LinearLayout>

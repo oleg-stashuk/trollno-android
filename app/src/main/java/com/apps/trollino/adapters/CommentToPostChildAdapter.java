@@ -1,5 +1,13 @@
 package com.apps.trollino.adapters;
 
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -9,6 +17,7 @@ import com.apps.trollino.R;
 import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
 import com.apps.trollino.model.UserCommentActivityModel;
 import com.apps.trollino.ui.base.BaseActivity;
+import com.apps.trollino.utils.ClickableSpanText;
 
 import java.util.List;
 
@@ -35,7 +44,6 @@ class CommentToPostChildAdapter extends BaseRecyclerAdapter<UserCommentActivityM
                 TextView nameTextView = view.findViewById(R.id.name_user_single_comment_child);
                 TextView timeTextView = view.findViewById(R.id.time_user_single_comment_child);
                 final TextView commentTextView = view.findViewById(R.id.comment_user_single_comment_child);
-                TextView readAllCommentTextView = view.findViewById(R.id.read_all_comment_single_comment_child); // button
                 final ImageView likeImageView = view.findViewById(R.id.like_single_comment_child);
                 TextView countLikeTextView = view.findViewById(R.id.count_like_single_comment_child);
                 TextView answerTextView = view.findViewById(R.id.answer_single_comment_child); // button
@@ -48,7 +56,7 @@ class CommentToPostChildAdapter extends BaseRecyclerAdapter<UserCommentActivityM
                 timeTextView.setText(item.getTime());
                 countLikeTextView.setText(item.getLikeCount());
 
-                checkCommentLength(commentTextView, readAllCommentTextView, comment); // Проверить длинну комментария
+                checkCommentLength(commentTextView, comment, view.getContext()); // Проверить длинну комментария
                 changeLikeImage(isUserLikeIt, likeImageView); // Проверить пользователь оценил комент или нет
                 likeImageClickListener(likeImageView); // обработка нажатия на кномку "оценить комент"
                 answerClickListener(answerTextView, item.getUserName()); // обработка нажатия на кнопку "Ответить"
@@ -83,21 +91,11 @@ class CommentToPostChildAdapter extends BaseRecyclerAdapter<UserCommentActivityM
                 });
             }
 
-            private void checkCommentLength(final TextView commentTextView, final TextView readAllCommentTextView, final String comment) {
+            private void checkCommentLength(final TextView commentTextView, final String comment, Context context) {
                 if (comment.length() > 100) {
-                    String comment100 = comment.substring(0, 100).concat("...");
-                    commentTextView.setText(comment100);
-                    readAllCommentTextView.setVisibility(View.VISIBLE);
-                    readAllCommentTextView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            commentTextView.setText(comment);
-                            readAllCommentTextView.setVisibility(View.GONE);
-                        }
-                    });
+                    ClickableSpanText.makeClickableSpanText(commentTextView, comment, context); // Добавить кликабельную часть текста + обработка нажатия
                 } else {
                     commentTextView.setText(comment);
-                    readAllCommentTextView.setVisibility(View.GONE);
                 }
             }
 

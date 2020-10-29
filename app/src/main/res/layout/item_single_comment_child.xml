@@ -40,21 +40,13 @@
             android:textColor="@color/colorText"
             android:hint="comment" />
 
-        <TextView
-            android:id="@+id/read_all_comment_single_comment_child"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_below="@+id/comment_user_single_comment_child"
-            style="@style/PressedTextStyle"
-            android:text="Весь комментарий" />
 
         <ImageView
             android:id="@+id/like_single_comment_child"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginTop="11dp"
-            android:layout_below="@+id/read_all_comment_single_comment_child"
+            android:layout_below="@+id/comment_user_single_comment_child"
             android:src="@drawable/ic_favorite_border_color"/>
 
         <TextView
@@ -64,7 +56,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/like_single_comment_child"
-            android:layout_below="@+id/read_all_comment_single_comment_child"
+            android:layout_below="@+id/comment_user_single_comment_child"
             android:hint="50" />
 
         <TextView
@@ -74,7 +66,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/count_like_single_comment_child"
-            android:layout_below="@+id/read_all_comment_single_comment_child"
+            android:layout_below="@+id/comment_user_single_comment_child"
             android:text="Ответить" />
 
     </RelativeLayout>
