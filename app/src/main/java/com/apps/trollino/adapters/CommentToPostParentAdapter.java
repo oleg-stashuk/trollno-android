@@ -1,0 +1,141 @@
+package com.apps.trollino.adapters;
+
+import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.apps.trollino.R;
+import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
+import com.apps.trollino.model.UserCommentActivityModel;
+import com.apps.trollino.ui.base.BaseActivity;
+
+import java.util.List;
+
+public class CommentToPostParentAdapter extends BaseRecyclerAdapter<UserCommentActivityModel> {
+    EditText commentEditText;
+    boolean isUserLikeIt;
+
+    public CommentToPostParentAdapter(BaseActivity baseActivity, List<UserCommentActivityModel> items, EditText commentEditText) {
+        super(baseActivity, items);
+        this.commentEditText = commentEditText;
+    }
+
+    @Override
+    protected int getCardLayoutID() {
+        return R.layout.item_single_comment_parent;
+    }
+
+    @Override
+    protected BaseItem createViewHolder(final View view) {
+        return new BaseItem(view) {
+            @Override
+            public void bind(final UserCommentActivityModel item) {
+                ImageView imageImageView = view.findViewById(R.id.image_user_single_comment_parent);
+                TextView nameTextView = view.findViewById(R.id.name_user_single_comment_parent);
+                TextView timeTextView = view.findViewById(R.id.time_user_single_comment_parent);
+                final TextView commentTextView = view.findViewById(R.id.comment_user_single_comment_parent);
+                TextView readAllCommentTextView = view.findViewById(R.id.read_all_comment_single_comment_parent); // button
+                final ImageView likeImageView = view.findViewById(R.id.like_single_comment_parent);
+                TextView countLikeTextView = view.findViewById(R.id.count_like_single_comment_parent);
+                TextView answerTextView = view.findViewById(R.id.answer_single_comment_parent); // button
+                TextView showMoreTextView = view.findViewById(R.id.show_more_comment_single_comment_parent); // button
+                RecyclerView childCommentRecyclerView = view.findViewById(R.id.recycler_item_single_comment_parent);
+
+                final String comment = item.getComment();
+                isUserLikeIt = item.isUserLikeIt();
+
+                imageImageView.setImageResource(item.getUserImage());
+                nameTextView.setText(item.getUserName());
+                timeTextView.setText(item.getTime());
+                commentTextView.setText(comment);
+                countLikeTextView.setText(item.getLikeCount());
+
+                checkCommentLength(commentTextView, readAllCommentTextView, comment); // Проверить длинну комментария + обработка нажатия на кнопку "Весь комментарий"
+                changeLikeImage(isUserLikeIt, likeImageView); // Проверить пользователь оценил комент или нет
+                likeImageClickListener(likeImageView); // обработка нажатия на кномку "оценить комент"
+                answerClickListener(answerTextView, item.getUserName()); // обработка нажатия на кнопку "Ответить"
+                checkAnswerToThisComment(item.isCommentHasAnswer(), childCommentRecyclerView, showMoreTextView); // Проверить наличие ответов к этому посту
+            }
+
+
+            private void changeLikeImage(boolean isLike, ImageView imageView) {
+                if(isLike) {
+                    imageView.setImageResource(R.drawable.ic_favorite_color);
+                } else {
+                    imageView.setImageResource(R.drawable.ic_favorite_border_color);
+                }
+            }
+
+            private void answerClickListener(TextView textView, final String name) {
+                textView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        commentEditText.requestFocus();
+                        commentEditText.setText(name.concat(", "));
+                        commentEditText.setSelection(commentEditText.getText().length());
+                    }
+                });
+            }
+
+            private void likeImageClickListener(final ImageView imageView) {
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        isUserLikeIt = !isUserLikeIt;
+                        changeLikeImage(isUserLikeIt, imageView);
+                    }
+                });
+            }
+
+            private void checkCommentLength(final TextView commentTextView, final TextView readAllCommentTextView, final String comment) {
+                if (comment.length() > 100) {
+                    String comment100 = comment.substring(0, 100).concat("...");
+                    commentTextView.setText(comment100);
+                    readAllCommentTextView.setVisibility(View.VISIBLE);
+                    readAllCommentTextView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            commentTextView.setText(comment);
+                            readAllCommentTextView.setVisibility(View.GONE);
+                        }
+                    });
+                } else {
+                    commentTextView.setText(comment);
+                    readAllCommentTextView.setVisibility(View.GONE);
+                }
+            }
+
+            private void checkAnswerToThisComment(boolean isCommentHasAnswer, RecyclerView childCommentRecyclerView, TextView showMoreTextView) {
+                if(isCommentHasAnswer) {
+                    childCommentRecyclerView.setVisibility(View.VISIBLE);
+                    List<UserCommentActivityModel> commentsListToPost = UserCommentActivityModel.makeCommentsListToPostChild();
+                    childCommentRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+                    childCommentRecyclerView.setAdapter(new CommentToPostChildAdapter((BaseActivity) view.getContext(), commentsListToPost, commentEditText));
+
+                    // Если в дочернем списке ответов к коментарию больше 3 элементов, отображать кнопку "Показать все ответы"
+                    if(commentsListToPost.size() > 2) {
+                        showMoreTextView.setVisibility(View.VISIBLE);
+                        showMoreTextView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Log.d("123456", "Кнопка ПОКАЗАТЬ ВСЕ ОТВЕТЫ нажата");
+                            }
+                        });
+                    } else {
+                        showMoreTextView.setVisibility(View.GONE);
+                    }
+
+                } else {
+                    childCommentRecyclerView.setVisibility(View.GONE);
+                    showMoreTextView.setVisibility(View.GONE);
+                }
+            }
+
+        };
+    }
+}

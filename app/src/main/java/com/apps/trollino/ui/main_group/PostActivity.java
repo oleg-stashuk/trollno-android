@@ -72,7 +72,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
                 break;
             case R.id.comment_button_post_activity:
             case R.id.add_comment_button_post_activity:
-                startActivity(new Intent(this, CommentActivity.class));
+                startActivity(new Intent(this, CommentToPostActivity.class));
                 finish();
                 break;
             case R.id.share_button_post_activity:

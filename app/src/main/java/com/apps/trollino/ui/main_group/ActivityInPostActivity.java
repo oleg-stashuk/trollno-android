@@ -45,7 +45,7 @@ public class ActivityInPostActivity extends BaseActivity implements View.OnClick
     private final UserCommentAdapter.OnItemClick<UserCommentActivityModel> newsVideoGridItemListener = new BaseRecyclerAdapter.OnItemClick<UserCommentActivityModel>() {
         @Override
         public void onItemClick(UserCommentActivityModel item, int position) {
-            showToast("Press " + item.getTitleUserComment());
+            showToast("Press " + item.getTitle());
             startActivity(new Intent(ActivityInPostActivity.this, PostActivity.class));
             finish();
         }

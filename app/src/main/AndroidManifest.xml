@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.main_group.EditUserProfileActivity"></activity>
-        <activity android:name=".ui.main_group.CommentActivity" />
+        <activity android:name=".ui.main_group.CommentToPostActivity" />
         <activity android:name=".ui.main_group.ActivityInPostActivity" />
         <activity android:name=".ui.main_group.PostActivity" />
         <activity android:name=".ui.main_group.SearchActivity" />

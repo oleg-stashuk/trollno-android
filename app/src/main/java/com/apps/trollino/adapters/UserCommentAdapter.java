@@ -6,8 +6,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.core.content.ContextCompat;
-
 import com.apps.trollino.R;
 import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
 import com.apps.trollino.model.UserCommentActivityModel;
@@ -51,21 +49,21 @@ public class UserCommentAdapter extends BaseRecyclerAdapter<UserCommentActivityM
 //                    linearLayout.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.colorLightGrey));
 //                }
 
-                titleTextView.setText(item.getTitleUserComment());
-                commentTextView.setText(item.getCommentUserComment());
-                countLikeTextView.setText(item.getLikeCountUserComment());
-                if(item.isHasNewCommentUserComment()) {
+                titleTextView.setText(item.getTitle());
+                commentTextView.setText(item.getComment());
+                countLikeTextView.setText(item.getLikeCount());
+                if(item.isHasNewComment()) {
                     indicatorImageView.setVisibility(View.VISIBLE);
                     newCommentTextView.setVisibility(View.VISIBLE);
                 } else {
                     indicatorImageView.setVisibility(View.GONE);
                     newCommentTextView.setVisibility(View.GONE);
                 }
-                if(item.getTimeUserComment().isEmpty()) {
+                if(item.getTime().isEmpty()) {
                     timeTextView.setVisibility(View.GONE);
                 } else {
                     timeTextView.setVisibility(View.VISIBLE);
-                    timeTextView.setText(item.getTimeUserComment());
+                    timeTextView.setText(item.getTime());
                 }
 
                 menuImageView.setOnClickListener(new View.OnClickListener() {
