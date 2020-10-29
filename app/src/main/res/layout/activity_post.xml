@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:background="@android:color/transparent"
-            android:src="@drawable/ic_white_arrow_back" />
+            android:src="@drawable/ic_arrow_back_white" />
 
         <ImageButton
             android:id="@+id/favorite_button_post_activity"
@@ -59,16 +59,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:padding="10dp"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/category_post_activity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:padding="10dp"
                 android:background="@color/colorGreyBackgroundVideo"
                 android:textColor="@color/colorText"
-                android:padding="10dp"
                 android:hint="Категория"/>
 
             <LinearLayout
@@ -80,17 +80,16 @@
                     android:id="@+id/title_post_activity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorText"
-                    android:textStyle="bold"
                     android:padding="10dp"
-                    android:textSize="24dp"
+                    style="@style/BoldHeaderTextStyle_h1"
                     android:hint="Заголовок" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_post_activity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"/>
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp" />
 
             </LinearLayout>
 
@@ -142,9 +141,6 @@
                     android:hint="25"/>
             </RelativeLayout>
 
-<!--
-            android:layout_toRightOf="@+id/add_comment_button_post_activity_1"
--->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

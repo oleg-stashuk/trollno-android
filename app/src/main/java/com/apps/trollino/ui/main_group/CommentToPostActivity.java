@@ -49,7 +49,6 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
 
     private void makeCommentListRecyclerView() {
         commentsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        commentsRecyclerView.setAdapter(new CommentToPostParentAdapter(this, commentList));
         commentsRecyclerView.setAdapter(new CommentToPostParentAdapter(this, commentList, commentEditText));
     }
 

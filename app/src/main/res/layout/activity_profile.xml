@@ -16,11 +16,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:textColor="@color/white"
-                android:layout_marginLeft="10dp"
-                android:layout_gravity="center_vertical"
-                android:textSize="18dp"
+                style="@style/WhiteHeaderTextStyle"
                 android:text="@string/title_profile"/>
 
         </LinearLayout>

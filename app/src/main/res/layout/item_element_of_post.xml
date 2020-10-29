@@ -9,9 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:textSize="18dp"
-        android:textColor="@color/colorText"
-        android:textStyle="bold"
+        style="@style/BoldHeaderTextStyle_h2"
         android:hint="Заголовок"/>
 
     <ImageView
@@ -42,9 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:padding="10dp"
-            android:textColor="@color/colorPrimaryDark"
-            android:inputType="textUri"
-            android:linksClickable="true"
+            style="@style/UrlTextStyle"
             android:text="Ссылка"/>
 
     </LinearLayout>

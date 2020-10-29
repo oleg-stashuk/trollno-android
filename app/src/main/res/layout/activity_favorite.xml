@@ -16,11 +16,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:textColor="@color/white"
-            android:padding="10dp"
-            android:textSize="18dp"
-            android:text="@string/favorites"/>
+            style="@style/WhiteHeaderTextStyle"
+            android:text="@string/favorites" />
 
         <ImageButton
             android:id="@+id/drop_down_menu_favorite"

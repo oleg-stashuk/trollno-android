@@ -21,18 +21,13 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:background="@android:color/transparent"
-            android:src="@drawable/ic_white_arrow_back" />
+            android:src="@drawable/ic_arrow_back_white" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:background="@android:color/transparent"
-            android:textColor="@color/white"
-            android:layout_marginLeft="10dp"
-            android:layout_gravity="center_vertical"
-            android:textSize="18dp"
+            style="@style/WhiteHeaderTextStyle"
             android:text="@string/edit_profile"/>
 
         <ImageButton
@@ -64,7 +59,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
             android:padding="10dp"
-            android:text="@string/change_profile_image"/>
+            android:text="@string/change_profile_image" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"

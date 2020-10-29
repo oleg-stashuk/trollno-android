@@ -1,13 +1,6 @@
 package com.apps.trollino.adapters;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Color;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.TextPaint;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
