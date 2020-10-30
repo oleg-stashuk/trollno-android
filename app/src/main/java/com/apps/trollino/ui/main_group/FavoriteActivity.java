@@ -71,7 +71,7 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
 
     // Иницировать Toolbar
     private void initToolbar() {
-        final Toolbar toolbar = findViewById(R.id.toolbar);
+        final Toolbar toolbar = findViewById(R.id.toolbar_favorite);
         setSupportActionBar(toolbar);
 
         final ActionBar actionBar = getSupportActionBar();

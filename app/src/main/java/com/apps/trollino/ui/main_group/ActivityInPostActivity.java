@@ -1,8 +1,12 @@
 package com.apps.trollino.ui.main_group;
 
 import android.content.Intent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,12 +32,12 @@ public class ActivityInPostActivity extends BaseActivity implements View.OnClick
     @Override
     protected void initView() {
         postWithActivityRecyclerView = findViewById(R.id.recycler_activity_in_post);
-        findViewById(R.id.menu_button_activity_in_post).setOnClickListener(this);
         findViewById(R.id.tape_button_activity_in_post).setOnClickListener(this);
         findViewById(R.id.favorites_button_activity_in_post).setOnClickListener(this);
         findViewById(R.id.profile_button_activity_in_post).setOnClickListener(this);
 
         makePostWithActivityRecyclerView();
+        initToolbar();
     }
 
     private void makePostWithActivityRecyclerView() {
@@ -46,17 +50,46 @@ public class ActivityInPostActivity extends BaseActivity implements View.OnClick
         @Override
         public void onItemClick(UserCommentActivityModel item, int position) {
             showToast("Press " + item.getTitle());
-            startActivity(new Intent(ActivityInPostActivity.this, PostActivity.class));
+            startActivity(new Intent(ActivityInPostActivity.this, CommentToPostActivity.class));
             finish();
         }
     };
 
+    // Иницировать Toolbar
+    private void initToolbar() {
+        final Toolbar toolbar = findViewById(R.id.toolbar_in_post);
+        setSupportActionBar(toolbar);
+
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(getString(R.string.activity));
+
+        if (actionBar != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false); // отображать кнопку BackPress
+            getSupportActionBar().setHomeButtonEnabled(false); // вернуться на предыдущую активность
+            getSupportActionBar().setDisplayShowTitleEnabled(true); // отображать Заголовок
+        }
+    }
+
+    // Добавить Menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.post_with_activity_menu, menu);
+        return true;
+    }
+
+    // Обрабтка нажантия на выпадающий список из Menu
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.mark_all_as_read_menu) {
+            showToast(getString(R.string.mark_all_as_read));
+        }
+        return true;
+    }
+
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.menu_button_activity_in_post: // "Перейти на экран Лента"
-                showToast("Пометить все как прочитанное");
-                break;
             case R.id.tape_button_activity_in_post: // "Перейти на экран Лента"
                 startActivity(new Intent(this, TapeActivity.class));
                 finish();
