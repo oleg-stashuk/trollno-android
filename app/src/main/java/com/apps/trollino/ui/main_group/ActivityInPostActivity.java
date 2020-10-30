@@ -24,6 +24,9 @@ public class ActivityInPostActivity extends BaseActivity implements View.OnClick
     private List<UserCommentActivityModel> userCommentList = makeUserCommentList();
     private RecyclerView postWithActivityRecyclerView;
 
+    private View userAuthorizationView;
+    private boolean isUserAuthorization; // Пользователь авторизирован или нет
+
     @Override
     protected int getLayoutID() {
         return R.layout.activity_in_post;
@@ -31,13 +34,29 @@ public class ActivityInPostActivity extends BaseActivity implements View.OnClick
 
     @Override
     protected void initView() {
+        userAuthorizationView = findViewById(R.id.include_user_not_authorization_activity_in_post);
         postWithActivityRecyclerView = findViewById(R.id.recycler_activity_in_post);
         findViewById(R.id.tape_button_activity_in_post).setOnClickListener(this);
         findViewById(R.id.favorites_button_activity_in_post).setOnClickListener(this);
         findViewById(R.id.profile_button_activity_in_post).setOnClickListener(this);
+        findViewById(R.id.include_login_button_user_not_authorization).setOnClickListener(this);
+        findViewById(R.id.include_registration_button_user_not_authorization).setOnClickListener(this);
 
-        makePostWithActivityRecyclerView();
+        isUserAuthorization = prefsUtils.getIsUserAuthorization();
+
+        checkUserAuthorization(); // проверить пользователь авторизирован или нет, если да - то проверить есть посты добаленные в избранное или нет
         initToolbar();
+    }
+
+    private void checkUserAuthorization() {
+        if(isUserAuthorization) {
+            userAuthorizationView.setVisibility(View.GONE);
+            postWithActivityRecyclerView.setVisibility(View.VISIBLE);
+            makePostWithActivityRecyclerView();
+        } else {
+            userAuthorizationView.setVisibility(View.VISIBLE);
+            postWithActivityRecyclerView.setVisibility(View.GONE);
+        }
     }
 
     private void makePostWithActivityRecyclerView() {
@@ -73,11 +92,15 @@ public class ActivityInPostActivity extends BaseActivity implements View.OnClick
     // Добавить Menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.post_with_activity_menu, menu);
-        return true;
+        if(isUserAuthorization) {
+            getMenuInflater().inflate(R.menu.post_with_activity_menu, menu);
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    // Обрабтка нажантия на выпадающий список из Menu
+    // Обрабтка нажатия на выпадающий список из Menu
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.mark_all_as_read_menu) {

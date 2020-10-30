@@ -38,6 +38,11 @@
             layout="@layout/include_no_favorite"
             android:visibility="gone" />
 
+        <include
+            android:id="@+id/include_user_not_authorization_favorite"
+            layout="@layout/include__user_not_authorization"
+            android:visibility="gone" />
+
     </RelativeLayout>
 
     <LinearLayout

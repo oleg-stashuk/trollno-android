@@ -53,4 +53,5 @@
     <string name="answer">Ответить</string>
     <string name="see_more_comments">Больше комментариев</string>
     <string name="mark_all_as_read">Отметить все как прочитанное</string>
+    <string name="user_not_authorization">Авторизуйтесь чтобы получить доступ к этому разделу</string>
 </resources>

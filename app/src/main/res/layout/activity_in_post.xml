@@ -22,13 +22,23 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_activity_in_post"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_marginTop="5dp"/>
+        android:layout_marginTop="5dp" >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_activity_in_post"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+        <include
+            android:id="@+id/include_user_not_authorization_activity_in_post"
+            layout="@layout/include__user_not_authorization"
+            android:visibility="gone" />
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

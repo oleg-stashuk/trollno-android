@@ -14,9 +14,10 @@ import com.apps.trollino.R;
 import com.apps.trollino.adapters.FavoriteVideoAdapter;
 import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
 import com.apps.trollino.model.FavoriteModel;
+import com.apps.trollino.ui.authorisation.LoginActivity;
+import com.apps.trollino.ui.authorisation.RegistrationActivity;
 import com.apps.trollino.ui.base.BaseActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class FavoriteActivity extends BaseActivity implements View.OnClickListener{
@@ -24,6 +25,8 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
     private List<FavoriteModel> favoriteVideoList = FavoriteModel.makeFavoriteVideoList();
 //    private List<FavoriteModel> favoriteVideoList = new ArrayList<>();
     private View noFavoriteListView;
+    private View userAuthorizationView;
+    private boolean isUserAuthorization; // Пользователь авторизирован или нет
 
     @Override
     protected int getLayoutID() {
@@ -34,22 +37,32 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
     protected void initView() {
         favoriteRecyclerView = findViewById(R.id.recycler_favorite);
         noFavoriteListView = findViewById(R.id.include_no_favorite);
+        userAuthorizationView = findViewById(R.id.include_user_not_authorization_favorite);
         findViewById(R.id.tape_button_favorite).setOnClickListener(this);
         findViewById(R.id.activity_button_favorite).setOnClickListener(this);
         findViewById(R.id.profile_button_favorite).setOnClickListener(this);
+        findViewById(R.id.include_login_button_user_not_authorization).setOnClickListener(this);
+        findViewById(R.id.include_registration_button_user_not_authorization).setOnClickListener(this);
 
-        checkFavoriteList();
+        isUserAuthorization = prefsUtils.getIsUserAuthorization();
+
+        checkFavoriteListAndUserAuthorization(); // проверить пользователь авторизирован или нет, если да - то проверить есть посты добаленные в избранное или нет
         initToolbar();
     }
 
-    private void checkFavoriteList() {
-        if(favoriteVideoList.isEmpty()) {
-            noFavoriteListView.setVisibility(View.VISIBLE);
-            favoriteRecyclerView.setVisibility(View.GONE);
+    private void checkFavoriteListAndUserAuthorization() {
+        if(isUserAuthorization) {
+            userAuthorizationView.setVisibility(View.GONE);
+            if (favoriteVideoList.isEmpty()) {
+                noFavoriteListView.setVisibility(View.VISIBLE);
+                favoriteRecyclerView.setVisibility(View.GONE);
+            } else {
+                noFavoriteListView.setVisibility(View.GONE);
+                favoriteRecyclerView.setVisibility(View.VISIBLE);
+                makeFavoriteRecyclerView();
+            }
         } else {
-            noFavoriteListView.setVisibility(View.GONE);
-            favoriteRecyclerView.setVisibility(View.VISIBLE);
-            makeFavoriteRecyclerView();
+            userAuthorizationView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -87,8 +100,12 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
     // Добавить Menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.favorite_menu, menu);
-        return true;
+        if(isUserAuthorization) {
+            getMenuInflater().inflate(R.menu.favorite_menu, menu);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     // Обрабтка нажантия на выпадающий список из Menu
@@ -99,7 +116,6 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
         }
         return true;
     }
-
 
     @Override
     public void onClick(View v) {
@@ -114,6 +130,14 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.profile_button_favorite: // "Перейти на экран Профиль"
                 startActivity(new Intent(this, ProfileActivity.class));
+                finish();
+                break;
+            case R.id.include_login_button_user_not_authorization: // "Перейти на экран Лента"
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+                break;
+            case R.id.include_registration_button_user_not_authorization: // "Перейти на экран Лента"
+                startActivity(new Intent(this, RegistrationActivity.class));
                 finish();
                 break;
         }
