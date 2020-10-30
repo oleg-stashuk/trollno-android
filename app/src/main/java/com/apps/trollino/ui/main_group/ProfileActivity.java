@@ -71,6 +71,12 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     }
 
     @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, TapeActivity.class));
+        finish();
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
         case R.id.create_account_profile:

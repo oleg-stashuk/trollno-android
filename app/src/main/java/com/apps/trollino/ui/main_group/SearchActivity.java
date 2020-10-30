@@ -19,12 +19,16 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     }
 
     @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, ProfileActivity.class));
+        finish();
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.back_button_search:
-                startActivity(new Intent(this, TapeActivity.class));
-                finish();
-                break;
+                onBackPressed();
         }
     }
 }

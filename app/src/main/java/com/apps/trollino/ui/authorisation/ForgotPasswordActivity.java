@@ -23,14 +23,19 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
     }
 
     @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, LoginActivity.class));
+        finish();
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.send_button_forgot_password:
                 showToast("Отправить пароль на почту");
                 break;
             case R.id.back_button_forgot_password:
-                startActivity(new Intent(this, LoginActivity.class));
-                finish();
+                onBackPressed();
                 break;
         }
     }

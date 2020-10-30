@@ -61,11 +61,16 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
     }
 
     @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, TapeActivity.class));
+        finish();
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.back_button_post_activity:
-                startActivity(new Intent(this, TapeActivity.class));
-                finish();
+                onBackPressed();
                 break;
             case R.id.favorite_button_post_activity:
                 showToast("Добавить в избранное");

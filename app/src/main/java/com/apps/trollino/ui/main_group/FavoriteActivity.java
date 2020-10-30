@@ -118,6 +118,12 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
     }
 
     @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, TapeActivity.class));
+        finish();
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tape_button_favorite: // "Перейти на экран Лента"

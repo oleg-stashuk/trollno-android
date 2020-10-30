@@ -58,6 +58,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, TapeActivity.class));
+        finish();
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.forgot_login:
@@ -67,8 +73,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             case R.id.login_button_login:
                 if(inputFieldIsValid()){
                     prefsUtils.saveIsUserAuthorization(true);
-                    startActivity(new Intent(this, TapeActivity.class));
-                    finish();
+                    onBackPressed();
                 }
                 break;
             case R.id.register_login:

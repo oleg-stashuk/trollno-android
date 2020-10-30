@@ -6,6 +6,7 @@ import android.widget.EditText;
 
 import com.apps.trollino.R;
 import com.apps.trollino.ui.base.BaseActivity;
+import com.apps.trollino.ui.main_group.ProfileActivity;
 import com.apps.trollino.ui.main_group.TapeActivity;
 import com.apps.trollino.utils.Validation;
 
@@ -65,6 +66,12 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, ProfileActivity.class));
+        finish();
     }
 
     @Override

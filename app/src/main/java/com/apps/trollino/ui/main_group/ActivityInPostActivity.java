@@ -111,6 +111,12 @@ public class ActivityInPostActivity extends BaseActivity implements View.OnClick
 
 
     @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, TapeActivity.class));
+        finish();
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tape_button_activity_in_post: // "Перейти на экран Лента"

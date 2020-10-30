@@ -64,11 +64,16 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
     }
 
     @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, PostActivity.class));
+        finish();
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.back_button_comment_comment_to_post:
-                startActivity(new Intent(this, PostActivity.class));
-                finish();
+                onBackPressed();
                 break;
             case R.id.send_button_comment_comment_to_post:
                 showToast("Отправить комментарий");

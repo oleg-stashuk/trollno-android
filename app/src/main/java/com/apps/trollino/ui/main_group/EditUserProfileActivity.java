@@ -1,5 +1,6 @@
 package com.apps.trollino.ui.main_group;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -36,6 +37,12 @@ public class EditUserProfileActivity extends BaseActivity implements View.OnClic
         nameEditText.setText(name);
         emailEditText.setText(email);
         passwordEditText.setText(password);
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, ProfileActivity.class));
+        finish();
     }
 
     @Override
