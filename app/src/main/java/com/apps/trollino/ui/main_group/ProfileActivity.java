@@ -8,12 +8,19 @@ import android.widget.TextView;
 
 import com.apps.trollino.R;
 import com.apps.trollino.ui.authorisation.LoginActivity;
+import com.apps.trollino.ui.authorisation.RegistrationActivity;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.InformationAboutAppDialog;
 
 public class ProfileActivity extends BaseActivity implements View.OnClickListener{
     private TextView accountTextView;
+    private TextView nameTextView;
+    private TextView loginTextView;
     private Switch darkThemeSwitch;
+    private boolean isUserAuthorization; // Пользователь авторизирован или нет
+
+    private String name = "Иван";
+    private String email = "rrrr@gmail.com";
 
     @Override
     protected int getLayoutID() {
@@ -22,9 +29,11 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initView() {
+        nameTextView = findViewById(R.id.name_account_profile);
         accountTextView = findViewById(R.id.create_account_profile);
         darkThemeSwitch = findViewById(R.id.switch_theme_profile);
-        findViewById(R.id.login_account_profile).setOnClickListener(this);
+        loginTextView = findViewById(R.id.login_or_exit_account_profile);
+        loginTextView.setOnClickListener(this);
         findViewById(R.id.term_and_privacy_profile).setOnClickListener(this);
         findViewById(R.id.rate_profile).setOnClickListener(this);
         findViewById(R.id.info_profile).setOnClickListener(this);
@@ -33,7 +42,22 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         findViewById(R.id.favorites_button_profile).setOnClickListener(this);
         accountTextView.setOnClickListener(this);
 
+        isUserAuthorization = prefsUtils.getIsUserAuthorization();
+
         makeDarkThemeOnCheckedListener();
+        makeIsUserAuthorizationCorrectData();
+    }
+
+    private void makeIsUserAuthorizationCorrectData() {
+        if(isUserAuthorization) {
+            nameTextView.setText(name);
+            accountTextView.setText(email);
+            loginTextView.setText(getText(R.string.exit));
+        } else {
+            nameTextView.setText(getText(R.string.hello));
+            accountTextView.setText(getText(R.string.create_account));
+            loginTextView.setText(getText(R.string.title_login));
+        }
     }
 
     // setOnCheckedChangeListener for darkThemeSwitch. If isChecked = true -> dark theme on
@@ -50,11 +74,19 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
         case R.id.create_account_profile:
-//        startActivity(new Intent(this, RegistrationActivity.class));
-            startActivity(new Intent(this, EditUserProfileActivity.class));
+            if(isUserAuthorization) {
+                startActivity(new Intent(this, EditUserProfileActivity.class));
+            } else {
+                startActivity(new Intent(this, RegistrationActivity.class));
+            }
+            finish();
         break;
-        case R.id.login_account_profile:
-        startActivity(new Intent(this, LoginActivity.class));
+        case R.id.login_or_exit_account_profile:
+            if(isUserAuthorization) {
+                prefsUtils.saveIsUserAuthorization(false);
+            }
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
         break;
         case R.id.term_and_privacy_profile:
 //        startActivity(new Intent(this, PrivacyPolicyActivity.class));

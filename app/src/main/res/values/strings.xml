@@ -54,4 +54,6 @@
     <string name="see_more_comments">Больше комментариев</string>
     <string name="mark_all_as_read">Отметить все как прочитанное</string>
     <string name="user_not_authorization">Авторизуйтесь чтобы получить доступ к этому разделу</string>
+    <string name="exit">Выйти</string>
+    <string name="other_our_apps">Другие наши приложения</string>
 </resources>

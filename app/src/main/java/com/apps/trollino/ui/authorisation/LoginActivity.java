@@ -6,10 +6,15 @@ import android.widget.EditText;
 
 import com.apps.trollino.R;
 import com.apps.trollino.ui.base.BaseActivity;
+import com.apps.trollino.ui.main_group.TapeActivity;
+import com.apps.trollino.utils.Validation;
+
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
-    private EditText email;
-    private EditText password;
+    private EditText emailEditText;
+    private EditText passwordEditText;
+    private String email = "";
+    private String password = "";
 
     @Override
     protected int getLayoutID() {
@@ -18,14 +23,38 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     protected void initView() {
-        email = findViewById(R.id.edt_email_login);
-        password = findViewById(R.id.edt_password_login);
+        emailEditText = findViewById(R.id.edt_email_login);
+        passwordEditText = findViewById(R.id.edt_password_login);
         findViewById(R.id.forgot_login).setOnClickListener(this);
         findViewById(R.id.login_button_login).setOnClickListener(this);
         findViewById(R.id.register_login).setOnClickListener(this);
         findViewById(R.id.login_with_facebook_login).setOnClickListener(this);
         findViewById(R.id.login_with_google_login).setOnClickListener(this);
+    }
 
+    private boolean inputFieldIsValid(){
+        email = emailEditText.getText().toString();
+        password = passwordEditText.getText().toString();
+        if(email.isEmpty()) {
+            emailEditText.requestFocus();
+            showToast("Поле email не должно быть пустым");
+            return false;
+        } else if(!Validation.isCorrectEmail(email)) {
+            emailEditText.requestFocus();
+            showToast("Некоректный email");
+            return false;
+        }
+
+            if(password.isEmpty()) {
+            passwordEditText.requestFocus();
+            showToast("Поле пароль не должно быть пустым");
+            return false;
+        } else if(!Validation.isCorrectPassword(password)) {
+            passwordEditText.requestFocus();
+            showToast("Поле пароль долджно содержать больше 6 символов");
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -36,7 +65,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 finish();
                 break;
             case R.id.login_button_login:
-                showToast("LOGIN");
+                if(inputFieldIsValid()){
+                    prefsUtils.saveIsUserAuthorization(true);
+                    startActivity(new Intent(this, TapeActivity.class));
+                    finish();
+                }
                 break;
             case R.id.register_login:
                 startActivity(new Intent(this, RegistrationActivity.class));

@@ -6,11 +6,17 @@ import android.widget.EditText;
 
 import com.apps.trollino.R;
 import com.apps.trollino.ui.base.BaseActivity;
+import com.apps.trollino.ui.main_group.TapeActivity;
+import com.apps.trollino.utils.Validation;
 
 public class RegistrationActivity extends BaseActivity implements View.OnClickListener {
     private EditText nameEditText;
     private EditText emailEditText;
     private EditText passwordEditText;
+    private String name = "";
+    private String email = "";
+    private String password = "";
+
 
     @Override
     protected int getLayoutID() {
@@ -29,11 +35,47 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         findViewById(R.id.register_with_google_registration).setOnClickListener(this);
     }
 
+    private boolean inputFieldIsValid(){
+        email = emailEditText.getText().toString();
+        password = passwordEditText.getText().toString();
+        name = nameEditText.getText().toString();
+
+        if(name.isEmpty()) {
+            nameEditText.requestFocus();
+            showToast("Поле Имя не должно быть пустым");
+            return false;
+        }
+        if(email.isEmpty()) {
+            emailEditText.requestFocus();
+            showToast("Поле email не должно быть пустым");
+            return false;
+        } else if(!Validation.isCorrectEmail(email)) {
+            emailEditText.requestFocus();
+            showToast("Некоректный email");
+            return false;
+        }
+
+        if(password.isEmpty()) {
+            passwordEditText.requestFocus();
+            showToast("Поле пароль не должно быть пустым");
+            return false;
+        } else if(!Validation.isCorrectPassword(password)) {
+            passwordEditText.requestFocus();
+            showToast("Поле пароль долджно содержать больше 6 символов");
+            return false;
+        }
+        return true;
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.registration_button_registration:
-                showToast("Зарегистрироваться");
+                if(inputFieldIsValid()){
+                    prefsUtils.saveIsUserAuthorization(true);
+                    startActivity(new Intent(this, TapeActivity.class));
+                    finish();
+                }
                 break;
             case R.id.login_registration:
                 startActivity(new Intent(this, LoginActivity.class));

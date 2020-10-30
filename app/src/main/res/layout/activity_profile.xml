@@ -45,6 +45,7 @@
                 android:orientation="vertical" >
 
                 <TextView
+                    android:id="@+id/name_account_profile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorText"
@@ -63,7 +64,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/login_account_profile"
+                android:id="@+id/login_or_exit_account_profile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -117,17 +118,17 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 android:padding="5dp"
-                android:src="@drawable/ic_lock_image" />
+                android:src="@drawable/ic_rate_image" />
 
             <TextView
-                android:id="@+id/term_and_privacy_profile"
+                android:id="@+id/rate_profile"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginLeft="10dp"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
                 android:textSize="16dp"
-                android:text="@string/title_terms_and_privacy"/>
+                android:text="@string/rate_app"/>
         </LinearLayout>
 
         <LinearLayout
@@ -142,17 +143,17 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 android:padding="5dp"
-                android:src="@drawable/ic_rate_image" />
+                android:src="@drawable/ic_other_our_app" />
 
             <TextView
-                android:id="@+id/rate_profile"
+                android:id="@+id/term_and_privacy_profile"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginLeft="10dp"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
                 android:textSize="16dp"
-                android:text="@string/rate_app"/>
+                android:text="@string/other_our_apps"/>
         </LinearLayout>
 
         <LinearLayout
