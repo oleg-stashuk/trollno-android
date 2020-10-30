@@ -50,4 +50,7 @@
     <string name="whops">Упс!</string>
     <string name="have_no_favorites">Вы пока ничего не добавили в Избранное</string>
     <string name="see_all_comment">Весь комментарий</string>
+    <string name="answer">Ответить</string>
+    <string name="see_more_comments">Больше комментариев</string>
+    <string name="mark_all_as_read">Отметить все как прочитанное</string>
 </resources>

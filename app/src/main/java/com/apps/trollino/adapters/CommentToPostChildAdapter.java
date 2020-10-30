@@ -1,6 +1,10 @@
 package com.apps.trollino.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.text.SpannableString;
+import android.text.TextPaint;
+import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -95,4 +99,3 @@ class CommentToPostChildAdapter extends BaseRecyclerAdapter<UserCommentActivityM
         };
     }
 }
-

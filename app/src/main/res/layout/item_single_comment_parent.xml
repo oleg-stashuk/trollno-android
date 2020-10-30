@@ -71,7 +71,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_toRightOf="@+id/count_like_single_comment_parent"
                 android:layout_below="@+id/comment_user_single_comment_parent"
-                android:text="Ответить" />
+                android:text="@string/answer" />
 
         </RelativeLayout>
     </LinearLayout>
@@ -92,6 +92,6 @@
         android:layout_marginLeft="30dp"
         android:layout_marginBottom="10dp"
         style="@style/PressedTextStyle"
-        android:text="Больше комментариев" />
+        android:text="@string/see_more_comments" />
 
 </LinearLayout>

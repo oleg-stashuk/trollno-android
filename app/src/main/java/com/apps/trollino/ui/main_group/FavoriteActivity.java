@@ -1,8 +1,12 @@
 package com.apps.trollino.ui.main_group;
 
 import android.content.Intent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,12 +34,12 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
     protected void initView() {
         favoriteRecyclerView = findViewById(R.id.recycler_favorite);
         noFavoriteListView = findViewById(R.id.include_no_favorite);
-        findViewById(R.id.drop_down_menu_favorite).setOnClickListener(this);
         findViewById(R.id.tape_button_favorite).setOnClickListener(this);
         findViewById(R.id.activity_button_favorite).setOnClickListener(this);
         findViewById(R.id.profile_button_favorite).setOnClickListener(this);
 
         checkFavoriteList();
+        initToolbar();
     }
 
     private void checkFavoriteList() {
@@ -65,12 +69,41 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
         }
     };
 
+    // Иницировать Toolbar
+    private void initToolbar() {
+        final Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(getString(R.string.favorites));
+
+        if (actionBar != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false); // отображать кнопку BackPress
+            getSupportActionBar().setHomeButtonEnabled(false); // вернуться на предыдущую активность
+            getSupportActionBar().setDisplayShowTitleEnabled(true); // отображать Заголовок
+        }
+    }
+
+    // Добавить Menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.favorite_menu, menu);
+        return true;
+    }
+
+    // Обрабтка нажантия на выпадающий список из Menu
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.to_do_something) {
+            showToast("Что-то сделать");
+        }
+        return true;
+    }
+
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.drop_down_menu_favorite:
-                showToast("drop_down_menu");
-                break;
             case R.id.tape_button_favorite: // "Перейти на экран Лента"
                 startActivity(new Intent(this, TapeActivity.class));
                 finish();
