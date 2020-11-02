@@ -1,6 +1,7 @@
 package com.apps.trollino.ui.main_group;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
@@ -18,6 +19,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private TextView loginTextView;
     private Switch darkThemeSwitch;
     private boolean isUserAuthorization; // Пользователь авторизирован или нет
+    private boolean doubleBackToExitPressedOnce = false; // для обработки нажатия onBackPressed
 
     private String name = "Иван";
     private String email = "rrrr@gmail.com";
@@ -72,8 +74,21 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this, TapeActivity.class));
-        finish();
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        showToast(getString(R.string.press_twice_to_exit));
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
     }
 
     @Override

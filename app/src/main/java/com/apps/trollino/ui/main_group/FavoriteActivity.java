@@ -1,6 +1,7 @@
 package com.apps.trollino.ui.main_group;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,6 +28,7 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
     private View noFavoriteListView;
     private View userAuthorizationView;
     private boolean isUserAuthorization; // Пользователь авторизирован или нет
+    private boolean doubleBackToExitPressedOnce = false;  // для обработки нажатия onBackPressed
 
     @Override
     protected int getLayoutID() {
@@ -119,8 +121,21 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this, TapeActivity.class));
-        finish();
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        showToast(getString(R.string.press_twice_to_exit));
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
     }
 
     @Override

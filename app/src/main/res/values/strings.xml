@@ -56,4 +56,5 @@
     <string name="user_not_authorization">Авторизуйтесь чтобы получить доступ к этому разделу</string>
     <string name="exit">Выйти</string>
     <string name="other_our_apps">Другие наши приложения</string>
+    <string name="press_twice_to_exit">Нажмите 2 раза для выхода из приложения</string>
 </resources>

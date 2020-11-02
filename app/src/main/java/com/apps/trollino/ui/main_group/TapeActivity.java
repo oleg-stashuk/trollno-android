@@ -1,6 +1,7 @@
 package com.apps.trollino.ui.main_group;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 
@@ -22,7 +23,8 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
     private RecyclerView newsRecyclerView;
     private List<FavoriteModel> newsVideoList = FavoriteModel.makeFavoriteVideoList();
     private TabLayout tabs;
-    int selectedTabs = 0;
+    private int selectedTabs = 0;
+    private boolean doubleBackToExitPressedOnce = false;  // для обработки нажатия onBackPressed
 
     @Override
     protected int getLayoutID() {
@@ -100,7 +102,24 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
         }
     };
 
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
 
+        this.doubleBackToExitPressedOnce = true;
+        showToast(getString(R.string.press_twice_to_exit));
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+    }
 
     @Override
     public void onClick(View view) {
