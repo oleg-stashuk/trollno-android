@@ -70,7 +70,7 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
 
 
     private void makeNewsRecyclerView() {
-        if(selectedTabs > 0) {
+        if(selectedTabs == 1) {
             newsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
             newsRecyclerView.setAdapter(new NewsVideoAdapter(this, newsVideoList, newsVideoItemListener));
             newsRecyclerView.setHasFixedSize(true);

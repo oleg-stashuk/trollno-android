@@ -1,7 +1,6 @@
 package com.apps.trollino.adapters;
 
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,8 +34,6 @@ public class NewsVideoAdapter extends BaseRecyclerAdapter<FavoriteModel> {
             @Override
             public void bind(final FavoriteModel item) {
                 RelativeLayout video = itemView.findViewById(R.id.video_new_video_item);
-                ImageView imageDiscussImageView = itemView.findViewById(R.id.discuss_image_new_video_item);
-                TextView textDiscussImageView = itemView.findViewById(R.id.discuss_text_new_video_item);
                 TextView commentCountTextView = itemView.findViewById(R.id.comment_count_new_video_item);
                 TextView titleVideoTextView = itemView.findViewById(R.id.title_new_video_item);
 
@@ -49,14 +46,6 @@ public class NewsVideoAdapter extends BaseRecyclerAdapter<FavoriteModel> {
                         Toast.makeText(itemView.getContext(), "Video " + item.getVideoId(), Toast.LENGTH_SHORT).show();
                     }
                 });
-
-                if(item.isInDiscuss()) {
-                    imageDiscussImageView.setVisibility(View.VISIBLE);
-                    textDiscussImageView.setVisibility(View.VISIBLE);
-                } else {
-                    imageDiscussImageView.setVisibility(View.GONE);
-                    textDiscussImageView.setVisibility(View.GONE);
-                }
             }
         };
     }

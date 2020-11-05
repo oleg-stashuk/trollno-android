@@ -39,6 +39,8 @@
         android:background="@color/colorPrimary"
         app:tabTextColor="@color/white"
         app:tabIndicatorColor="@color/white"
+        app:tabTextAppearance="@style/TabItemStyle"
+        android:elevation="5dp"
         app:tabContentStart="20dp">
 
         <com.google.android.material.tabs.TabItem
@@ -101,8 +103,7 @@
         android:id="@+id/news_recycler_tape"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="10dp"/>
+        android:layout_weight="1"/>
 
     <LinearLayout
         android:layout_width="match_parent"

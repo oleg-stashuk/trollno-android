@@ -67,5 +67,7 @@
         <item name="colorControlNormal">@color/white</item>
     </style>
 
-
+    <style name="TabItemStyle" parent="TextAppearance.Design.Tab">
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>
