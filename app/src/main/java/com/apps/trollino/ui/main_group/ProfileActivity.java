@@ -36,7 +36,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         darkThemeSwitch = findViewById(R.id.switch_theme_profile);
         loginTextView = findViewById(R.id.login_or_exit_account_profile);
         loginTextView.setOnClickListener(this);
-        findViewById(R.id.term_and_privacy_profile).setOnClickListener(this);
         findViewById(R.id.rate_profile).setOnClickListener(this);
         findViewById(R.id.info_profile).setOnClickListener(this);
         findViewById(R.id.tape_button_profile).setOnClickListener(this);
@@ -94,42 +93,39 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-        case R.id.create_account_profile:
-            if(isUserAuthorization) {
-                startActivity(new Intent(this, EditUserProfileActivity.class));
-            } else {
-                startActivity(new Intent(this, RegistrationActivity.class));
-            }
-            finish();
-        break;
-        case R.id.login_or_exit_account_profile:
-            if(isUserAuthorization) {
-                prefsUtils.saveIsUserAuthorization(false);
-            }
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();
-        break;
-        case R.id.term_and_privacy_profile:
-//        startActivity(new Intent(this, PrivacyPolicyActivity.class));
-        break;
-        case R.id.rate_profile:
-        showToast("Оцените приложение");
-        break;
-        case R.id.info_profile:
-        InformationAboutAppDialog.aboutDialog(this);
-        break;
-        case R.id.tape_button_profile: // "Перейти на экран Лента"
-        startActivity(new Intent(this, TapeActivity.class));
-        finish();
-        break;
-        case R.id.activity_button_profile: // "Перейти на экран Активность"
-            startActivity(new Intent(this, ActivityInPostActivity.class));
-            finish();
-        break;
-        case R.id.favorites_button_profile: // "Перейти на экран Избранное"
-        startActivity(new Intent(this, FavoriteActivity.class));
-        finish();
-        break;
+            case R.id.create_account_profile:
+                if(isUserAuthorization) {
+                    startActivity(new Intent(this, EditUserProfileActivity.class));
+                } else {
+                    startActivity(new Intent(this, RegistrationActivity.class));
+                }
+                finish();
+                break;
+            case R.id.login_or_exit_account_profile:
+                if(isUserAuthorization) {
+                    prefsUtils.saveIsUserAuthorization(false);
+                }
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+                break;
+            case R.id.rate_profile:
+                showToast("Оцените приложение");
+                break;
+            case R.id.info_profile:
+                InformationAboutAppDialog.aboutDialog(this);
+                break;
+            case R.id.tape_button_profile: // "Перейти на экран Лента"
+                startActivity(new Intent(this, TapeActivity.class));
+                finish();
+                break;
+            case R.id.activity_button_profile: // "Перейти на экран Активность"
+                startActivity(new Intent(this, ActivityInPostActivity.class));
+                finish();
+                break;
+            case R.id.favorites_button_profile: // "Перейти на экран Избранное"
+                startActivity(new Intent(this, FavoriteActivity.class));
+                finish();
+                break;
         }
     }
 }

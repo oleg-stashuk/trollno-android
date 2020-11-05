@@ -143,31 +143,6 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 android:padding="5dp"
-                android:src="@drawable/ic_other_our_app" />
-
-            <TextView
-                android:id="@+id/term_and_privacy_profile"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginLeft="10dp"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
-                android:textSize="16dp"
-                android:text="@string/other_our_apps"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="15dp">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:padding="5dp"
                 android:src="@drawable/ic_info" />
 
             <TextView
