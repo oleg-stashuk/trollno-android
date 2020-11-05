@@ -22,32 +22,22 @@
             android:src="@drawable/ic_arrow_back_white" />
 
         <ImageButton
-            android:id="@+id/favorite_button_post_activity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:padding="10dp"
-            android:layout_toLeftOf="@+id/comment_button_post_activity"
-            android:src="@drawable/ic_favorite_border_button"/>
-
-        <ImageButton
             android:id="@+id/comment_button_post_activity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:padding="10dp"
-            android:layout_toLeftOf="@+id/share_button_post_activity"
+            android:layout_toLeftOf="@+id/favorite_button_post_activity"
             android:src="@drawable/ic_comment_button"/>
 
         <ImageButton
-            android:id="@+id/share_button_post_activity"
+            android:id="@+id/favorite_button_post_activity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:background="@android:color/transparent"
             android:padding="10dp"
             android:layout_alignParentRight="true"
-            android:src="@drawable/ic_share_button"/>
+            android:src="@drawable/ic_favorite_border_button"/>
     </RelativeLayout>
 
     <ScrollView

@@ -3,6 +3,7 @@ package com.apps.trollino.ui.main_group;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,9 +21,11 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
     private String title = "Двуликая химера по кличке Кошка стала новой звездой интерннета";
     private List<PostModel.OneElementPost> postElementsList = PostModel.OneElementPost.makePostElementsList();
     private int countComment = 5;
+    private boolean isFavoritePost = false;
 
     private TextView titleTextView;
     private Button commentButton;
+    private ImageButton favoriteImageButton;
     private TextView countCommentTextView;
 
     @Override
@@ -38,12 +41,13 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
         commentButton = findViewById(R.id.add_comment_button_post_activity);
         commentButton.setOnClickListener(this);
         findViewById(R.id.back_button_post_activity).setOnClickListener(this);
-        findViewById(R.id.favorite_button_post_activity).setOnClickListener(this);
+        favoriteImageButton = findViewById(R.id.favorite_button_post_activity);
+        favoriteImageButton.setOnClickListener(this);
         findViewById(R.id.comment_button_post_activity).setOnClickListener(this);
-        findViewById(R.id.share_button_post_activity).setOnClickListener(this);
 
         titleTextView.setText(title);
         makePartOfPostRecyclerView();
+        changeFavoriteButton();
 
         if(countComment > 0) {
             commentButton.setText("Читать комментарии");
@@ -60,6 +64,19 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
         partOfPostRecyclerView.setAdapter(new OnePostElementAdapter(this, postElementsList));
     }
 
+    private void changeFavoriteButton() {
+        if(isFavoritePost) {
+            favoriteImageButton.setImageResource(R.drawable.ic_favorite_button);
+        } else {
+            favoriteImageButton.setImageResource(R.drawable.ic_favorite_border_button);
+        }
+    }
+
+    private void favoriteAddOrRemove() {
+        isFavoritePost = !isFavoritePost;
+        changeFavoriteButton();
+    }
+
     @Override
     public void onBackPressed() {
         startActivity(new Intent(this, TapeActivity.class));
@@ -73,15 +90,12 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
                 onBackPressed();
                 break;
             case R.id.favorite_button_post_activity:
-                showToast("Добавить в избранное");
+                favoriteAddOrRemove();
                 break;
             case R.id.comment_button_post_activity:
             case R.id.add_comment_button_post_activity:
                 startActivity(new Intent(this, CommentToPostActivity.class));
                 finish();
-                break;
-            case R.id.share_button_post_activity:
-                showToast("Поделиться");
                 break;
         }
     }
