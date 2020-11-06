@@ -1,11 +1,18 @@
 package com.apps.trollino.ui.main_group;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,6 +20,9 @@ import com.apps.trollino.R;
 import com.apps.trollino.adapters.OnePostElementAdapter;
 import com.apps.trollino.model.PostModel;
 import com.apps.trollino.ui.base.BaseActivity;
+import com.apps.trollino.utils.AppBarLayoutBehavior;
+import com.apps.trollino.utils.HidingScrollListener;
+import com.google.android.material.appbar.AppBarLayout;
 
 import java.util.List;
 
@@ -22,6 +32,9 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
     private List<PostModel.OneElementPost> postElementsList = PostModel.OneElementPost.makePostElementsList();
     private int countComment = 5;
     private boolean isFavoritePost = false;
+
+    private LinearLayout relativeLayout;
+    private LinearLayout topLinerLayout;
 
     private TextView titleTextView;
     private Button commentButton;
@@ -57,7 +70,52 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
             commentButton.setText("Написать комментарий");
             countCommentTextView.setVisibility(View.GONE);
         }
+
+
+//        listScroller();
+
+        relativeLayout = findViewById(R.id.video_new_video_item);
+        topLinerLayout = findViewById(R.id.top_liner_layout_post_activity);
+
+        AppBarLayout appBarLayout = findViewById(R.id.appbar_post_activity);
+        ((CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams()).setBehavior(new AppBarLayoutBehavior());
+
     }
+
+    private void listScroller(){
+        partOfPostRecyclerView.addOnScrollListener(new HidingScrollListener() {
+            @Override
+            public void onHide() {
+                hideViews();
+            }
+
+            @Override
+            public void onShow() {
+                showViews();
+            }
+        });
+    }
+
+
+    private void hideViews() {
+        topLinerLayout.animate().translationY(-topLinerLayout.getHeight()).setInterpolator(new AccelerateInterpolator(2));
+//        partOfPostRecyclerView.animate().translationY(-topLinerLayout.getHeight()).setInterpolator(new AccelerateInterpolator(2)).start();
+//        relativeLayout.animate().translationY(-topLinerLayout.getHeight()).setInterpolator(new AccelerateInterpolator(2));
+    }
+
+    private void showViews() {
+        topLinerLayout.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
+//        partOfPostRecyclerView.animate().translationY(0).setInterpolator(new AccelerateInterpolator(2)).start();
+//        relativeLayout.animate().translationY(0).setInterpolator(new AccelerateInterpolator(2));
+    }
+
+
+
+
+
+
+
+
 
     private void makePartOfPostRecyclerView() {
         partOfPostRecyclerView.setLayoutManager(new LinearLayoutManager(this));

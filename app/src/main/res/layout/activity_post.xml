@@ -40,6 +40,206 @@
             android:src="@drawable/ic_favorite_border_button"/>
     </RelativeLayout>
 
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/background_light"
+        android:fitsSystemWindows="false">
+
+<!--    <ScrollView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:fillViewport="true">-->
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_scrollFlags="scroll|enterAlways">
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/appbar_post_activity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <LinearLayout
+                    android:id="@+id/top_liner_layout_post_activity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/category_post_activity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:padding="10dp"
+                        android:background="@color/colorGreyBackgroundVideo"
+                        android:textColor="@color/colorText"
+                        android:hint="Категория"/>
+
+                    <TextView
+                        android:id="@+id/title_post_activity"
+                        style="@style/BoldHeaderTextStyle_h1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Заголовок"
+                        android:padding="10dp" />
+                </LinearLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipe_refresh_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_post_activity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"/>
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+            <LinearLayout
+                android:id="@+id/video_new_video_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp">
+
+                    <com.balysv.materialripple.MaterialRippleLayout
+                        android:id="@+id/add_comment_button_post_activity_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:mrl_rippleAlpha="0.2"
+                        app:mrl_rippleColor="@color/colorRipple"
+                        app:mrl_rippleHover="true"
+                        app:mrl_rippleOverlay="true"
+                        android:padding="5dp"
+                        android:layout_centerInParent="true">
+
+                        <Button
+                            android:id="@+id/add_comment_button_post_activity"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="@drawable/button_background"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="10dp"
+                            android:paddingRight="30dp"
+                            android:paddingLeft="30dp"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"
+                            android:hint="Читать комментарии" />
+
+                    </com.balysv.materialripple.MaterialRippleLayout>
+
+                    <TextView
+                        android:id="@+id/comment_count_post_activity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:gravity="center"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentRight="true"
+                        android:background="@color/colorPrimary"
+                        android:textColor="@color/white"
+                        android:hint="25"/>
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#929699"
+                    android:gravity="center"
+                    android:padding="15dp"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/swipe"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:text="@string/swipe_left_or_right_for_more_post" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+<!--    </ScrollView>-->
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+</LinearLayout>
+
+
+
+
+<!--
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".ui.main_group.PostActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/colorPrimary"
+        android:padding="10dp">
+
+        <ImageButton
+            android:id="@+id/back_button_post_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_arrow_back_white" />
+
+        <ImageButton
+            android:id="@+id/comment_button_post_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:padding="10dp"
+            android:layout_toLeftOf="@+id/favorite_button_post_activity"
+            android:src="@drawable/ic_comment_button"/>
+
+        <ImageButton
+            android:id="@+id/favorite_button_post_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:padding="10dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_favorite_border_button"/>
+    </RelativeLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -49,114 +249,122 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/category_post_activity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:padding="10dp"
-                android:background="@color/colorGreyBackgroundVideo"
-                android:textColor="@color/colorText"
-                android:hint="Категория"/>
+            android:orientation="vertical"
+            app:layout_scrollFlags="scroll|enterAlways">
 
             <LinearLayout
+                android:id="@+id/top_liner_layout_post_activity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/title_post_activity"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    style="@style/BoldHeaderTextStyle_h1"
-                    android:hint="Заголовок" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_post_activity"
-                    android:layout_width="match_parent"
+                    android:id="@+id/category_post_activity"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp" />
-
-            </LinearLayout>
-
-            <RelativeLayout
-                android:id="@+id/video_new_video_item"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp">
-
-                <com.balysv.materialripple.MaterialRippleLayout
-                    android:id="@+id/add_comment_button_post_activity_1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:mrl_rippleAlpha="0.2"
-                    app:mrl_rippleColor="@color/colorRipple"
-                    app:mrl_rippleHover="true"
-                    app:mrl_rippleOverlay="true"
-                    android:padding="5dp"
-                    android:layout_centerInParent="true">
-
-                    <Button
-                        android:id="@+id/add_comment_button_post_activity"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:background="@drawable/button_background"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
-                        android:paddingRight="30dp"
-                        android:paddingLeft="30dp"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:hint="Читать комментарии" />
-
-                </com.balysv.materialripple.MaterialRippleLayout>
+                    android:padding="10dp"
+                    android:background="@color/colorGreyBackgroundVideo"
+                    android:textColor="@color/colorText"
+                    android:hint="Категория"/>
 
                 <TextView
-                    android:id="@+id/comment_count_post_activity"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/title_post_activity"
+                    style="@style/BoldHeaderTextStyle_h1"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="10dp"
-                    android:gravity="center"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentRight="true"
-                    android:background="@color/colorPrimary"
-                    android:textColor="@color/white"
-                    android:hint="25"/>
-            </RelativeLayout>
+                    android:hint="Заголовок"
+                    android:padding="10dp" />
+            </LinearLayout>
 
-            <LinearLayout
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_post_activity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#929699"
-                android:gravity="center"
-                android:padding="15dp"
-                android:layout_marginTop="5dp"
-                android:orientation="vertical" >
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-                <ImageView
-                    android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/video_new_video_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/swipe"/>
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp">
 
-                <TextView
+                    <com.balysv.materialripple.MaterialRippleLayout
+                        android:id="@+id/add_comment_button_post_activity_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:mrl_rippleAlpha="0.2"
+                        app:mrl_rippleColor="@color/colorRipple"
+                        app:mrl_rippleHover="true"
+                        app:mrl_rippleOverlay="true"
+                        android:padding="5dp"
+                        android:layout_centerInParent="true">
+
+                        <Button
+                            android:id="@+id/add_comment_button_post_activity"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="@drawable/button_background"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="10dp"
+                            android:paddingRight="30dp"
+                            android:paddingLeft="30dp"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"
+                            android:hint="Читать комментарии" />
+
+                    </com.balysv.materialripple.MaterialRippleLayout>
+
+                    <TextView
+                        android:id="@+id/comment_count_post_activity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:gravity="center"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentRight="true"
+                        android:background="@color/colorPrimary"
+                        android:textColor="@color/white"
+                        android:hint="25"/>
+                </RelativeLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="#929699"
                     android:gravity="center"
-                    android:textColor="@color/white"
-                    android:text="@string/swipe_left_or_right_for_more_post" />
+                    android:padding="15dp"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical" >
 
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/swipe"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:text="@string/swipe_left_or_right_for_more_post" />
+
+                </LinearLayout>
             </LinearLayout>
-
         </LinearLayout>
 
     </ScrollView>
 
 </LinearLayout>
+-->
