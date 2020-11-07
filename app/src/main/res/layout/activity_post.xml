@@ -6,40 +6,25 @@
     android:orientation="vertical"
     tools:context=".ui.main_group.PostActivity">
 
-    <RelativeLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
-        android:padding="10dp">
+        android:paddingTop="15dp"
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-        <ImageButton
-            android:id="@+id/back_button_post_activity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_arrow_back_white" />
+        <include
+            android:id="@+id/toolbar_post"
+            layout="@layout/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            />
 
-        <ImageButton
-            android:id="@+id/comment_button_post_activity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:padding="10dp"
-            android:layout_toLeftOf="@+id/favorite_button_post_activity"
-            android:src="@drawable/ic_comment_button"/>
+    </com.google.android.material.appbar.AppBarLayout>
 
-        <ImageButton
-            android:id="@+id/favorite_button_post_activity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:padding="10dp"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/ic_favorite_border_button"/>
-    </RelativeLayout>
-
-    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="5dp"
