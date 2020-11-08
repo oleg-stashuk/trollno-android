@@ -44,6 +44,13 @@ public class FavoriteModel {
         makeFavoriteVideos.add(new FavoriteModel("3", ("30 " + title), 3, false));
         makeFavoriteVideos.add(new FavoriteModel("4", ("40 " + title), 100, true));
         makeFavoriteVideos.add(new FavoriteModel("5", ("50 " + title), 47, false));
+        makeFavoriteVideos.add(new FavoriteModel("6", ("60 " + title), 47, false));
+        makeFavoriteVideos.add(new FavoriteModel("7", ("70 " + title), 47, false));
+        makeFavoriteVideos.add(new FavoriteModel("8", ("80 " + title), 47, false));
+        makeFavoriteVideos.add(new FavoriteModel("9", ("90 " + title), 47, false));
+        makeFavoriteVideos.add(new FavoriteModel("10", ("100 " + title), 47, false));
+        makeFavoriteVideos.add(new FavoriteModel("11", ("110 " + title), 47, false));
+
 
         return makeFavoriteVideos;
     }
