@@ -3,6 +3,7 @@ package com.apps.trollino.ui.main_group;
 import android.content.Intent;
 import android.os.Handler;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -16,8 +17,9 @@ import com.apps.trollino.utils.InformationAboutAppDialog;
 public class ProfileActivity extends BaseActivity implements View.OnClickListener{
     private TextView accountTextView;
     private TextView nameTextView;
-    private TextView loginTextView;
     private Switch darkThemeSwitch;
+    private Button loginButton;
+    private Button registrationButton;
     private boolean isUserAuthorization; // Пользователь авторизирован или нет
     private boolean doubleBackToExitPressedOnce = false; // для обработки нажатия onBackPressed
 
@@ -34,8 +36,11 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         nameTextView = findViewById(R.id.name_account_profile);
         accountTextView = findViewById(R.id.create_account_profile);
         darkThemeSwitch = findViewById(R.id.switch_theme_profile);
-        loginTextView = findViewById(R.id.login_or_exit_account_profile);
-        loginTextView.setOnClickListener(this);
+        loginButton = findViewById(R.id.login_or_exit_button_profile);
+        loginButton.setOnClickListener(this);
+        registrationButton = findViewById(R.id.registration_button_profile);
+        registrationButton.setOnClickListener(this);
+
         findViewById(R.id.rate_profile).setOnClickListener(this);
         findViewById(R.id.info_profile).setOnClickListener(this);
         findViewById(R.id.tape_button_profile).setOnClickListener(this);
@@ -53,11 +58,13 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         if(isUserAuthorization) {
             nameTextView.setText(name);
             accountTextView.setText(email);
-            loginTextView.setText(getText(R.string.exit));
+            loginButton.setText(R.string.exit);
+            registrationButton.setVisibility(View.GONE);
         } else {
             nameTextView.setText(getText(R.string.hello));
             accountTextView.setText(getText(R.string.create_account));
-            loginTextView.setText(getText(R.string.title_login));
+            loginButton.setText(R.string.title_login);
+            registrationButton.setVisibility(View.VISIBLE);
         }
     }
 
@@ -101,11 +108,15 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 }
                 finish();
                 break;
-            case R.id.login_or_exit_account_profile:
+            case R.id.login_or_exit_button_profile:
                 if(isUserAuthorization) {
                     prefsUtils.saveIsUserAuthorization(false);
                 }
                 startActivity(new Intent(this, LoginActivity.class));
+                finish();
+                break;
+            case R.id.registration_button_profile:
+                startActivity(new Intent(this, RegistrationActivity.class));
                 finish();
                 break;
             case R.id.rate_profile:
