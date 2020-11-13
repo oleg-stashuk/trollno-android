@@ -3,22 +3,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:fitsSystemWindows="true"
     tools:context=".ui.main_group.PostActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
-        android:paddingTop="15dp"
+        app:elevation="0dp"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <include
             android:id="@+id/toolbar_post"
             layout="@layout/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
+            android:layout_height="match_parent"
             />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -27,7 +29,6 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="5dp"
         android:background="@android:color/background_light"
         android:fitsSystemWindows="true">
 

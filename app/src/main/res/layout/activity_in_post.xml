@@ -3,36 +3,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".ui.main_group.ActivityInPostActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?actionBarSize"
         android:background="@color/colorPrimary"
+        app:elevation="0dp"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <include
             android:id="@+id/toolbar_in_post"
             layout="@layout/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            />
+            android:layout_height="match_parent" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="5dp" >
+        android:layout_weight="1" >
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_activity_in_post"
+            android:overScrollMode="never"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-
 
         <include
             android:id="@+id/include_user_not_authorization_activity_in_post"
