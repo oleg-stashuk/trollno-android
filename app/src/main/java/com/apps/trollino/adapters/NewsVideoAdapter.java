@@ -39,13 +39,6 @@ public class NewsVideoAdapter extends BaseRecyclerAdapter<FavoriteModel> {
 
                 titleVideoTextView.setText(item.getVideoTitle());
                 commentCountTextView.setText(String.valueOf(item.getCommentCount()));
-
-                video.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Toast.makeText(itemView.getContext(), "Video " + item.getVideoId(), Toast.LENGTH_SHORT).show();
-                    }
-                });
             }
         };
     }

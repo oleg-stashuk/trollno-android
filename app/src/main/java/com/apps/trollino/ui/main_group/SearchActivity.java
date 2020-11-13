@@ -20,7 +20,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this, ProfileActivity.class));
+        startActivity(new Intent(this, TapeActivity.class));
         finish();
     }
 

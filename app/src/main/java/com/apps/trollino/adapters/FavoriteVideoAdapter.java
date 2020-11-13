@@ -46,13 +46,6 @@ public class FavoriteVideoAdapter extends BaseRecyclerAdapter<FavoriteModel> {
                         Toast.makeText(itemView.getContext(), "Delete", Toast.LENGTH_SHORT).show();
                     }
                 });
-
-                video.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Toast.makeText(itemView.getContext(), "Video " + item.getVideoId(), Toast.LENGTH_SHORT).show();
-                    }
-                });
             }
         };
     }

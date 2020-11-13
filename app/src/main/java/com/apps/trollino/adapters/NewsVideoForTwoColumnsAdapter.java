@@ -40,14 +40,6 @@ public class NewsVideoForTwoColumnsAdapter extends BaseRecyclerAdapter<FavoriteM
                 TextView titleVideoTextView = itemView.findViewById(R.id.title_new_video_item_for_two_columns);
 
                 titleVideoTextView.setText(item.getVideoTitle());
-
-                video.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Toast.makeText(itemView.getContext(), "Video " + item.getVideoId(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-
                 if(item.isInDiscuss()) {
                     imageDiscussImageView.setVisibility(View.VISIBLE);
                     textDiscussImageView.setVisibility(View.VISIBLE);
