@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apps.trollino.R;
 import com.apps.trollino.adapters.FavoriteVideoAdapter;
 import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
-import com.apps.trollino.model.FavoriteModel;
+import com.apps.trollino.data.model.FavoriteModel;
 import com.apps.trollino.ui.authorisation.LoginActivity;
 import com.apps.trollino.ui.authorisation.RegistrationActivity;
 import com.apps.trollino.ui.base.BaseActivity;

@@ -1,10 +1,6 @@
 package com.apps.trollino.adapters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.text.SpannableString;
-import android.text.TextPaint;
-import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -12,7 +8,7 @@ import android.widget.TextView;
 
 import com.apps.trollino.R;
 import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
-import com.apps.trollino.model.UserCommentActivityModel;
+import com.apps.trollino.data.model.UserCommentActivityModel;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.ClickableSpanText;
 

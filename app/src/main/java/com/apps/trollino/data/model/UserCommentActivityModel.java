@@ -1,4 +1,4 @@
-package com.apps.trollino.model;
+package com.apps.trollino.data.model;
 
 import com.apps.trollino.R;
 

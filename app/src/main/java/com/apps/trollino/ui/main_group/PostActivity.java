@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apps.trollino.R;
 import com.apps.trollino.adapters.OnePostElementAdapter;
-import com.apps.trollino.model.PostModel;
+import com.apps.trollino.data.model.PostModel;
 import com.apps.trollino.ui.base.BaseActivity;
 
 import java.util.List;

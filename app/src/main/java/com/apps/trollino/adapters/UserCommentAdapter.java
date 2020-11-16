@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import com.apps.trollino.R;
 import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
-import com.apps.trollino.model.UserCommentActivityModel;
+import com.apps.trollino.data.model.UserCommentActivityModel;
 import com.apps.trollino.ui.base.BaseActivity;
 
 import java.util.List;

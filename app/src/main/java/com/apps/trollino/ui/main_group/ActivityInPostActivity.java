@@ -14,12 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apps.trollino.R;
 import com.apps.trollino.adapters.UserCommentAdapter;
 import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
-import com.apps.trollino.model.UserCommentActivityModel;
+import com.apps.trollino.data.model.UserCommentActivityModel;
 import com.apps.trollino.ui.base.BaseActivity;
 
 import java.util.List;
 
-import static com.apps.trollino.model.UserCommentActivityModel.makeUserCommentList;
+import static com.apps.trollino.data.model.UserCommentActivityModel.makeUserCommentList;
 
 public class ActivityInPostActivity extends BaseActivity implements View.OnClickListener{
     private List<UserCommentActivityModel> userCommentList = makeUserCommentList();

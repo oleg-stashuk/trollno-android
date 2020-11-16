@@ -52,7 +52,7 @@
 
 
         <LinearLayout
-            android:id="@+id/video_new_video_item"
+            android:id="@+id/video_new_image_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">

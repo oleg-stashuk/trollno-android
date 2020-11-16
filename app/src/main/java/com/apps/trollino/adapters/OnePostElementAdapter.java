@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.apps.trollino.R;
 import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
-import com.apps.trollino.model.PostModel;
+import com.apps.trollino.data.model.PostModel;
 import com.apps.trollino.ui.base.BaseActivity;
 
 import java.util.List;

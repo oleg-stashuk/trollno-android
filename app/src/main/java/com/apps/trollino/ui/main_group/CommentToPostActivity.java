@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apps.trollino.R;
 import com.apps.trollino.adapters.CommentToPostParentAdapter;
-import com.apps.trollino.model.UserCommentActivityModel;
+import com.apps.trollino.data.model.UserCommentActivityModel;
 import com.apps.trollino.ui.base.BaseActivity;
 
 import java.util.List;

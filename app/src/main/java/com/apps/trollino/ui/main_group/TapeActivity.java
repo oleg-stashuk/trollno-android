@@ -13,11 +13,13 @@ import com.apps.trollino.R;
 import com.apps.trollino.adapters.NewsVideoAdapter;
 import com.apps.trollino.adapters.NewsVideoForTwoColumnsAdapter;
 import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
-import com.apps.trollino.model.FavoriteModel;
+import com.apps.trollino.data.model.FavoriteModel;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.List;
+
+import static com.apps.trollino.utils.networking.GetNewPosts.makeGetNewPosts;
 
 public class TapeActivity extends BaseActivity implements View.OnClickListener{
     private RecyclerView newsRecyclerView;
@@ -50,10 +52,17 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                Log.d("123456", "" + tabs.getSelectedTabPosition());
-                showToast("" + tabs.getSelectedTabPosition());
-                selectedTabs = tabs.getSelectedTabPosition();
-                makeNewsRecyclerView();
+                if(tabs.getSelectedTabPosition() != 0) {
+                    Log.d("123456", "" + tabs.getSelectedTabPosition());
+                    showToast("" + tabs.getSelectedTabPosition());
+                    selectedTabs = tabs.getSelectedTabPosition();
+                    makeNewsRecyclerView();
+                } else {
+                    new Thread(() -> {
+                        makeGetNewPosts(TapeActivity.this, newsRecyclerView, prefsUtils);
+                        Log.d("OkHttp", "!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                    }).start();
+                }
             }
 
             @Override
@@ -73,33 +82,26 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
         if(selectedTabs == 1) {
             newsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
             newsRecyclerView.setAdapter(new NewsVideoAdapter(this, newsVideoList, newsVideoItemListener));
-            newsRecyclerView.setHasFixedSize(true);
         } else {
             newsRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
             newsRecyclerView.setAdapter(new NewsVideoForTwoColumnsAdapter(this, newsVideoList, newsVideoGridItemListener));
-            newsRecyclerView.setHasFixedSize(true);
         }
+        newsRecyclerView.setHasFixedSize(true);
     }
 
     // Обработка нажатия на элемент списка
     private final NewsVideoAdapter.OnItemClick<FavoriteModel> newsVideoItemListener =
-            new BaseRecyclerAdapter.OnItemClick<FavoriteModel>() {
-                @Override
-                public void onItemClick(FavoriteModel item, int position) {
-                    showToast("Press " + item.getVideoId());
-                    startActivity(new Intent(TapeActivity.this, PostActivity.class));
-                    finish();
-                }
+            (item, position) -> {
+                showToast("Press " + item.getVideoId());
+                startActivity(new Intent(TapeActivity.this, PostActivity.class));
+                finish();
             };
 
     // Обработка нажатия на элемент списка с испотльзованием Grid
-    private final NewsVideoForTwoColumnsAdapter.OnItemClick<FavoriteModel> newsVideoGridItemListener = new BaseRecyclerAdapter.OnItemClick<FavoriteModel>() {
-        @Override
-        public void onItemClick(FavoriteModel item, int position) {
-            showToast("Press " + item.getVideoId());
-            startActivity(new Intent(TapeActivity.this, PostActivity.class));
-            finish();
-        }
+    private final NewsVideoForTwoColumnsAdapter.OnItemClick<FavoriteModel> newsVideoGridItemListener = (item, position) -> {
+        showToast("Press " + item.getVideoId());
+        startActivity(new Intent(TapeActivity.this, PostActivity.class));
+        finish();
     };
 
     @Override

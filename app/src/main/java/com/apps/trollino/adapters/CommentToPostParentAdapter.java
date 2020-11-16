@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apps.trollino.R;
 import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
-import com.apps.trollino.model.UserCommentActivityModel;
+import com.apps.trollino.data.model.UserCommentActivityModel;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.ClickableSpanText;
 

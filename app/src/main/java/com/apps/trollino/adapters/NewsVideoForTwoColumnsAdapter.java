@@ -4,11 +4,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.apps.trollino.R;
 import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
-import com.apps.trollino.model.FavoriteModel;
+import com.apps.trollino.data.model.FavoriteModel;
 import com.apps.trollino.ui.base.BaseActivity;
 
 import java.util.List;
@@ -26,7 +25,7 @@ public class NewsVideoForTwoColumnsAdapter extends BaseRecyclerAdapter<FavoriteM
 
     @Override
     protected int getCardLayoutID() {
-        return R.layout.item_news_video_for_two_columns;
+        return R.layout.item_post_list_for_two_columns;
     }
 
     @Override
@@ -34,10 +33,10 @@ public class NewsVideoForTwoColumnsAdapter extends BaseRecyclerAdapter<FavoriteM
         return new BaseItem(view) {
             @Override
             public void bind(final FavoriteModel item) {
-                RelativeLayout video = itemView.findViewById(R.id.video_new_video_item_for_two_columns);
-                ImageView imageDiscussImageView = itemView.findViewById(R.id.discuss_image_for_two_columns);
-                TextView textDiscussImageView = itemView.findViewById(R.id.discuss_text_for_two_columns);
-                TextView titleVideoTextView = itemView.findViewById(R.id.title_new_video_item_for_two_columns);
+                RelativeLayout video = itemView.findViewById(R.id.image_post_two_columns);
+                ImageView imageDiscussImageView = itemView.findViewById(R.id.discuss_image_post_two_columns);
+                TextView textDiscussImageView = itemView.findViewById(R.id.discuss_text_post_two_columns);
+                TextView titleVideoTextView = itemView.findViewById(R.id.title_post_two_columns);
 
                 titleVideoTextView.setText(item.getVideoTitle());
                 if(item.isInDiscuss()) {
