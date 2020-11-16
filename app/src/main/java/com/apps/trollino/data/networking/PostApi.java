@@ -15,4 +15,6 @@ public interface PostApi {
     })
     @GET("/posts/new/list?_format=json")
     Call<PostsModel> getNewPosts(@Header("Cookie") String cookie);
+
+
 }

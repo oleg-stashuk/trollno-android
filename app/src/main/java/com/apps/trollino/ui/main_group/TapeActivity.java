@@ -48,13 +48,13 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
 
     // Обработка нажатия на элементы горизонтального ScrollBar
     private void makeTabSelectedListener() {
-        Log.d("123456", tabs.getScrollBarSize() + " - " + tabs.getTabCount());
+        Log.d("OkHttp", tabs.getScrollBarSize() + " - " + tabs.getTabCount());
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                showToast("" + tabs.getSelectedTabPosition());
                 if(tabs.getSelectedTabPosition() != 0) {
-                    Log.d("123456", "" + tabs.getSelectedTabPosition());
-                    showToast("" + tabs.getSelectedTabPosition());
+                    Log.d("OkHttp", "" + tabs.getSelectedTabPosition());
                     selectedTabs = tabs.getSelectedTabPosition();
                     makeNewsRecyclerView();
                 } else {
