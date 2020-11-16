@@ -122,47 +122,57 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bottom_bar_background"
-        android:padding="10dp"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tape_button_tape"
-            android:layout_width="0dp"
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@drawable/bg_shadow" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/ic_tape_green"
-            android:textColor="@color/colorPrimary"
-            android:gravity="center"
-            android:text="@string/tape" />
+            android:background="@color/white"
+            android:padding="10dp"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/activity_button_tape"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/ic_activity_grey"
-            android:gravity="center"
-            android:text="Активность" />
+            <TextView
+                android:id="@+id/tape_button_tape"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_tape_green"
+                android:textColor="@color/colorPrimary"
+                android:gravity="center"
+                android:text="@string/tape" />
 
-        <TextView
-            android:id="@+id/favorites_button_tape"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/ic_favorite_grey"
-            android:gravity="center"
-            android:text="@string/favorites" />
+            <TextView
+                android:id="@+id/activity_button_tape"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_activity_grey"
+                android:gravity="center"
+                android:text="@string/activity" />
 
-        <TextView
-            android:id="@+id/profile_button_tape"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/ic_profile_grey"
-            android:gravity="center"
-            android:text="@string/title_profile" />
+            <TextView
+                android:id="@+id/favorites_button_tape"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_favorite_grey"
+                android:gravity="center"
+                android:text="@string/favorites" />
 
+            <TextView
+                android:id="@+id/profile_button_tape"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_profile_grey"
+                android:gravity="center"
+                android:text="@string/title_profile" />
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>
