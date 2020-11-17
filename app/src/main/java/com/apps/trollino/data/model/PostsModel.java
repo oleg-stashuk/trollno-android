@@ -103,8 +103,9 @@ public class PostsModel {
 
         @Override
         public String toString() {
-            return getPostId() + " " + getTitle() + " " + getCategoryId() + " " + getCategoryName() + " " + getCreated() + " " +
-                    getCommentCount() + " " + getImageUrl() + " " + getFavorite() + " " + getRead() + " " + getCommentActiveDiscus();
+            return getPostId() + " " + getTitle() + " " + getCategoryId() + " " + getCategoryName()
+                    + " " + getCreated() + " " + getCommentCount() + " " + getImageUrl() + " " +
+                    getFavorite() + " " + getRead() + " " + getCommentActiveDiscus();
         }
     }
 
@@ -121,5 +122,27 @@ public class PostsModel {
         @SerializedName("items_per_page")
         @Expose
         private int itemPerPage;
+
+        public int getCurrentPage() {
+            return currentPage;
+        }
+
+        public int getTotalPages() {
+            return totalPages;
+        }
+
+        public int getTotalItems() {
+            return totalItems;
+        }
+
+        public int getItemPerPage() {
+            return itemPerPage;
+        }
+
+        @Override
+        public String toString() {
+            return "currentPage: " + getCurrentPage() + " total_pages: " + getTotalPages() +
+                    " totalItems: " + getTotalItems() + " itemPerPage: " +  getItemPerPage();
+        }
     }
 }

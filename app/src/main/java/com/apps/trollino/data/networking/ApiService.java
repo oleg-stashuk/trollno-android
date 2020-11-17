@@ -36,8 +36,8 @@ public class ApiService {
     }
 
     // GET and POST request for work with registration and authorization block
-    public void getNewPosts(String cookie, Callback<PostsModel> callback) {
-        postApi.getNewPosts(cookie).enqueue(callback);
+    public void getNewPosts(String cookie, int page, Callback<PostsModel> callback) {
+        postApi.getNewPosts(cookie, page).enqueue(callback);
     }
 
 }

@@ -27,25 +27,33 @@ import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
 
 public class GetNewPosts {
     private static Context cont;
+    private static int page;
 
 
     public static void makeGetNewPosts(Context context, RecyclerView recyclerView, PrefUtils prefUtils) {
         cont = context;
+        page = prefUtils.getNewPostCurrentPage();
 
-        ApiService.getInstance().getNewPosts("", new Callback<PostsModel>() {
+        ApiService.getInstance().getNewPosts("", page, new Callback<PostsModel>() {
             int countTry = 0;
 
             @Override
             public void onResponse(Call<PostsModel> call, Response<PostsModel> response) {
                 if (response.isSuccessful()) {
-                    Log.d("OkHttp", "errorBody " + response.body().getPostDetailsList().toString());
+                    Log.d("OkHttp", "response.body(): " + response.body().getPostDetailsList().toString());
 
                     PostsModel post = response.body();
                     List<PostsModel.PostDetails> newPostList = post.getPostDetailsList();
+                    Log.d("OkHttp", "page: " + post.getPager().toString());
 
                     makeNewPostsRecyclerView(recyclerView, newPostList);
+                    if(page != post.getPager().getTotalPages() - 1) {
+                        prefUtils.saveNewPostCurrentPage(page += 1);
+                    } else {
+                        prefUtils.saveNewPostCurrentPage(post.getPager().getTotalPages() - 1);
+                    }
                 } else {
-                    Log.d("OkHttp", "errorBody " + response.errorBody());
+                    Log.d("OkHttp", "response.errorBody() " + response.errorBody());
                 }
             }
 

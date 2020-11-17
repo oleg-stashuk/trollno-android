@@ -21,17 +21,16 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void initView() {
         handler = new Handler();
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    for (startTime = 0; startTime < maxTime; startTime++) {
-                        Thread.sleep(10);
-                        handler.post(openNextActivity);
-                    }
-                } catch (InterruptedException exc) {
-                    exc.printStackTrace();
+        prefsUtils.saveNewPostCurrentPage(0);
+        prefsUtils.saveNewPostTotalPage(0);
+        Thread thread = new Thread(() -> {
+            try {
+                for (startTime = 0; startTime < maxTime; startTime++) {
+                    Thread.sleep(10);
+                    handler.post(openNextActivity);
                 }
+            } catch (InterruptedException exc) {
+                exc.printStackTrace();
             }
         });
         thread.start();
