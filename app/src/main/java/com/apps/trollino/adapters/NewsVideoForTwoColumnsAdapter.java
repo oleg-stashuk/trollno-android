@@ -33,7 +33,7 @@ public class NewsVideoForTwoColumnsAdapter extends BaseRecyclerAdapter<FavoriteM
         return new BaseItem(view) {
             @Override
             public void bind(final FavoriteModel item) {
-                RelativeLayout video = itemView.findViewById(R.id.image_post_two_columns);
+                ImageView postImageView = itemView.findViewById(R.id.image_post_two_columns);
                 ImageView imageDiscussImageView = itemView.findViewById(R.id.discuss_image_post_two_columns);
                 TextView textDiscussImageView = itemView.findViewById(R.id.discuss_text_post_two_columns);
                 TextView titleVideoTextView = itemView.findViewById(R.id.title_post_two_columns);

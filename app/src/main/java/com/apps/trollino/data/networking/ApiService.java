@@ -1,6 +1,5 @@
 package com.apps.trollino.data.networking;
 
-import com.apps.trollino.data.model.PostModel;
 import com.apps.trollino.data.model.PostsModel;
 
 import okhttp3.OkHttpClient;
@@ -9,9 +8,9 @@ import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ApiService {
-    private final String BASE_URL = "http://newsapp.art-coral.com";
+import static com.apps.trollino.utils.Const.BASE_URL;
 
+public class ApiService {
     private PostApi postApi;
 
     private static volatile ApiService instance = null;

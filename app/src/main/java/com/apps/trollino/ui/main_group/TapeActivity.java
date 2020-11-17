@@ -42,8 +42,8 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
         findViewById(R.id.favorites_button_tape).setOnClickListener(this);
         findViewById(R.id.profile_button_tape).setOnClickListener(this);
 
-        makeNewsRecyclerView();
         makeTabSelectedListener();
+        makeGetNewPosts(TapeActivity.this, newsRecyclerView, prefsUtils);
     }
 
     // Обработка нажатия на элементы горизонтального ScrollBar
@@ -53,14 +53,13 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 showToast("" + tabs.getSelectedTabPosition());
+                Log.d("OkHttp", "" + tabs.getSelectedTabPosition());
+                selectedTabs = tabs.getSelectedTabPosition();
                 if(tabs.getSelectedTabPosition() != 0) {
-                    Log.d("OkHttp", "" + tabs.getSelectedTabPosition());
-                    selectedTabs = tabs.getSelectedTabPosition();
                     makeNewsRecyclerView();
                 } else {
                     new Thread(() -> {
                         makeGetNewPosts(TapeActivity.this, newsRecyclerView, prefsUtils);
-                        Log.d("OkHttp", "!!!!!!!!!!!!!!!!!!!!!!!!!!");
                     }).start();
                 }
             }
