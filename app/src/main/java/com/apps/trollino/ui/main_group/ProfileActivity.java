@@ -5,6 +5,8 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -15,11 +17,13 @@ import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.InformationAboutAppDialog;
 
 public class ProfileActivity extends BaseActivity implements View.OnClickListener{
-    private TextView accountTextView;
+    private LinearLayout userIncludeLinearLayout;
+    private LinearLayout guestIncludeLinearLayout;
+    private ImageView userImageView;
+    private TextView emailTextView;
     private TextView nameTextView;
     private Switch darkThemeSwitch;
-    private Button loginButton;
-    private Button registrationButton;
+    private Button exitButton;
     private boolean isUserAuthorization; // Пользователь авторизирован или нет
     private boolean doubleBackToExitPressedOnce = false; // для обработки нажатия onBackPressed
 
@@ -33,20 +37,24 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initView() {
-        nameTextView = findViewById(R.id.name_account_profile);
-        accountTextView = findViewById(R.id.create_account_profile);
+        userIncludeLinearLayout = findViewById(R.id.include_user_profile);
+        guestIncludeLinearLayout = findViewById(R.id.include_user_not_authorization_profile);
+        userImageView = findViewById(R.id.image_account_profile_include);
+        nameTextView = findViewById(R.id.name_account_profile_include);
+        emailTextView = findViewById(R.id.email_account_profile_include);
         darkThemeSwitch = findViewById(R.id.switch_theme_profile);
-        loginButton = findViewById(R.id.login_or_exit_button_profile);
-        loginButton.setOnClickListener(this);
-        registrationButton = findViewById(R.id.registration_button_profile);
-        registrationButton.setOnClickListener(this);
+        findViewById(R.id.login_button_include_profile_for_guest).setOnClickListener(this);
+        findViewById(R.id.registration_button_include_profile_for_guest).setOnClickListener(this);
+        exitButton = findViewById(R.id.exit_button_profile);
+        exitButton.setOnClickListener(this);
 
+        userIncludeLinearLayout.setOnClickListener(this);
         findViewById(R.id.rate_profile).setOnClickListener(this);
         findViewById(R.id.info_profile).setOnClickListener(this);
         findViewById(R.id.tape_button_profile).setOnClickListener(this);
         findViewById(R.id.activity_button_profile).setOnClickListener(this);
         findViewById(R.id.favorites_button_profile).setOnClickListener(this);
-        accountTextView.setOnClickListener(this);
+        emailTextView.setOnClickListener(this);
 
         isUserAuthorization = prefsUtils.getIsUserAuthorization();
 
@@ -57,14 +65,14 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private void makeIsUserAuthorizationCorrectData() {
         if(isUserAuthorization) {
             nameTextView.setText(name);
-            accountTextView.setText(email);
-            loginButton.setText(R.string.exit);
-            registrationButton.setVisibility(View.GONE);
+            emailTextView.setText(email);
+            userIncludeLinearLayout.setVisibility(View.VISIBLE);
+            guestIncludeLinearLayout.setVisibility(View.GONE);
+            exitButton.setVisibility(View.VISIBLE);
         } else {
-            nameTextView.setText(getText(R.string.hello));
-            accountTextView.setText(getText(R.string.create_account));
-            loginButton.setText(R.string.title_login);
-            registrationButton.setVisibility(View.VISIBLE);
+            userIncludeLinearLayout.setVisibility(View.GONE);
+            guestIncludeLinearLayout.setVisibility(View.VISIBLE);
+            exitButton.setVisibility(View.GONE);
         }
     }
 
@@ -100,22 +108,19 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.create_account_profile:
-                if(isUserAuthorization) {
-                    startActivity(new Intent(this, EditUserProfileActivity.class));
-                } else {
-                    startActivity(new Intent(this, RegistrationActivity.class));
-                }
+            case R.id.include_user_profile:
+                startActivity(new Intent(this, EditUserProfileActivity.class));
                 finish();
                 break;
-            case R.id.login_or_exit_button_profile:
+            case R.id.login_button_include_profile_for_guest:
+            case R.id.exit_button_profile:
                 if(isUserAuthorization) {
                     prefsUtils.saveIsUserAuthorization(false);
                 }
                 startActivity(new Intent(this, LoginActivity.class));
                 finish();
                 break;
-            case R.id.registration_button_profile:
+            case R.id.registration_button_include_profile_for_guest:
                 startActivity(new Intent(this, RegistrationActivity.class));
                 finish();
                 break;

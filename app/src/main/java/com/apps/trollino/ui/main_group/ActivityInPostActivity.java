@@ -15,6 +15,8 @@ import com.apps.trollino.R;
 import com.apps.trollino.adapters.UserCommentAdapter;
 import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
 import com.apps.trollino.data.model.UserCommentActivityModel;
+import com.apps.trollino.ui.authorisation.LoginActivity;
+import com.apps.trollino.ui.authorisation.RegistrationActivity;
 import com.apps.trollino.ui.base.BaseActivity;
 
 import java.util.List;
@@ -41,8 +43,8 @@ public class ActivityInPostActivity extends BaseActivity implements View.OnClick
         findViewById(R.id.tape_button_activity_in_post).setOnClickListener(this);
         findViewById(R.id.favorites_button_activity_in_post).setOnClickListener(this);
         findViewById(R.id.profile_button_activity_in_post).setOnClickListener(this);
-        findViewById(R.id.include_login_button_user_not_authorization).setOnClickListener(this);
-        findViewById(R.id.include_registration_button_user_not_authorization).setOnClickListener(this);
+        findViewById(R.id.login_button_include_activity_for_guest).setOnClickListener(this);
+        findViewById(R.id.registration_button_include_activity_for_guest).setOnClickListener(this);
 
         isUserAuthorization = prefsUtils.getIsUserAuthorization();
 
@@ -143,6 +145,14 @@ public class ActivityInPostActivity extends BaseActivity implements View.OnClick
                 break;
             case R.id.profile_button_activity_in_post: // "Перейти на экран Профиль"
                 startActivity(new Intent(this, ProfileActivity.class));
+                finish();
+                break;
+            case R.id.login_button_include_activity_for_guest: // "Перейти на экран Авторизации"
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+                break;
+            case R.id.registration_button_include_activity_for_guest: // "Перейти на экран Регистрации"
+                startActivity(new Intent(this, RegistrationActivity.class));
                 finish();
                 break;
         }

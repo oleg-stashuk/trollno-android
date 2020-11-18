@@ -36,7 +36,7 @@
 
         <include
             android:id="@+id/include_user_not_authorization_activity_in_post"
-            layout="@layout/include__user_not_authorization"
+            layout="@layout/include_guest_activity"
             android:visibility="gone" />
     </RelativeLayout>
 

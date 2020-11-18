@@ -18,7 +18,7 @@
     <string name="terms_text">Создавая учетную запись, вы соглашаетесь с нашими</string>
     <string name="title_profile">Профиль</string>
     <string name="hello">Привет!</string>
-    <string name="create_account">Новичок? <b>Создайте аккаунт</b></string>
+    <string name="create_account">Создать аккаунт</string>
     <string name="dark_theme">Темная тема</string>
     <string name="rate_app">Оцените приложение</string>
     <string name="app_info">О приложении</string>

@@ -26,45 +26,18 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical" >
-        <LinearLayout
+
+        <include
+            android:id="@+id/include_user_not_authorization_profile"
+            layout="@layout/include_guest_profile"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content" />
 
-            <ImageView
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:src="@drawable/cookie_icon"/>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginLeft="10dp"
-                android:layout_gravity="center_vertical"
-                android:orientation="vertical" >
-
-                <TextView
-                    android:id="@+id/name_account_profile"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorText"
-                    android:textStyle="bold"
-                    android:textSize="16dp"
-                    android:text="@string/hello"/>
-
-                <TextView
-                    android:id="@+id/create_account_profile"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:textSize="16dp"
-                    android:text="@string/create_account" />
-
-            </LinearLayout>
-
-        </LinearLayout>
+        <include
+            android:id="@+id/include_user_profile"
+            layout="@layout/include_user_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -157,10 +130,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
-            <com.balysv.materialripple.MaterialRippleLayout
+        <com.balysv.materialripple.MaterialRippleLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:mrl_rippleAlpha="0.2"
@@ -169,41 +141,14 @@
                 app:mrl_rippleOverlay="true">
 
                 <Button
-                    android:id="@+id/login_or_exit_button_profile"
+                    android:id="@+id/exit_button_profile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="@drawable/button_background"
-                    android:padding="10dp"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:text="@string/title_login" />
-
-            </com.balysv.materialripple.MaterialRippleLayout>
-
-            <com.balysv.materialripple.MaterialRippleLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                app:mrl_rippleAlpha="0.2"
-                app:mrl_rippleColor="@color/colorRipple"
-                app:mrl_rippleHover="true"
-                app:mrl_rippleOverlay="true">
-
-                <Button
-                    android:id="@+id/registration_button_profile"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:background="@drawable/button_background"
-                    android:layout_gravity="center"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:visibility="gone"
-                    android:text="@string/register" />
+                    android:layout_margin="20dp"
+                    style="@style/ButtonStyle"
+                    android:text="@string/exit" />
             </com.balysv.materialripple.MaterialRippleLayout>
         </LinearLayout>
-
     </LinearLayout>
 
     <LinearLayout
@@ -259,7 +204,6 @@
                 android:textColor="@color/colorPrimary"
                 android:gravity="center"
                 android:text="@string/title_profile" />
-
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

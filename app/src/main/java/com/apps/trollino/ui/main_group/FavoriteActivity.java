@@ -13,11 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apps.trollino.R;
 import com.apps.trollino.adapters.FavoriteVideoAdapter;
-import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
 import com.apps.trollino.data.model.FavoriteModel;
 import com.apps.trollino.ui.authorisation.LoginActivity;
 import com.apps.trollino.ui.authorisation.RegistrationActivity;
 import com.apps.trollino.ui.base.BaseActivity;
+import com.apps.trollino.utils.EndlessOnScrollListener;
 
 import java.util.List;
 
@@ -43,8 +43,8 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
         findViewById(R.id.tape_button_favorite).setOnClickListener(this);
         findViewById(R.id.activity_button_favorite).setOnClickListener(this);
         findViewById(R.id.profile_button_favorite).setOnClickListener(this);
-        findViewById(R.id.include_login_button_user_not_authorization).setOnClickListener(this);
-        findViewById(R.id.include_registration_button_user_not_authorization).setOnClickListener(this);
+        findViewById(R.id.login_button_include_favorite_for_guest).setOnClickListener(this);
+        findViewById(R.id.registration_button_include_activity_for_guest).setOnClickListener(this);
 
         isUserAuthorization = prefsUtils.getIsUserAuthorization();
 
@@ -75,14 +75,11 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
 
     // Обработка нажатия на элемент списка
     private final FavoriteVideoAdapter.OnItemClick<FavoriteModel> favoriteVideoItemListener =
-            new BaseRecyclerAdapter.OnItemClick<FavoriteModel>() {
-        @Override
-        public void onItemClick(FavoriteModel item, int position) {
-            showToast("Press " + item.getVideoId());
-            startActivity(new Intent(FavoriteActivity.this, PostActivity.class));
-            finish();
-        }
-    };
+            (item, position) -> {
+                showToast ("Press " + item.getVideoId());
+                startActivity(new Intent(FavoriteActivity.this, PostActivity.class));
+                finish();
+            };
 
     // Иницировать Toolbar
     private void initToolbar() {
@@ -153,11 +150,11 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
                 startActivity(new Intent(this, ProfileActivity.class));
                 finish();
                 break;
-            case R.id.include_login_button_user_not_authorization: // "Перейти на экран Лента"
+            case R.id.login_button_include_favorite_for_guest: // "Перейти на экран Авторизации"
                 startActivity(new Intent(this, LoginActivity.class));
                 finish();
                 break;
-            case R.id.include_registration_button_user_not_authorization: // "Перейти на экран Лента"
+            case R.id.registration_button_include_activity_for_guest: // "Перейти на экран Регистрации"
                 startActivity(new Intent(this, RegistrationActivity.class));
                 finish();
                 break;

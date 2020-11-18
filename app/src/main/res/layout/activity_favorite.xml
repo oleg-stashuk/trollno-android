@@ -41,7 +41,7 @@
 
         <include
             android:id="@+id/include_user_not_authorization_favorite"
-            layout="@layout/include__user_not_authorization"
+            layout="@layout/include_guest_favorite"
             android:visibility="gone" />
 
     </RelativeLayout>
