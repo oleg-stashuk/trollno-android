@@ -5,7 +5,6 @@ import android.os.Handler;
 
 import com.apps.trollino.R;
 import com.apps.trollino.ui.base.BaseActivity;
-import com.apps.trollino.ui.main_group.ProfileActivity;
 import com.apps.trollino.ui.main_group.TapeActivity;
 
 public class SplashActivity extends BaseActivity {

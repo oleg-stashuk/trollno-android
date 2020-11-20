@@ -1,20 +1,15 @@
 package com.apps.trollino.utils.networking;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.apps.trollino.adapters.PostListAdapter;
-import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
 import com.apps.trollino.data.model.PostsModel;
 import com.apps.trollino.data.networking.ApiService;
-import com.apps.trollino.ui.base.BaseActivity;
-import com.apps.trollino.ui.main_group.PostActivity;
+import com.apps.trollino.utils.DataListFromApi;
 import com.apps.trollino.utils.PrefUtils;
 
 import java.util.List;
@@ -30,7 +25,7 @@ public class GetNewPosts {
     private static int page;
 
 
-    public static void makeGetNewPosts(Context context, RecyclerView recyclerView, PrefUtils prefUtils) {
+    public static void makeGetNewPosts(Context context, PrefUtils prefUtils, PostListAdapter adapter, ProgressBar progressBar) {
         cont = context;
         page = prefUtils.getNewPostCurrentPage();
 
@@ -44,17 +39,15 @@ public class GetNewPosts {
 
                     PostsModel post = response.body();
                     List<PostsModel.PostDetails> newPostList = post.getPostDetailsList();
-                    Log.d("OkHttp", "page: " + post.getPager().toString());
+                    Log.d("OkHttp_1", post.getPager().toString());
 
-                    makeNewPostsRecyclerView(recyclerView, newPostList);
-                    if(page != post.getPager().getTotalPages() - 1) {
-                        prefUtils.saveNewPostCurrentPage(page += 1);
-                    } else {
-                        prefUtils.saveNewPostCurrentPage(post.getPager().getTotalPages() - 1);
-                    }
+                    saveCurrentPage(post.getPager().getTotalPages(), prefUtils);
+                    updatePostListAndNotifyRecyclerAdapter(newPostList, adapter);
                 } else {
+                    showToast(response.errorBody().toString());
                     Log.d("OkHttp", "response.errorBody() " + response.errorBody());
                 }
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
@@ -65,6 +58,7 @@ public class GetNewPosts {
                     countTry++;
                 } else {
                     showToast(t.getLocalizedMessage());
+                    progressBar.setVisibility(View.GONE);
                     Log.d("OkHttp", "t.getLocalizedMessage() " + t.getLocalizedMessage());
                 }
             }
@@ -75,19 +69,16 @@ public class GetNewPosts {
         Toast.makeText(cont, message, Toast.LENGTH_SHORT).show();
     }
 
-    private static void makeNewPostsRecyclerView(RecyclerView recyclerView, List<PostsModel.PostDetails> newPostList) {
-        recyclerView.setLayoutManager(new GridLayoutManager(cont, 2));
-        recyclerView.setAdapter(new PostListAdapter((BaseActivity) cont, newPostList, newPostsItemListener));
+    private static void saveCurrentPage(int totalPage, PrefUtils prefUtils) {
+        if(page < totalPage - 1) {
+            prefUtils.saveNewPostCurrentPage(page + 1);
+        } else {
+            prefUtils.saveNewPostCurrentPage(totalPage - 1);
+        }
     }
 
-    // Обработка нажатия на элемент списка
-    private static final PostListAdapter.OnItemClick<PostsModel.PostDetails> newPostsItemListener = new BaseRecyclerAdapter.OnItemClick<PostsModel.PostDetails>() {
-        @Override
-        public void onItemClick(PostsModel.PostDetails item, int position) {
-            Log.d("OkHttp", "Pressed " + item.getPostId() + " category " + item.getCategoryName());
-            cont.startActivity(new Intent(cont, PostActivity.class));
-            ((Activity) cont).finish();
-        }
-    };
-
+    private static void updatePostListAndNotifyRecyclerAdapter(List<PostsModel.PostDetails> newPostList, PostListAdapter adapter) {
+        DataListFromApi.getInstance().saveDataInList(newPostList);
+        adapter.notifyDataSetChanged();
+    }
 }

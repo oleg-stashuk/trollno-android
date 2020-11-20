@@ -17,7 +17,6 @@ import com.apps.trollino.data.model.FavoriteModel;
 import com.apps.trollino.ui.authorisation.LoginActivity;
 import com.apps.trollino.ui.authorisation.RegistrationActivity;
 import com.apps.trollino.ui.base.BaseActivity;
-import com.apps.trollino.utils.EndlessOnScrollListener;
 
 import java.util.List;
 
