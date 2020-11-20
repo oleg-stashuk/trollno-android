@@ -107,6 +107,31 @@ public class PostsModel {
                     + " " + getCreated() + " " + getCommentCount() + " " + getImageUrl() + " " +
                     getFavorite() + " " + getRead() + " " + getCommentActiveDiscus();
         }
+
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj == null) {
+                return false;
+            }
+
+            if (obj.getClass() != this.getClass()) {
+                return false;
+            }
+
+            final PostDetails other = (PostDetails) obj;
+            if ((this.postId == null) ? (other.postId != null) : !this.postId.equals(other.postId)) {
+                return false;
+            }
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            int hash = 3;
+            hash = 53 * hash + (this.postId != null ? this.postId.hashCode() : 0);
+            return hash;
+        }
     }
 
     public class Pager {
