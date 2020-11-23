@@ -9,6 +9,7 @@ import java.util.List;
 
 public class DataListFromApi {
     private List<PostsModel.PostDetails> newPostList;
+    private List<PostsModel.PostDetails> discussPostList;
 
     private static volatile DataListFromApi instance = null;
     public static DataListFromApi getInstance() {
@@ -19,7 +20,8 @@ public class DataListFromApi {
     }
 
     private DataListFromApi() {
-            newPostList = new ArrayList<>();
+        newPostList = new ArrayList<>();
+        discussPostList = new ArrayList<>();
     }
 
     public void saveDataInList(List<PostsModel.PostDetails> postList) {
@@ -40,8 +42,19 @@ public class DataListFromApi {
         return newPostList;
     }
 
+    public void saveDiscussDataInList(List<PostsModel.PostDetails> postList) {
+        discussPostList.clear();
+        discussPostList.addAll(postList);
+    }
+
+    public List<PostsModel.PostDetails> getDiscussPostsList() {
+        Log.d("OkHttp", "newPostList from SingleTon (get): size " + newPostList.size());
+        return discussPostList;
+    }
+
     public void removeAllDataFromList(PrefUtils prefUtils) {
         newPostList.clear();
+        discussPostList.clear();
         prefUtils.saveNewPostCurrentPage(0);
         Log.d("OkHttp", "newPostList from SingleTon (remove): size " + newPostList.size());
     }

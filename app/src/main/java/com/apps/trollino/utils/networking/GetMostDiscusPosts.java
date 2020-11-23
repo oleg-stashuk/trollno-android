@@ -22,14 +22,12 @@ import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
 
 public class GetMostDiscusPosts {
     private static Context cont;
-    private static int page;
 
     public static void makeGetNewPosts(Context context, PrefUtils prefUtils, DiscussPostsAdapter adapter, ProgressBar progressBar) {
         cont = context;
-        page = prefUtils.getNewPostCurrentPage();
         String cookie = prefUtils.getCookie();
 
-        ApiService.getInstance().getMostDiscusPosts(cookie, page, new Callback<PostsModel>() {
+        ApiService.getInstance().getMostDiscusPosts(cookie, 0, new Callback<PostsModel>() {
             int countTry = 0;
 
             @Override
@@ -67,7 +65,7 @@ public class GetMostDiscusPosts {
     }
 
     private static void updatePostListAndNotifyRecyclerAdapter(List<PostsModel.PostDetails> newPostList, DiscussPostsAdapter adapter) {
-        DataListFromApi.getInstance().saveDataInList(newPostList);
+        DataListFromApi.getInstance().saveDiscussDataInList(newPostList);
         adapter.notifyDataSetChanged();
     }
 }

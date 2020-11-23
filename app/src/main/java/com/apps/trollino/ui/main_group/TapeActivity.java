@@ -45,6 +45,7 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
         findViewById(R.id.profile_button_tape).setOnClickListener(this);
 
         makeTabSelectedListener();
+        MakeRecyclerViewForTapeActivity.makeNewPostsRecyclerView(this, newsRecyclerView, progressBar, prefsUtils);
     }
 
     // Обработка нажатия на элементы горизонтального ScrollBar
@@ -67,9 +68,7 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
             }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-                MakeRecyclerViewForTapeActivity.makeNewPostsRecyclerView(TapeActivity.this, newsRecyclerView, progressBar, prefsUtils);
-            }
+            public void onTabUnselected(TabLayout.Tab tab) {}
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {}
