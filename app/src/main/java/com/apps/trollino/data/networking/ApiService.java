@@ -1,6 +1,9 @@
 package com.apps.trollino.data.networking;
 
+import com.apps.trollino.data.model.CategoryModel;
 import com.apps.trollino.data.model.PostsModel;
+
+import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -42,5 +45,9 @@ public class ApiService {
 
     public void getMostDiscusPosts(String cookie, int page, Callback<PostsModel> callback) {
         postApi.getMostDiscusPosts(cookie, page).enqueue(callback);
+    }
+
+    public void getCategoryList(String cookie, Callback<List<CategoryModel>> callback) {
+        postApi.getCategoryList(cookie).enqueue(callback);
     }
 }

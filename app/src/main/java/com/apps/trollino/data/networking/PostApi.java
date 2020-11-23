@@ -1,6 +1,9 @@
 package com.apps.trollino.data.networking;
 
+import com.apps.trollino.data.model.CategoryModel;
 import com.apps.trollino.data.model.PostsModel;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -23,4 +26,11 @@ public interface PostApi {
     })
     @GET("/posts/most_discus/list?_format=json")
     Call<PostsModel> getMostDiscusPosts(@Header("Cookie") String cookie, @Query("page") int page);
+
+    @Headers({
+            "Content-Type: application/json",
+            "Accepts: application/json"
+    })
+    @GET("/categories/list?_format=json")
+    Call<List<CategoryModel>> getCategoryList(@Header("Cookie") String cookie);
 }

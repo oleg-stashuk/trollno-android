@@ -1,8 +1,9 @@
-package com.apps.trollino.utils;
+package com.apps.trollino.utils.data;
 
 import android.util.Log;
 
 import com.apps.trollino.data.model.PostsModel;
+import com.apps.trollino.utils.PrefUtils;
 
 import java.util.ArrayList;
 import java.util.List;

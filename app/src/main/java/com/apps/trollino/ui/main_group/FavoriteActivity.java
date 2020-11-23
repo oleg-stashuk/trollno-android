@@ -45,7 +45,7 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
         findViewById(R.id.login_button_include_favorite_for_guest).setOnClickListener(this);
         findViewById(R.id.registration_button_include_activity_for_guest).setOnClickListener(this);
 
-        isUserAuthorization = prefsUtils.getIsUserAuthorization();
+        isUserAuthorization = prefUtils.getIsUserAuthorization();
 
         checkFavoriteListAndUserAuthorization(); // проверить пользователь авторизирован или нет, если да - то проверить есть посты добаленные в избранное или нет
         initToolbar();

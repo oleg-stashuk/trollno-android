@@ -7,7 +7,6 @@ import android.widget.EditText;
 import com.apps.trollino.R;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.ui.main_group.ProfileActivity;
-import com.apps.trollino.ui.main_group.TapeActivity;
 import com.apps.trollino.utils.Validation;
 
 
@@ -73,7 +72,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 break;
             case R.id.login_button_login:
                 if(inputFieldIsValid()){
-                    prefsUtils.saveIsUserAuthorization(true);
+                    prefUtils.saveIsUserAuthorization(true);
                     onBackPressed();
                 }
                 break;

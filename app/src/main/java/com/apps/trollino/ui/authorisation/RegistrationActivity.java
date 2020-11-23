@@ -79,7 +79,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         switch (v.getId()) {
             case R.id.registration_button_registration:
                 if(inputFieldIsValid()){
-                    prefsUtils.saveIsUserAuthorization(true);
+                    prefUtils.saveIsUserAuthorization(true);
                     startActivity(new Intent(this, TapeActivity.class));
                     finish();
                 }

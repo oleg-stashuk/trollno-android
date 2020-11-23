@@ -56,7 +56,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         findViewById(R.id.favorites_button_profile).setOnClickListener(this);
         emailTextView.setOnClickListener(this);
 
-        isUserAuthorization = prefsUtils.getIsUserAuthorization();
+        isUserAuthorization = prefUtils.getIsUserAuthorization();
 
         makeDarkThemeOnCheckedListener();
         makeIsUserAuthorizationCorrectData();
@@ -115,7 +115,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             case R.id.login_button_include_profile_for_guest:
             case R.id.exit_button_profile:
                 if(isUserAuthorization) {
-                    prefsUtils.saveIsUserAuthorization(false);
+                    prefUtils.saveIsUserAuthorization(false);
                 }
                 startActivity(new Intent(this, LoginActivity.class));
                 finish();

@@ -6,6 +6,7 @@ import android.os.Handler;
 import com.apps.trollino.R;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.ui.main_group.TapeActivity;
+import com.apps.trollino.utils.networking.GetCategoryList;
 
 public class SplashActivity extends BaseActivity {
     private Handler handler;
@@ -20,7 +21,7 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void initView() {
         handler = new Handler();
-        prefsUtils.saveNewPostCurrentPage(0);
+        prefUtils.saveNewPostCurrentPage(0);
         Thread thread = new Thread(() -> {
             try {
                 for (startTime = 0; startTime < maxTime; startTime++) {
@@ -32,6 +33,8 @@ public class SplashActivity extends BaseActivity {
             }
         });
         thread.start();
+
+        new Thread(() -> GetCategoryList.getCategoryList(this, prefUtils)).start();
     }
 
     Runnable openNextActivity = new Runnable() {

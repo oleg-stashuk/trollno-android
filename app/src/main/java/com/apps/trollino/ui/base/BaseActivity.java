@@ -10,13 +10,13 @@ import com.apps.trollino.R;
 import com.apps.trollino.utils.PrefUtils;
 
 public abstract class BaseActivity extends AppCompatActivity {
-    protected PrefUtils prefsUtils;
+    protected PrefUtils prefUtils;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutID());
-        prefsUtils = new PrefUtils(getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE));
+        prefUtils = new PrefUtils(getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE));
         initView();
     }
 
