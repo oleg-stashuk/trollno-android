@@ -1,4 +1,4 @@
-package com.apps.trollino.utils;
+package com.apps.trollino.utils.data;
 
 import android.content.SharedPreferences;
 

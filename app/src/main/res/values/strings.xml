@@ -26,15 +26,6 @@
     <string name="favorites">Избранное</string>
     <string name="new_video">Свежее</string>
     <string name="discuss">Обсуждают</string>
-<!--    <string name="stories">Истории</string>-->
-<!--    <string name="humor">Юмор</string>-->
-<!--    <string name="interesting">интересно</string>-->
-<!--    <string name="amazingly">Удивительно</string>-->
-<!--    <string name="oddities">Странности</string>-->
-<!--    <string name="animals">Животные</string>-->
-<!--    <string name="health">Здоровье</string>-->
-<!--    <string name="life_hack">Лайфхак</string>-->
-<!--    <string name="nicely">Милота</string>-->
     <string name="search">Поиск</string>
     <string name="swipe_left_or_right_for_more_post">Проведите пальцем влево или вправо, чтобы увидеть другие посты</string>
     <string name="source_of_image">Источник:</string>

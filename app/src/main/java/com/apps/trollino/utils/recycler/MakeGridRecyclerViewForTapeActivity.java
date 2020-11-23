@@ -1,4 +1,4 @@
-package com.apps.trollino.utils;
+package com.apps.trollino.utils.recycler;
 
 import android.app.Activity;
 import android.content.Context;
@@ -15,10 +15,12 @@ import com.apps.trollino.adapters.PostListAdapter;
 import com.apps.trollino.data.model.PostsModel;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.ui.main_group.PostActivity;
+import com.apps.trollino.utils.data.PrefUtils;
+import com.apps.trollino.utils.RecyclerScrollListener;
 import com.apps.trollino.utils.data.DataListFromApi;
 
 import static com.apps.trollino.utils.networking.GetNewPosts.makeGetNewPosts;
-public class MakeRecyclerViewForTapeActivity extends RecyclerView.OnScrollListener{
+public class MakeGridRecyclerViewForTapeActivity extends RecyclerView.OnScrollListener{
     private static Context cont;
 
     public static void makeNewPostsRecyclerView(Context context, RecyclerView recyclerView, ProgressBar progressBar, PrefUtils prefUtils) {

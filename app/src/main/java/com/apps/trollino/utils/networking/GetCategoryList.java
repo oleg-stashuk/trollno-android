@@ -6,7 +6,7 @@ import android.widget.Toast;
 
 import com.apps.trollino.data.model.CategoryModel;
 import com.apps.trollino.data.networking.ApiService;
-import com.apps.trollino.utils.PrefUtils;
+import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.data.CategoryListFromApi;
 
 import java.util.List;

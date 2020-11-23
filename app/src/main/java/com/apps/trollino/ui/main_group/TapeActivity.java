@@ -16,9 +16,8 @@ import com.apps.trollino.data.model.FavoriteModel;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.data.CategoryListFromApi;
 import com.apps.trollino.utils.data.DataListFromApi;
-import com.apps.trollino.utils.MakeLinerRecyclerViewForTapeActivity;
-import com.apps.trollino.utils.MakeRecyclerViewForTapeActivity;
-import com.apps.trollino.utils.networking.GetCategoryList;
+import com.apps.trollino.utils.recycler.MakeGridRecyclerViewForTapeActivity;
+import com.apps.trollino.utils.recycler.MakeLinerRecyclerViewForTapeActivity;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.List;
@@ -50,7 +49,7 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
         createTabLayout();
 
         makeTabSelectedListener();
-        MakeRecyclerViewForTapeActivity.makeNewPostsRecyclerView(this, newsRecyclerView, progressBar, prefUtils);
+        MakeGridRecyclerViewForTapeActivity.makeNewPostsRecyclerView(this, newsRecyclerView, progressBar, prefUtils);
     }
 
     // Add category list from Api to TabLayout
@@ -71,7 +70,7 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
                 selectedTabs = tabs.getSelectedTabPosition();
                 progressBar.setVisibility(View.GONE);
                 if(tabs.getSelectedTabPosition() == 0) {
-                    MakeRecyclerViewForTapeActivity.makeNewPostsRecyclerView(TapeActivity.this, newsRecyclerView, progressBar, prefUtils);
+                    MakeGridRecyclerViewForTapeActivity.makeNewPostsRecyclerView(TapeActivity.this, newsRecyclerView, progressBar, prefUtils);
                 } else if(tabs.getSelectedTabPosition() == 1) {
                     MakeLinerRecyclerViewForTapeActivity.makeLinerRecyclerViewForTapeActivity(TapeActivity.this, newsRecyclerView, progressBar, prefUtils);
                 } else {

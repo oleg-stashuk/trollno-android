@@ -1,4 +1,4 @@
-package com.apps.trollino.utils;
+package com.apps.trollino.utils.recycler;
 
 import android.app.Activity;
 import android.content.Context;
@@ -15,7 +15,9 @@ import com.apps.trollino.adapters.DiscussPostsAdapter;
 import com.apps.trollino.data.model.PostsModel;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.ui.main_group.PostActivity;
+import com.apps.trollino.utils.RecyclerScrollListener;
 import com.apps.trollino.utils.data.DataListFromApi;
+import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.networking.GetMostDiscusPosts;
 
 public class MakeLinerRecyclerViewForTapeActivity extends RecyclerView.OnScrollListener{

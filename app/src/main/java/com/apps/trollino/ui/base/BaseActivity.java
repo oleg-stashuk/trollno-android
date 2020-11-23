@@ -7,7 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.apps.trollino.R;
-import com.apps.trollino.utils.PrefUtils;
+import com.apps.trollino.utils.data.PrefUtils;
 
 public abstract class BaseActivity extends AppCompatActivity {
     protected PrefUtils prefUtils;
