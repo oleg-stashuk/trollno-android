@@ -35,9 +35,12 @@ public class ApiService {
         postApi = retrofit.create(PostApi.class);
     }
 
-    // GET and POST request for work with registration and authorization block
+    // GET and POST request for work with for Tape Post block
     public void getNewPosts(String cookie, int page, Callback<PostsModel> callback) {
         postApi.getNewPosts(cookie, page).enqueue(callback);
     }
 
+    public void getMostDiscusPosts(String cookie, int page, Callback<PostsModel> callback) {
+        postApi.getMostDiscusPosts(cookie, page).enqueue(callback);
+    }
 }

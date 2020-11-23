@@ -22,6 +22,7 @@ public class MakeRecyclerViewForTapeActivity extends RecyclerView.OnScrollListen
 
     public static void makeNewPostsRecyclerView(Context context, RecyclerView recyclerView, ProgressBar progressBar, PrefUtils prefUtils) {
         cont = context;
+        DataListFromApi.getInstance().removeAllDataFromList(prefUtils);
 
         PostListAdapter adapter = new PostListAdapter((BaseActivity) cont, DataListFromApi.getInstance().getNewPostsList(), newPostsItemListener);
         recyclerView.setLayoutManager(new GridLayoutManager(cont, 2));

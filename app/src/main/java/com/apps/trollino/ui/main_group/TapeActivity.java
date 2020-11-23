@@ -7,15 +7,14 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.apps.trollino.R;
-import com.apps.trollino.adapters.NewsVideoAdapter;
 import com.apps.trollino.adapters.NewsVideoForTwoColumnsAdapter;
 import com.apps.trollino.data.model.FavoriteModel;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.DataListFromApi;
+import com.apps.trollino.utils.MakeLinerRecyclerViewForTapeActivity;
 import com.apps.trollino.utils.MakeRecyclerViewForTapeActivity;
 import com.google.android.material.tabs.TabLayout;
 
@@ -27,7 +26,7 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
     private TabLayout tabs;
     private ProgressBar progressBar;
 
-    private int selectedTabs = 0;
+    private int selectedTabs;
     private boolean doubleBackToExitPressedOnce = false;  // для обработки нажатия onBackPressed
 
     @Override
@@ -46,7 +45,6 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
         findViewById(R.id.profile_button_tape).setOnClickListener(this);
 
         makeTabSelectedListener();
-        MakeRecyclerViewForTapeActivity.makeNewPostsRecyclerView(this, newsRecyclerView, progressBar, prefsUtils);
     }
 
     // Обработка нажатия на элементы горизонтального ScrollBar
@@ -58,16 +56,20 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
                 Log.d("OkHttp", "" + tabs.getSelectedTabPosition());
                 selectedTabs = tabs.getSelectedTabPosition();
                 progressBar.setVisibility(View.GONE);
-                if(tabs.getSelectedTabPosition() != 0) {
-                    makeNewsRecyclerView();
-                    DataListFromApi.getInstance().removeAllDataFromList(prefsUtils);
-                } else {
+                if(tabs.getSelectedTabPosition() == 0) {
                     MakeRecyclerViewForTapeActivity.makeNewPostsRecyclerView(TapeActivity.this, newsRecyclerView, progressBar, prefsUtils);
+                }else if(tabs.getSelectedTabPosition() == 1) {
+                    MakeLinerRecyclerViewForTapeActivity.makeLinerRecyclerViewForTapeActivity(TapeActivity.this, newsRecyclerView, progressBar, prefsUtils);
+                } else {
+                    DataListFromApi.getInstance().removeAllDataFromList(prefsUtils);
+                    makeNewsRecyclerView();
                 }
             }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {}
+            public void onTabUnselected(TabLayout.Tab tab) {
+                MakeRecyclerViewForTapeActivity.makeNewPostsRecyclerView(TapeActivity.this, newsRecyclerView, progressBar, prefsUtils);
+            }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {}
@@ -75,24 +77,10 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
     }
 
     private void makeNewsRecyclerView() {
-        if(selectedTabs == 1) {
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-            newsRecyclerView.setLayoutManager(linearLayoutManager);
-            newsRecyclerView.setAdapter(new NewsVideoAdapter(this, newsVideoList, newsVideoItemListener));
-        } else if(selectedTabs != 0) {
-            newsRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-            newsRecyclerView.setAdapter(new NewsVideoForTwoColumnsAdapter(this, newsVideoList, newsVideoGridItemListener));
-        }
+        newsRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        newsRecyclerView.setAdapter(new NewsVideoForTwoColumnsAdapter(this, newsVideoList, newsVideoGridItemListener));
         newsRecyclerView.setHasFixedSize(true);
     }
-
-    // Обработка нажатия на элемент списка
-    private final NewsVideoAdapter.OnItemClick<FavoriteModel> newsVideoItemListener =
-            (item, position) -> {
-                showToast("Press " + item.getVideoId());
-                startActivity(new Intent(TapeActivity.this, PostActivity.class));
-                finish();
-            };
 
     // Обработка нажатия на элемент списка с испотльзованием Grid
     private final NewsVideoForTwoColumnsAdapter.OnItemClick<FavoriteModel> newsVideoGridItemListener = (item, position) -> {

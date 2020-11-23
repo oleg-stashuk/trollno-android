@@ -17,5 +17,10 @@ public interface PostApi {
     @GET("/posts/new/list?_format=json")
     Call<PostsModel> getNewPosts(@Header("Cookie") String cookie,  @Query("page") int page);
 
-
+    @Headers({
+            "Content-Type: application/json",
+            "Accepts: application/json"
+    })
+    @GET("/posts/most_discus/list?_format=json")
+    Call<PostsModel> getMostDiscusPosts(@Header("Cookie") String cookie, @Query("page") int page);
 }
