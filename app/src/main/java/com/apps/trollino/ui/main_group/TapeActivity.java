@@ -20,7 +20,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.util.List;
 
-import static com.apps.trollino.utils.recycler.MakePostsGridRecyclerViewForTapeActivity.makePostsGridRecyclerViewForTapeActivity;
+import static com.apps.trollino.utils.recycler.MakePostsByCategoryGridRecyclerViewForTapeActivity.makePostsByCategoryGridRecyclerViewForTapeActivity;
 
 public class TapeActivity extends BaseActivity implements View.OnClickListener{
     private RecyclerView newsRecyclerView;
@@ -74,7 +74,7 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
                 } else {
                     prefUtils.saveSelectedCategoryId(tab.getTag().toString());
                     PostListByCategoryFromApi.getInstance().removeAllDataFromList(prefUtils);
-                    makePostsGridRecyclerViewForTapeActivity(TapeActivity.this, newsRecyclerView, progressBar, prefUtils);
+                    makePostsByCategoryGridRecyclerViewForTapeActivity(TapeActivity.this, newsRecyclerView, progressBar, prefUtils);
                 }
             }
 

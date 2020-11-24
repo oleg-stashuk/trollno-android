@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
@@ -15,22 +15,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apps.trollino.R;
 import com.apps.trollino.adapters.OnePostElementAdapter;
-import com.apps.trollino.data.model.PostModel;
+import com.apps.trollino.data.model.ItemPostModel;
 import com.apps.trollino.ui.base.BaseActivity;
+import com.apps.trollino.utils.networking.GetItemPost;
 
 import java.util.List;
 
 public class PostActivity extends BaseActivity implements View.OnClickListener{
+    public static String POST_ID_KEY = "POST_ID_KEY";
+    public static String POST_CATEGORY_KEY = "POST_CATEGORY_KEY";
+    public static String POST_FAVORITE_VALUE = "POST_FAVORITE_VALUE";
+
     private Menu menu;
     private RecyclerView partOfPostRecyclerView;
-    private String title = "Двуликая химера по кличке Кошка стала новой звездой интерннета";
-    private List<PostModel.OneElementPost> postElementsList = PostModel.OneElementPost.makePostElementsList();
-    private int countComment = 5;
-    private boolean isFavoritePost = false;
-
-    private TextView titleTextView;
-    private Button commentButton;
-    private TextView countCommentTextView;
+    private List<ItemPostModel.OneElementPost> postElementsList = ItemPostModel.OneElementPost.makePostElementsList();
+    private boolean isFavoritePost;
 
     @Override
     protected int getLayoutID() {
@@ -40,24 +39,31 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
     @Override
     protected void initView() {
         partOfPostRecyclerView = findViewById(R.id.recycler_post_activity);
-        titleTextView = findViewById(R.id.title_post_activity);
-        countCommentTextView = findViewById(R.id.comment_count_post_activity);
-        commentButton = findViewById(R.id.add_comment_button_post_activity);
-        commentButton.setOnClickListener(this);
+        TextView categoryTextView = findViewById(R.id.category_post_activity);
+        TextView titleTextView = findViewById(R.id.title_post_activity);
+        TextView countCommentTextView = findViewById(R.id.comment_count_post_activity);
+        ImageView imageView = findViewById(R.id.image_post_activity);
+        TextView body = findViewById(R.id.body_post_activity);
+        findViewById(R.id.add_comment_button_post_activity).setOnClickListener(this);
 
-        titleTextView.setText(title);
         makePartOfPostRecyclerView();
 
         initToolbar();
 
-        if(countComment > 0) {
-            commentButton.setText("Читать комментарии");
-            countCommentTextView.setVisibility(View.VISIBLE);
-            countCommentTextView.setText(String.valueOf(countComment));
+        int favoriteValue = this.getIntent().getIntExtra(POST_FAVORITE_VALUE, 0);
+        String postId = this.getIntent().getStringExtra(POST_ID_KEY);
+        String category = this.getIntent().getStringExtra(POST_CATEGORY_KEY);
+        categoryTextView.setText(category);
+
+        if (favoriteValue == 0) {
+            isFavoritePost = false;
         } else {
-            commentButton.setText("Написать комментарий");
-            countCommentTextView.setVisibility(View.GONE);
+            isFavoritePost = true;
         }
+
+        new Thread(() -> {
+                    GetItemPost.getItemPost(this, prefUtils, postId, titleTextView, countCommentTextView, imageView, body);
+                }).start();
     }
 
     private void makePartOfPostRecyclerView() {

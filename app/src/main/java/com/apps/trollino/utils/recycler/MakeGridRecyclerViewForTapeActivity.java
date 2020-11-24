@@ -19,6 +19,10 @@ import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.RecyclerScrollListener;
 import com.apps.trollino.utils.data.DataListFromApi;
 
+import static com.apps.trollino.ui.main_group.PostActivity.POST_CATEGORY_KEY;
+import static com.apps.trollino.ui.main_group.PostActivity.POST_FAVORITE_VALUE;
+import static com.apps.trollino.ui.main_group.PostActivity.POST_ID_KEY;
+import static com.apps.trollino.utils.OpenPostActivityHelper.openPostActivity;
 import static com.apps.trollino.utils.networking.GetNewPosts.makeGetNewPosts;
 public class MakeGridRecyclerViewForTapeActivity extends RecyclerView.OnScrollListener{
     private static Context cont;
@@ -51,8 +55,6 @@ public class MakeGridRecyclerViewForTapeActivity extends RecyclerView.OnScrollLi
 
     // Обработка нажатия на элемент списка
     private static final PostListAdapter.OnItemClick<PostsModel.PostDetails> newPostsItemListener = (item, position) -> {
-        Log.d("OkHttp", "Pressed " + item.getPostId() + " category " + item.getCategoryName());
-        cont.startActivity(new Intent(cont, PostActivity.class));
-        ((Activity) cont).finish();
+        openPostActivity(cont, item);
     };
 }

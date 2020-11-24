@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -20,10 +19,15 @@ import com.apps.trollino.utils.data.PostListByCategoryFromApi;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.networking.GetPostsByCategory;
 
-public class MakePostsGridRecyclerViewForTapeActivity extends RecyclerView.OnScrollListener{
+import static com.apps.trollino.ui.main_group.PostActivity.POST_CATEGORY_KEY;
+import static com.apps.trollino.ui.main_group.PostActivity.POST_FAVORITE_VALUE;
+import static com.apps.trollino.ui.main_group.PostActivity.POST_ID_KEY;
+import static com.apps.trollino.utils.OpenPostActivityHelper.openPostActivity;
+
+public class MakePostsByCategoryGridRecyclerViewForTapeActivity extends RecyclerView.OnScrollListener{
     private static Context cont;
 
-    public static void makePostsGridRecyclerViewForTapeActivity(Context context, RecyclerView recyclerView, ProgressBar progressBar, PrefUtils prefUtils) {
+    public static void makePostsByCategoryGridRecyclerViewForTapeActivity(Context context, RecyclerView recyclerView, ProgressBar progressBar, PrefUtils prefUtils) {
         cont = context;
 
         PostListAdapter adapter = new PostListAdapter((BaseActivity) cont, PostListByCategoryFromApi.getInstance().getPostListByCategory(), newPostsItemListener);
@@ -50,8 +54,6 @@ public class MakePostsGridRecyclerViewForTapeActivity extends RecyclerView.OnScr
 
     // Обработка нажатия на элемент списка
     private static final PostListAdapter.OnItemClick<PostsModel.PostDetails> newPostsItemListener = (item, position) -> {
-        Log.d("OkHttp", "Pressed " + item.getPostId() + " category " + item.getCategoryName());
-        cont.startActivity(new Intent(cont, PostActivity.class));
-        ((Activity) cont).finish();
+        openPostActivity(cont, item);
     };
 }
