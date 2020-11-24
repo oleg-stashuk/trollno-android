@@ -9,14 +9,14 @@ import android.widget.TextView;
 
 import com.apps.trollino.R;
 import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
-import com.apps.trollino.data.model.PostModel;
+import com.apps.trollino.data.model.ItemPostModel;
 import com.apps.trollino.ui.base.BaseActivity;
 
 import java.util.List;
 
-public class OnePostElementAdapter extends BaseRecyclerAdapter<PostModel.OneElementPost> {
+public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.OneElementPost> {
 
-    public OnePostElementAdapter(BaseActivity baseActivity, List<PostModel.OneElementPost> items) {
+    public OnePostElementAdapter(BaseActivity baseActivity, List<ItemPostModel.OneElementPost> items) {
         super(baseActivity, items);
     }
 
@@ -29,7 +29,7 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<PostModel.OneElem
     protected BaseItem createViewHolder(final View view) {
         return new BaseItem(view) {
             @Override
-            public void bind(PostModel.OneElementPost item) {
+            public void bind(ItemPostModel.OneElementPost item) {
                 TextView titleTextView = view.findViewById(R.id.title_element_of_post);
                 ImageView imageView = view.findViewById(R.id.image_element_of_post);
                 TextView sourceTextView = view.findViewById(R.id.source_text_element_of_post);

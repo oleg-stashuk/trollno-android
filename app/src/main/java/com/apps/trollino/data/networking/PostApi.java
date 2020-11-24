@@ -1,6 +1,7 @@
 package com.apps.trollino.data.networking;
 
 import com.apps.trollino.data.model.CategoryModel;
+import com.apps.trollino.data.model.ItemPostModel;
 import com.apps.trollino.data.model.PostsModel;
 
 import java.util.List;
@@ -41,4 +42,11 @@ public interface PostApi {
     })
     @GET("/posts/category/{category_id}/list?_format=json")
     Call<PostsModel> getPostsByCategory(@Header("Cookie") String cookie, @Path("category_id") String categoryId, @Query("page") int page);
+
+    @Headers({
+            "Content-Type: application/json",
+            "Accepts: application/json"
+    })
+    @GET("/node/{post_id}?_format=json")
+    Call<ItemPostModel> getPostItem(@Header("Cookie") String cookie, @Path("post_id") String postId);
 }

@@ -1,6 +1,7 @@
 package com.apps.trollino.data.networking;
 
 import com.apps.trollino.data.model.CategoryModel;
+import com.apps.trollino.data.model.ItemPostModel;
 import com.apps.trollino.data.model.PostsModel;
 
 import java.util.List;
@@ -51,7 +52,11 @@ public class ApiService {
         postApi.getCategoryList(cookie).enqueue(callback);
     }
 
-    public  void getPostsByCategory(String cookie, String categoryId, int page, Callback<PostsModel> callback) {
+    public void getPostsByCategory(String cookie, String categoryId, int page, Callback<PostsModel> callback) {
         postApi.getPostsByCategory(cookie, categoryId, page).enqueue(callback);
+    }
+
+    public void getItemPost(String cookie, String postId, Callback<ItemPostModel> callback) {
+        postApi.getPostItem(cookie, postId).enqueue(callback);
     }
 }
