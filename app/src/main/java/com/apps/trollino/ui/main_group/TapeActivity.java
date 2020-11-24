@@ -2,25 +2,25 @@ package com.apps.trollino.ui.main_group;
 
 import android.content.Intent;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.apps.trollino.R;
-import com.apps.trollino.adapters.NewsVideoForTwoColumnsAdapter;
 import com.apps.trollino.data.model.CategoryModel;
 import com.apps.trollino.data.model.FavoriteModel;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.data.CategoryListFromApi;
 import com.apps.trollino.utils.data.DataListFromApi;
+import com.apps.trollino.utils.data.PostListByCategoryFromApi;
 import com.apps.trollino.utils.recycler.MakeGridRecyclerViewForTapeActivity;
 import com.apps.trollino.utils.recycler.MakeLinerRecyclerViewForTapeActivity;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.List;
+
+import static com.apps.trollino.utils.recycler.MakePostsGridRecyclerViewForTapeActivity.makePostsGridRecyclerViewForTapeActivity;
 
 public class TapeActivity extends BaseActivity implements View.OnClickListener{
     private RecyclerView newsRecyclerView;
@@ -56,17 +56,15 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
     private void createTabLayout() {
         List<CategoryModel> categoryList = CategoryListFromApi.getInstance().getCategoryList();
         for (CategoryModel category : categoryList) {
-            tabs.addTab(tabs.newTab().setText(category.getNameCategory()).setContentDescription(category.getIdCategory()));
+            tabs.addTab(tabs.newTab().setText(category.getNameCategory()).setTag(category.getIdCategory()));
         }
     }
 
     // Обработка нажатия на элементы горизонтального ScrollBar
     private void makeTabSelectedListener() {
-        Log.d("OkHttp", tabs.getScrollBarSize() + " - " + tabs.getTabCount());
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                Log.d("OkHttp", "" + tabs.getSelectedTabPosition());
                 selectedTabs = tabs.getSelectedTabPosition();
                 progressBar.setVisibility(View.GONE);
                 if(tabs.getSelectedTabPosition() == 0) {
@@ -74,9 +72,9 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
                 } else if(tabs.getSelectedTabPosition() == 1) {
                     MakeLinerRecyclerViewForTapeActivity.makeLinerRecyclerViewForTapeActivity(TapeActivity.this, newsRecyclerView, progressBar, prefUtils);
                 } else {
-                    DataListFromApi.getInstance().removeAllDataFromList(prefUtils);
-                    makeNewsRecyclerView();
-                    Log.d("OkHttp_1", "selected tabs " + tab.getContentDescription());
+                    prefUtils.saveSelectedCategoryId(tab.getTag().toString());
+                    PostListByCategoryFromApi.getInstance().removeAllDataFromList(prefUtils);
+                    makePostsGridRecyclerViewForTapeActivity(TapeActivity.this, newsRecyclerView, progressBar, prefUtils);
                 }
             }
 
@@ -87,19 +85,6 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
             public void onTabReselected(TabLayout.Tab tab) {}
         });
     }
-
-    private void makeNewsRecyclerView() {
-        newsRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        newsRecyclerView.setAdapter(new NewsVideoForTwoColumnsAdapter(this, newsVideoList, newsVideoGridItemListener));
-        newsRecyclerView.setHasFixedSize(true);
-    }
-
-    // Обработка нажатия на элемент списка с испотльзованием Grid
-    private final NewsVideoForTwoColumnsAdapter.OnItemClick<FavoriteModel> newsVideoGridItemListener = (item, position) -> {
-        showToast("Press " + item.getVideoId());
-        startActivity(new Intent(TapeActivity.this, PostActivity.class));
-        finish();
-    };
 
     @Override
     public void onBackPressed() {

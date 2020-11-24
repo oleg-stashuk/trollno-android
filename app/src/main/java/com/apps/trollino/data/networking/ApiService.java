@@ -50,4 +50,8 @@ public class ApiService {
     public void getCategoryList(String cookie, Callback<List<CategoryModel>> callback) {
         postApi.getCategoryList(cookie).enqueue(callback);
     }
+
+    public  void getPostsByCategory(String cookie, String categoryId, int page, Callback<PostsModel> callback) {
+        postApi.getPostsByCategory(cookie, categoryId, page).enqueue(callback);
+    }
 }

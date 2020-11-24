@@ -1,7 +1,5 @@
 package com.apps.trollino.utils.data;
 
-import android.util.Log;
-
 import com.apps.trollino.data.model.PostsModel;
 
 import java.util.ArrayList;
@@ -34,11 +32,9 @@ public class DataListFromApi {
                 }
             }
         }
-        Log.d("OkHttp", "newPostList from SingleTon (save): size " + newPostList.size());
     }
 
     public List<PostsModel.PostDetails> getNewPostsList() {
-        Log.d("OkHttp", "newPostList from SingleTon (get): size " + newPostList.size());
         return newPostList;
     }
 
@@ -48,7 +44,6 @@ public class DataListFromApi {
     }
 
     public List<PostsModel.PostDetails> getDiscussPostsList() {
-        Log.d("OkHttp", "newPostList from SingleTon (get): size " + newPostList.size());
         return discussPostList;
     }
 
@@ -56,7 +51,5 @@ public class DataListFromApi {
         newPostList.clear();
         discussPostList.clear();
         prefUtils.saveNewPostCurrentPage(0);
-        Log.d("OkHttp", "newPostList from SingleTon (remove): size " + newPostList.size());
     }
-
 }

@@ -9,6 +9,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface PostApi {
@@ -33,4 +34,11 @@ public interface PostApi {
     })
     @GET("/categories/list?_format=json")
     Call<List<CategoryModel>> getCategoryList(@Header("Cookie") String cookie);
+
+    @Headers({
+            "Content-Type: application/json",
+            "Accepts: application/json"
+    })
+    @GET("/posts/category/{category_id}/list?_format=json")
+    Call<PostsModel> getPostsByCategory(@Header("Cookie") String cookie, @Path("category_id") String categoryId, @Query("page") int page);
 }

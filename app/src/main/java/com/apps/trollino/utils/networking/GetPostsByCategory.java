@@ -9,7 +9,7 @@ import android.widget.Toast;
 import com.apps.trollino.adapters.PostListAdapter;
 import com.apps.trollino.data.model.PostsModel;
 import com.apps.trollino.data.networking.ApiService;
-import com.apps.trollino.utils.data.DataListFromApi;
+import com.apps.trollino.utils.data.PostListByCategoryFromApi;
 import com.apps.trollino.utils.data.PrefUtils;
 
 import java.util.List;
@@ -20,22 +20,22 @@ import retrofit2.Response;
 
 import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
 
-public class GetNewPosts {
+public class GetPostsByCategory {
     private static Context cont;
     private static int page;
 
-
-    public static void makeGetNewPosts(Context context, PrefUtils prefUtils, PostListAdapter adapter, ProgressBar progressBar) {
+    public static void getPostsByCategory(Context context, PrefUtils prefUtils, PostListAdapter adapter, ProgressBar progressBar) {
         cont = context;
-        page = prefUtils.getNewPostCurrentPage();
+        page = prefUtils.getPostByCategoryCurrentPage();
         String cookie = prefUtils.getCookie();
+        String categoryId = prefUtils.getSelectedCategoryId();
 
-        ApiService.getInstance().getNewPosts(cookie, page, new Callback<PostsModel>() {
+        ApiService.getInstance().getPostsByCategory(cookie, categoryId, page, new Callback<PostsModel>() {
             int countTry = 0;
 
             @Override
             public void onResponse(Call<PostsModel> call, Response<PostsModel> response) {
-                if (response.isSuccessful()) {
+                if(response.isSuccessful()) {
                     PostsModel post = response.body();
                     List<PostsModel.PostDetails> newPostList = post.getPostDetailsList();
 
@@ -76,7 +76,9 @@ public class GetNewPosts {
     }
 
     private static void updatePostListAndNotifyRecyclerAdapter(List<PostsModel.PostDetails> newPostList, PostListAdapter adapter) {
-        DataListFromApi.getInstance().saveDataInList(newPostList);
+        PostListByCategoryFromApi.getInstance().savePostByCategoryInList(newPostList);
+        Log.d("OkHttp", "postList in update 333 - " + PostListByCategoryFromApi.getInstance().getPostListByCategory().size() + " " + newPostList.size());
         adapter.notifyDataSetChanged();
     }
+
 }
