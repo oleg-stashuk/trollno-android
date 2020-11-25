@@ -29,8 +29,30 @@
             android:layout_weight="1"
             android:background="@android:color/transparent"
             style="@style/WhiteHeaderTextStyle"
-            android:text="@string/search"/>
-
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:hint="@string/search"/>
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_bar_search"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone"
+        android:progressDrawable="@color/colorPrimary"
+        android:background="@drawable/progress_bar_circle_shape" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never"
+        android:padding="10dp" />
+
+    <include
+        android:id="@+id/include_nothing_search"
+        layout="@layout/include_nothing_search"
+        android:visibility="gone" />
 
 </LinearLayout>
