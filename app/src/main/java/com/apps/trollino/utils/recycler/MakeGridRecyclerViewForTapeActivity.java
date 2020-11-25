@@ -1,10 +1,7 @@
 package com.apps.trollino.utils.recycler;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -14,21 +11,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apps.trollino.adapters.PostListAdapter;
 import com.apps.trollino.data.model.PostsModel;
 import com.apps.trollino.ui.base.BaseActivity;
-import com.apps.trollino.ui.main_group.PostActivity;
-import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.RecyclerScrollListener;
 import com.apps.trollino.utils.data.DataListFromApi;
+import com.apps.trollino.utils.data.PrefUtils;
 
-import static com.apps.trollino.ui.main_group.PostActivity.POST_CATEGORY_KEY;
-import static com.apps.trollino.ui.main_group.PostActivity.POST_FAVORITE_VALUE;
-import static com.apps.trollino.ui.main_group.PostActivity.POST_ID_KEY;
 import static com.apps.trollino.utils.OpenPostActivityHelper.openPostActivity;
 import static com.apps.trollino.utils.networking.GetNewPosts.makeGetNewPosts;
+
 public class MakeGridRecyclerViewForTapeActivity extends RecyclerView.OnScrollListener{
     private static Context cont;
+    private static PrefUtils prefUt;
 
     public static void makeNewPostsRecyclerView(Context context, RecyclerView recyclerView, ProgressBar progressBar, PrefUtils prefUtils) {
         cont = context;
+        prefUt = prefUtils;
         DataListFromApi.getInstance().removeAllDataFromList(prefUtils);
 
         PostListAdapter adapter = new PostListAdapter((BaseActivity) cont, DataListFromApi.getInstance().getNewPostsList(), newPostsItemListener);
@@ -55,6 +51,6 @@ public class MakeGridRecyclerViewForTapeActivity extends RecyclerView.OnScrollLi
 
     // Обработка нажатия на элемент списка
     private static final PostListAdapter.OnItemClick<PostsModel.PostDetails> newPostsItemListener = (item, position) -> {
-        openPostActivity(cont, item);
+        openPostActivity(cont, item, prefUt);
     };
 }

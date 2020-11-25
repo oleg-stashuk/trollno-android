@@ -20,9 +20,11 @@ import static com.apps.trollino.utils.OpenPostActivityHelper.openPostActivity;
 
 public class MakeLinerRecyclerViewForTapeActivity extends RecyclerView.OnScrollListener{
     private static Context cont;
+    private static PrefUtils prefUt;
 
     public static void makeLinerRecyclerViewForTapeActivity(Context context, RecyclerView recyclerView, ProgressBar progressBar, PrefUtils prefUtils) {
         cont = context;
+        prefUt = prefUtils;
 
         DiscussPostsAdapter adapter = new DiscussPostsAdapter((BaseActivity) context, DataListFromApi.getInstance().getDiscussPostsList(), newsVideoItemListener);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
@@ -47,7 +49,7 @@ public class MakeLinerRecyclerViewForTapeActivity extends RecyclerView.OnScrollL
 
     // Обработка нажатия на элемент списка
     private static final DiscussPostsAdapter.OnItemClick<PostsModel.PostDetails> newsVideoItemListener = (item, position) -> {
-            openPostActivity(cont, item);
+            openPostActivity(cont, item, prefUt);
         };
 
 }

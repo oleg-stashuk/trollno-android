@@ -88,6 +88,7 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
 
     @Override
     public void onBackPressed() {
+        removeAllDataFromPostList();
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
             return;
@@ -98,26 +99,31 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
         new Handler().postDelayed(() -> doubleBackToExitPressedOnce=false, 2000);
     }
 
+    private void removeAllDataFromPostList() {
+        DataListFromApi.getInstance().removeAllDataFromList(prefUtils);
+        PostListByCategoryFromApi.getInstance().removeAllDataFromList(prefUtils);
+    }
+
     @Override
     public void onClick(View view) {
         switch(view.getId()) {
             case R.id.search_button_tape: // "Перейти на экран Поиска"
-                DataListFromApi.getInstance().removeAllDataFromList(prefUtils);
+                removeAllDataFromPostList();
                 startActivity(new Intent(this, SearchActivity.class));
                 finish();
                 break;
             case R.id.activity_button_tape: // "Перейти на экран Активность"
-                DataListFromApi.getInstance().removeAllDataFromList(prefUtils);
+                removeAllDataFromPostList();
                 startActivity(new Intent(this, ActivityInPostActivity.class));
                 finish();
                 break;
             case R.id.favorites_button_tape: // "Перейти на экран Избранное"
-                DataListFromApi.getInstance().removeAllDataFromList(prefUtils);
+                removeAllDataFromPostList();
                 startActivity(new Intent(this, FavoriteActivity.class));
                 finish();
                 break;
             case R.id.profile_button_tape: // "Перейти на экран Профиль"
-                DataListFromApi.getInstance().removeAllDataFromList(prefUtils);
+                removeAllDataFromPostList();
                 startActivity(new Intent(this, ProfileActivity.class));
                 finish();
                 break;
