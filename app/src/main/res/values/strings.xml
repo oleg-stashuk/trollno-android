@@ -48,6 +48,8 @@
     <string name="exit">Выйти</string>
     <string name="other_our_apps">Другие наши приложения</string>
     <string name="press_twice_to_exit">Нажмите 2 раза для выхода из приложения</string>
+    <string name="nothing_search">По Вашему запросу ничего не найдено</string>
+    <string name="enter_data_to_search">Пожалуйста, введите данные для поиска</string>
 
     <string-array name="sort_comment_value">
         <item>по рейтингу</item>

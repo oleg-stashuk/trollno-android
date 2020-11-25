@@ -59,4 +59,8 @@ public class ApiService {
     public void getItemPost(String cookie, String postId, Callback<ItemPostModel> callback) {
         postApi.getPostItem(cookie, postId).enqueue(callback);
     }
+
+    public void getSearchPosts(String cookie, String searchText, int page, Callback<PostsModel> callback) {
+        postApi.getSearchPosts(cookie, searchText, page).enqueue(callback);
+    }
 }

@@ -49,4 +49,12 @@ public interface PostApi {
     })
     @GET("/node/{post_id}?_format=json")
     Call<ItemPostModel> getPostItem(@Header("Cookie") String cookie, @Path("post_id") String postId);
+
+    @Headers({
+            "Content-Type: application/json",
+            "Accepts: application/json"
+    })
+    @GET("/posts/search")
+    Call<PostsModel> getSearchPosts(@Header("Cookie") String cookie, @Query("title") String textSearch, @Query("page") int page);
+//    "/posts/search?title=<STEXT>"
 }
