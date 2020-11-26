@@ -47,7 +47,6 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
         findViewById(R.id.add_comment_button_post_activity).setOnClickListener(this);
 
         makePartOfPostRecyclerView();
-
         initToolbar();
 
         int favoriteValue = this.getIntent().getIntExtra(POST_FAVORITE_VALUE, 0);

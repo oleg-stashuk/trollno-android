@@ -3,7 +3,6 @@ package com.apps.trollino.utils;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
-import android.util.Log;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageButton;
@@ -19,7 +18,6 @@ public class ImageViewDialog {
     public void showDialog(Context context, String msg, String imageUrl){
         int width = ViewGroup.LayoutParams.MATCH_PARENT;
         int height = ViewGroup.LayoutParams.MATCH_PARENT;
-
 
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -44,12 +42,10 @@ public class ImageViewDialog {
         try {
             Picasso.get()
                     .load(imageUrl)
-                    .error(R.drawable.icon_facebook)
+//                    .error(R.drawable.icon_facebook)
                     .into(image);
-            Log.d("OkHttp", "try");
         } catch (Exception e) {
             e.printStackTrace();
-            Log.d("OkHttp", "catch");
         }
 
         dialog.show();

@@ -73,9 +73,9 @@ public class GetPostBySearch {
 
     private static void saveCurrentPage(int totalPage, PrefUtils prefUtils) {
         if(page < totalPage - 1) {
-            prefUtils.saveNewPostCurrentPage(++page);
+            prefUtils.saveNewPostCurrentPage(totalPage++);
         } else {
-            prefUtils.saveNewPostCurrentPage(totalPage - 1);
+            prefUtils.saveNewPostCurrentPage(totalPage--);
         }
     }
 

@@ -7,11 +7,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.apps.trollino.R;
 import com.apps.trollino.data.model.ItemPostModel;
 import com.apps.trollino.data.networking.ApiService;
+import com.apps.trollino.utils.ImageViewDialog;
 import com.apps.trollino.utils.data.PrefUtils;
-import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -23,8 +23,9 @@ import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
 
 public class GetItemPost {
     private static Context cont;
+    private static ItemPostModel model;
 
-    public static void getItemPost(Context context, PrefUtils prefUtils, String postId, TextView titleTextView, TextView countComment, ImageView image, TextView bodyPost) {
+    public static void getItemPost(Context context, PrefUtils prefUtils, String postId, TextView titleTextView, TextView countCommentTextView, ImageView imageView, TextView bodyPostTextView) {
         cont = context;
         String cookie = prefUtils.getCookie();
 
@@ -35,53 +36,12 @@ public class GetItemPost {
             public void onResponse(Call<ItemPostModel> call, Response<ItemPostModel> response) {
                 if(response.isSuccessful()) {
                     Log.d("OkHttp", "response isSuccessful");
-                    ItemPostModel model = response.body();
+                    model = response.body();
 
-                    List<ItemPostModel.TitlePost> titleModel = model.getTitle();
-                    for(ItemPostModel.TitlePost title : titleModel) {
-                        titleTextView.setText(title.getTitle());
-                    }
-
-                    List<ItemPostModel.BannerPost> bannerModel = model.getBanner();
-                    for(ItemPostModel.BannerPost banner : bannerModel) {
-                        String imageUrl = banner.getUrlBanner();
-                        if (imageUrl.isEmpty()) {
-                            image.setVisibility(View.GONE);
-                        } else {
-                            image.setVisibility(View.VISIBLE);
-                            Glide
-                                    .with(context)
-                                    .load(imageUrl)
-                                    .centerCrop()
-                                    .placeholder(R.color.colorGreyBackgroundVideo)
-                                    .fallback(R.color.colorGreyBackgroundVideo)
-                                    .into(image);
-                        }
-                    }
-
-                    List<ItemPostModel.BodyPost> bodyModel = model.getBody();
-                    for(ItemPostModel.BodyPost body : bodyModel) {
-                        String text = body.getTextPostBody();
-                        if (text.isEmpty()) {
-                            bodyPost.setVisibility(View.GONE);
-                        } else {
-                            bodyPost.setVisibility(View.VISIBLE);
-                            bodyPost.setText(text);
-                        }
-                    }
-
-
-                    List<ItemPostModel.CommentPost> commentModel = model.getComment();
-                    for(ItemPostModel.CommentPost comment : commentModel) {
-                        if(comment.getCommentCont() > 0) {
-                            countComment.setVisibility(View.VISIBLE);
-                            countComment.setText(String.valueOf(comment.getCommentCont()));
-                        } else {
-                            countComment.setVisibility(View.GONE);
-                        }
-                    }
-
-
+                    setPostTitle(titleTextView);
+                    setPostHeadBanner(imageView);
+                    setPostHeadText(bodyPostTextView);
+                    setCommentCount(countCommentTextView);
 
                 } else {
                     showToast(response.errorBody().toString());
@@ -102,6 +62,60 @@ public class GetItemPost {
             }
         });
 
+    }
+
+    private static void setPostTitle(TextView titleTextView) {
+        List<ItemPostModel.TitlePost> titleModel = model.getTitle();
+        for(ItemPostModel.TitlePost title : titleModel) {
+            titleTextView.setText(title.getTitle());
+        }
+    }
+
+    private static void setPostHeadBanner(ImageView imageView) {
+        List<ItemPostModel.BannerPost> bannerModel = model.getBanner();
+        for(ItemPostModel.BannerPost banner : bannerModel) {
+            String imageUrl = banner.getUrlBanner();
+            if (imageUrl.isEmpty()) {
+                imageView.setVisibility(View.GONE);
+            } else {
+                imageView.setVisibility(View.VISIBLE);
+                Picasso
+                        .get()
+                        .load(imageUrl)
+                        .into(imageView);
+            }
+
+            imageView.setOnClickListener(v -> {
+                ImageViewDialog dialog = new ImageViewDialog();
+                dialog.showDialog(cont, "", imageUrl);
+            });
+        }
+    }
+
+
+    private static void setPostHeadText(TextView bodyPostTextView) {
+        List<ItemPostModel.BodyPost> bodyModel = model.getBody();
+        for(ItemPostModel.BodyPost body : bodyModel) {
+            String text = body.getTextPostBody();
+            if (text.isEmpty()) {
+                bodyPostTextView.setVisibility(View.GONE);
+            } else {
+                bodyPostTextView.setVisibility(View.VISIBLE);
+                bodyPostTextView.setText(text);
+            }
+        }
+    }
+
+    private static void setCommentCount(TextView countCommentTextView) {
+        List<ItemPostModel.CommentPost> commentModel = model.getComment();
+        for(ItemPostModel.CommentPost comment : commentModel) {
+            if(comment.getCommentCont() > 0) {
+                countCommentTextView.setVisibility(View.VISIBLE);
+                countCommentTextView.setText(String.valueOf(comment.getCommentCont()));
+            } else {
+                countCommentTextView.setVisibility(View.GONE);
+            }
+        }
     }
 
 
