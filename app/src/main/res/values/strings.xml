@@ -50,6 +50,8 @@
     <string name="press_twice_to_exit">Нажмите 2 раза для выхода из приложения</string>
     <string name="nothing_search">По Вашему запросу ничего не найдено</string>
     <string name="enter_data_to_search">Пожалуйста, введите данные для поиска</string>
+    <string name="read_the_comment">Читать комментарии</string>
+    <string name="write_the_comment">Написать комментарий</string>
 
     <string-array name="sort_comment_value">
         <item>по рейтингу</item>

@@ -3,10 +3,12 @@ package com.apps.trollino.utils.networking;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.apps.trollino.R;
 import com.apps.trollino.data.model.ItemPostModel;
 import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.utils.ImageViewDialog;
@@ -25,7 +27,9 @@ public class GetItemPost {
     private static Context cont;
     private static ItemPostModel model;
 
-    public static void getItemPost(Context context, PrefUtils prefUtils, String postId, TextView titleTextView, TextView countCommentTextView, ImageView imageView, TextView bodyPostTextView) {
+    public static void getItemPost(Context context, PrefUtils prefUtils, String postId, TextView titleTextView,
+                                   TextView countCommentTextView, Button commentButton, ImageView imageView,
+                                   TextView bodyPostTextView) {
         cont = context;
         String cookie = prefUtils.getCookie();
 
@@ -41,7 +45,7 @@ public class GetItemPost {
                     setPostTitle(titleTextView);
                     setPostHeadBanner(imageView);
                     setPostHeadText(bodyPostTextView);
-                    setCommentCount(countCommentTextView);
+                    setCommentCount(countCommentTextView, commentButton);
 
                 } else {
                     showToast(response.errorBody().toString());
@@ -106,14 +110,16 @@ public class GetItemPost {
         }
     }
 
-    private static void setCommentCount(TextView countCommentTextView) {
+    private static void setCommentCount(TextView countCommentTextView, Button commentButton) {
         List<ItemPostModel.CommentPost> commentModel = model.getComment();
         for(ItemPostModel.CommentPost comment : commentModel) {
             if(comment.getCommentCont() > 0) {
                 countCommentTextView.setVisibility(View.VISIBLE);
                 countCommentTextView.setText(String.valueOf(comment.getCommentCont()));
+                commentButton.setText(R.string.read_the_comment);
             } else {
                 countCommentTextView.setVisibility(View.GONE);
+                commentButton.setText(R.string.write_the_comment);
             }
         }
     }

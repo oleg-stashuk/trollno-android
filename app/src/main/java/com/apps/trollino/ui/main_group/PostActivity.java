@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -44,7 +45,8 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
         TextView countCommentTextView = findViewById(R.id.comment_count_post_activity);
         ImageView imageView = findViewById(R.id.image_post_activity);
         TextView body = findViewById(R.id.body_post_activity);
-        findViewById(R.id.add_comment_button_post_activity).setOnClickListener(this);
+        Button commentButton = findViewById(R.id.add_comment_button_post_activity);
+        commentButton.setOnClickListener(this);
 
         makePartOfPostRecyclerView();
         initToolbar();
@@ -53,6 +55,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
         String postId = this.getIntent().getStringExtra(POST_ID_KEY);
         String category = this.getIntent().getStringExtra(POST_CATEGORY_KEY);
         categoryTextView.setText(category);
+        categoryTextView.setFocusable(true);
 
         if (favoriteValue == 0) {
             isFavoritePost = false;
@@ -61,13 +64,14 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
         }
 
         new Thread(() -> {
-                    GetItemPost.getItemPost(this, prefUtils, postId, titleTextView, countCommentTextView, imageView, body);
+                    GetItemPost.getItemPost(this, prefUtils, postId, titleTextView, countCommentTextView, commentButton, imageView, body);
                 }).start();
     }
 
     private void makePartOfPostRecyclerView() {
         partOfPostRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         partOfPostRecyclerView.setAdapter(new OnePostElementAdapter(this, postElementsList));
+        partOfPostRecyclerView.setFocusable(false);
     }
 
     // Иницировать Toolbar
@@ -102,6 +106,12 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
         }
     }
 
+    // Open activity with category
+    private void commentToPostActivity() {
+        startActivity(new Intent(this, CommentToPostActivity.class));
+        finish();
+    }
+
     // Обрабтка нажантия на выпадающий список из Menu
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -110,8 +120,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
                 onBackPressed();
                 break;
             case R.id.comment_button:
-                startActivity(new Intent(this, CommentToPostActivity.class));
-                finish();
+                commentToPostActivity();
                 break;
             case R.id.favorite_button:
                 isFavoritePost = !isFavoritePost;
@@ -131,8 +140,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.add_comment_button_post_activity:
-                startActivity(new Intent(this, CommentToPostActivity.class));
-                finish();
+                commentToPostActivity();
                 break;
         }
     }

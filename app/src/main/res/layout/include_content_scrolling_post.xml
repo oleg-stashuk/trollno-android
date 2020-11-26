@@ -29,8 +29,7 @@
                 android:layout_marginTop="5dp"
                 android:padding="10dp"
                 android:background="@color/colorGreyBackgroundVideo"
-                android:textColor="@color/colorText"
-                android:hint="Категория"/>
+                android:textColor="@color/colorText"/>
 
             <TextView
                 android:id="@+id/title_post_activity"
@@ -97,13 +96,12 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:background="@drawable/button_background"
+                        android:paddingLeft="10dp"
                         android:paddingTop="10dp"
+                        android:paddingRight="10dp"
                         android:paddingBottom="10dp"
-                        android:paddingRight="30dp"
-                        android:paddingLeft="30dp"
                         android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:text="@string/comments" />
+                        android:textStyle="bold" />
 
                 </com.balysv.materialripple.MaterialRippleLayout>
 
