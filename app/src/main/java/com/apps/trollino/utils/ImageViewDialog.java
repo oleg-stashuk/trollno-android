@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +26,9 @@ public class ImageViewDialog {
         dialog.setContentView(R.layout.custom_dialog_image_view);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.getWindow().setLayout(width, height);
+
+        RelativeLayout relativeLayout = dialog.findViewById(R.id.custom_dialog_image_view);
+        makeTouchListener(dialog, relativeLayout);
 
         TextView text = dialog.findViewById(R.id.text_dialog_view);
         text.setText(msg);
@@ -49,6 +53,27 @@ public class ImageViewDialog {
         }
 
         dialog.show();
+    }
+
+
+    // Действия при свайпах в разные стороны
+    private void makeTouchListener(final Dialog dialog, RelativeLayout relativeLayout) {
+        relativeLayout.setOnTouchListener(new OnSwipeTouchListener(dialog.getContext()) {
+            public void onSwipeTop() {
+                dialog.dismiss();
+            }
+
+            public void onSwipeRight() {
+            }
+
+            public void onSwipeLeft() {
+            }
+
+            public void onSwipeBottom() {
+                dialog.dismiss();
+            }
+
+        });
     }
 
 }
