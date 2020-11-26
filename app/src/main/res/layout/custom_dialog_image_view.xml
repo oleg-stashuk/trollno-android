@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#313131"
+    android:paddingTop="20dp"
+    android:paddingBottom="20dp">
+
+    <ImageButton
+        android:id="@+id/close_button_dialog_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:src="@drawable/ic_close_button"
+        android:background="@android:color/transparent"/>
+
+    <TextView
+        android:id="@+id/text_dialog_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:layout_below="@+id/close_button_dialog_view"
+        android:textColor="@color/white"
+        android:text="Source"/>
+
+    <ImageView
+        android:id="@+id/image_dialog_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:layout_centerInParent="true"/>
+
+    <ImageButton
+        android:id="@+id/share_button_dialog_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_share_button"
+        android:background="@android:color/transparent"
+        android:padding="20dp"/>
+
+</RelativeLayout>
