@@ -3,6 +3,9 @@ package com.apps.trollino.data.networking;
 import com.apps.trollino.data.model.CategoryModel;
 import com.apps.trollino.data.model.ItemPostModel;
 import com.apps.trollino.data.model.PostsModel;
+import com.apps.trollino.utils.castom_converter.CustomConverterForItemPost;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.List;
 
@@ -26,12 +29,18 @@ public class ApiService {
     }
 
     private ApiService() {
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(ItemPostModel.class, new CustomConverterForItemPost())
+//                .registerTypeAdapter(ItemPostModel.class, new CustomConverterForItemPost())
+                .create();
+
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         httpClient.addInterceptor(logging);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient.build())
                 .build();
