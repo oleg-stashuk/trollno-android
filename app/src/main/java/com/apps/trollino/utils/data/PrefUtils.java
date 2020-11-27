@@ -10,6 +10,8 @@ public class PrefUtils {
     private final String NEW_POST_CURRENT_PAGE = "NEW_POST_CURRENT_PAGE"; // запоминание текущей страницы данных с Api для постов из категории "Свежее"
     private final String POST_BY_CATEGORY_CURRENT_PAGE = "POST_BY_CATEGORY_CURRENT_PAGE"; // запоминание текущей страницы данных с Api для постов из категорий, загружаемых с Api
     private final String SELECTED_CATEGORY_ID = "SELECTED_CATEGORY_ID"; // запоминание ID выбранной категории
+    private final String NEXT_POST_ID = "NEXT_POST_ID"; // запоминание ID следующего поста
+    private final String PREV_POST_ID = "PREV_POST_ID"; // запоминание ID предыдущего поста
 
     public PrefUtils(SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
@@ -57,5 +59,21 @@ public class PrefUtils {
 
     public void saveSelectedCategoryId(String categoryId) {
         getEditor().putString(SELECTED_CATEGORY_ID, categoryId).apply();
+    }
+
+    public String getNextPostId() {
+        return sharedPreferences.getString(NEXT_POST_ID, "");
+    }
+
+    public void saveNextPostId(String postId) {
+        getEditor().putString(NEXT_POST_ID, postId).apply();
+    }
+
+    public String gePrevPostId() {
+        return sharedPreferences.getString(PREV_POST_ID, "");
+    }
+
+    public void savePrevPostId(String postId) {
+        getEditor().putString(PREV_POST_ID, postId).apply();
     }
 }

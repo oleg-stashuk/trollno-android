@@ -79,9 +79,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
             isFavoritePost = true;
         }
 
-        new Thread(() -> {
-                    GetItemPost.getItemPost(this, prefUtils, postId, titleTextView, countCommentTextView, commentButton, imageView, body);
-                }).start();
+        getPostFromAPi(currentPostId);
     }
 
     private void makePartOfPostRecyclerView() {
@@ -89,27 +87,28 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
         partOfPostRecyclerView.setAdapter(new OnePostElementAdapter(this, postElementsList));
         partOfPostRecyclerView.setFocusable(false);
 //                                                                                                  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        partOfPostRecyclerView.setOnFlingListener(new RecyclerView.OnFlingListener() {
-            int MAX_VELOCITY_X = 10;
-
-            @Override
-            public boolean onFling(int velocityX, int velocityY) {
-                if (Math.abs(velocityY) > 100) {
-                    velocityY = 100 * (int) Math.signum((double)velocityY);
-                    partOfPostRecyclerView.fling(velocityX, velocityY);
-                    Log.d("OkHttp", "!!!!!!!!!!!!!!!!!!!!!");
-                    return true;
-                }
-                if (Math.abs(velocityX) > 1) {
-                    velocityX = 10 * (int) Math.signum((double)velocityX);
-                    partOfPostRecyclerView.fling(velocityX, velocityY);
-                    Log.d("OkHttp", "222222222222222222222");
-                    return true;
-                }
-
-                return false;
-            }
-        });
+//        partOfPostRecyclerView.setOnFlingListener(new RecyclerView.OnFlingListener() {
+//            int MAX_VELOCITY_X = 10;
+//
+//            @Override
+//            public boolean onFling(int velocityX, int velocityY) {
+//                Log.d("OkHttp", velocityX + " " + velocityY);
+//                if (Math.abs(velocityY) > 100) {
+//                    velocityY = 100 * (int) Math.signum((double)velocityY);
+//                    partOfPostRecyclerView.fling(velocityX, velocityY);
+//                    Log.d("OkHttp", "!!!!!!!!!!!!!!!!!!!!!");
+//                    return true;
+//                }
+//                if (Math.abs(velocityX) > 100) {
+//                    velocityX = 10 * (int) Math.signum((double)velocityX);
+//                    partOfPostRecyclerView.fling(velocityX, velocityY);
+//                    Log.d("OkHttp", "222222222222222222222");
+//                    return true;
+//                }
+//
+//                return false;
+//            }
+//        });
 //                                                                                                  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }
 
@@ -145,20 +144,34 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
         }
     }
 
-//                                                                                                  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     // Действия при свайпах в разные стороны
     private void makeTouchListener() {
         layout.setOnTouchListener(new OnSwipeTouchListener(this) {
             public void onSwipeRight() {
                 showToast("onSwipeRight");
+                String prevPostId = prefUtils.gePrevPostId();
+                if(!prevPostId.isEmpty() && prevPostId.length() > 0) {
+                    getPostFromAPi(prevPostId);
+                }
             }
 
             public void onSwipeLeft() {
                 showToast("onSwipeLeft");
+                String nextPostId = prefUtils.getNextPostId();
+                if(!nextPostId.isEmpty() && nextPostId.length() > 0) {
+                    getPostFromAPi(nextPostId);
+                }
             }
         });
     }
-//                                                                                                  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    // Get post data by Id from API
+    private void getPostFromAPi(String postId) {
+        layout.smoothScrollTo(0, layout.getTop());
+        new Thread(() -> {
+            GetItemPost.getItemPost(PostActivity.this, prefUtils, postId, titleTextView, countCommentTextView, commentButton, imageView, body, isPostFromCategory);
+        }).start();
+    }
 
     // Open activity with category
     private void commentToPostActivity() {

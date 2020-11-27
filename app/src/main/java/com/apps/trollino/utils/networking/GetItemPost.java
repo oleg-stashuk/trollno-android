@@ -29,7 +29,7 @@ public class GetItemPost {
 
     public static void getItemPost(Context context, PrefUtils prefUtils, String postId, TextView titleTextView,
                                    TextView countCommentTextView, Button commentButton, ImageView imageView,
-                                   TextView bodyPostTextView) {
+                                   TextView bodyPostTextView, boolean isPostFromCategory) {
         cont = context;
         String cookie = prefUtils.getCookie();
 
@@ -46,6 +46,7 @@ public class GetItemPost {
                     setPostHeadBanner(imageView);
                     setPostHeadText(bodyPostTextView);
                     setCommentCount(countCommentTextView, commentButton);
+                    saveNextAndPrevPostId(isPostFromCategory, prefUtils);
 
                 } else {
                     showToast(response.errorBody().toString());
@@ -124,6 +125,34 @@ public class GetItemPost {
         }
     }
 
+    private static void saveNextAndPrevPostId(boolean isPostFromCategory, PrefUtils prefUtils) {
+        if(isPostFromCategory) {
+            List<ItemPostModel.CategoryPost> nextPostList = model.getNextPost().getCategory();
+            for(ItemPostModel.CategoryPost post : nextPostList) {
+                prefUtils.saveNextPostId(String.valueOf(post.getIdCategory()));
+                Log.d("OkHttp", "next in category: " + post.getIdCategory());
+            }
+
+            List<ItemPostModel.CategoryPost> prevPostList = model.getPrevPost().getCategory();
+            for(ItemPostModel.CategoryPost post : prevPostList) {
+                prefUtils.savePrevPostId(String.valueOf(post.getIdCategory()));
+                Log.d("OkHttp", "prev in category: " + post.getIdCategory());
+            }
+
+        } else {
+            List<ItemPostModel.CategoryPost> nextPostList = model.getNextPost().getPubl();
+            for(ItemPostModel.CategoryPost post : nextPostList) {
+                prefUtils.saveNextPostId(String.valueOf(post.getIdCategory()));
+                Log.d("OkHttp", "next in other: " + post.getIdCategory());
+            }
+
+            List<ItemPostModel.CategoryPost> prevPostList = model.getPrevPost().getCategory();
+            for(ItemPostModel.CategoryPost post : prevPostList) {
+                prefUtils.savePrevPostId(String.valueOf(post.getIdCategory()));
+                Log.d("OkHttp", "prev in other: " + post.getIdCategory());
+            }
+        }
+    }
 
     private static void showToast(String message) {
         Toast.makeText(cont, message, Toast.LENGTH_SHORT).show();

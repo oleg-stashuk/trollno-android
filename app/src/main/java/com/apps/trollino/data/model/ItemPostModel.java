@@ -28,12 +28,12 @@ public class ItemPostModel {
     @SerializedName("field_mediablocks")
     @Expose
     private List<MediaBlock> mediaBlock;
-//    @SerializedName("next_node")
-//    @Expose
-//    private NeighboringPost nextPost;
-//    @SerializedName("prev_node")
-//    @Expose
-//    private NeighboringPost prevPost;
+    @SerializedName("next_node")
+    @Expose
+    private NeighboringPost nextPost;
+    @SerializedName("prev_node")
+    @Expose
+    private NeighboringPost prevPost;
 
     public List<IdPost> getPostId() {
         return postId;
@@ -63,13 +63,13 @@ public class ItemPostModel {
         return mediaBlock;
     }
 
-//    public NeighboringPost getNextPost() {
-//        return nextPost;
-//    }
-//
-//    public NeighboringPost getPrevPost() {
-//        return prevPost;
-//    }
+    public NeighboringPost getNextPost() {
+        return nextPost;
+    }
+
+    public NeighboringPost getPrevPost() {
+        return prevPost;
+    }
 
 
     public class IdPost {

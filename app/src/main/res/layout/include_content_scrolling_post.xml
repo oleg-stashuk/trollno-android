@@ -37,7 +37,6 @@
                 style="@style/BoldHeaderTextStyle_h1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Заголовок"
                 android:padding="10dp" />
 
             <ImageView
@@ -53,7 +52,6 @@
                 android:id="@+id/body_post_activity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Статья"
                 android:padding="10dp" />
 
         </LinearLayout>
