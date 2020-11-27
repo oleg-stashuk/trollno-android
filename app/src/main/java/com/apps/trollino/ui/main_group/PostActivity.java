@@ -1,7 +1,6 @@
 package com.apps.trollino.ui.main_group;
 
 import android.content.Intent;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,12 +28,22 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
     public static String POST_ID_KEY = "POST_ID_KEY";
     public static String POST_CATEGORY_KEY = "POST_CATEGORY_KEY";
     public static String POST_FAVORITE_VALUE = "POST_FAVORITE_VALUE";
+    // Если пост открыт с категории, то предыдущий/следующий пост смотрим в данных с API для "category", если со Свежее или Обсуждаемое - с "publ"
+    public static String POST_FROM_CATEGORY_LIST = "POST_FROM_CATEGORY_LIST";
 
-    private NestedScrollView layout;//                                                                                                  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    private NestedScrollView layout;
+    private TextView categoryTextView;
+    private TextView titleTextView;
+    private TextView countCommentTextView;
+    private ImageView imageView;
+    private TextView body;
+    private Button commentButton;
+
     private Menu menu;
     private RecyclerView partOfPostRecyclerView;
     private List<ItemPostModel.OneElementPost> postElementsList = ItemPostModel.OneElementPost.makePostElementsList();
     private boolean isFavoritePost;
+    private boolean isPostFromCategory;
 
     @Override
     protected int getLayoutID() {
@@ -43,23 +52,24 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
 
     @Override
     protected void initView() {
-        layout = findViewById(R.id.include_post_screen); //                                                                                                  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        layout = findViewById(R.id.include_post_screen);
         partOfPostRecyclerView = findViewById(R.id.recycler_post_activity);
-        TextView categoryTextView = findViewById(R.id.category_post_activity);
-        TextView titleTextView = findViewById(R.id.title_post_activity);
-        TextView countCommentTextView = findViewById(R.id.comment_count_post_activity);
-        ImageView imageView = findViewById(R.id.image_post_activity);
-        TextView body = findViewById(R.id.body_post_activity);
-        Button commentButton = findViewById(R.id.add_comment_button_post_activity);
+        categoryTextView = findViewById(R.id.category_post_activity);
+        titleTextView = findViewById(R.id.title_post_activity);
+        countCommentTextView = findViewById(R.id.comment_count_post_activity);
+        imageView = findViewById(R.id.image_post_activity);
+        body = findViewById(R.id.body_post_activity);
+        commentButton = findViewById(R.id.add_comment_button_post_activity);
         commentButton.setOnClickListener(this);
 
         makePartOfPostRecyclerView();
         initToolbar();
-        makeTouchListener(); //                                                                                                  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        makeTouchListener();
 
         int favoriteValue = this.getIntent().getIntExtra(POST_FAVORITE_VALUE, 0);
-        String postId = this.getIntent().getStringExtra(POST_ID_KEY);
+        String currentPostId = this.getIntent().getStringExtra(POST_ID_KEY);
         String category = this.getIntent().getStringExtra(POST_CATEGORY_KEY);
+        isPostFromCategory = this.getIntent().getBooleanExtra(POST_FROM_CATEGORY_LIST, false);
         categoryTextView.setText(category);
         categoryTextView.setFocusable(true);
 

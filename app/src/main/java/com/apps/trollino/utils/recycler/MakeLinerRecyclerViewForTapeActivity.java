@@ -49,7 +49,7 @@ public class MakeLinerRecyclerViewForTapeActivity extends RecyclerView.OnScrollL
 
     // Обработка нажатия на элемент списка
     private static final DiscussPostsAdapter.OnItemClick<PostsModel.PostDetails> newsVideoItemListener = (item, position) -> {
-            openPostActivity(cont, item, prefUt);
+            openPostActivity(cont, item, prefUt, false);
         };
 
 }

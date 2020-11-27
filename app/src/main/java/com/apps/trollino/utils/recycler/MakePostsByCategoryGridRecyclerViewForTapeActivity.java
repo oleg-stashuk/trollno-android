@@ -50,6 +50,6 @@ public class MakePostsByCategoryGridRecyclerViewForTapeActivity extends Recycler
 
     // Обработка нажатия на элемент списка
     private static final PostListAdapter.OnItemClick<PostsModel.PostDetails> newPostsItemListener = (item, position) -> {
-        openPostActivity(cont, item, prefUt);
+        openPostActivity(cont, item, prefUt, true);
     };
 }

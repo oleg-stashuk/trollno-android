@@ -100,7 +100,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
 
     // Обработка нажатия на элемент списка
     private final PostListAdapter.OnItemClick<PostsModel.PostDetails> searchPostsItemListener = (item, position) -> {
-        openPostActivity(this, item, prefUtils);
+        openPostActivity(this, item, prefUtils, false);
     };
 
     @Override
