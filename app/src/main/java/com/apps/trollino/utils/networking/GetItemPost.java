@@ -9,9 +9,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apps.trollino.R;
+import com.apps.trollino.data.model.CategoryModel;
 import com.apps.trollino.data.model.ItemPostModel;
 import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.utils.ImageViewDialog;
+import com.apps.trollino.utils.data.CategoryListFromApi;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.squareup.picasso.Picasso;
 
@@ -27,7 +29,7 @@ public class GetItemPost {
     private static Context cont;
     private static ItemPostModel model;
 
-    public static void getItemPost(Context context, PrefUtils prefUtils, String postId, TextView titleTextView,
+    public static void getItemPost(Context context, PrefUtils prefUtils, TextView categoryTextView, String postId, TextView titleTextView,
                                    TextView countCommentTextView, Button commentButton, ImageView imageView,
                                    TextView bodyPostTextView, boolean isPostFromCategory) {
         cont = context;
@@ -42,6 +44,7 @@ public class GetItemPost {
                     Log.d("OkHttp", "response isSuccessful");
                     model = response.body();
 
+                    setPostCategory(categoryTextView);
                     setPostTitle(titleTextView);
                     setPostHeadBanner(imageView);
                     setPostHeadText(bodyPostTextView);
@@ -67,6 +70,21 @@ public class GetItemPost {
             }
         });
 
+    }
+
+    private static void setPostCategory(TextView categoryTextView) {
+        List<CategoryModel> categoryList = CategoryListFromApi.getInstance().getCategoryList();
+        List<ItemPostModel.CategoryPost> categoryIdList = model.getCategory();
+        String categoryId = "";
+        for(ItemPostModel.CategoryPost id : categoryIdList) {
+            categoryId = String.valueOf(id.getIdCategory());
+        }
+
+        for(CategoryModel category : categoryList) {
+            if (categoryId.equals(category.getIdCategory())){
+                categoryTextView.setText(category.getNameCategory());
+            }
+        }
     }
 
     private static void setPostTitle(TextView titleTextView) {

@@ -26,7 +26,6 @@ import java.util.List;
 
 public class PostActivity extends BaseActivity implements View.OnClickListener{
     public static String POST_ID_KEY = "POST_ID_KEY";
-    public static String POST_CATEGORY_KEY = "POST_CATEGORY_KEY";
     public static String POST_FAVORITE_VALUE = "POST_FAVORITE_VALUE";
     // Если пост открыт с категории, то предыдущий/следующий пост смотрим в данных с API для "category", если со Свежее или Обсуждаемое - с "publ"
     public static String POST_FROM_CATEGORY_LIST = "POST_FROM_CATEGORY_LIST";
@@ -68,9 +67,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
 
         int favoriteValue = this.getIntent().getIntExtra(POST_FAVORITE_VALUE, 0);
         String currentPostId = this.getIntent().getStringExtra(POST_ID_KEY);
-        String category = this.getIntent().getStringExtra(POST_CATEGORY_KEY);
         isPostFromCategory = this.getIntent().getBooleanExtra(POST_FROM_CATEGORY_LIST, false);
-        categoryTextView.setText(category);
         categoryTextView.setFocusable(true);
 
         if (favoriteValue == 0) {
@@ -169,13 +166,13 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
     private void getPostFromAPi(String postId) {
         layout.smoothScrollTo(0, layout.getTop());
         new Thread(() -> {
-            GetItemPost.getItemPost(PostActivity.this, prefUtils, postId, titleTextView, countCommentTextView, commentButton, imageView, body, isPostFromCategory);
+            GetItemPost.getItemPost(PostActivity.this, prefUtils, categoryTextView, postId, titleTextView, countCommentTextView, commentButton, imageView, body, isPostFromCategory);
         }).start();
     }
 
     // Open activity with category
     private void commentToPostActivity() {
-        startActivity(new Intent(this, CommentToPostActivity.class));
+        startActivity(new Intent( this, CommentToPostActivity.class));
         finish();
     }
 
