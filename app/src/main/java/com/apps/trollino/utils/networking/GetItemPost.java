@@ -42,10 +42,10 @@ public class GetItemPost {
                     Log.d("OkHttp", "response isSuccessful");
                     model = response.body();
 
-//                    setPostTitle(titleTextView);
-//                    setPostHeadBanner(imageView);
-//                    setPostHeadText(bodyPostTextView);
-//                    setCommentCount(countCommentTextView, commentButton);
+                    setPostTitle(titleTextView);
+                    setPostHeadBanner(imageView);
+                    setPostHeadText(bodyPostTextView);
+                    setCommentCount(countCommentTextView, commentButton);
                     saveNextAndPrevPostId(isPostFromCategory, prefUtils);
 
                 } else {
@@ -69,61 +69,61 @@ public class GetItemPost {
 
     }
 
-//    private static void setPostTitle(TextView titleTextView) {
-//        List<ItemPostModel.TitlePost> titleModel = model.getTitle();
-//        for(ItemPostModel.TitlePost title : titleModel) {
-//            titleTextView.setText(title.getTitle());
-//        }
-//    }
-//
-//    private static void setPostHeadBanner(ImageView imageView) {
-//        List<ItemPostModel.BannerPost> bannerModel = model.getBanner();
-//        for(ItemPostModel.BannerPost banner : bannerModel) {
-//            String imageUrl = banner.getUrlBanner();
-//            if (imageUrl.isEmpty()) {
-//                imageView.setVisibility(View.GONE);
-//            } else {
-//                imageView.setVisibility(View.VISIBLE);
-//                Picasso
-//                        .get()
-//                        .load(imageUrl)
-//                        .into(imageView);
-//            }
-//
-//            imageView.setOnClickListener(v -> {
-//                ImageViewDialog dialog = new ImageViewDialog();
-//                dialog.showDialog(cont, "", imageUrl);
-//            });
-//        }
-//    }
-//
-//
-//    private static void setPostHeadText(TextView bodyPostTextView) {
-//        List<ItemPostModel.BodyPost> bodyModel = model.getBody();
-//        for(ItemPostModel.BodyPost body : bodyModel) {
-//            String text = body.getTextPostBody();
-//            if (text.isEmpty()) {
-//                bodyPostTextView.setVisibility(View.GONE);
-//            } else {
-//                bodyPostTextView.setVisibility(View.VISIBLE);
-//                bodyPostTextView.setText(text);
-//            }
-//        }
-//    }
-//
-//    private static void setCommentCount(TextView countCommentTextView, Button commentButton) {
-//        List<ItemPostModel.CommentPost> commentModel = model.getComment();
-//        for(ItemPostModel.CommentPost comment : commentModel) {
-//            if(comment.getCommentCont() > 0) {
-//                countCommentTextView.setVisibility(View.VISIBLE);
-//                countCommentTextView.setText(String.valueOf(comment.getCommentCont()));
-//                commentButton.setText(R.string.read_the_comment);
-//            } else {
-//                countCommentTextView.setVisibility(View.GONE);
-//                commentButton.setText(R.string.write_the_comment);
-//            }
-//        }
-//    }
+    private static void setPostTitle(TextView titleTextView) {
+        List<ItemPostModel.TitlePost> titleModel = model.getTitle();
+        for(ItemPostModel.TitlePost title : titleModel) {
+            titleTextView.setText(title.getTitle());
+        }
+    }
+
+    private static void setPostHeadBanner(ImageView imageView) {
+        List<ItemPostModel.BannerPost> bannerModel = model.getBanner();
+        for(ItemPostModel.BannerPost banner : bannerModel) {
+            String imageUrl = banner.getUrlBanner();
+            if (imageUrl.isEmpty()) {
+                imageView.setVisibility(View.GONE);
+            } else {
+                imageView.setVisibility(View.VISIBLE);
+                Picasso
+                        .get()
+                        .load(imageUrl)
+                        .into(imageView);
+            }
+
+            imageView.setOnClickListener(v -> {
+                ImageViewDialog dialog = new ImageViewDialog();
+                dialog.showDialog(cont, "", imageUrl);
+            });
+        }
+    }
+
+
+    private static void setPostHeadText(TextView bodyPostTextView) {
+        List<ItemPostModel.BodyPost> bodyModel = model.getBody();
+        for(ItemPostModel.BodyPost body : bodyModel) {
+            String text = body.getTextPostBody();
+            if (text.isEmpty()) {
+                bodyPostTextView.setVisibility(View.GONE);
+            } else {
+                bodyPostTextView.setVisibility(View.VISIBLE);
+                bodyPostTextView.setText(text);
+            }
+        }
+    }
+
+    private static void setCommentCount(TextView countCommentTextView, Button commentButton) {
+        List<ItemPostModel.CommentPost> commentModel = model.getComment();
+        for(ItemPostModel.CommentPost comment : commentModel) {
+            if(comment.getCommentCont() > 0) {
+                countCommentTextView.setVisibility(View.VISIBLE);
+                countCommentTextView.setText(String.valueOf(comment.getCommentCont()));
+                commentButton.setText(R.string.read_the_comment);
+            } else {
+                countCommentTextView.setVisibility(View.GONE);
+                commentButton.setText(R.string.write_the_comment);
+            }
+        }
+    }
 
     private static void saveNextAndPrevPostId(boolean isPostFromCategory, PrefUtils prefUtils) {
         if(isPostFromCategory) {

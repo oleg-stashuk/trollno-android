@@ -35,10 +35,6 @@ public class ItemPostModel {
     @Expose
     private NeighboringPost prevPost;
 
-
-    public ItemPostModel() {
-    }
-
     public ItemPostModel(List<IdPost> postId, List<TitlePost> title, List<BodyPost> body,
                          List<BannerPost> banner, List<CategoryPost> category, List<CommentPost> comment,
                          List<MediaBlock> mediaBlock, NeighboringPost nextPost, NeighboringPost prevPost) {
@@ -49,6 +45,18 @@ public class ItemPostModel {
         this.category = category;
         this.comment = comment;
         this.mediaBlock = mediaBlock;
+        this.nextPost = nextPost;
+        this.prevPost = prevPost;
+    }
+
+    public ItemPostModel(List<IdPost> postId, List<TitlePost> title, List<BodyPost> body,
+                         List<BannerPost> banner, List<CategoryPost> category, List<CommentPost> comment, NeighboringPost nextPost, NeighboringPost prevPost) {
+        this.postId = postId;
+        this.title = title;
+        this.body = body;
+        this.banner = banner;
+        this.category = category;
+        this.comment = comment;
         this.nextPost = nextPost;
         this.prevPost = prevPost;
     }
@@ -91,37 +99,49 @@ public class ItemPostModel {
     }
 
 
-    public class IdPost {
+    public static class IdPost {
         @SerializedName("value")
         @Expose
         private String idPost;
+
+        public IdPost(String idPost) {
+            this.idPost = idPost;
+        }
 
         public String getIdPost() {
             return idPost;
         }
     }
 
-    public class TitlePost {
+    public static class TitlePost {
         @SerializedName("value")
         @Expose
         private String title;
+
+        public TitlePost(String title) {
+            this.title = title;
+        }
 
         public String getTitle() {
             return title;
         }
     }
 
-    public class BodyPost {
+    public static class BodyPost {
         @SerializedName("value")
         @Expose
         private String textPostBody;
+
+        public BodyPost(String textPostBody) {
+            this.textPostBody = textPostBody;
+        }
 
         public String getTextPostBody() {
             return textPostBody;
         }
     }
 
-    public class BannerPost {
+    public static class BannerPost {
         @SerializedName("target_id")
         @Expose
         private int idBanner;
@@ -131,6 +151,10 @@ public class ItemPostModel {
         @SerializedName("url")
         @Expose
         private String urlBanner;  // http://newsapp.art-coral.com/sites/default/files/2020-09/90603788.jpg
+
+        public BannerPost(String urlBanner) {
+            this.urlBanner = urlBanner;
+        }
 
         public int getIdBanner() {
             return idBanner;
@@ -159,10 +183,14 @@ public class ItemPostModel {
         }
     }
 
-    public class CommentPost {
+    public static class CommentPost {
         @SerializedName("comment_count")
         @Expose
         private int commentCont;
+
+        public CommentPost(int commentCont) {
+            this.commentCont = commentCont;
+        }
 
         public int getCommentCont() {
             return commentCont;
@@ -255,7 +283,7 @@ public class ItemPostModel {
         }
     }
 
-    public class NeighboringPost {
+    public static class NeighboringPost {
         @SerializedName("category")
         @Expose
         private List<IdNeighboringPost> category;
@@ -281,7 +309,7 @@ public class ItemPostModel {
 
 
 
-    public class IdNeighboringPost {
+    public static class IdNeighboringPost {
         @SerializedName("target_id")
         @Expose
         private int idPost;

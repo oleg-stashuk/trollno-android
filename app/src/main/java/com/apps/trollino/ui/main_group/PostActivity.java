@@ -149,17 +149,17 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
         layout.setOnTouchListener(new OnSwipeTouchListener(this) {
             public void onSwipeRight() {
                 showToast("onSwipeRight");
-                String prevPostId = prefUtils.gePrevPostId();
-                if(!prevPostId.isEmpty() && prevPostId.length() > 0) {
-                    getPostFromAPi(prevPostId);
+                String nextPostId = prefUtils.getNextPostId();
+                if(!nextPostId.isEmpty() && nextPostId.length() > 0 && !nextPostId.equals("0")) {
+                    getPostFromAPi(nextPostId);
                 }
             }
 
             public void onSwipeLeft() {
                 showToast("onSwipeLeft");
-                String nextPostId = prefUtils.getNextPostId();
-                if(!nextPostId.isEmpty() && nextPostId.length() > 0) {
-                    getPostFromAPi(nextPostId);
+                String prevPostId = prefUtils.gePrevPostId();
+                if(!prevPostId.isEmpty() && prevPostId.length() > 0 && !prevPostId.equals("0")) {
+                    getPostFromAPi(prevPostId);
                 }
             }
         });
