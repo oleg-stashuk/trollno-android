@@ -197,27 +197,32 @@ public class ItemPostModel {
         }
     }
 
-    public class MediaBlock {
+    public static class MediaBlock {
         @SerializedName("target_id")
         @Expose
         private int idMediaBlock;
-//        @SerializedName("entity")
-//        @Expose
-//        private EntityMediaBlock entity;
+        @SerializedName("entity")
+        @Expose
+        private EntityMediaBlock entity;
+
+        public MediaBlock(int idMediaBlock, EntityMediaBlock entity) {
+            this.idMediaBlock = idMediaBlock;
+            this.entity = entity;
+        }
 
         public int getIdMediaBlock() {
             return idMediaBlock;
         }
 
-//        public EntityMediaBlock getEntity() {
-//            return entity;
-//        }
+        public EntityMediaBlock getEntity() {
+            return entity;
+        }
     }
 
-    public class EntityMediaBlock {
-        @SerializedName("field_block_image")
-        @Expose
-        private ImageBlock image;
+    public static class EntityMediaBlock {
+//        @SerializedName("field_block_image")
+//        @Expose
+//        private ImageBlock image;
         @SerializedName("field_app_title")
         @Expose
         private String title;
@@ -234,9 +239,17 @@ public class ItemPostModel {
         @Expose
         private String desc;
 
-        public ImageBlock getImage() {
-            return image;
+        public EntityMediaBlock(String title, String instagram, String youtube, String tiktok, String desc) {
+            this.title = title;
+            this.instagram = instagram;
+            this.youtube = youtube;
+            this.tiktok = tiktok;
+            this.desc = desc;
         }
+
+//        public ImageBlock getImage() {
+//            return image;
+//        }
 
         public String getTitle() {
             return title;

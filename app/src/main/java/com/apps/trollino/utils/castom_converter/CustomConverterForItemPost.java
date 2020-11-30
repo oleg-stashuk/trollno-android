@@ -92,8 +92,83 @@ public class CustomConverterForItemPost implements JsonDeserializer<ItemPostMode
             comment.add(commentNull);
         }
 
+
+
+
+
+
+
+//                                                                                                            !!!!!!!!!!!!!!!!!!!!!!!!!
         // Для поля объекта mediaBlock
-        JsonArray mediaBlock = items.getAsJsonArray("field_mediablocks");
+        JsonArray mediaBlockJsonArray = items.getAsJsonArray("field_mediablocks");
+        Log.d("OkHttp", "!!!!!!!!!!!!!!!!! mediaBlockJsonArray " + mediaBlockJsonArray.size());
+        List<ItemPostModel.MediaBlock> mediaBlock = new ArrayList<>();
+        try{
+            Log.d("OkHttp", "try");
+            for (JsonElement e : mediaBlockJsonArray) {
+                mediaBlock.add(context.deserialize(e, ItemPostModel.MediaBlock.class));
+            }
+        } catch (Exception e) {
+            Log.d("OkHttp", "catch");
+            ItemPostModel.EntityMediaBlock entity = new ItemPostModel.EntityMediaBlock("", "", "", "", "");
+            ItemPostModel.MediaBlock mediaBlockNull = new ItemPostModel.MediaBlock(0, entity);
+            mediaBlock.add(mediaBlockNull);
+        }
+        Log.d("OkHttp", "!!!!!!!!!!!!!!!!!");
+        Log.d("OkHttp", "!!!!!!!!!!!!!!!!! mediaBlock " + mediaBlock.size());
+        Log.d("OkHttp", "     ");
+        Log.d("OkHttp", "     ");
+        Log.d("OkHttp", "     ");
+        for(ItemPostModel.MediaBlock mediaBlockItem : mediaBlock) {
+            int idMediaBlock = mediaBlockItem.getIdMediaBlock();
+            String titleMediaBlock = mediaBlockItem.getEntity().getTitle();
+            String instagramMediaBlock = mediaBlockItem.getEntity().getInstagram();
+            String youtubeMediaBlock = mediaBlockItem.getEntity().getYoutube();
+            String tiktokMediaBlock = mediaBlockItem.getEntity().getTiktok();
+            String descriprionMediaBlock = mediaBlockItem.getEntity().getDesc();
+
+
+            Log.d("OkHttp", "!!!!!!!!!!!!!!!!! idMediaBlock " + idMediaBlock);
+            if (titleMediaBlock == null) {
+                titleMediaBlock = "";
+            }
+            Log.d("OkHttp", "!!!!!!!!!!!!!!!!! titleMediaBlock " + titleMediaBlock);
+
+            if (instagramMediaBlock == null) {
+                instagramMediaBlock = "";
+            }
+            Log.d("OkHttp", "!!!!!!!!!!!!!!!!! instagramMediaBlock " + instagramMediaBlock);
+
+            if (youtubeMediaBlock == null) {
+                youtubeMediaBlock = "";
+            }
+            Log.d("OkHttp", "!!!!!!!!!!!!!!!!! youtubeMediaBlock " + youtubeMediaBlock);
+
+            if (tiktokMediaBlock == null) {
+                tiktokMediaBlock = "";
+            }
+            Log.d("OkHttp", "!!!!!!!!!!!!!!!!! tiktokMediaBlock " + tiktokMediaBlock);
+
+            if (descriprionMediaBlock == null) {
+                descriprionMediaBlock = "";
+            }
+            Log.d("OkHttp", "!!!!!!!!!!!!!!!!! descriprionMediaBlock " + descriprionMediaBlock);
+            Log.d("OkHttp", "   ");
+            Log.d("OkHttp", "   ");
+            Log.d("OkHttp", "   ");
+
+            ItemPostModel.EntityMediaBlock entity = new ItemPostModel.EntityMediaBlock(
+                    titleMediaBlock, instagramMediaBlock, youtubeMediaBlock,
+                    tiktokMediaBlock, descriprionMediaBlock);
+            ItemPostModel.MediaBlock mediaBloc = new ItemPostModel.MediaBlock(idMediaBlock, entity);
+        }
+//                                                                                                            !!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
+
+
+
 
 
         // Для поля объекта nextPost -> Список -> id категории и публичный
@@ -104,7 +179,7 @@ public class CustomConverterForItemPost implements JsonDeserializer<ItemPostMode
         JsonObject prevPostJsonObject = items.getAsJsonObject("prev_node");
         ItemPostModel.NeighboringPost prevPost = idNeighboringPost(prevPostJsonObject, context);
 
-        Log.d("OkHttp", "!!!!!!!!!!!!!!!!! items " + items);
+//        Log.d("OkHttp", "!!!!!!!!!!!!!!!!! items " + items);
         return new ItemPostModel(postId, title, body, banner, category, comment, nextPost, prevPost);
     }
 
