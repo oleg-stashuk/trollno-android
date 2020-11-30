@@ -21,6 +21,10 @@ import com.apps.trollino.ui.base.BaseActivity;
 
 import java.util.List;
 
+import static com.apps.trollino.ui.main_group.PostActivity.POST_FAVORITE_VALUE;
+import static com.apps.trollino.ui.main_group.PostActivity.POST_FROM_CATEGORY_LIST;
+import static com.apps.trollino.ui.main_group.PostActivity.POST_ID_KEY;
+
 public class CommentToPostActivity extends BaseActivity implements View.OnClickListener{
 
     private List<UserCommentActivityModel> commentList = UserCommentActivityModel.makeCommentsListToPostParent();
@@ -30,6 +34,9 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
     private RecyclerView commentsRecyclerView;
     private EditText commentEditText;
     private Spinner sortCommentSpinner;
+
+    private String currentPostId;
+    private boolean isPostFromCategory;
 
     @Override
     protected int getLayoutID() {
@@ -47,6 +54,11 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
         noCommentTextView = findViewById(R.id.text_post_without_comment_comment_to_post);
 
         countTextView.setText(String.valueOf(countComment));
+
+
+        currentPostId = this.getIntent().getStringExtra(POST_ID_KEY);
+        isPostFromCategory = this.getIntent().getBooleanExtra(POST_FROM_CATEGORY_LIST, false);
+
 
         makeCommentListRecyclerView();
         showCorrectVariant();     // Если для Поста нет комментариев, то выводится на экран сообщение что комментариев нет
@@ -89,7 +101,11 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this, PostActivity.class));
+        Intent intent = new Intent(this, PostActivity.class);
+        intent.putExtra(POST_FAVORITE_VALUE, 0);
+        intent.putExtra(POST_ID_KEY, currentPostId);
+        intent.putExtra(POST_FROM_CATEGORY_LIST,isPostFromCategory);
+        startActivity(intent);
         finish();
     }
 

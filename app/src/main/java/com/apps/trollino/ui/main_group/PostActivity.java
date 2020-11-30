@@ -43,6 +43,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
     private List<ItemPostModel.OneElementPost> postElementsList = ItemPostModel.OneElementPost.makePostElementsList();
     private boolean isFavoritePost;
     private boolean isPostFromCategory;
+    private String currentPostId;
 
     @Override
     protected int getLayoutID() {
@@ -66,7 +67,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
         makeTouchListener();
 
         int favoriteValue = this.getIntent().getIntExtra(POST_FAVORITE_VALUE, 0);
-        String currentPostId = this.getIntent().getStringExtra(POST_ID_KEY);
+        currentPostId = this.getIntent().getStringExtra(POST_ID_KEY);
         isPostFromCategory = this.getIntent().getBooleanExtra(POST_FROM_CATEGORY_LIST, false);
         categoryTextView.setFocusable(true);
 
@@ -149,6 +150,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
                 String nextPostId = prefUtils.getNextPostId();
                 if(!nextPostId.isEmpty() && nextPostId.length() > 0 && !nextPostId.equals("0")) {
                     getPostFromAPi(nextPostId);
+                    currentPostId = nextPostId;
                 }
             }
 
@@ -157,6 +159,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
                 String prevPostId = prefUtils.gePrevPostId();
                 if(!prevPostId.isEmpty() && prevPostId.length() > 0 && !prevPostId.equals("0")) {
                     getPostFromAPi(prevPostId);
+                    currentPostId = prevPostId;
                 }
             }
         });
@@ -172,7 +175,10 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
 
     // Open activity with category
     private void commentToPostActivity() {
-        startActivity(new Intent( this, CommentToPostActivity.class));
+        Intent intent = new Intent( this, CommentToPostActivity.class);
+        intent.putExtra(POST_ID_KEY, currentPostId);
+        intent.putExtra(POST_FROM_CATEGORY_LIST, isPostFromCategory);
+        startActivity(intent);
         finish();
     }
 
