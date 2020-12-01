@@ -8,10 +8,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.apps.trollino.R;
+import com.apps.trollino.adapters.OnePostElementAdapter;
 import com.apps.trollino.data.model.CategoryModel;
 import com.apps.trollino.data.model.ItemPostModel;
 import com.apps.trollino.data.networking.ApiService;
+import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.ImageViewDialog;
 import com.apps.trollino.utils.data.CategoryListFromApi;
 import com.apps.trollino.utils.data.PrefUtils;
@@ -29,7 +34,7 @@ public class GetItemPost {
     private static Context cont;
     private static ItemPostModel model;
 
-    public static void getItemPost(Context context, PrefUtils prefUtils, TextView categoryTextView, String postId, TextView titleTextView,
+    public static void getItemPost(Context context, PrefUtils prefUtils, RecyclerView recyclerView, TextView categoryTextView, String postId, TextView titleTextView,
                                    TextView countCommentTextView, Button commentButton, ImageView imageView,
                                    TextView bodyPostTextView, boolean isPostFromCategory) {
         cont = context;
@@ -41,7 +46,6 @@ public class GetItemPost {
             @Override
             public void onResponse(Call<ItemPostModel> call, Response<ItemPostModel> response) {
                 if(response.isSuccessful()) {
-                    Log.d("OkHttp", "response isSuccessful");
                     model = response.body();
 
                     setPostCategory(categoryTextView);
@@ -52,25 +56,7 @@ public class GetItemPost {
                     saveNextAndPrevPostId(isPostFromCategory, prefUtils);
 
                     List<ItemPostModel.MediaBlock> mediaBlock = model.getMediaBlock();
-                    Log.d("OkHttp", "mediaBlock size in API " + mediaBlock.size());
-
-                    for(ItemPostModel.MediaBlock item : mediaBlock) {
-                        Log.d("OkHttp", "________________________");
-                        Log.d("OkHttp", "Id in API " + item.getIdMediaBlock());
-                        ItemPostModel.EntityMediaBlock entity = item.getEntity();
-                        Log.d("OkHttp", "title in API " + entity.getTitle());
-                        Log.d("OkHttp", "Instagram in API " + entity.getInstagram());
-                        Log.d("OkHttp", "Youtube in API " + entity.getYoutube());
-                        Log.d("OkHttp", "Tiktok in API " + entity.getTiktok());
-                        Log.d("OkHttp", "Desc in API " + entity.getDesc());
-
-                        ItemPostModel.ImageBlock image = entity.getImage();
-                        Log.d("OkHttp", "UrlImage in API " + image.getUrlImage());
-                        Log.d("OkHttp", "ResourceTitle in API " + image.getResourceTitle());
-                        Log.d("OkHttp", "Resource in API " + image.getResource());
-                        Log.d("OkHttp", "________________________");
-                    }
-
+                    makePartOfPostRecyclerView(recyclerView, mediaBlock);
 
                 } else {
                     showToast(response.errorBody().toString());
@@ -191,6 +177,12 @@ public class GetItemPost {
                 Log.d("OkHttp", "prev in other: " + post.getIdPost());
             }
         }
+    }
+
+    private static void makePartOfPostRecyclerView(RecyclerView recyclerView, List<ItemPostModel.MediaBlock> mediaBlock) {
+        recyclerView.setLayoutManager(new LinearLayoutManager(cont));
+        recyclerView.setAdapter(new OnePostElementAdapter((BaseActivity) cont, mediaBlock));
+        recyclerView.setFocusable(false);
     }
 
     private static void showToast(String message) {
