@@ -51,6 +51,27 @@ public class GetItemPost {
                     setCommentCount(countCommentTextView, commentButton);
                     saveNextAndPrevPostId(isPostFromCategory, prefUtils);
 
+                    List<ItemPostModel.MediaBlock> mediaBlock = model.getMediaBlock();
+                    Log.d("OkHttp", "mediaBlock size in API " + mediaBlock.size());
+
+                    for(ItemPostModel.MediaBlock item : mediaBlock) {
+                        Log.d("OkHttp", "________________________");
+                        Log.d("OkHttp", "Id in API " + item.getIdMediaBlock());
+                        ItemPostModel.EntityMediaBlock entity = item.getEntity();
+                        Log.d("OkHttp", "title in API " + entity.getTitle());
+                        Log.d("OkHttp", "Instagram in API " + entity.getInstagram());
+                        Log.d("OkHttp", "Youtube in API " + entity.getYoutube());
+                        Log.d("OkHttp", "Tiktok in API " + entity.getTiktok());
+                        Log.d("OkHttp", "Desc in API " + entity.getDesc());
+
+                        ItemPostModel.ImageBlock image = entity.getImage();
+                        Log.d("OkHttp", "UrlImage in API " + image.getUrlImage());
+                        Log.d("OkHttp", "ResourceTitle in API " + image.getResourceTitle());
+                        Log.d("OkHttp", "Resource in API " + image.getResource());
+                        Log.d("OkHttp", "________________________");
+                    }
+
+
                 } else {
                     showToast(response.errorBody().toString());
                     Log.d("OkHttp", "response.errorBody() " + response.errorBody());

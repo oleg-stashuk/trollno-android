@@ -1,7 +1,5 @@
 package com.apps.trollino.utils.castom_converter;
 
-import android.util.Log;
-
 import com.apps.trollino.data.model.ItemPostModel;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
@@ -104,8 +102,10 @@ public class CustomConverterForItemPost implements JsonDeserializer<ItemPostMode
         JsonObject prevPostJsonObject = items.getAsJsonObject("prev_node");
         ItemPostModel.NeighboringPost prevPost = idNeighboringPost(prevPostJsonObject, context);
 
-        return new ItemPostModel(postId, title, body, banner, category, comment, nextPost, prevPost);
+        return new ItemPostModel(postId, title, body, banner, category, comment, mediaBlock, nextPost, prevPost);
     }
+
+
 
     // Создание объекта IdNeighboringPost, который содержит в себе id соседних постов по category и publ
     private ItemPostModel.NeighboringPost idNeighboringPost(JsonObject jsonObject, JsonDeserializationContext context) {
@@ -140,183 +140,68 @@ public class CustomConverterForItemPost implements JsonDeserializer<ItemPostMode
         return idNeighboringPostList;
     }
 
-    // Для поля объекта mediaBlock
+    // Добавление элементов в список для объекта mediaBlock
     private List<ItemPostModel.MediaBlock> addItemInMediaBlockList(JsonArray jsonArray, JsonDeserializationContext context) {
         List<ItemPostModel.MediaBlock> mediaBlock = new ArrayList<>();
         try{
-            Log.d("OkHttp", "try");
             for (JsonElement e : jsonArray) {
                 mediaBlock.add(context.deserialize(e, ItemPostModel.MediaBlock.class));
             }
         } catch (Exception e) {
-            Log.d("OkHttp", "catch");
             ItemPostModel.ImageBlock imageBlock = new ItemPostModel.ImageBlock("", "", "");
 
             ItemPostModel.EntityMediaBlock entity = new ItemPostModel.EntityMediaBlock(imageBlock,"", "", "", "", "");
             ItemPostModel.MediaBlock mediaBlockNull = new ItemPostModel.MediaBlock(0, entity);
             mediaBlock.add(mediaBlockNull);
         }
-        Log.d("OkHttp", "!!!!!!!!!!!!!!!!!");
-        Log.d("OkHttp", "!!!!!!!!!!!!!!!!! mediaBlock " + mediaBlock.size());
-        Log.d("OkHttp", "     ");
-        Log.d("OkHttp", "     ");
-        Log.d("OkHttp", "     ");
-        for(ItemPostModel.MediaBlock mediaBlockItem : mediaBlock) {
+
+        return checkedMediaBlockList(mediaBlock);
+    }
+
+    // Проверка на null всех полей в модели  MediaBlock
+    private List<ItemPostModel.MediaBlock> checkedMediaBlockList(List<ItemPostModel.MediaBlock> mediaBlockList) {
+        List<ItemPostModel.MediaBlock> checkedMediaBlockList = new ArrayList<>();
+
+        for(ItemPostModel.MediaBlock mediaBlockItem : mediaBlockList) {
             int idMediaBlock = mediaBlockItem.getIdMediaBlock();
 
+            ItemPostModel.ImageBlock imageBlock = checkedImageBlock(mediaBlockItem);
 
-            ItemPostModel.ImageBlock imageBlock = null;
-            String urlImage;
-            String resourceTitle;
-            String resource;
-            try {
-                imageBlock = mediaBlockItem.getEntity().getImage();
-                urlImage = imageBlock.getUrlImage();
-                resourceTitle = imageBlock.getResourceTitle();
-                resource = imageBlock.getResource();
-            } catch (Exception e) {
-                Log.d("OkHttp", "catch");
-                urlImage = "";
-                resourceTitle = "";
-                resource = "";
-//                imageBlock = new ItemPostModel.ImageBlock(urlImage, resourceTitle, resource);
-            }
-
-            if (urlImage == null) {
-                urlImage = "";
-            }
-            Log.d("OkHttp", "!!!!!!!!!!!!!!!!! urlImage " + urlImage);
-
-            if (resourceTitle == null) {
-                resourceTitle = "";
-            }
-            Log.d("OkHttp", "!!!!!!!!!!!!!!!!! resourceTitle " + resourceTitle);
-
-
-            if (resource == null) {
-                resource = "";
-            }
-            Log.d("OkHttp", "!!!!!!!!!!!!!!!!! resource " + resource);
-
-
-
-            String titleMediaBlock = mediaBlockItem.getEntity().getTitle();
-            String instagramMediaBlock = mediaBlockItem.getEntity().getInstagram();
-            String youtubeMediaBlock = mediaBlockItem.getEntity().getYoutube();
-            String tiktokMediaBlock = mediaBlockItem.getEntity().getTiktok();
-            String descriprionMediaBlock = mediaBlockItem.getEntity().getDesc();
-
-
-
-            Log.d("OkHttp", "!!!!!!!!!!!!!!!!! idMediaBlock " + idMediaBlock);
-            if (titleMediaBlock == null) {
-                titleMediaBlock = "";
-            }
-            Log.d("OkHttp", "!!!!!!!!!!!!!!!!! titleMediaBlock " + titleMediaBlock);
-
-            if (instagramMediaBlock == null) {
-                instagramMediaBlock = "";
-            }
-            Log.d("OkHttp", "!!!!!!!!!!!!!!!!! instagramMediaBlock " + instagramMediaBlock);
-
-            if (youtubeMediaBlock == null) {
-                youtubeMediaBlock = "";
-            }
-            Log.d("OkHttp", "!!!!!!!!!!!!!!!!! youtubeMediaBlock " + youtubeMediaBlock);
-
-            if (tiktokMediaBlock == null) {
-                tiktokMediaBlock = "";
-            }
-            Log.d("OkHttp", "!!!!!!!!!!!!!!!!! tiktokMediaBlock " + tiktokMediaBlock);
-
-            if (descriprionMediaBlock == null) {
-                descriprionMediaBlock = "";
-            }
-            Log.d("OkHttp", "!!!!!!!!!!!!!!!!! descriprionMediaBlock " + descriprionMediaBlock);
-            Log.d("OkHttp", "   ");
-            Log.d("OkHttp", "   ");
-            Log.d("OkHttp", "   ");
+            String titleMediaBlock = checkedString(mediaBlockItem.getEntity().getTitle());
+            String instagramMediaBlock = checkedString(mediaBlockItem.getEntity().getInstagram());
+            String youtubeMediaBlock = checkedString(mediaBlockItem.getEntity().getYoutube());
+            String tiktokMediaBlock = checkedString(mediaBlockItem.getEntity().getTiktok());
+            String descriprionMediaBlock = checkedString(mediaBlockItem.getEntity().getDesc());
 
             ItemPostModel.EntityMediaBlock entity = new ItemPostModel.EntityMediaBlock(
-                    new ItemPostModel.ImageBlock(urlImage, resourceTitle, resource),
-                    titleMediaBlock, instagramMediaBlock, youtubeMediaBlock,
+                    imageBlock, titleMediaBlock, instagramMediaBlock, youtubeMediaBlock,
                     tiktokMediaBlock, descriprionMediaBlock);
-            mediaBlock.add(new ItemPostModel.MediaBlock(idMediaBlock, entity));
+            checkedMediaBlockList.add(new ItemPostModel.MediaBlock(idMediaBlock, entity));
         }
 
-        Log.d("OkHttp", "mediaBlock size: " + mediaBlock.size());
-        return mediaBlock;
+        return checkedMediaBlockList;
     }
 
-
-
-
-//        ObjectMapper mapper = new ObjectMapper();
-//        idPostNextByCategory.add(categoryArrayNext.get(0));
-
-//        List<ItemPostModel.CategoryPost> getCategory = null;
-//        List<ItemPostModel.CategoryPost> getCategory2 = null;
-//        ItemPostModel.NeighboringPost nextPost222 = null;
-//        ItemPostModel.NeighboringPost prevPost222 = null;
-
-//        try {
-//            nextPost222 = mapper.readValue(nextPost.toString(), ItemPostModel.NeighboringPost.class);
-//            prevPost222 = mapper.readValue(prevPost.toString(), ItemPostModel.NeighboringPost.class);
-//
-//            getCategory = nextPost222.getCategory();
-//            getCategory2 = nextPost222.getPubl();
-//
-//            String str = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(nextPost222);
-//            Log.d("OkHttp", "!!!!!!!!!!!!!!!!! str " + str + " " + nextPost222.getCategory().size());
-//            Log.d("OkHttp", "!!!!!!!!!!!!!!!!! nextPost222 " + nextPost222.toString());
-//            Log.d("OkHttp", "!!!!!!!!!!!!!!!!! prevPost222 " + prevPost222.toString());
-//        } catch (JsonProcessingException e) {
-//            e.printStackTrace();
-//            Log.d("OkHttp", "!!!!!!!!!!!!!!!!! catch " + e.getLocalizedMessage());
-//        }
-
-
-
-
-
-    /*
-      @Override
-    public UserModel deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        JsonObject items = json.getAsJsonObject();
-
-        String uid = String.valueOf(items.getAsJsonPrimitive("uid")).replaceAll("[^0-9]", "");
-        String loginName = String.valueOf(items.getAsJsonPrimitive("name"));
-        String mail = String.valueOf(items.getAsJsonPrimitive("mail"));
-        JsonObject userRolesJsonObject = items.getAsJsonObject("roles");
-
-        Map<Integer, String> userRoles = new HashMap<>();
-        Set<Map.Entry<String, JsonElement>> set = userRolesJsonObject.entrySet();
-        Iterator<Map.Entry<String, JsonElement>> iterator = set.iterator();
-        while (iterator.hasNext()) {
-            Map.Entry<String, JsonElement> entry = iterator.next();
-            Integer key = Integer.parseInt(entry.getKey());
-            String value = String.valueOf(entry.getValue());
-            if (value != null) {
-                userRoles.put(key, value);
-            }
-        }
-
-        List<UserModel.Address> addressList = new ArrayList<>();
+    // Проверка на null всех полей в модели MediaBlock
+    private ItemPostModel.ImageBlock checkedImageBlock(ItemPostModel.MediaBlock mediaBlockItem) {
+        String urlImage;
+        String resourceTitle;
+        String resource;
         try {
-            JsonObject addressesJsonObject = items.getAsJsonObject("field_user_addresses");
-            JsonArray addressJsonArray = addressesJsonObject.getAsJsonArray("und");
-            addressJsonArray.forEach(address -> {
-                String idAddress = String.valueOf(addressesJsonObject.getAsJsonPrimitive("target_id"));
-                Log.d("OkHttp", "WE HAVE ADDRESS - uid: " + idAddress + " " + addressesJsonObject.size());
-                addressList.add(new UserModel.Address(idAddress));
-            });
-        } catch (Exception e){
-            addressList.add(null);
+            ItemPostModel.ImageBlock imageBlock = mediaBlockItem.getEntity().getImage();
+            urlImage = checkedString(imageBlock.getUrlImage());
+            resourceTitle = checkedString(imageBlock.getResourceTitle());
+            resource = checkedString(imageBlock.getResource());
+        } catch (Exception e) {
+            urlImage = "";
+            resourceTitle = "";
+            resource = "";
         }
 
-        UserModel.UndAddress addresses = new UserModel.UndAddress(addressList);
-
-        return new UserModel(uid, loginName, mail, userRoles, addresses);
+        return new ItemPostModel.ImageBlock(urlImage, resourceTitle, resource);
     }
-     */
+
+    private String checkedString(String stringToCheck) {
+        return stringToCheck == null ? "" : stringToCheck;
+    }
 }

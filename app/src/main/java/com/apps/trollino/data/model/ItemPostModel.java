@@ -49,18 +49,6 @@ public class ItemPostModel {
         this.prevPost = prevPost;
     }
 
-    public ItemPostModel(List<IdPost> postId, List<TitlePost> title, List<BodyPost> body,
-                         List<BannerPost> banner, List<CategoryPost> category, List<CommentPost> comment, NeighboringPost nextPost, NeighboringPost prevPost) {
-        this.postId = postId;
-        this.title = title;
-        this.body = body;
-        this.banner = banner;
-        this.category = category;
-        this.comment = comment;
-        this.nextPost = nextPost;
-        this.prevPost = prevPost;
-    }
-
 
     public List<IdPost> getPostId() {
         return postId;
@@ -150,7 +138,7 @@ public class ItemPostModel {
         private String titleBanner;
         @SerializedName("url")
         @Expose
-        private String urlBanner;  // http://newsapp.art-coral.com/sites/default/files/2020-09/90603788.jpg
+        private String urlBanner;
 
         public BannerPost(String urlBanner) {
             this.urlBanner = urlBanner;
