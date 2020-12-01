@@ -92,84 +92,9 @@ public class CustomConverterForItemPost implements JsonDeserializer<ItemPostMode
             comment.add(commentNull);
         }
 
-
-
-
-
-
-
-//                                                                                                            !!!!!!!!!!!!!!!!!!!!!!!!!
         // Для поля объекта mediaBlock
         JsonArray mediaBlockJsonArray = items.getAsJsonArray("field_mediablocks");
-        Log.d("OkHttp", "!!!!!!!!!!!!!!!!! mediaBlockJsonArray " + mediaBlockJsonArray.size());
-        List<ItemPostModel.MediaBlock> mediaBlock = new ArrayList<>();
-        try{
-            Log.d("OkHttp", "try");
-            for (JsonElement e : mediaBlockJsonArray) {
-                mediaBlock.add(context.deserialize(e, ItemPostModel.MediaBlock.class));
-            }
-        } catch (Exception e) {
-            Log.d("OkHttp", "catch");
-            ItemPostModel.EntityMediaBlock entity = new ItemPostModel.EntityMediaBlock("", "", "", "", "");
-            ItemPostModel.MediaBlock mediaBlockNull = new ItemPostModel.MediaBlock(0, entity);
-            mediaBlock.add(mediaBlockNull);
-        }
-        Log.d("OkHttp", "!!!!!!!!!!!!!!!!!");
-        Log.d("OkHttp", "!!!!!!!!!!!!!!!!! mediaBlock " + mediaBlock.size());
-        Log.d("OkHttp", "     ");
-        Log.d("OkHttp", "     ");
-        Log.d("OkHttp", "     ");
-        for(ItemPostModel.MediaBlock mediaBlockItem : mediaBlock) {
-            int idMediaBlock = mediaBlockItem.getIdMediaBlock();
-            String titleMediaBlock = mediaBlockItem.getEntity().getTitle();
-            String instagramMediaBlock = mediaBlockItem.getEntity().getInstagram();
-            String youtubeMediaBlock = mediaBlockItem.getEntity().getYoutube();
-            String tiktokMediaBlock = mediaBlockItem.getEntity().getTiktok();
-            String descriprionMediaBlock = mediaBlockItem.getEntity().getDesc();
-
-
-            Log.d("OkHttp", "!!!!!!!!!!!!!!!!! idMediaBlock " + idMediaBlock);
-            if (titleMediaBlock == null) {
-                titleMediaBlock = "";
-            }
-            Log.d("OkHttp", "!!!!!!!!!!!!!!!!! titleMediaBlock " + titleMediaBlock);
-
-            if (instagramMediaBlock == null) {
-                instagramMediaBlock = "";
-            }
-            Log.d("OkHttp", "!!!!!!!!!!!!!!!!! instagramMediaBlock " + instagramMediaBlock);
-
-            if (youtubeMediaBlock == null) {
-                youtubeMediaBlock = "";
-            }
-            Log.d("OkHttp", "!!!!!!!!!!!!!!!!! youtubeMediaBlock " + youtubeMediaBlock);
-
-            if (tiktokMediaBlock == null) {
-                tiktokMediaBlock = "";
-            }
-            Log.d("OkHttp", "!!!!!!!!!!!!!!!!! tiktokMediaBlock " + tiktokMediaBlock);
-
-            if (descriprionMediaBlock == null) {
-                descriprionMediaBlock = "";
-            }
-            Log.d("OkHttp", "!!!!!!!!!!!!!!!!! descriprionMediaBlock " + descriprionMediaBlock);
-            Log.d("OkHttp", "   ");
-            Log.d("OkHttp", "   ");
-            Log.d("OkHttp", "   ");
-
-            ItemPostModel.EntityMediaBlock entity = new ItemPostModel.EntityMediaBlock(
-                    titleMediaBlock, instagramMediaBlock, youtubeMediaBlock,
-                    tiktokMediaBlock, descriprionMediaBlock);
-            ItemPostModel.MediaBlock mediaBloc = new ItemPostModel.MediaBlock(idMediaBlock, entity);
-        }
-//                                                                                                            !!!!!!!!!!!!!!!!!!!!!!!!!
-
-
-
-
-
-
-
+        List<ItemPostModel.MediaBlock> mediaBlock = addItemInMediaBlockList(mediaBlockJsonArray, context);
 
         // Для поля объекта nextPost -> Список -> id категории и публичный
         JsonObject nextPostJsonObject = items.getAsJsonObject("next_node");
@@ -179,7 +104,6 @@ public class CustomConverterForItemPost implements JsonDeserializer<ItemPostMode
         JsonObject prevPostJsonObject = items.getAsJsonObject("prev_node");
         ItemPostModel.NeighboringPost prevPost = idNeighboringPost(prevPostJsonObject, context);
 
-//        Log.d("OkHttp", "!!!!!!!!!!!!!!!!! items " + items);
         return new ItemPostModel(postId, title, body, banner, category, comment, nextPost, prevPost);
     }
 
@@ -214,6 +138,114 @@ public class CustomConverterForItemPost implements JsonDeserializer<ItemPostMode
             idNeighboringPostList.add(context.deserialize(e, ItemPostModel.IdNeighboringPost.class));
         }
         return idNeighboringPostList;
+    }
+
+    // Для поля объекта mediaBlock
+    private List<ItemPostModel.MediaBlock> addItemInMediaBlockList(JsonArray jsonArray, JsonDeserializationContext context) {
+        List<ItemPostModel.MediaBlock> mediaBlock = new ArrayList<>();
+        try{
+            Log.d("OkHttp", "try");
+            for (JsonElement e : jsonArray) {
+                mediaBlock.add(context.deserialize(e, ItemPostModel.MediaBlock.class));
+            }
+        } catch (Exception e) {
+            Log.d("OkHttp", "catch");
+            ItemPostModel.ImageBlock imageBlock = new ItemPostModel.ImageBlock("", "", "");
+
+            ItemPostModel.EntityMediaBlock entity = new ItemPostModel.EntityMediaBlock(imageBlock,"", "", "", "", "");
+            ItemPostModel.MediaBlock mediaBlockNull = new ItemPostModel.MediaBlock(0, entity);
+            mediaBlock.add(mediaBlockNull);
+        }
+        Log.d("OkHttp", "!!!!!!!!!!!!!!!!!");
+        Log.d("OkHttp", "!!!!!!!!!!!!!!!!! mediaBlock " + mediaBlock.size());
+        Log.d("OkHttp", "     ");
+        Log.d("OkHttp", "     ");
+        Log.d("OkHttp", "     ");
+        for(ItemPostModel.MediaBlock mediaBlockItem : mediaBlock) {
+            int idMediaBlock = mediaBlockItem.getIdMediaBlock();
+
+
+            ItemPostModel.ImageBlock imageBlock = null;
+            String urlImage;
+            String resourceTitle;
+            String resource;
+            try {
+                imageBlock = mediaBlockItem.getEntity().getImage();
+                urlImage = imageBlock.getUrlImage();
+                resourceTitle = imageBlock.getResourceTitle();
+                resource = imageBlock.getResource();
+            } catch (Exception e) {
+                Log.d("OkHttp", "catch");
+                urlImage = "";
+                resourceTitle = "";
+                resource = "";
+//                imageBlock = new ItemPostModel.ImageBlock(urlImage, resourceTitle, resource);
+            }
+
+            if (urlImage == null) {
+                urlImage = "";
+            }
+            Log.d("OkHttp", "!!!!!!!!!!!!!!!!! urlImage " + urlImage);
+
+            if (resourceTitle == null) {
+                resourceTitle = "";
+            }
+            Log.d("OkHttp", "!!!!!!!!!!!!!!!!! resourceTitle " + resourceTitle);
+
+
+            if (resource == null) {
+                resource = "";
+            }
+            Log.d("OkHttp", "!!!!!!!!!!!!!!!!! resource " + resource);
+
+
+
+            String titleMediaBlock = mediaBlockItem.getEntity().getTitle();
+            String instagramMediaBlock = mediaBlockItem.getEntity().getInstagram();
+            String youtubeMediaBlock = mediaBlockItem.getEntity().getYoutube();
+            String tiktokMediaBlock = mediaBlockItem.getEntity().getTiktok();
+            String descriprionMediaBlock = mediaBlockItem.getEntity().getDesc();
+
+
+
+            Log.d("OkHttp", "!!!!!!!!!!!!!!!!! idMediaBlock " + idMediaBlock);
+            if (titleMediaBlock == null) {
+                titleMediaBlock = "";
+            }
+            Log.d("OkHttp", "!!!!!!!!!!!!!!!!! titleMediaBlock " + titleMediaBlock);
+
+            if (instagramMediaBlock == null) {
+                instagramMediaBlock = "";
+            }
+            Log.d("OkHttp", "!!!!!!!!!!!!!!!!! instagramMediaBlock " + instagramMediaBlock);
+
+            if (youtubeMediaBlock == null) {
+                youtubeMediaBlock = "";
+            }
+            Log.d("OkHttp", "!!!!!!!!!!!!!!!!! youtubeMediaBlock " + youtubeMediaBlock);
+
+            if (tiktokMediaBlock == null) {
+                tiktokMediaBlock = "";
+            }
+            Log.d("OkHttp", "!!!!!!!!!!!!!!!!! tiktokMediaBlock " + tiktokMediaBlock);
+
+            if (descriprionMediaBlock == null) {
+                descriprionMediaBlock = "";
+            }
+            Log.d("OkHttp", "!!!!!!!!!!!!!!!!! descriprionMediaBlock " + descriprionMediaBlock);
+            Log.d("OkHttp", "   ");
+            Log.d("OkHttp", "   ");
+            Log.d("OkHttp", "   ");
+
+            ItemPostModel.EntityMediaBlock entity = new ItemPostModel.EntityMediaBlock(
+                    new ItemPostModel.ImageBlock(urlImage, resourceTitle, resource),
+                    titleMediaBlock, instagramMediaBlock, youtubeMediaBlock,
+                    tiktokMediaBlock, descriprionMediaBlock);
+            mediaBlock.add(new ItemPostModel.MediaBlock(idMediaBlock, entity));
+        }
+
+        Log.d("OkHttp", "mediaBlock size: " + mediaBlock.size());
+        return mediaBlock;
     }
 
 

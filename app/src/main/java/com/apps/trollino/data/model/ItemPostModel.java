@@ -220,9 +220,9 @@ public class ItemPostModel {
     }
 
     public static class EntityMediaBlock {
-//        @SerializedName("field_block_image")
-//        @Expose
-//        private ImageBlock image;
+        @SerializedName("field_block_image")
+        @Expose
+        private ImageBlock image;
         @SerializedName("field_app_title")
         @Expose
         private String title;
@@ -239,7 +239,8 @@ public class ItemPostModel {
         @Expose
         private String desc;
 
-        public EntityMediaBlock(String title, String instagram, String youtube, String tiktok, String desc) {
+        public EntityMediaBlock(ImageBlock image, String title, String instagram, String youtube, String tiktok, String desc) {
+            this.image = image;
             this.title = title;
             this.instagram = instagram;
             this.youtube = youtube;
@@ -247,9 +248,10 @@ public class ItemPostModel {
             this.desc = desc;
         }
 
-//        public ImageBlock getImage() {
-//            return image;
-//        }
+
+        public ImageBlock getImage() {
+            return image;
+        }
 
         public String getTitle() {
             return title;
@@ -272,26 +274,32 @@ public class ItemPostModel {
         }
     }
 
-    public class ImageBlock {
+    public static class ImageBlock {
         @SerializedName("url")
         @Expose
-        private ImageBlock urlImage;
+        private String urlImage;
         @SerializedName("title")
         @Expose
-        private ImageBlock resourceTitle;
+        private String resourceTitle;
         @SerializedName("alt")
         @Expose
-        private ImageBlock resource;
+        private String resource;
 
-        public ImageBlock getUrlImage() {
+        public ImageBlock(String urlImage, String resourceTitle, String resource) {
+            this.urlImage = urlImage;
+            this.resourceTitle = resourceTitle;
+            this.resource = resource;
+        }
+
+        public String getUrlImage() {
             return urlImage;
         }
 
-        public ImageBlock getResourceTitle() {
+        public String getResourceTitle() {
             return resourceTitle;
         }
 
-        public ImageBlock getResource() {
+        public String getResource() {
             return resource;
         }
     }
