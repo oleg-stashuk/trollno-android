@@ -11,6 +11,7 @@ import com.apps.trollino.R;
 import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
 import com.apps.trollino.data.model.ItemPostModel;
 import com.apps.trollino.ui.base.BaseActivity;
+import com.apps.trollino.utils.ImageViewDialog;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -48,20 +49,20 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
 
 
                 ItemPostModel.EntityMediaBlock entityItem = item.getEntity();
-                if(entityItem.getTitle().isEmpty()) {
+                if (entityItem.getTitle().isEmpty()) {
                     titleTextView.setVisibility(View.GONE);
                 } else {
                     titleTextView.setVisibility(View.VISIBLE);
                     titleTextView.setText(entityItem.getTitle());
                 }
 
-                ItemPostModel.ImageBlock image =  entityItem.getImage();
-                if(image.getUrlImage().isEmpty()) {
+                ItemPostModel.ImageBlock image = entityItem.getImage();
+                if (image.getUrlImage().isEmpty()) {
                     imageView.setVisibility(View.GONE);
                     sourceTextView.setVisibility(View.GONE);
                     sourceLinkTextView.setVisibility(View.GONE);
                 } else {
-                     imageView.setVisibility(View.VISIBLE);
+                    imageView.setVisibility(View.VISIBLE);
                     sourceTextView.setVisibility(View.VISIBLE);
                     sourceLinkTextView.setVisibility(View.VISIBLE);
 
@@ -73,9 +74,14 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
                             .get()
                             .load(image.getUrlImage())
                             .into(imageView);
+
+                    imageView.setOnClickListener(v -> {
+                        ImageViewDialog dialog = new ImageViewDialog();
+                        dialog.showDialog(view.getContext(), image.getResourceTitle(), image.getUrlImage());
+                    });
                 }
 
-                if(entityItem.getInstagram().isEmpty()) {
+                if (entityItem.getInstagram().isEmpty()) {
                     instagramLinearLayout.setVisibility(View.GONE);
                     instagramTextView.setVisibility(View.GONE);
                 } else {
@@ -84,7 +90,7 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
                     instagramTextView.setText(entityItem.getInstagram());
                 }
 
-                if(entityItem.getYoutube().isEmpty()) {
+                if (entityItem.getYoutube().isEmpty()) {
                     youtubeLinearLayout.setVisibility(View.GONE);
                     youtubeTextView.setVisibility(View.GONE);
                 } else {
@@ -93,7 +99,7 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
                     youtubeTextView.setText(entityItem.getYoutube());
                 }
 
-                if(entityItem.getTiktok().isEmpty()) {
+                if (entityItem.getTiktok().isEmpty()) {
                     tiktokLinearLayout.setVisibility(View.GONE);
                     tiktokTextView.setVisibility(View.GONE);
                 } else {
@@ -102,7 +108,7 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
                     tiktokTextView.setText(entityItem.getTiktok());
                 }
 
-                if(entityItem.getDesc().isEmpty()) {
+                if (entityItem.getDesc().isEmpty()) {
                     descriptionTextView.setVisibility(View.GONE);
                 } else {
                     descriptionTextView.setVisibility(View.VISIBLE);
@@ -110,6 +116,9 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
                 }
 
             }
+
         };
+
+
     }
 }
