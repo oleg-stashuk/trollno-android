@@ -18,6 +18,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import static com.apps.trollino.utils.networking.GetTikTok.getTikTok;
+
 public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.MediaBlock> {
 
     public OnePostElementAdapter(BaseActivity baseActivity, List<ItemPostModel.MediaBlock> items) {
@@ -44,8 +46,7 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
                 LinearLayout youtubeLinearLayout = view.findViewById(R.id.youtube_item_element_of_post);
                 TextView youtubeTextView = view.findViewById(R.id.youtube_element_of_post);
 
-                LinearLayout tiktokLinearLayout = view.findViewById(R.id.tiktok_item_element_of_post);
-                TextView tiktokTextView = view.findViewById(R.id.tiktok_element_of_post);
+                ImageView tikTokImageView = view.findViewById(R.id.tiktok_image_item_element_of_post);
 
                 TextView descriptionTextView = view.findViewById(R.id.description_element_of_post);
 
@@ -94,6 +95,10 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
                     instagramLinearLayout.setVisibility(View.VISIBLE);
                     instagramTextView.setVisibility(View.VISIBLE);
                     instagramTextView.setText(entityItem.getInstagram());
+                    instagramLinearLayout.setOnClickListener(v -> {
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(entityItem.getInstagram()));
+                        view.getContext().startActivity(browserIntent);
+                    });
                 }
 
                 if (entityItem.getYoutube().isEmpty()) {
@@ -103,15 +108,22 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
                     youtubeLinearLayout.setVisibility(View.VISIBLE);
                     youtubeTextView.setVisibility(View.VISIBLE);
                     youtubeTextView.setText(entityItem.getYoutube());
+                    youtubeLinearLayout.setOnClickListener(v -> {
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(entityItem.getYoutube()));
+                        view.getContext().startActivity(browserIntent);
+                    });
                 }
 
                 if (entityItem.getTiktok().isEmpty()) {
-                    tiktokLinearLayout.setVisibility(View.GONE);
-                    tiktokTextView.setVisibility(View.GONE);
+                    tikTokImageView.setVisibility(View.GONE);
                 } else {
-                    tiktokLinearLayout.setVisibility(View.VISIBLE);
-                    tiktokTextView.setVisibility(View.VISIBLE);
-                    tiktokTextView.setText(entityItem.getTiktok());
+                    tikTokImageView.setVisibility(View.VISIBLE);
+                    getTikTok(view.getContext(), tikTokImageView, entityItem.getTiktok());
+
+                    tikTokImageView.setOnClickListener(v -> {
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(entityItem.getTiktok()));
+                        view.getContext().startActivity(browserIntent);
+                    });
                 }
 
                 if (entityItem.getDesc().isEmpty()) {
