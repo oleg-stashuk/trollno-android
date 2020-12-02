@@ -3,7 +3,6 @@ package com.apps.trollino.data.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ItemPostModel {
@@ -45,18 +44,6 @@ public class ItemPostModel {
         this.category = category;
         this.comment = comment;
         this.mediaBlock = mediaBlock;
-        this.nextPost = nextPost;
-        this.prevPost = prevPost;
-    }
-
-    public ItemPostModel(List<IdPost> postId, List<TitlePost> title, List<BodyPost> body,
-                         List<BannerPost> banner, List<CategoryPost> category, List<CommentPost> comment, NeighboringPost nextPost, NeighboringPost prevPost) {
-        this.postId = postId;
-        this.title = title;
-        this.body = body;
-        this.banner = banner;
-        this.category = category;
-        this.comment = comment;
         this.nextPost = nextPost;
         this.prevPost = prevPost;
     }
@@ -150,7 +137,7 @@ public class ItemPostModel {
         private String titleBanner;
         @SerializedName("url")
         @Expose
-        private String urlBanner;  // http://newsapp.art-coral.com/sites/default/files/2020-09/90603788.jpg
+        private String urlBanner;
 
         public BannerPost(String urlBanner) {
             this.urlBanner = urlBanner;
@@ -327,9 +314,6 @@ public class ItemPostModel {
         }
     }
 
-
-
-
     public static class IdNeighboringPost {
         @SerializedName("target_id")
         @Expose
@@ -341,83 +325,6 @@ public class ItemPostModel {
 
         public int getIdPost() {
             return idPost;
-        }
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    private String postTitle;
-    private List<OneElementPost> postList;
-
-    public ItemPostModel(String postTitle, List<OneElementPost> postList) {
-        this.postTitle = postTitle;
-        this.postList = postList;
-    }
-
-    public String getPostTitle() {
-        return postTitle;
-    }
-
-    public List<OneElementPost> getPostList() {
-        return postList;
-    }
-
-
-    public static class OneElementPost {
-        private String titleElement;
-        private String linkImageElement;
-        private String linkResourceElement;
-        private String linkVideoElement;
-        private String descriptionElement;
-
-        public OneElementPost(String titleElement, String linkImageElement, String linkResourceElement, String linkVideoElement, String descriptionElement) {
-            this.titleElement = titleElement;
-            this.linkImageElement = linkImageElement;
-            this.linkResourceElement = linkResourceElement;
-            this.linkVideoElement = linkVideoElement;
-            this.descriptionElement = descriptionElement;
-        }
-
-        public String getTitleElement() {
-            return titleElement;
-        }
-
-        public String getLinkImageElement() {
-            return linkImageElement;
-        }
-
-        public String getLinkResourceElement() {
-            return linkResourceElement;
-        }
-
-        public String getLinkVideoElement() {
-            return linkVideoElement;
-        }
-
-        public String getDescriptionElement() {
-            return descriptionElement;
-        }
-
-        public static List<OneElementPost> makePostElementsList() {
-            List<OneElementPost> postElementsList = new ArrayList<>();
-            postElementsList.add(new OneElementPost("Она кошка, которую зовут Кошка", "RRRRRR", "miaow_maew", "", "Химера любит грызть бумагу"));
-            postElementsList.add(new OneElementPost("Заголовок 2", "", "", "RRRRR", "Розовые облака"));
-            postElementsList.add(new OneElementPost("", "", "", "", "Химера очень понравилась пользователям"));
-            postElementsList.add(new OneElementPost("Заголовок 3", "RRRRRR", "miaow_maew", "", "Химера Конец"));
-
-            return postElementsList;
         }
     }
 

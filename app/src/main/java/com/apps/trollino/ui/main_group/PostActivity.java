@@ -12,17 +12,12 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.apps.trollino.R;
-import com.apps.trollino.adapters.OnePostElementAdapter;
-import com.apps.trollino.data.model.ItemPostModel;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.OnSwipeTouchListener;
 import com.apps.trollino.utils.networking.GetItemPost;
-
-import java.util.List;
 
 public class PostActivity extends BaseActivity implements View.OnClickListener{
     public static String POST_ID_KEY = "POST_ID_KEY";
@@ -40,7 +35,6 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
 
     private Menu menu;
     private RecyclerView partOfPostRecyclerView;
-    private List<ItemPostModel.OneElementPost> postElementsList = ItemPostModel.OneElementPost.makePostElementsList();
     private boolean isFavoritePost;
     private boolean isPostFromCategory;
     private String currentPostId;
@@ -62,7 +56,6 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
         commentButton = findViewById(R.id.add_comment_button_post_activity);
         commentButton.setOnClickListener(this);
 
-        makePartOfPostRecyclerView();
         initToolbar();
         makeTouchListener();
 
@@ -78,36 +71,6 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
         }
 
         getPostFromAPi(currentPostId);
-    }
-
-    private void makePartOfPostRecyclerView() {
-        partOfPostRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        partOfPostRecyclerView.setAdapter(new OnePostElementAdapter(this, postElementsList));
-        partOfPostRecyclerView.setFocusable(false);
-//                                                                                                  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//        partOfPostRecyclerView.setOnFlingListener(new RecyclerView.OnFlingListener() {
-//            int MAX_VELOCITY_X = 10;
-//
-//            @Override
-//            public boolean onFling(int velocityX, int velocityY) {
-//                Log.d("OkHttp", velocityX + " " + velocityY);
-//                if (Math.abs(velocityY) > 100) {
-//                    velocityY = 100 * (int) Math.signum((double)velocityY);
-//                    partOfPostRecyclerView.fling(velocityX, velocityY);
-//                    Log.d("OkHttp", "!!!!!!!!!!!!!!!!!!!!!");
-//                    return true;
-//                }
-//                if (Math.abs(velocityX) > 100) {
-//                    velocityX = 10 * (int) Math.signum((double)velocityX);
-//                    partOfPostRecyclerView.fling(velocityX, velocityY);
-//                    Log.d("OkHttp", "222222222222222222222");
-//                    return true;
-//                }
-//
-//                return false;
-//            }
-//        });
-//                                                                                                  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }
 
     // Иницировать Toolbar
@@ -169,7 +132,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
     private void getPostFromAPi(String postId) {
         layout.smoothScrollTo(0, layout.getTop());
         new Thread(() -> {
-            GetItemPost.getItemPost(PostActivity.this, prefUtils, categoryTextView, postId, titleTextView, countCommentTextView, commentButton, imageView, body, isPostFromCategory);
+            GetItemPost.getItemPost(PostActivity.this, prefUtils, partOfPostRecyclerView, categoryTextView, postId, titleTextView, countCommentTextView, commentButton, imageView, body, isPostFromCategory);
         }).start();
     }
 

@@ -16,21 +16,21 @@
         android:id="@+id/image_element_of_post"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@color/colorGreyBackgroundVideo"
-        android:padding="10dp" />
+        android:background="@android:color/transparent"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:layout_marginTop="10dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/source_text_element_of_post"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:paddingLeft="10dp"
             android:textColor="@color/colorText"
             android:text="@string/source_of_image"/>
 
@@ -39,26 +39,82 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:padding="10dp"
+            android:paddingLeft="10dp"
             style="@style/UrlTextStyle"
             android:text="Ссылка"/>
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/video_item_element_of_post"
+        android:id="@+id/instagram_item_element_of_post"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
         android:background="@color/colorGreyBackgroundVideo"
-        android:gravity="center">
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
 
         <ImageView
             android:layout_width="130dp"
             android:layout_height="130dp"
             android:padding="20dp"
             android:src="@drawable/ic_video_player" />
+
+        <TextView
+            android:id="@+id/instagram_element_of_post"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/youtube_item_element_of_post"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:background="@color/colorGreyBackgroundVideo"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:padding="20dp"
+            android:src="@drawable/ic_video_player" />
+
+        <TextView
+            android:id="@+id/youtube_element_of_post"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/tiktok_item_element_of_post"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:background="@color/colorGreyBackgroundVideo"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:padding="20dp"
+            android:src="@drawable/ic_video_player" />
+
+        <TextView
+            android:id="@+id/tiktok_element_of_post"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
     </LinearLayout>
 
     <TextView
