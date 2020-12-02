@@ -1,5 +1,7 @@
 package com.apps.trollino.adapters;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.view.View;
@@ -69,6 +71,10 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
                     SpannableString content = new SpannableString(image.getResourceTitle());
                     content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
                     sourceLinkTextView.setText(content);
+                    sourceLinkTextView.setOnClickListener(v -> {
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(image.getResource()));
+                        view.getContext().startActivity(browserIntent);
+                    });
 
                     Picasso
                             .get()
