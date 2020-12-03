@@ -12,6 +12,7 @@ public class PrefUtils {
     private final String SELECTED_CATEGORY_ID = "SELECTED_CATEGORY_ID"; // запоминание ID выбранной категории
     private final String NEXT_POST_ID = "NEXT_POST_ID"; // запоминание ID следующего поста
     private final String PREV_POST_ID = "PREV_POST_ID"; // запоминание ID предыдущего поста
+    private final String IS_FAVORITE = "IS_FAVORITE"; // запоминание текущий пост в Избранном или нет
 
     public PrefUtils(SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
@@ -75,5 +76,13 @@ public class PrefUtils {
 
     public void savePrevPostId(String postId) {
         getEditor().putString(PREV_POST_ID, postId).apply();
+    }
+
+    public boolean getIsFavorite() {
+        return sharedPreferences.getBoolean(IS_FAVORITE, false);
+    }
+
+    public void saveIsFavorite(boolean isFavorite) {
+        getEditor().putBoolean(IS_FAVORITE, isFavorite).apply();
     }
 }

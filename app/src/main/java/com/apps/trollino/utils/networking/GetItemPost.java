@@ -2,12 +2,14 @@ package com.apps.trollino.utils.networking;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,7 +36,7 @@ public class GetItemPost {
     private static Context cont;
     private static ItemPostModel model;
 
-    public static void getItemPost(Context context, PrefUtils prefUtils, RecyclerView recyclerView, TextView categoryTextView, String postId, TextView titleTextView,
+    public static void getItemPost(Context context, PrefUtils prefUtils, RecyclerView recyclerView, Menu menu, TextView categoryTextView, String postId, TextView titleTextView,
                                    TextView countCommentTextView, Button commentButton, ImageView imageView,
                                    TextView bodyPostTextView, boolean isPostFromCategory) {
         cont = context;
@@ -57,6 +59,10 @@ public class GetItemPost {
 
                     List<ItemPostModel.MediaBlock> mediaBlock = model.getMediaBlock();
                     makePartOfPostRecyclerView(recyclerView, mediaBlock);
+
+                    boolean isFavorite = model.isFavorite();
+                    changeImageFavoriteButton(menu, isFavorite);
+                    prefUtils.saveIsFavorite(isFavorite);
 
                 } else {
                     showToast(response.errorBody().toString());
@@ -187,5 +193,19 @@ public class GetItemPost {
 
     private static void showToast(String message) {
         Toast.makeText(cont, message, Toast.LENGTH_SHORT).show();
+    }
+
+    // Смена картинки для кнопки favorite из menu в ToolBar
+    private static void changeImageFavoriteButton(Menu menu, boolean isFavoritePost) {
+        try {
+            if (isFavoritePost) {
+                menu.getItem(1).setIcon(ContextCompat.getDrawable(cont, R.drawable.ic_favorite_button));
+            } else {
+                menu.getItem(1).setIcon(ContextCompat.getDrawable(cont, R.drawable.ic_favorite_border_button));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("OkHttp_1", e.getLocalizedMessage());
+        }
     }
 }

@@ -33,10 +33,13 @@ public class ItemPostModel {
     @SerializedName("prev_node")
     @Expose
     private NeighboringPost prevPost;
+    @SerializedName("bookmarked")
+    @Expose
+    private boolean isFavorite;
 
     public ItemPostModel(List<IdPost> postId, List<TitlePost> title, List<BodyPost> body,
                          List<BannerPost> banner, List<CategoryPost> category, List<CommentPost> comment,
-                         List<MediaBlock> mediaBlock, NeighboringPost nextPost, NeighboringPost prevPost) {
+                         List<MediaBlock> mediaBlock, NeighboringPost nextPost, NeighboringPost prevPost, boolean isFavorite) {
         this.postId = postId;
         this.title = title;
         this.body = body;
@@ -46,6 +49,7 @@ public class ItemPostModel {
         this.mediaBlock = mediaBlock;
         this.nextPost = nextPost;
         this.prevPost = prevPost;
+        this.isFavorite = isFavorite;
     }
 
 
@@ -85,6 +89,9 @@ public class ItemPostModel {
         return prevPost;
     }
 
+    public boolean isFavorite() {
+        return isFavorite;
+    }
 
     public static class IdPost {
         @SerializedName("value")

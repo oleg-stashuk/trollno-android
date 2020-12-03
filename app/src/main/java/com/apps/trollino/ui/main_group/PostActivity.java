@@ -64,13 +64,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
         isPostFromCategory = this.getIntent().getBooleanExtra(POST_FROM_CATEGORY_LIST, false);
         categoryTextView.setFocusable(true);
 
-        if (favoriteValue == 0) {
-            isFavoritePost = false;
-        } else {
-            isFavoritePost = true;
-        }
-
-        getPostFromAPi(currentPostId);
+        isFavoritePost = false;
     }
 
     // Иницировать Toolbar
@@ -92,7 +86,8 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.post_menu, menu);
         this.menu = menu;
-        changeImageFavoriteButton(); // Смена картинки для кнопки favorite
+        changeImageFavoriteButton();
+        getPostFromAPi(currentPostId);
         return true;
     }
 
@@ -109,6 +104,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
     private void makeTouchListener() {
         layout.setOnTouchListener(new OnSwipeTouchListener(this) {
             public void onSwipeRight() {
+                prefUtils.saveIsFavorite(false);
                 showToast("onSwipeRight");
                 String nextPostId = prefUtils.getNextPostId();
                 if(!nextPostId.isEmpty() && nextPostId.length() > 0 && !nextPostId.equals("0")) {
@@ -118,6 +114,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
             }
 
             public void onSwipeLeft() {
+                prefUtils.saveIsFavorite(false);
                 showToast("onSwipeLeft");
                 String prevPostId = prefUtils.gePrevPostId();
                 if(!prevPostId.isEmpty() && prevPostId.length() > 0 && !prevPostId.equals("0")) {
@@ -131,9 +128,14 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
     // Get post data by Id from API
     private void getPostFromAPi(String postId) {
         layout.smoothScrollTo(0, layout.getTop());
+
         new Thread(() -> {
-            GetItemPost.getItemPost(PostActivity.this, prefUtils, partOfPostRecyclerView, categoryTextView, postId, titleTextView, countCommentTextView, commentButton, imageView, body, isPostFromCategory);
+            GetItemPost.getItemPost(PostActivity.this, prefUtils,
+                    partOfPostRecyclerView, menu, categoryTextView, postId, titleTextView,
+                    countCommentTextView, commentButton, imageView, body, isPostFromCategory);
         }).start();
+
+        isFavoritePost = prefUtils.getIsFavorite();
     }
 
     // Open activity with category

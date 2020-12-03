@@ -102,7 +102,11 @@ public class CustomConverterForItemPost implements JsonDeserializer<ItemPostMode
         JsonObject prevPostJsonObject = items.getAsJsonObject("prev_node");
         ItemPostModel.NeighboringPost prevPost = idNeighboringPost(prevPostJsonObject, context);
 
-        return new ItemPostModel(postId, title, body, banner, category, comment, mediaBlock, nextPost, prevPost);
+        // Для поля isFavorite
+        JsonElement isFavoriteJsonElement = items.get("bookmarked");
+        boolean isFavorite = isFavoriteJsonElement.getAsBoolean();
+
+        return new ItemPostModel(postId, title, body, banner, category, comment, mediaBlock, nextPost, prevPost, isFavorite);
     }
 
 
