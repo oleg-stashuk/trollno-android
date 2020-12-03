@@ -21,7 +21,6 @@ import com.apps.trollino.utils.networking.GetItemPost;
 
 public class PostActivity extends BaseActivity implements View.OnClickListener{
     public static String POST_ID_KEY = "POST_ID_KEY";
-    public static String POST_FAVORITE_VALUE = "POST_FAVORITE_VALUE";
     // Если пост открыт с категории, то предыдущий/следующий пост смотрим в данных с API для "category", если со Свежее или Обсуждаемое - с "publ"
     public static String POST_FROM_CATEGORY_LIST = "POST_FROM_CATEGORY_LIST";
 
@@ -59,7 +58,6 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
         initToolbar();
         makeTouchListener();
 
-        int favoriteValue = this.getIntent().getIntExtra(POST_FAVORITE_VALUE, 0);
         currentPostId = this.getIntent().getStringExtra(POST_ID_KEY);
         isPostFromCategory = this.getIntent().getBooleanExtra(POST_FROM_CATEGORY_LIST, false);
         categoryTextView.setFocusable(true);
