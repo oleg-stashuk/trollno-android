@@ -3,6 +3,7 @@ package com.apps.trollino.utils;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
+import android.view.KeyEvent;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageButton;
@@ -51,6 +52,14 @@ public class ImageViewDialog {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        dialog.setOnKeyListener((dialog1, keyCode, event) -> {
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                dialog1.cancel();
+                return true;
+            }
+            return false;
+        });
 
         dialog.show();
     }
