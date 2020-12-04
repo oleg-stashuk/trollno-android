@@ -26,4 +26,5 @@
     <color name="colorLightGreen">#7ECC61</color>
     <color name="colorPink">#DD6AA0</color>
     <color name="colorText">#202020</color>
+    <color name="colorDialogBackground">#313131</color>
 </resources>

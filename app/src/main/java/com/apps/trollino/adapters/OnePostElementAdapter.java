@@ -120,10 +120,10 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
                     tikTokImageView.setVisibility(View.VISIBLE);
                     getTikTok(view.getContext(), tikTokImageView, entityItem.getTiktok());
 
-                    tikTokImageView.setOnClickListener(v -> {
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(entityItem.getTiktok()));
-                        view.getContext().startActivity(browserIntent);
-                    });
+//                    tikTokImageView.setOnClickListener(v -> {
+//                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(entityItem.getTiktok()));
+//                        view.getContext().startActivity(browserIntent);
+//                    });
                 }
 
                 if (entityItem.getDesc().isEmpty()) {

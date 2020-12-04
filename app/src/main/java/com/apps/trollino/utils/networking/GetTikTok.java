@@ -2,11 +2,13 @@ package com.apps.trollino.utils.networking;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.apps.trollino.data.model.TiktokModel;
 import com.apps.trollino.data.networking.ApiServiceTiktok;
+import com.apps.trollino.utils.WebViewDialog;
 import com.squareup.picasso.Picasso;
 
 import retrofit2.Call;
@@ -33,6 +35,18 @@ public class GetTikTok {
                             .get()
                             .load(tiktokModel.getImage())
                             .into(tikTokImageView);
+
+                    tikTokImageView.setOnClickListener(v -> {
+                        WebViewDialog webViewDialog = new WebViewDialog();
+                        String videoUrl = tiktokModel.getVideo();
+//                        videoUrl = "https://m.youtube.com/watch?v=dn5BqH_kK4Y";
+                        videoUrl = "http://newsblog.app.km.ua/tiktok-test.html";
+//                        videoUrl = "https://www.tiktok.com/@sergiividov/video/6882380633742511361?lang=ru";
+
+                        webViewDialog.showWebDialog(context, videoUrl);
+                        Log.d("OkHttp_1", "tiktok video in get from API " + tiktokModel.getVideo());
+                    });
+
                 } else {
                     showToast(response.errorBody().toString());
                     Log.d("OkHttp", "response.errorBody() " + response.errorBody());
