@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
@@ -43,6 +44,7 @@ public class WebViewDialog{
 
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setSaveFormData(true);
+        webView.getSettings().setPluginState(WebSettings.PluginState.ON);
 
         webView.loadUrl(url);
 //        webView.loadData(url, "text/html; charset=UTF-8", null);
