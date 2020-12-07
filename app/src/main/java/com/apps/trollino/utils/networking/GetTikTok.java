@@ -40,8 +40,10 @@ public class GetTikTok {
                         WebViewDialog webViewDialog = new WebViewDialog();
                         String videoUrl = tiktokModel.getVideo();
 //                        videoUrl = "https://m.youtube.com/watch?v=dn5BqH_kK4Y";
-                        videoUrl = "http://newsblog.app.km.ua/tiktok-test.html";
+//                        videoUrl = "http://newsblog.app.km.ua/tiktok-test.html";
 //                        videoUrl = "https://www.tiktok.com/@sergiividov/video/6882380633742511361?lang=ru";
+//                        videoUrl = "https://www.instagram.com/p/CIGvbXCn1Cm/?igshid=9xcw3tb3ylcu";
+
 
                         webViewDialog.showWebDialog(context, videoUrl);
                         Log.d("OkHttp_1", "tiktok video in get from API " + tiktokModel.getVideo());

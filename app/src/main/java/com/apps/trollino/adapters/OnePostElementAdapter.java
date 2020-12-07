@@ -68,7 +68,21 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
                     titleTextView.setText(entityItem.getTitle());
                 }
 
-                ItemPostModel.ImageBlock image = entityItem.getImage();
+                makeImageBlock(entityItem.getImage(), imageView, sourceTextView, sourceLinkTextView);
+                makeInstagramBlock(entityItem.getInstagram(), instagramLinearLayout, instagramTextView);
+                makeYoutubeBlock(entityItem.getYoutube(), youtubeTextView, youTubeThumbnailView);
+                makeTokImageBlock(entityItem.getTiktok(), tikTokImageView);
+
+                if (entityItem.getDesc().isEmpty()) {
+                    descriptionTextView.setVisibility(View.GONE);
+                } else {
+                    descriptionTextView.setVisibility(View.VISIBLE);
+                    descriptionTextView.setText(entityItem.getDesc());
+                }
+
+            }
+
+            private void makeImageBlock(ItemPostModel.ImageBlock image, ImageView imageView, TextView sourceTextView, TextView sourceLinkTextView) {
                 if (image.getUrlImage().isEmpty()) {
                     imageView.setVisibility(View.GONE);
                     sourceTextView.setVisibility(View.GONE);
@@ -96,41 +110,22 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
                         dialog.showDialog(view.getContext(), image.getResourceTitle(), image.getUrlImage());
                     });
                 }
+            }
 
-                if (entityItem.getInstagram().isEmpty()) {
+            private void makeInstagramBlock(String instagramLink, LinearLayout instagramLinearLayout, TextView instagramTextView) {
+                if (instagramLink.isEmpty()) {
                     instagramLinearLayout.setVisibility(View.GONE);
                     instagramTextView.setVisibility(View.GONE);
                 } else {
                     instagramLinearLayout.setVisibility(View.VISIBLE);
                     instagramTextView.setVisibility(View.VISIBLE);
-                    instagramTextView.setText(entityItem.getInstagram());
+
+                    instagramTextView.setText(instagramLink);
                     instagramLinearLayout.setOnClickListener(v -> {
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(entityItem.getInstagram()));
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(instagramLink));
                         view.getContext().startActivity(browserIntent);
                     });
                 }
-
-                makeYoutubeBlock(entityItem.getYoutube(), youtubeTextView, youTubeThumbnailView);
-
-                if (entityItem.getTiktok().isEmpty()) {
-                    tikTokImageView.setVisibility(View.GONE);
-                } else {
-                    tikTokImageView.setVisibility(View.VISIBLE);
-                    getTikTok(view.getContext(), tikTokImageView, entityItem.getTiktok());
-
-//                    tikTokImageView.setOnClickListener(v -> {
-//                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(entityItem.getTiktok()));
-//                        view.getContext().startActivity(browserIntent);
-//                    });
-                }
-
-                if (entityItem.getDesc().isEmpty()) {
-                    descriptionTextView.setVisibility(View.GONE);
-                } else {
-                    descriptionTextView.setVisibility(View.VISIBLE);
-                    descriptionTextView.setText(entityItem.getDesc());
-                }
-
             }
 
             private void makeYoutubeBlock(String youtubeLink, TextView youtubeTextView, YouTubeThumbnailView youTubeThumbnailView) {
@@ -169,6 +164,22 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
                 }
             }
 
+            private void makeTokImageBlock(String tikTokLink, ImageView tikTokImageView) {
+                if (tikTokLink.isEmpty()) {
+                    tikTokImageView.setVisibility(View.GONE);
+                } else {
+                    tikTokImageView.setVisibility(View.VISIBLE);
+                    getTikTok(view.getContext(), tikTokImageView, tikTokLink);
+
+//                    tikTokImageView.setOnClickListener(v -> {
+//                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(entityItem.getTiktok()));
+//                        view.getContext().startActivity(browserIntent);
+//                    });
+                }
+
+
+
+            }
         };
 
 
