@@ -2,62 +2,73 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.apps.trollino">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".ui.main_group.EditUserProfileActivity"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".ui.main_group.YoutubeActivity"></activity>
+        <activity
+            android:name=".ui.main_group.EditUserProfileActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".ui.main_group.CommentToPostActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".ui.main_group.CommentToPostActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".ui.main_group.ActivityInPostActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".ui.main_group.ActivityInPostActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".ui.main_group.PostActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".ui.main_group.PostActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".ui.main_group.SearchActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".ui.main_group.SearchActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".ui.main_group.TapeActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".ui.main_group.TapeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".ui.main_group.FavoriteActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".ui.main_group.FavoriteActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ui.authorisation.ForgotPasswordActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".ui.authorisation.RegistrationActivity"
+        <activity
+            android:name=".ui.authorisation.RegistrationActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".ui.authorisation.LoginActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".ui.authorisation.LoginActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".ui.main_group.ProfileActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".ui.main_group.ProfileActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
-
-        <activity android:name=".ui.SplashActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".ui.SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden">

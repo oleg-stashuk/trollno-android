@@ -1,5 +1,6 @@
 package com.apps.trollino.adapters;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.SpannableString;
@@ -8,12 +9,18 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.apps.trollino.R;
 import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
 import com.apps.trollino.data.model.ItemPostModel;
 import com.apps.trollino.ui.base.BaseActivity;
+import com.apps.trollino.ui.main_group.YoutubeActivity;
+import com.apps.trollino.utils.Const;
 import com.apps.trollino.utils.ImageViewDialog;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -109,8 +116,9 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
                     youtubeTextView.setVisibility(View.VISIBLE);
                     youtubeTextView.setText(entityItem.getYoutube());
                     youtubeLinearLayout.setOnClickListener(v -> {
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(entityItem.getYoutube()));
-                        view.getContext().startActivity(browserIntent);
+//                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(entityItem.getYoutube()));
+//                        view.getContext().startActivity(browserIntent);
+                        view.getContext().startActivity(new Intent(view.getContext(), YoutubeActivity.class));
                     });
                 }
 
