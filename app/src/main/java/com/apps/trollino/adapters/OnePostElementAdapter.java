@@ -19,8 +19,8 @@ import com.apps.trollino.ui.main_group.YoutubeActivity;
 import com.apps.trollino.utils.Const;
 import com.apps.trollino.utils.ImageViewDialog;
 import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerView;
+import com.google.android.youtube.player.YouTubeThumbnailLoader;
+import com.google.android.youtube.player.YouTubeThumbnailView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -28,6 +28,7 @@ import java.util.List;
 import static com.apps.trollino.utils.networking.GetTikTok.getTikTok;
 
 public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.MediaBlock> {
+    private final int RECOVERY_REQUEST = 1;
 
     public OnePostElementAdapter(BaseActivity baseActivity, List<ItemPostModel.MediaBlock> items) {
         super(baseActivity, items);
@@ -50,8 +51,8 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
                 LinearLayout instagramLinearLayout = view.findViewById(R.id.instagram_item_element_of_post);
                 TextView instagramTextView = view.findViewById(R.id.instagram_element_of_post);
 
-                LinearLayout youtubeLinearLayout = view.findViewById(R.id.youtube_item_element_of_post);
                 TextView youtubeTextView = view.findViewById(R.id.youtube_element_of_post);
+                YouTubeThumbnailView youTubeThumbnailView = view.findViewById(R.id.youtube_view_1);
 
                 ImageView tikTokImageView = view.findViewById(R.id.tiktok_image_item_element_of_post);
 
@@ -59,6 +60,7 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
 
 
                 ItemPostModel.EntityMediaBlock entityItem = item.getEntity();
+
                 if (entityItem.getTitle().isEmpty()) {
                     titleTextView.setVisibility(View.GONE);
                 } else {
@@ -108,19 +110,7 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
                     });
                 }
 
-                if (entityItem.getYoutube().isEmpty()) {
-                    youtubeLinearLayout.setVisibility(View.GONE);
-                    youtubeTextView.setVisibility(View.GONE);
-                } else {
-                    youtubeLinearLayout.setVisibility(View.VISIBLE);
-                    youtubeTextView.setVisibility(View.VISIBLE);
-                    youtubeTextView.setText(entityItem.getYoutube());
-                    youtubeLinearLayout.setOnClickListener(v -> {
-//                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(entityItem.getYoutube()));
-//                        view.getContext().startActivity(browserIntent);
-                        view.getContext().startActivity(new Intent(view.getContext(), YoutubeActivity.class));
-                    });
-                }
+                makeYoutubeBlock(entityItem.getYoutube(), youtubeTextView, youTubeThumbnailView);
 
                 if (entityItem.getTiktok().isEmpty()) {
                     tikTokImageView.setVisibility(View.GONE);
@@ -141,6 +131,42 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
                     descriptionTextView.setText(entityItem.getDesc());
                 }
 
+            }
+
+            private void makeYoutubeBlock(String youtubeLink, TextView youtubeTextView, YouTubeThumbnailView youTubeThumbnailView) {
+                if (youtubeLink.isEmpty()) {
+                    youTubeThumbnailView.setVisibility(View.GONE);
+                    youtubeTextView.setVisibility(View.GONE);
+                } else {
+
+                    int length = youtubeLink.length();
+                    String videoAddress = youtubeLink.substring(length-11, length);
+
+                    youTubeThumbnailView.initialize(Const.YOUTUBE_API_KEY, new YouTubeThumbnailView.OnInitializedListener() {
+                        @Override
+                        public void onInitializationSuccess(YouTubeThumbnailView youTubeThumbnailView, YouTubeThumbnailLoader youTubeThumbnailLoader) {
+                            youTubeThumbnailLoader.setVideo(videoAddress);
+                        }
+
+                        @Override
+                        public void onInitializationFailure(YouTubeThumbnailView youTubeThumbnailView, YouTubeInitializationResult youTubeInitializationResult) {
+                            if (youTubeInitializationResult.isUserRecoverableError()) {
+                                youTubeInitializationResult.getErrorDialog((Activity) view.getContext(), RECOVERY_REQUEST).show();
+                            } else {
+                                String error = String.format(view.getContext().getString(R.string.player_error), youTubeInitializationResult.toString());
+                                Toast.makeText(view.getContext(), error, Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+
+                    youtubeTextView.setVisibility(View.VISIBLE);
+                    youTubeThumbnailView.setVisibility(View.VISIBLE);
+                    youTubeThumbnailView.setOnClickListener(v -> {
+                        Intent intent = new Intent(view.getContext(), YoutubeActivity.class);
+                        intent.putExtra(YoutubeActivity.YOUTUBE_VIDEO_LINK, videoAddress);
+                        view.getContext().startActivity(intent);
+                    });
+                }
             }
 
         };

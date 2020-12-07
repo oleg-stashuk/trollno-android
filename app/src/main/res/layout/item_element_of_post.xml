@@ -69,29 +69,22 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/youtube_item_element_of_post"
+    <com.google.android.youtube.player.YouTubeThumbnailView
+        android:id="@+id/youtube_view_1"
+        android:name="com.google.android.youtube.player.YouTubePlayerSupportFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_weight="1"
-        android:background="@color/colorGreyBackgroundVideo"
-        android:gravity="center"
-        android:layout_marginTop="10dp"
-        android:orientation="vertical">
+        android:background="@android:color/transparent"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:layout_marginTop="10dp" />
 
-        <ImageView
-            android:layout_width="130dp"
-            android:layout_height="130dp"
-            android:padding="20dp"
-            android:src="@drawable/ic_video_player" />
-
-        <TextView
-            android:id="@+id/youtube_element_of_post"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-    </LinearLayout>
+    <TextView
+        android:id="@+id/youtube_element_of_post"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:text="@string/resourse_youtube"/>
 
     <ImageView
         android:id="@+id/tiktok_image_item_element_of_post"

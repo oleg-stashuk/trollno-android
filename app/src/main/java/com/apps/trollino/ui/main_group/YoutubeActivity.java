@@ -12,13 +12,18 @@ import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
 
 public class YoutubeActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
+    public static String YOUTUBE_VIDEO_LINK = "YOUTUBE_VIDEO_LINK";
     private static final int RECOVERY_REQUEST = 1;
     private YouTubePlayerView youTubeView;
+
+    private String videoAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_youtube);
+
+        videoAddress = this.getIntent().getStringExtra(YOUTUBE_VIDEO_LINK);
 
         youTubeView = (YouTubePlayerView) findViewById(R.id.youtube_view);
         youTubeView.initialize(Const.YOUTUBE_API_KEY, this);
@@ -26,7 +31,7 @@ public class YoutubeActivity extends YouTubeBaseActivity implements YouTubePlaye
 
     @Override
     public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-        youTubePlayer.cueVideo("liy0afJ8Gzw"); // Plays https://www.youtube.com/watch?v=fhWaJi1Hsfo
+        youTubePlayer.cueVideo(videoAddress);
     }
 
     @Override

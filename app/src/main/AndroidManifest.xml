@@ -11,7 +11,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.main_group.YoutubeActivity"></activity>
+        <activity android:name=".ui.main_group.YoutubeActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ui.main_group.EditUserProfileActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
