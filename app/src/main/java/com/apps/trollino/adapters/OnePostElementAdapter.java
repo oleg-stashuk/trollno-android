@@ -1,6 +1,7 @@
 package com.apps.trollino.adapters;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.SpannableString;
@@ -18,6 +19,7 @@ import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.ui.main_group.YoutubeActivity;
 import com.apps.trollino.utils.Const;
 import com.apps.trollino.utils.ImageViewDialog;
+import com.apps.trollino.utils.WebViewDialog;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubeThumbnailLoader;
 import com.google.android.youtube.player.YouTubeThumbnailView;
@@ -69,7 +71,7 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
                 }
 
                 makeImageBlock(entityItem.getImage(), imageView, sourceTextView, sourceLinkTextView);
-                makeInstagramBlock(entityItem.getInstagram(), instagramLinearLayout, instagramTextView);
+                makeInstagramBlock(entityItem.getInstagram(), instagramLinearLayout, instagramTextView, view.getContext());
                 makeYoutubeBlock(entityItem.getYoutube(), youtubeTextView, youTubeThumbnailView);
                 makeTokImageBlock(entityItem.getTiktok(), tikTokImageView);
 
@@ -112,7 +114,7 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
                 }
             }
 
-            private void makeInstagramBlock(String instagramLink, LinearLayout instagramLinearLayout, TextView instagramTextView) {
+            private void makeInstagramBlock(String instagramLink, LinearLayout instagramLinearLayout, TextView instagramTextView, Context context) {
                 if (instagramLink.isEmpty()) {
                     instagramLinearLayout.setVisibility(View.GONE);
                     instagramTextView.setVisibility(View.GONE);
@@ -122,8 +124,10 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
 
                     instagramTextView.setText(instagramLink);
                     instagramLinearLayout.setOnClickListener(v -> {
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(instagramLink));
-                        view.getContext().startActivity(browserIntent);
+//                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(instagramLink));
+//                        view.getContext().startActivity(browserIntent);
+                        WebViewDialog webViewDialog = new WebViewDialog();
+                        webViewDialog.showWebDialog(context, instagramLink);
                     });
                 }
             }
