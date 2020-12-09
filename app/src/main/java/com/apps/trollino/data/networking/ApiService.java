@@ -3,6 +3,8 @@ package com.apps.trollino.data.networking;
 import com.apps.trollino.data.model.CategoryModel;
 import com.apps.trollino.data.model.ItemPostModel;
 import com.apps.trollino.data.model.PostsModel;
+import com.apps.trollino.data.model.RequestLoginModel;
+import com.apps.trollino.data.model.ResponseLoginModel;
 import com.apps.trollino.utils.castom_converter.CustomConverterForItemPost;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -19,6 +21,7 @@ import static com.apps.trollino.utils.Const.BASE_URL;
 
 public class ApiService {
     private PostApi postApi;
+    private AuthorisationApi authorisationApi;
 
     private static volatile ApiService instance = null;
     public static ApiService getInstance() {
@@ -46,6 +49,7 @@ public class ApiService {
                 .build();
 
         postApi = retrofit.create(PostApi.class);
+        authorisationApi = retrofit.create(AuthorisationApi.class);
     }
 
     // GET and POST request for work with for Tape Post block
@@ -71,5 +75,10 @@ public class ApiService {
 
     public void getSearchPosts(String cookie, String searchText, int page, Callback<PostsModel> callback) {
         postApi.getSearchPosts(cookie, searchText, page).enqueue(callback);
+    }
+
+    // GET and POST request for work with Authorisation block
+    public void postLogin(String login, String password, Callback<ResponseLoginModel> callback) {
+        authorisationApi.postLogin(new RequestLoginModel(login, password)).enqueue(callback);
     }
 }

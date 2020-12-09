@@ -4,9 +4,13 @@ import android.content.SharedPreferences;
 
 public class PrefUtils {
     private SharedPreferences sharedPreferences;
-    private final String USER_AUTHORIZATION_KEY = "USER_AUTHORIZATION_KEY";
 
+    private final String TOKEN_KEY = "TOKEN_KEY";
+    private final String LOGOUT_TOKEN_KEY = "LOGOUT_TOKEN_KEY";
+    private final String USER_UID = "USER_UID";
+    private final String USER_AUTHORIZATION_KEY = "USER_AUTHORIZATION_KEY";
     private final String COOKIE_KEY = "COOKIE_KEY";
+
     private final String NEW_POST_CURRENT_PAGE = "NEW_POST_CURRENT_PAGE"; // запоминание текущей страницы данных с Api для постов из категории "Свежее"
     private final String POST_BY_CATEGORY_CURRENT_PAGE = "POST_BY_CATEGORY_CURRENT_PAGE"; // запоминание текущей страницы данных с Api для постов из категорий, загружаемых с Api
     private final String SELECTED_CATEGORY_ID = "SELECTED_CATEGORY_ID"; // запоминание ID выбранной категории
@@ -20,6 +24,30 @@ public class PrefUtils {
 
     private SharedPreferences.Editor getEditor() {
         return sharedPreferences.edit();
+    }
+
+    public String getToken() {
+        return sharedPreferences.getString(TOKEN_KEY, "");
+    }
+
+    public void saveToken(String token) {
+        getEditor().putString(TOKEN_KEY, token).apply();
+    }
+
+    public String getLogoutToken() {
+        return sharedPreferences.getString(LOGOUT_TOKEN_KEY, "");
+    }
+
+    public void saveLogoutToken(String logoutToken) {
+        getEditor().putString(LOGOUT_TOKEN_KEY, logoutToken).apply();
+    }
+
+    public String getUserUid() {
+        return sharedPreferences.getString(USER_UID, "");
+    }
+
+    public void saveUserUid(String userUid) {
+        getEditor().putString(USER_UID, userUid).apply();
     }
 
     public String getCookie() {
