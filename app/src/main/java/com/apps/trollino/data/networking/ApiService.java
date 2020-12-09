@@ -5,6 +5,8 @@ import android.content.Context;
 import com.apps.trollino.data.model.CategoryModel;
 import com.apps.trollino.data.model.ItemPostModel;
 import com.apps.trollino.data.model.PostsModel;
+import com.apps.trollino.data.model.RegistrationRequestModel;
+import com.apps.trollino.data.model.RegistrationResponseModel;
 import com.apps.trollino.data.model.RequestLoginModel;
 import com.apps.trollino.data.model.ResponseLoginModel;
 import com.apps.trollino.utils.castom_converter.CustomConverterForItemPost;
@@ -85,5 +87,9 @@ public class ApiService {
     // GET and POST request for work with Authorisation block
     public void postLogin(String login, String password, Callback<ResponseLoginModel> callback) {
         authorisationApi.postLogin(new RequestLoginModel(login, password)).enqueue(callback);
+    }
+
+    public void postRegistration(List<String> login, List<String> mail, List<String> pass, Callback<RegistrationResponseModel> callback) {
+        authorisationApi.postRegistration(new RegistrationRequestModel(login, mail, pass)).enqueue(callback);
     }
 }

@@ -1,5 +1,7 @@
 package com.apps.trollino.data.networking;
 
+import com.apps.trollino.data.model.RegistrationRequestModel;
+import com.apps.trollino.data.model.RegistrationResponseModel;
 import com.apps.trollino.data.model.RequestLoginModel;
 import com.apps.trollino.data.model.ResponseLoginModel;
 
@@ -16,5 +18,12 @@ public interface AuthorisationApi {
     })
     @POST("/user/login?_format=json")
     Call<ResponseLoginModel> postLogin(@Body RequestLoginModel login);
+
+    @Headers({
+            "Content-Type: application/json",
+            "Accepts: application/json"
+    })
+    @POST("/user/register?_format=json")
+    Call<RegistrationResponseModel> postRegistration(@Body RegistrationRequestModel registration);
 
 }
