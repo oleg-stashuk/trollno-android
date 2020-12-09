@@ -24,7 +24,7 @@ public class GetCategoryList {
         cont = context;
         String cookie = prefUtils.getCookie();
 
-        ApiService.getInstance().getCategoryList(cookie, new Callback<List<CategoryModel>>() {
+        ApiService.getInstance(context).getCategoryList(cookie, new Callback<List<CategoryModel>>() {
             int countTry = 0;
 
             @Override

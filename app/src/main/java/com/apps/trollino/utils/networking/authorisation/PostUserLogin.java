@@ -28,7 +28,7 @@ public class PostUserLogin {
     public static void postUserLogin(Context context, String login, String password, PrefUtils prefUtils) {
         cont = context;
 
-        ApiService.getInstance().postLogin(login, password, new Callback<ResponseLoginModel>() {
+        ApiService.getInstance(context).postLogin(login, password, new Callback<ResponseLoginModel>() {
             int countTry = 0;
 
             @Override

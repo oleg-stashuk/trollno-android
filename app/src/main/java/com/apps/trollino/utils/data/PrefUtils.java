@@ -2,6 +2,8 @@ package com.apps.trollino.utils.data;
 
 import android.content.SharedPreferences;
 
+import java.util.HashSet;
+
 public class PrefUtils {
     private SharedPreferences sharedPreferences;
 
@@ -51,11 +53,11 @@ public class PrefUtils {
     }
 
     public String getCookie() {
-        return sharedPreferences.getString(COOKIE_KEY, "");
+        return String.valueOf(sharedPreferences.getStringSet(COOKIE_KEY, new HashSet<>()));
     }
 
-    public void saveCookie(String cookie) {
-        getEditor().putString(COOKIE_KEY, cookie).apply();
+    public void saveCookie(HashSet<String> cookie) {
+        getEditor().putStringSet(COOKIE_KEY, cookie).apply();
     }
 
     public boolean getIsUserAuthorization() {

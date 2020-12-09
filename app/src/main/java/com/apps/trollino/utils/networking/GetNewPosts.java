@@ -30,7 +30,7 @@ public class GetNewPosts {
         page = prefUtils.getNewPostCurrentPage();
         String cookie = prefUtils.getCookie();
 
-        ApiService.getInstance().getNewPosts(cookie, page, new Callback<PostsModel>() {
+        ApiService.getInstance(context).getNewPosts(cookie, page, new Callback<PostsModel>() {
             int countTry = 0;
 
             @Override

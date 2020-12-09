@@ -29,7 +29,7 @@ public class GetPostBySearch {
         String cookie = prefUtils.getCookie();
         page = prefUtils.getNewPostCurrentPage();
 
-        ApiService.getInstance().getSearchPosts(cookie, searchText, page, new Callback<PostsModel>() {
+        ApiService.getInstance(context).getSearchPosts(cookie, searchText, page, new Callback<PostsModel>() {
             int countTry = 0;
 
             @Override

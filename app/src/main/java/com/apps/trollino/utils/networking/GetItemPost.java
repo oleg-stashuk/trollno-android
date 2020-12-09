@@ -42,7 +42,7 @@ public class GetItemPost {
         cont = context;
         String cookie = prefUtils.getCookie();
 
-        ApiService.getInstance().getItemPost(cookie, postId, new Callback<ItemPostModel>() {
+        ApiService.getInstance(context).getItemPost(cookie, postId, new Callback<ItemPostModel>() {
             int countTry = 0;
 
             @Override

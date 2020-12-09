@@ -30,7 +30,7 @@ public class GetPostsByCategory {
         String cookie = prefUtils.getCookie();
         String categoryId = prefUtils.getSelectedCategoryId();
 
-        ApiService.getInstance().getPostsByCategory(cookie, categoryId, page, new Callback<PostsModel>() {
+        ApiService.getInstance(context).getPostsByCategory(cookie, categoryId, page, new Callback<PostsModel>() {
             int countTry = 0;
 
             @Override

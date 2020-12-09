@@ -27,7 +27,7 @@ public class GetMostDiscusPosts {
         cont = context;
         String cookie = prefUtils.getCookie();
 
-        ApiService.getInstance().getMostDiscusPosts(cookie, 0, new Callback<PostsModel>() {
+        ApiService.getInstance(context).getMostDiscusPosts(cookie, 0, new Callback<PostsModel>() {
             int countTry = 0;
 
             @Override

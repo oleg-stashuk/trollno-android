@@ -1,5 +1,7 @@
 package com.apps.trollino.data.networking;
 
+import android.content.Context;
+
 import com.apps.trollino.data.model.CategoryModel;
 import com.apps.trollino.data.model.ItemPostModel;
 import com.apps.trollino.data.model.PostsModel;
@@ -24,14 +26,14 @@ public class ApiService {
     private AuthorisationApi authorisationApi;
 
     private static volatile ApiService instance = null;
-    public static ApiService getInstance() {
+    public static ApiService getInstance(Context context) {
         if(instance == null) {
-            instance = new ApiService();
+            instance = new ApiService(context);
         }
         return instance;
     }
 
-    private ApiService() {
+    private ApiService(Context context) {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(ItemPostModel.class, new CustomConverterForItemPost())
 //                .registerTypeAdapter(ItemPostModel.class, new CustomConverterForItemPost())
@@ -39,8 +41,11 @@ public class ApiService {
 
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        httpClient.addInterceptor(new ReceivedCookiesInterceptor(context));
         httpClient.addInterceptor(logging);
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
