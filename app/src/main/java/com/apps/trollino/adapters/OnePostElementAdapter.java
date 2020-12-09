@@ -19,7 +19,6 @@ import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.ui.main_group.YoutubeActivity;
 import com.apps.trollino.utils.Const;
 import com.apps.trollino.utils.ImageViewDialog;
-import com.apps.trollino.utils.WebViewDialog;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubeThumbnailLoader;
 import com.google.android.youtube.player.YouTubeThumbnailView;
@@ -124,10 +123,10 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
 
                     instagramTextView.setText(instagramLink);
                     instagramLinearLayout.setOnClickListener(v -> {
-//                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(instagramLink));
-//                        view.getContext().startActivity(browserIntent);
-                        WebViewDialog webViewDialog = new WebViewDialog();
-                        webViewDialog.showWebDialog(context, instagramLink);
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(instagramLink));
+                        view.getContext().startActivity(browserIntent);
+//                        WebViewDialog webViewDialog = new WebViewDialog();
+//                        webViewDialog.showWebDialog(context, instagramLink);
                     });
                 }
             }
@@ -175,10 +174,10 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
                     tikTokImageView.setVisibility(View.VISIBLE);
                     getTikTok(view.getContext(), tikTokImageView, tikTokLink);
 
-//                    tikTokImageView.setOnClickListener(v -> {
-//                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(entityItem.getTiktok()));
-//                        view.getContext().startActivity(browserIntent);
-//                    });
+                    tikTokImageView.setOnClickListener(v -> {
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(tikTokLink));
+                        view.getContext().startActivity(browserIntent);
+                    });
                 }
 
 
