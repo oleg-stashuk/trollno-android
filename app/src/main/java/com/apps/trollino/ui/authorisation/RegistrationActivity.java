@@ -1,14 +1,15 @@
 package com.apps.trollino.ui.authorisation;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
 import com.apps.trollino.R;
 import com.apps.trollino.ui.base.BaseActivity;
-import com.apps.trollino.ui.main_group.ProfileActivity;
 import com.apps.trollino.ui.main_group.TapeActivity;
 import com.apps.trollino.utils.Validation;
+import com.apps.trollino.utils.networking.authorisation.PostUserRegistration;
 
 public class RegistrationActivity extends BaseActivity implements View.OnClickListener {
     private EditText nameEditText;
@@ -70,7 +71,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this, ProfileActivity.class));
+        startActivity(new Intent(this, LoginActivity.class));
         finish();
     }
 
@@ -79,9 +80,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         switch (v.getId()) {
             case R.id.registration_button_registration:
                 if(inputFieldIsValid()){
-                    prefUtils.saveIsUserAuthorization(true);
-                    startActivity(new Intent(this, TapeActivity.class));
-                    finish();
+                    new Thread(() -> PostUserRegistration.postRegistration(this, name, email, password, prefUtils)).start();
                 }
                 break;
             case R.id.login_registration:
