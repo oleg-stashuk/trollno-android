@@ -36,14 +36,13 @@
             app:boxBackgroundColor="@android:color/transparent">
 
             <EditText
-                android:id="@+id/edt_email_login"
+                android:id="@+id/edt_name_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_email"
-                android:drawableStart="@drawable/ic_email"
+                android:drawableLeft="@drawable/ic_person"
+                android:drawableStart="@drawable/ic_person"
                 android:drawablePadding="12dp"
-                android:hint="@string/edt_email"
-                android:inputType="textEmailAddress" />
+                android:hint="@string/edt_name"/>/>
 
         </com.google.android.material.textfield.TextInputLayout>
 

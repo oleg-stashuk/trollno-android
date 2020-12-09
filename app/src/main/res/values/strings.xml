@@ -70,4 +70,9 @@
     <string name="instagram_secret">04e13fba37b67282b3b7579ddf12ecfd</string>
     <string name="APP_ID">214851550206757</string>
     <string name="callbackurl">http:// …</string>
+    <string name="name_is_empty_toast">Поле Имя не должно быть пустым</string>
+    <string name="mail_is_empty_toast">Поле email не должно быть пустым</string>
+    <string name="password_is_empty_toast">Поле пароль не должно быть пустым</string>
+    <string name="uncorrect_email_toast">Некоректный email</string>
+    <string name="pasword_length_toast">Поле пароль долджно содержать больше 3 символов</string>
 </resources>

@@ -1,13 +1,11 @@
 package com.apps.trollino.ui.authorisation;
 
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
 import com.apps.trollino.R;
 import com.apps.trollino.ui.base.BaseActivity;
-import com.apps.trollino.ui.main_group.TapeActivity;
 import com.apps.trollino.utils.Validation;
 import com.apps.trollino.utils.networking.authorisation.PostUserRegistration;
 
@@ -44,26 +42,26 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
 
         if(name.isEmpty()) {
             nameEditText.requestFocus();
-            showToast("Поле Имя не должно быть пустым");
+            showToast(getString(R.string.name_is_empty_toast));
             return false;
         }
         if(email.isEmpty()) {
             emailEditText.requestFocus();
-            showToast("Поле email не должно быть пустым");
+            showToast(getString(R.string.mail_is_empty_toast));
             return false;
         } else if(!Validation.isCorrectEmail(email)) {
             emailEditText.requestFocus();
-            showToast("Некоректный email");
+            showToast(getString(R.string.uncorrect_email_toast));
             return false;
         }
 
         if(password.isEmpty()) {
             passwordEditText.requestFocus();
-            showToast("Поле пароль не должно быть пустым");
+            showToast(getString(R.string.password_is_empty_toast));
             return false;
         } else if(!Validation.isCorrectPassword(password)) {
             passwordEditText.requestFocus();
-            showToast("Поле пароль долджно содержать больше 6 символов");
+            showToast(getString(R.string.pasword_length_toast));
             return false;
         }
         return true;
