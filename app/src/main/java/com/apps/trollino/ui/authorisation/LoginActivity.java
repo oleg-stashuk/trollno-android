@@ -8,6 +8,7 @@ import com.apps.trollino.R;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.ui.main_group.ProfileActivity;
 import com.apps.trollino.utils.Validation;
+import com.apps.trollino.utils.networking.authorisation.PostUserLogin;
 
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
@@ -71,9 +72,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 finish();
                 break;
             case R.id.login_button_login:
-                if(inputFieldIsValid()){
-                    prefUtils.saveIsUserAuthorization(true);
-                    onBackPressed();
+                if (inputFieldIsValid()) {
+                    PostUserLogin.postUserLogin(this, email, password, prefUtils);
                 }
                 break;
             case R.id.register_login:

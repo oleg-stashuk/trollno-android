@@ -11,7 +11,7 @@ public class Validation {
     }
 
     public static boolean isCorrectPassword(String password) {
-        if (password.length() < 6) {
+        if (password.length() < 4) {
             return false;
         }
         return true;
