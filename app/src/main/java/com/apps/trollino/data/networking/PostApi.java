@@ -56,5 +56,4 @@ public interface PostApi {
     })
     @GET("/posts/search")
     Call<PostsModel> getSearchPosts(@Header("Cookie") String cookie, @Query("title") String textSearch, @Query("page") int page);
-//    "/posts/search?title=<STEXT>"
 }

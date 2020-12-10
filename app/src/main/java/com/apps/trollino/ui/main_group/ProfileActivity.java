@@ -16,6 +16,7 @@ import com.apps.trollino.ui.authorisation.RegistrationActivity;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.InformationAboutAppDialog;
 import com.apps.trollino.utils.networking.authorisation.GetUserProfile;
+import com.apps.trollino.utils.networking.authorisation.PostLogout;
 
 public class ProfileActivity extends BaseActivity implements View.OnClickListener{
     private LinearLayout userIncludeLinearLayout;
@@ -114,12 +115,10 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 finish();
                 break;
             case R.id.login_button_include_profile_for_guest:
-            case R.id.exit_button_profile:
-                if(isUserAuthorization) {
-                    prefUtils.saveIsUserAuthorization(false);
-                }
                 startActivity(new Intent(this, LoginActivity.class));
                 finish();
+            case R.id.exit_button_profile:
+                new Thread(() -> PostLogout.postLogout(this, prefUtils)).start();
                 break;
             case R.id.registration_button_include_profile_for_guest:
                 startActivity(new Intent(this, RegistrationActivity.class));

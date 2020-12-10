@@ -98,4 +98,8 @@ public class ApiService {
     public void getUserProfileData(String cookie, String userUid, Callback<UserProfileModel> callback) {
         authorisationApi.getUserProfileData(cookie, userUid).enqueue(callback);
     }
+
+    public void postLogout(String cookie, String token, String logoutToken, Callback<Void> callback) {
+        authorisationApi.postLogout(cookie, token, logoutToken).enqueue(callback);
+    }
 }

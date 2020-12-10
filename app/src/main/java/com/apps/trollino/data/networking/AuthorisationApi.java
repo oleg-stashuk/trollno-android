@@ -13,6 +13,7 @@ import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface AuthorisationApi {
 
@@ -30,11 +31,19 @@ public interface AuthorisationApi {
     @POST("/user/register?_format=json")
     Call<RegistrationResponseModel> postRegistration(@Body RegistrationRequestModel registration);
 
-
     @Headers({
             "Content-Type: application/json",
             "Accepts: application/json"
     })
     @GET("/user/{uid}?_format=json")
     Call<UserProfileModel> getUserProfileData(@Header("Cookie") String cookie, @Path("uid") String uidUser);
+
+    @Headers({
+            "Content-Type: application/json",
+            "Accepts: application/json"
+    })
+
+    @POST("/user/logout/?_format=json")
+    Call<Void> postLogout(@Header("Cookie") String cookie, @Header("X-CSRF-Token") String token,
+                          @Query("logout_token") String logoutToken);
 }
