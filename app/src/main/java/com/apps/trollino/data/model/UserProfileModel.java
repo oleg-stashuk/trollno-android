@@ -8,7 +8,7 @@ import java.util.List;
 public class UserProfileModel {
     @SerializedName("uid")
     @Expose
-    private List<UserData> uidList;
+    private List<UserUidData> uidList;
     @SerializedName("name")
     @Expose
     private List<UserData> nameList;
@@ -19,7 +19,7 @@ public class UserProfileModel {
     @Expose
     private List<UserImage> userImageList;
 
-    public List<UserData> getUidList() {
+    public List<UserUidData> getUidList() {
         return uidList;
     }
 
@@ -36,12 +36,22 @@ public class UserProfileModel {
     }
 
 
-    public class UserData {
+    public class UserUidData {
         @SerializedName("value")
         @Expose
         private int value;
 
         public int getValue() {
+            return value;
+        }
+    }
+
+    public class UserData {
+        @SerializedName("value")
+        @Expose
+        private String value;
+
+        public String getValue() {
             return value;
         }
     }

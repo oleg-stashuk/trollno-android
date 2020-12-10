@@ -27,14 +27,15 @@ public class ReceivedCookiesInterceptor implements Interceptor {
         Response originalResponse = chain.proceed(chain.request());
 
         if (!originalResponse.headers("Set-Cookie").isEmpty()) {
-            HashSet<String> cookies = (HashSet<String>) PreferenceManager.getDefaultSharedPreferences(context).getStringSet("PREF_COOKIES", new HashSet<>());
+            HashSet<String> cookiesHashSet = (HashSet<String>) PreferenceManager.getDefaultSharedPreferences(context).getStringSet("PREF_COOKIES", new HashSet<>());
 
             for (String header : originalResponse.headers("Set-Cookie")) {
-                cookies.add(header);
+                cookiesHashSet.add(header);
             }
 
             prefUtils = new PrefUtils(context.getSharedPreferences(context.getString(R.string.app_name), MODE_PRIVATE));
-            prefUtils.saveCookie(cookies);
+            String cookies = cookiesHashSet.toString();
+            prefUtils.saveCookie(cookies.substring(1, cookies.length()-1));
         }
 
         return originalResponse;
