@@ -11,6 +11,7 @@ import com.apps.trollino.data.model.PostsModel;
 import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.utils.data.DataListFromApi;
 import com.apps.trollino.utils.data.PrefUtils;
+import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
 
 import java.util.List;
 
@@ -33,14 +34,12 @@ public class GetMostDiscusPosts {
             @Override
             public void onResponse(Call<PostsModel> call, Response<PostsModel> response) {
                 if (response.isSuccessful()) {
-                    Log.d("OkHttp", "response.body(): " + response.body().getPostDetailsList().toString());
                     PostsModel post = response.body();
                     List<PostsModel.PostDetails> postList = post.getPostDetailsList();
-                    Log.d("OkHttp_1", post.getPager().toString());
                     updatePostListAndNotifyRecyclerAdapter(postList, adapter);
                 } else {
-                    showToast(response.errorBody().toString());
-                    Log.d("OkHttp", "response.errorBody() " + response.errorBody());
+                    String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
+                    showToast(errorMessage);
                 }
                 progressBar.setVisibility(View.GONE);
             }

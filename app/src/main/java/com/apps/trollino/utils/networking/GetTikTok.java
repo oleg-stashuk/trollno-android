@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.apps.trollino.data.model.TiktokModel;
 import com.apps.trollino.data.networking.ApiServiceTiktok;
+import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
 import com.squareup.picasso.Picasso;
 
 import retrofit2.Call;
@@ -48,8 +49,8 @@ public class GetTikTok {
 //                    });
 
                 } else {
-                    showToast(response.errorBody().toString());
-                    Log.d("OkHttp", "response.errorBody() " + response.errorBody());
+                    String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
+                    showToast(errorMessage);
                 }
 
             }

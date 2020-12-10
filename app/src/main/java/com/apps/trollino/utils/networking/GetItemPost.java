@@ -22,6 +22,7 @@ import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.ImageViewDialog;
 import com.apps.trollino.utils.data.CategoryListFromApi;
 import com.apps.trollino.utils.data.PrefUtils;
+import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -65,8 +66,8 @@ public class GetItemPost {
                     prefUtils.saveIsFavorite(isFavorite);
 
                 } else {
-                    showToast(response.errorBody().toString());
-                    Log.d("OkHttp", "response.errorBody() " + response.errorBody());
+                    String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
+                    showToast(errorMessage);
                 }
             }
 

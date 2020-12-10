@@ -9,11 +9,7 @@ import android.widget.Toast;
 import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.ui.authorisation.LoginActivity;
 import com.apps.trollino.utils.data.PrefUtils;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
+import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,24 +42,14 @@ public class PostLogout {
                     context.startActivity(new Intent(context, LoginActivity.class));
                     ((Activity) context).finish();
                 }else {
-                    try {
-                        JSONObject jsonObject = new JSONObject(response.errorBody().string());
-                        String userMessage = jsonObject.getString("message");
-                        showToast(userMessage);
-                        Log.d("OkHttp", "response.errorBody() " + response.code() + " " + userMessage);
+                    String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
+                    showToast(errorMessage);
 
-                        // Этот блок потом удалить
-                        prefUtils.saveIsUserAuthorization(false);
-                        context.startActivity(new Intent(context, LoginActivity.class));
-                        ((Activity) context).finish();
-                        // Этот блок потом удалить
-
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    // Этот блок потом удалить
+                    prefUtils.saveIsUserAuthorization(false);
+                    context.startActivity(new Intent(context, LoginActivity.class));
+                    ((Activity) context).finish();
+                    // Этот блок потом удалить
                 }
 
             }

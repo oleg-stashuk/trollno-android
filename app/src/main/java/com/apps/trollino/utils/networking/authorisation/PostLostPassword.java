@@ -10,11 +10,7 @@ import android.widget.Toast;
 import com.apps.trollino.R;
 import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.ui.authorisation.LoginActivity;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
+import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,8 +23,6 @@ public class PostLostPassword {
 
     public static void postLostPassword(Context context, String email) {
         cont = context;
-        Log.d("OkHttp", "email " + email);
-//        email = "test_1@gmail.com";
 
         ApiService.getInstance(context).postLostPassword(email, new Callback<Void>() {
             int countTry = 0;
@@ -47,16 +41,8 @@ public class PostLostPassword {
                             .show();
 
                 } else {
-                    try {
-                        JSONObject jsonObject = new JSONObject(response.errorBody().string());
-                        String userMessage = jsonObject.getString("message");
-                        showToast(userMessage);
-                        Log.d("OkHttp", "response.errorBody() " + response.code() + " " + userMessage);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
+                    showToast(errorMessage);
                 }
             }
 

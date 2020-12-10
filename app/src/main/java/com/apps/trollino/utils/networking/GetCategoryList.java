@@ -6,8 +6,9 @@ import android.widget.Toast;
 
 import com.apps.trollino.data.model.CategoryModel;
 import com.apps.trollino.data.networking.ApiService;
-import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.data.CategoryListFromApi;
+import com.apps.trollino.utils.data.PrefUtils;
+import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
 
 import java.util.List;
 
@@ -32,8 +33,8 @@ public class GetCategoryList {
                 if(response.isSuccessful()) {
                     CategoryListFromApi.getInstance().saveCategoryList(response.body());
                 } else {
-                    showToast(response.errorBody().toString());
-                    Log.d("OkHttp_1", "response.errorBody() " + response.errorBody());
+                    String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
+                    showToast(errorMessage);
                 }
             }
 

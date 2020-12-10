@@ -11,6 +11,7 @@ import com.apps.trollino.data.model.PostsModel;
 import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.utils.data.PostListBySearchFromApi;
 import com.apps.trollino.utils.data.PrefUtils;
+import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
 
 import java.util.List;
 
@@ -49,8 +50,8 @@ public class GetPostBySearch {
                     }
 
                 } else {
-                    showToast(response.errorBody().toString());
-                    Log.d("OkHttp", "response.errorBody() " + response.errorBody());
+                    String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
+                    showToast(errorMessage);
                 }
                 progressBar.setVisibility(View.GONE);
             }

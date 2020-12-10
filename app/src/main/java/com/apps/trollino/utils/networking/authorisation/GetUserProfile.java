@@ -11,12 +11,9 @@ import android.widget.Toast;
 import com.apps.trollino.data.model.UserProfileModel;
 import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.utils.data.PrefUtils;
+import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.List;
 
 import retrofit2.Call;
@@ -67,27 +64,15 @@ public class GetUserProfile {
                     List<UserProfileModel.UserImage> imageList = user.getUserImageList();
                     for(UserProfileModel.UserImage image : imageList) {
                         String imageUrl = image.getImageUrl();
-
                         Picasso
                                 .get()
                                 .load(imageUrl)
                                 .into(imageView);
                     }
 
-
                 } else {
-                    if (response.code() != 200) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(response.errorBody().string());
-                            String userMessage = jsonObject.getString("message");
-                            showToast(userMessage);
-                            Log.d("OkHttp", "response.errorBody() " + response.code() + " " + userMessage);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
+                    String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
+                    showToast(errorMessage);
                 }
             }
 

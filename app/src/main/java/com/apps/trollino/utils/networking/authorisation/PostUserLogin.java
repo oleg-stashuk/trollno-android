@@ -10,11 +10,7 @@ import com.apps.trollino.data.model.ResponseLoginModel;
 import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.ui.main_group.ProfileActivity;
 import com.apps.trollino.utils.data.PrefUtils;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
+import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,18 +42,8 @@ public class PostUserLogin {
                     context.startActivity(new Intent(context, ProfileActivity.class));
                     ((Activity) context).finish();
                 } else {
-                    if (response.code() != 200) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(response.errorBody().string());
-                            String userMessage = jsonObject.getString("message");
-                            showToast(userMessage);
-                            Log.d("OkHttp", "response.errorBody() " + userMessage);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
+                    String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
+                    showToast(errorMessage);
                 }
             }
 

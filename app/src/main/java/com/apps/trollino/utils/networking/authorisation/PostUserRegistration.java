@@ -7,11 +7,8 @@ import android.widget.Toast;
 import com.apps.trollino.data.model.RegistrationResponseModel;
 import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.utils.data.PrefUtils;
+import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,18 +40,9 @@ public class PostUserRegistration {
             public void onResponse(Call<RegistrationResponseModel> call, Response<RegistrationResponseModel> response) {
                 if(response.isSuccessful()) {
                     PostUserLogin.postUserLogin(context, login, pass, prefUtils);
-
                 } else {
-                    try {
-                        JSONObject jsonObject = new JSONObject(response.errorBody().string());
-                        String userMessage = jsonObject.getString("message");
-                        showToast(userMessage);
-                        Log.d("OkHttp", "response.errorBody() " + userMessage);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
+                    showToast(errorMessage);
                 }
             }
 
