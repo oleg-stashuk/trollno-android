@@ -53,11 +53,11 @@ public class PrefUtils {
     }
 
     public String getCookie() {
-        return String.valueOf(sharedPreferences.getStringSet(COOKIE_KEY, new HashSet<>()));
+        return sharedPreferences.getString(COOKIE_KEY, "");
     }
 
-    public void saveCookie(HashSet<String> cookie) {
-        getEditor().putStringSet(COOKIE_KEY, cookie).apply();
+    public void saveCookie(String cookie) {
+        getEditor().putString(COOKIE_KEY, cookie).apply();
     }
 
     public boolean getIsUserAuthorization() {

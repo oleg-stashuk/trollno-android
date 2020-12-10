@@ -9,7 +9,9 @@ import com.apps.trollino.data.model.RegistrationRequestModel;
 import com.apps.trollino.data.model.RegistrationResponseModel;
 import com.apps.trollino.data.model.RequestLoginModel;
 import com.apps.trollino.data.model.ResponseLoginModel;
-import com.apps.trollino.utils.castom_converter.CustomConverterForItemPost;
+import com.apps.trollino.data.model.UserProfileModel;
+import com.apps.trollino.utils.networking_helper.CustomConverterForItemPost;
+import com.apps.trollino.utils.networking_helper.ReceivedCookiesInterceptor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

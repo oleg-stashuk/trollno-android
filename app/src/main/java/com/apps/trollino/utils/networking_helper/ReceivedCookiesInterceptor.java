@@ -1,4 +1,4 @@
-package com.apps.trollino.data.networking;
+package com.apps.trollino.utils.networking_helper;
 
 import android.content.Context;
 import android.preference.PreferenceManager;

@@ -1,4 +1,4 @@
-package com.apps.trollino.utils.castom_converter;
+package com.apps.trollino.utils.networking_helper;
 
 import com.apps.trollino.data.model.ItemPostModel;
 import com.google.gson.JsonArray;
