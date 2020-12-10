@@ -75,4 +75,5 @@
     <string name="password_is_empty_toast">Поле пароль не должно быть пустым</string>
     <string name="uncorrect_email_toast">Некоректный email</string>
     <string name="pasword_length_toast">Поле пароль долджно содержать больше 3 символов</string>
+    <string name="password_was_send">"Новый пароль отправлен на почту "</string>
 </resources>

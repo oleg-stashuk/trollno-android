@@ -102,4 +102,8 @@ public class ApiService {
     public void postLogout(String cookie, String token, String logoutToken, Callback<Void> callback) {
         authorisationApi.postLogout(cookie, token, logoutToken).enqueue(callback);
     }
+
+    public void postLostPassword(String email, Callback<Void> callback) {
+        authorisationApi.postLostPassword(new RequestLoginModel(email)).enqueue(callback);
+    }
 }

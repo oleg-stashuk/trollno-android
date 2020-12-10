@@ -12,9 +12,16 @@ public class RequestLoginModel {
     @Expose
     private String pass;
 
+    @SerializedName("mail")
+    @Expose
+    private String mail;
 
     public RequestLoginModel(String login, String pass) {
         this.login = login;
         this.pass = pass;
+    }
+
+    public RequestLoginModel(String mail) {
+        this.mail = mail;
     }
 }

@@ -6,9 +6,12 @@ import android.widget.EditText;
 
 import com.apps.trollino.R;
 import com.apps.trollino.ui.base.BaseActivity;
+import com.apps.trollino.utils.Validation;
+import com.apps.trollino.utils.networking.authorisation.PostLostPassword;
 
 public class ForgotPasswordActivity extends BaseActivity implements View.OnClickListener{
     private EditText emailEditText;
+    private String email;
 
     @Override
     protected int getLayoutID() {
@@ -22,6 +25,22 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
         findViewById(R.id.back_button_forgot_password).setOnClickListener(this);
     }
 
+    private boolean inputFieldIsValid(){
+        email = emailEditText.getText().toString();
+
+        if(email.isEmpty()) {
+            emailEditText.requestFocus();
+            showToast(getString(R.string.mail_is_empty_toast));
+            return false;
+        } else if(!Validation.isCorrectEmail(email)) {
+            emailEditText.requestFocus();
+            showToast(getString(R.string.uncorrect_email_toast));
+            return false;
+        }
+
+        return true;
+    }
+
     @Override
     public void onBackPressed() {
         startActivity(new Intent(this, LoginActivity.class));
@@ -32,7 +51,9 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.send_button_forgot_password:
-                showToast("Отправить пароль на почту");
+                if (inputFieldIsValid()) {
+                    new Thread(() -> PostLostPassword.postLostPassword(this, email)).start();
+                }
                 break;
             case R.id.back_button_forgot_password:
                 onBackPressed();

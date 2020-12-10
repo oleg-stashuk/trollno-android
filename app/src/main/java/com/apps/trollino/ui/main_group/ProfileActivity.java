@@ -117,6 +117,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             case R.id.login_button_include_profile_for_guest:
                 startActivity(new Intent(this, LoginActivity.class));
                 finish();
+                break;
             case R.id.exit_button_profile:
                 new Thread(() -> PostLogout.postLogout(this, prefUtils)).start();
                 break;

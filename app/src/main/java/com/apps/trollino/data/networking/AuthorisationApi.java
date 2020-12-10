@@ -46,4 +46,7 @@ public interface AuthorisationApi {
     @POST("/user/logout/?_format=json")
     Call<Void> postLogout(@Header("Cookie") String cookie, @Header("X-CSRF-Token") String token,
                           @Query("logout_token") String logoutToken);
+
+    @POST("/user/lost-password?_format=json")
+    Call<Void> postLostPassword(@Body RequestLoginModel email);
 }
