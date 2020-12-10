@@ -7,16 +7,13 @@ import android.widget.ImageView;
 
 import com.apps.trollino.R;
 import com.apps.trollino.ui.base.BaseActivity;
+import com.apps.trollino.utils.networking.authorisation.GetUserProfile;
 
 public class EditUserProfileActivity extends BaseActivity implements View.OnClickListener {
     private ImageView imageView;
     private EditText nameEditText;
     private EditText emailEditText;
     private EditText passwordEditText;
-
-    private String name = "Иван";
-    private String email = "test@gmail.com";
-    private String password = "123456";
 
     @Override
     protected int getLayoutID() {
@@ -34,9 +31,8 @@ public class EditUserProfileActivity extends BaseActivity implements View.OnClic
         findViewById(R.id.delete_button_edit_user_profile).setOnClickListener(this);
         findViewById(R.id.update_button_edit_user_profile).setOnClickListener(this);
 
-        nameEditText.setText(name);
-        emailEditText.setText(email);
-        passwordEditText.setText(password);
+        new Thread(() -> GetUserProfile.getUserProfile(this, prefUtils, imageView, nameEditText, emailEditText)).start();
+        passwordEditText.setText(prefUtils.getPassword());
     }
 
     @Override

@@ -51,9 +51,8 @@
 
         <ImageView
             android:id="@+id/image_edit_user_profile"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/cookie_icon" />
+            android:layout_width="150dp"
+            android:layout_height="150dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -122,6 +121,7 @@
             android:layout_height="wrap_content"
             app:mrl_rippleAlpha="0.2"
             app:mrl_rippleColor="@color/colorRipple"
+            android:layout_marginTop="10dp"
             app:mrl_rippleHover="true"
             app:mrl_rippleOverlay="true">
 
@@ -129,7 +129,6 @@
                 android:id="@+id/update_button_edit_user_profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:padding="10dp"
                 android:background="@drawable/button_background"
                 android:layout_gravity="center"

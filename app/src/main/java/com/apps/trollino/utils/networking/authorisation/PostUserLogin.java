@@ -41,6 +41,7 @@ public class PostUserLogin {
                     prefUtils.saveToken(loginModel.getToken());;
                     prefUtils.saveLogoutToken(loginModel.getLogoutToken());
                     prefUtils.saveIsUserAuthorization(true);
+                    prefUtils.savePassword(password);
 
                     context.startActivity(new Intent(context, ProfileActivity.class));
                     ((Activity) context).finish();

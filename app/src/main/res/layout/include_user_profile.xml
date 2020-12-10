@@ -8,8 +8,7 @@
     <ImageView
         android:id="@+id/image_account_profile_include"
         android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:src="@drawable/cookie_icon"/>
+        android:layout_height="70dp"/>
 
     <LinearLayout
         android:layout_width="0dp"

@@ -12,6 +12,7 @@ public class PrefUtils {
     private final String USER_UID = "USER_UID";
     private final String USER_AUTHORIZATION_KEY = "USER_AUTHORIZATION_KEY";
     private final String COOKIE_KEY = "COOKIE_KEY";
+    private final String USER_PASSWORD = "USER_PASSWORD";
 
     private final String NEW_POST_CURRENT_PAGE = "NEW_POST_CURRENT_PAGE"; // запоминание текущей страницы данных с Api для постов из категории "Свежее"
     private final String POST_BY_CATEGORY_CURRENT_PAGE = "POST_BY_CATEGORY_CURRENT_PAGE"; // запоминание текущей страницы данных с Api для постов из категорий, загружаемых с Api
@@ -58,6 +59,14 @@ public class PrefUtils {
 
     public void saveCookie(String cookie) {
         getEditor().putString(COOKIE_KEY, cookie).apply();
+    }
+
+    public String getPassword() {
+        return sharedPreferences.getString(USER_PASSWORD, "");
+    }
+
+    public void savePassword(String password) {
+        getEditor().putString(USER_PASSWORD, password).apply();
     }
 
     public boolean getIsUserAuthorization() {
