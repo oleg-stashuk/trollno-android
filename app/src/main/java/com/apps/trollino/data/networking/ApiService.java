@@ -94,4 +94,8 @@ public class ApiService {
     public void postRegistration(List<String> login, List<String> mail, List<String> pass, Callback<RegistrationResponseModel> callback) {
         authorisationApi.postRegistration(new RegistrationRequestModel(login, mail, pass)).enqueue(callback);
     }
+
+    public void getUserProfileData(String cookie, String userUid, Callback<UserProfileModel> callback) {
+        authorisationApi.getUserProfileData(cookie, userUid).enqueue(callback);
+    }
 }

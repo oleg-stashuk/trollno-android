@@ -15,6 +15,7 @@ import com.apps.trollino.ui.authorisation.LoginActivity;
 import com.apps.trollino.ui.authorisation.RegistrationActivity;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.InformationAboutAppDialog;
+import com.apps.trollino.utils.networking.authorisation.GetUserProfile;
 
 public class ProfileActivity extends BaseActivity implements View.OnClickListener{
     private LinearLayout userIncludeLinearLayout;
@@ -27,8 +28,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private boolean isUserAuthorization; // Пользователь авторизирован или нет
     private boolean doubleBackToExitPressedOnce = false; // для обработки нажатия onBackPressed
 
-    private String name = "Иван";
-    private String email = "rrrr@gmail.com";
 
     @Override
     protected int getLayoutID() {
@@ -64,11 +63,13 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
     private void makeIsUserAuthorizationCorrectData() {
         if(isUserAuthorization) {
-            nameTextView.setText(name);
-            emailTextView.setText(email);
             userIncludeLinearLayout.setVisibility(View.VISIBLE);
             guestIncludeLinearLayout.setVisibility(View.GONE);
             exitButton.setVisibility(View.VISIBLE);
+
+            new Thread(() -> {
+                GetUserProfile.getUserProfile(this, prefUtils, userImageView, nameTextView, emailTextView);
+            }).start();
         } else {
             userIncludeLinearLayout.setVisibility(View.GONE);
             guestIncludeLinearLayout.setVisibility(View.VISIBLE);
