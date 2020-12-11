@@ -7,6 +7,7 @@ import com.apps.trollino.data.model.ItemPostModel;
 import com.apps.trollino.data.model.PostsModel;
 import com.apps.trollino.data.model.RegistrationRequestModel;
 import com.apps.trollino.data.model.RegistrationResponseModel;
+import com.apps.trollino.data.model.RequestBlockUserModel;
 import com.apps.trollino.data.model.RequestLoginModel;
 import com.apps.trollino.data.model.RequestUpdateAvatarModel;
 import com.apps.trollino.data.model.ResponseLoginModel;
@@ -118,7 +119,12 @@ public class ApiService {
         settingsApi.getUserSettings(cookie).enqueue(callback);
     }
 
+
     public void updateAvatar(String cookie, String token, RequestUpdateAvatarModel UidAvatar, int userUid, Callback<UserProfileModel> callback) {
         userApi.updateAvatar(cookie, token, UidAvatar, userUid).enqueue(callback);
+    }
+
+    public void blockUser(String cookie, String token, RequestBlockUserModel userBlockModel, int userUid, Callback<UserProfileModel> callback) {
+        userApi.blockUser(cookie, token, userBlockModel, userUid).enqueue(callback);
     }
 }
