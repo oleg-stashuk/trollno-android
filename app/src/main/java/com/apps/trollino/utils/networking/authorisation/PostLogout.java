@@ -25,9 +25,6 @@ public class PostLogout {
         String cookie = prefUtils.getCookie();
         String token = prefUtils.getToken();
         String logoutToken = prefUtils.getLogoutToken();
-        Log.d("OkHttp", "!!!! cookie " + cookie);
-        Log.d("OkHttp", "!!!! token " + token);
-        Log.d("OkHttp", "!!!! logoutToken " + logoutToken);
 
         ApiService.getInstance(context).postLogout(cookie, token, logoutToken, new Callback<Void>() {
             int countTry = 0;
@@ -35,21 +32,18 @@ public class PostLogout {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if(response.isSuccessful()) {
-                    Log.d("OkHttp", "response.isSuccessful()");
-                } else if(response.code() == 204) {
-                    Log.d("OkHttp", "response.isSuccessful() " + response.code());
-                    prefUtils.saveIsUserAuthorization(false);
-                    context.startActivity(new Intent(context, LoginActivity.class));
-                    ((Activity) context).finish();
-                }else {
+                    if(response.code() == 204) {
+                        prefUtils.saveIsUserAuthorization(false);
+                        prefUtils.saveCookie("");
+                        prefUtils.saveToken("");
+                        prefUtils.saveLogoutToken("");
+                        prefUtils.savePassword("");
+                        context.startActivity(new Intent(context, LoginActivity.class));
+                        ((Activity) context).finish();
+                    }
+                } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
                     showToast(errorMessage);
-
-                    // Этот блок потом удалить
-                    prefUtils.saveIsUserAuthorization(false);
-                    context.startActivity(new Intent(context, LoginActivity.class));
-                    ((Activity) context).finish();
-                    // Этот блок потом удалить
                 }
 
             }
