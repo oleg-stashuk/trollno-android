@@ -4,7 +4,6 @@
  import android.content.Context;
  import android.graphics.Point;
  import android.graphics.drawable.ColorDrawable;
- import android.util.Log;
  import android.util.TypedValue;
  import android.view.Display;
  import android.view.KeyEvent;
@@ -18,15 +17,18 @@
 
  import com.apps.trollino.R;
  import com.apps.trollino.adapters.AvatarsAdapter;
- import com.apps.trollino.data.model.SettingsModel;
+ import com.apps.trollino.data.model.AvatarImageModel;
+ import com.apps.trollino.data.model.RequestUpdateAvatarModel;
  import com.apps.trollino.ui.base.BaseActivity;
- import com.squareup.picasso.Picasso;
+ import com.apps.trollino.utils.data.PrefUtils;
+ import com.apps.trollino.utils.networking.user.UpdateAvatar;
 
+ import java.util.ArrayList;
  import java.util.List;
 
  public class AvatarsDialog {
 
-     public void showDialog(Context context, List<SettingsModel.AvatarImageModel> avatarList, ImageView imageView){
+     public void showDialog(Context context, PrefUtils prefUtils, List<AvatarImageModel> avatarList, ImageView imageView){
         int width = ViewGroup.LayoutParams.MATCH_PARENT;
         int height = ViewGroup.LayoutParams.MATCH_PARENT;
 
@@ -39,13 +41,12 @@
 
         RecyclerView recyclerView = dialog.findViewById(R.id.recycler_avatar);
 
-         AvatarsAdapter.OnItemClick<SettingsModel.AvatarImageModel> avatarItemListener = (item, position) -> {
-             Log.d("OkHttp", "DIALOG " + item.getAvatarId());
-             Picasso
-                     .get()
-                     .load(item.getAvatarUrl())
-                     .into(imageView);
-             dialog.cancel();
+         AvatarsAdapter.OnItemClick<AvatarImageModel> avatarItemListener = (item, position) -> {
+             List<AvatarImageModel> avatarUidList = new ArrayList<>();
+             avatarUidList.add(new AvatarImageModel(item.getAvatarId()));
+             RequestUpdateAvatarModel uidAvatar = new RequestUpdateAvatarModel(avatarUidList);
+
+             new Thread(() -> UpdateAvatar.updateAvatar(context, prefUtils, uidAvatar, dialog, imageView)).start();
          };
 
         AvatarsAdapter adapter = new AvatarsAdapter((BaseActivity) context, avatarList, avatarItemListener);

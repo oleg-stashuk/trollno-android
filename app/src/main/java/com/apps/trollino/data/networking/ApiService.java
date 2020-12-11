@@ -8,9 +8,10 @@ import com.apps.trollino.data.model.PostsModel;
 import com.apps.trollino.data.model.RegistrationRequestModel;
 import com.apps.trollino.data.model.RegistrationResponseModel;
 import com.apps.trollino.data.model.RequestLoginModel;
+import com.apps.trollino.data.model.RequestUpdateAvatarModel;
 import com.apps.trollino.data.model.ResponseLoginModel;
-import com.apps.trollino.data.model.UserProfileModel;
 import com.apps.trollino.data.model.SettingsModel;
+import com.apps.trollino.data.model.UserProfileModel;
 import com.apps.trollino.utils.networking_helper.CustomConverterForItemPost;
 import com.apps.trollino.utils.networking_helper.ReceivedCookiesInterceptor;
 import com.google.gson.Gson;
@@ -30,6 +31,7 @@ public class ApiService {
     private PostApi postApi;
     private AuthorisationApi authorisationApi;
     private SettingsApi settingsApi;
+    private UserApi userApi;
 
     private static volatile ApiService instance = null;
     public static ApiService getInstance(Context context) {
@@ -62,6 +64,7 @@ public class ApiService {
         postApi = retrofit.create(PostApi.class);
         authorisationApi = retrofit.create(AuthorisationApi.class);
         settingsApi = retrofit.create(SettingsApi.class);
+        userApi = retrofit.create(UserApi.class);
     }
 
     // GET and POST request for work with for Tape Post block
@@ -113,5 +116,9 @@ public class ApiService {
     // GET request settings: get list for avatar's image and count block before advertising
     public void getSettings(String cookie, Callback<SettingsModel> callback) {
         settingsApi.getUserSettings(cookie).enqueue(callback);
+    }
+
+    public void updateAvatar(String cookie, String token, RequestUpdateAvatarModel UidAvatar, int userUid, Callback<UserProfileModel> callback) {
+        userApi.updateAvatar(cookie, token, UidAvatar, userUid).enqueue(callback);
     }
 }

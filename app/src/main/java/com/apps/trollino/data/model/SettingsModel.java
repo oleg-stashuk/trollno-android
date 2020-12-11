@@ -22,26 +22,6 @@ public class SettingsModel {
     }
 
 
-    public class AvatarImageModel {
-        @SerializedName("target_id")
-        @Expose
-        private String avatarId;
-
-        @SerializedName("url")
-        @Expose
-        private String avatarUrl;
-
-
-        public String getAvatarId() {
-            return avatarId;
-        }
-
-        public String getAvatarUrl() {
-            return avatarUrl;
-        }
-    }
-
-
     public class AdvertisingModel {
         @SerializedName("value")
         @Expose

@@ -5,20 +5,20 @@ import android.widget.ImageView;
 
 import com.apps.trollino.R;
 import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
-import com.apps.trollino.data.model.SettingsModel;
+import com.apps.trollino.data.model.AvatarImageModel;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class AvatarsAdapter extends BaseRecyclerAdapter<SettingsModel.AvatarImageModel> {
+public class AvatarsAdapter extends BaseRecyclerAdapter<AvatarImageModel> {
 
-    public AvatarsAdapter(BaseActivity baseActivity, List<SettingsModel.AvatarImageModel> items, OnItemClick<SettingsModel.AvatarImageModel> onItemClick) {
+    public AvatarsAdapter(BaseActivity baseActivity, List<AvatarImageModel> items, OnItemClick<AvatarImageModel> onItemClick) {
         super(baseActivity, items, onItemClick);
     }
 
     @Override
-    public void setOnItemClick(OnItemClick<SettingsModel.AvatarImageModel> onItemClick) {
+    public void setOnItemClick(OnItemClick<AvatarImageModel> onItemClick) {
         super.setOnItemClick(onItemClick);
     }
 
@@ -31,7 +31,7 @@ public class AvatarsAdapter extends BaseRecyclerAdapter<SettingsModel.AvatarImag
     protected BaseItem createViewHolder(View view) {
         return new BaseItem(view) {
             @Override
-            public void bind(SettingsModel.AvatarImageModel item) {
+            public void bind(AvatarImageModel item) {
                 ImageView imageView = view.findViewById(R.id.image_avatar_item);
 
                 Picasso
