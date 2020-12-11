@@ -7,6 +7,7 @@ import android.widget.ImageView;
 
 import com.apps.trollino.R;
 import com.apps.trollino.ui.base.BaseActivity;
+import com.apps.trollino.utils.networking.GetSettings;
 import com.apps.trollino.utils.networking.authorisation.GetUserProfile;
 
 public class EditUserProfileActivity extends BaseActivity implements View.OnClickListener {
@@ -51,7 +52,7 @@ public class EditUserProfileActivity extends BaseActivity implements View.OnClic
                 showToast("Удалить профиль");
                 break;
             case R.id.image_edit_user_profile:
-                showToast("Изменить картинку");
+                new Thread(() -> GetSettings.getSettings(this, prefUtils, imageView)).start();
                 break;
             case R.id.update_button_edit_user_profile:
                 showToast("Обновить профиль");

@@ -11,6 +11,7 @@
  import android.view.ViewGroup;
  import android.view.Window;
  import android.view.WindowManager;
+ import android.widget.ImageView;
 
  import androidx.recyclerview.widget.GridLayoutManager;
  import androidx.recyclerview.widget.RecyclerView;
@@ -19,12 +20,13 @@
  import com.apps.trollino.adapters.AvatarsAdapter;
  import com.apps.trollino.data.model.SettingsModel;
  import com.apps.trollino.ui.base.BaseActivity;
+ import com.squareup.picasso.Picasso;
 
  import java.util.List;
 
  public class AvatarsDialog {
 
-     public void showDialog(Context context, List<SettingsModel.AvatarImageModel> avatarList){
+     public void showDialog(Context context, List<SettingsModel.AvatarImageModel> avatarList, ImageView imageView){
         int width = ViewGroup.LayoutParams.MATCH_PARENT;
         int height = ViewGroup.LayoutParams.MATCH_PARENT;
 
@@ -39,6 +41,10 @@
 
          AvatarsAdapter.OnItemClick<SettingsModel.AvatarImageModel> avatarItemListener = (item, position) -> {
              Log.d("OkHttp", "DIALOG " + item.getAvatarId());
+             Picasso
+                     .get()
+                     .load(item.getAvatarUrl())
+                     .into(imageView);
              dialog.cancel();
          };
 
