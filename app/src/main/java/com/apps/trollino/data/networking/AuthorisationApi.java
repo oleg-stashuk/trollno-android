@@ -42,7 +42,6 @@ public interface AuthorisationApi {
             "Content-Type: application/json",
             "Accepts: application/json"
     })
-
     @POST("/user/logout/?_format=json")
     Call<Void> postLogout(@Header("Cookie") String cookie, @Header("X-CSRF-Token") String token,
                           @Query("token") String logoutToken);
