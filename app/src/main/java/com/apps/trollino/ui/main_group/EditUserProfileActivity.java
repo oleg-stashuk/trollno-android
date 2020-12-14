@@ -1,29 +1,32 @@
 package com.apps.trollino.ui.main_group;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
 
 import com.apps.trollino.R;
-import com.apps.trollino.data.model.RequestBlockUserModel;
 import com.apps.trollino.ui.base.BaseActivity;
+import com.apps.trollino.utils.Validation;
 import com.apps.trollino.utils.networking.GetSettings;
 import com.apps.trollino.utils.networking.authorisation.GetUserProfile;
-import com.apps.trollino.utils.networking.user.BlockUserProfile;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class EditUserProfileActivity extends BaseActivity implements View.OnClickListener {
     private ImageView imageView;
-    private EditText nameEditText;
-    private EditText emailEditText;
+    private TextView nameTextView;
+    private TextView emailTextView;
     private EditText passwordEditText;
+    private Button updateButton;
+
+    private String password = "";
 
     @Override
     protected int getLayoutID() {
@@ -32,17 +35,44 @@ public class EditUserProfileActivity extends BaseActivity implements View.OnClic
 
     @Override
     protected void initView() {
-        nameEditText = findViewById(R.id.name_edit_user_profile);
-        emailEditText = findViewById(R.id.email_edit_user_profile);
+        nameTextView = findViewById(R.id.name_edit_user_profile);
+        emailTextView = findViewById(R.id.email_edit_user_profile);
         passwordEditText = findViewById(R.id.password_edit_user_profile);
         imageView = findViewById(R.id.image_edit_user_profile);
         imageView.setOnClickListener(this);
         findViewById(R.id.back_button_edit_user_profile).setOnClickListener(this);
         findViewById(R.id.delete_button_edit_user_profile).setOnClickListener(this);
-        findViewById(R.id.update_button_edit_user_profile).setOnClickListener(this);
+        updateButton = findViewById(R.id.update_button_edit_user_profile);
+        updateButton.setOnClickListener(this);
+        updateButton.setBackgroundColor(ContextCompat.getColor(this, R.color.colorGreyBackgroundVideo));
 
-        new Thread(() -> GetUserProfile.getUserProfile(this, prefUtils, imageView, nameEditText, emailEditText)).start();
-        passwordEditText.setText(prefUtils.getPassword());
+        password = prefUtils.getPassword();
+        passwordEditText.setText(password);
+
+        new Thread(() -> GetUserProfile.getUserProfile(this, prefUtils, imageView, nameTextView, emailTextView)).start();
+        passwordTextChangedListener();
+    }
+
+    private void passwordTextChangedListener() {
+        passwordEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String newPassword = s.toString();
+                if(password.equals(newPassword) || newPassword.isEmpty() || !Validation.isCorrectPassword(newPassword)) {
+                    updateButton.setEnabled(false);
+                    updateButton.setBackgroundColor(ContextCompat.getColor(EditUserProfileActivity.this, R.color.colorGreyBackgroundVideo));
+                } else {
+                    updateButton.setEnabled(true);
+                    updateButton.setBackgroundResource(R.drawable.button_background);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
     }
 
     @Override
@@ -60,17 +90,17 @@ public class EditUserProfileActivity extends BaseActivity implements View.OnClic
             case R.id.delete_button_edit_user_profile:
                 AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
                 dialogBuilder.setMessage(getResources().getString(R.string.do_you_really_want_to_delete_your_account))
-                .setNegativeButton("Нет", (dialog1, which) -> {
+                .setNegativeButton(this.getString(android.R.string.no), (dialog1, which) -> {
                     Log.d("OkHttp", "Нет");
                     dialog1.cancel();
                 })
-                .setPositiveButton("Удалить", (dialog, which) -> {
+                .setPositiveButton(R.string.remove_account_confirm_button, (dialog, which) -> {
                     Log.d("OkHttp", "Удалить");
-                    List<RequestBlockUserModel.StatusBlockUserModel> blockStatus = new ArrayList<>();
-                    blockStatus.add(new RequestBlockUserModel.StatusBlockUserModel(false));
-                    RequestBlockUserModel requestBlockUserModel = new RequestBlockUserModel(blockStatus);
-
-                    new Thread(() -> BlockUserProfile.blockUserProfile(this, prefUtils, requestBlockUserModel)).start();
+                    showToast("Удалить профиль");
+//                    List<RequestBlockUserModel.StatusBlockUserModel> blockStatus = new ArrayList<>();
+//                    blockStatus.add(new RequestBlockUserModel.StatusBlockUserModel(false));
+//                    RequestBlockUserModel requestBlockUserModel = new RequestBlockUserModel(blockStatus);
+//                    new Thread(() -> BlockUserProfile.blockUserProfile(this, prefUtils, requestBlockUserModel)).start();
                     dialog.cancel();
                 });
 
@@ -82,6 +112,7 @@ public class EditUserProfileActivity extends BaseActivity implements View.OnClic
                 break;
             case R.id.update_button_edit_user_profile:
                 showToast("Обновить профиль");
+//                new Thread(() -> ).start();
                 break;
         }
     }
