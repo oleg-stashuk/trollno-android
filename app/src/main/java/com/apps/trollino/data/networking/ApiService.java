@@ -10,6 +10,7 @@ import com.apps.trollino.data.model.RegistrationResponseModel;
 import com.apps.trollino.data.model.RequestBlockUserModel;
 import com.apps.trollino.data.model.RequestLoginModel;
 import com.apps.trollino.data.model.RequestUpdateAvatarModel;
+import com.apps.trollino.data.model.RequestUpdateUserPassword;
 import com.apps.trollino.data.model.ResponseLoginModel;
 import com.apps.trollino.data.model.SettingsModel;
 import com.apps.trollino.data.model.UserProfileModel;
@@ -126,5 +127,9 @@ public class ApiService {
 
     public void blockUser(String cookie, String token, RequestBlockUserModel userBlockModel, int userUid, Callback<UserProfileModel> callback) {
         userApi.blockUser(cookie, token, userBlockModel, userUid).enqueue(callback);
+    }
+
+    public void updatePassword(String cookie, String token, int userUid, RequestUpdateUserPassword updatePasswordModel, Callback<UserProfileModel> callback) {
+        userApi.updatePassword(cookie, token, userUid, updatePasswordModel).enqueue(callback);
     }
 }
