@@ -1,19 +1,14 @@
 package com.apps.trollino.data.networking;
 
 import com.apps.trollino.data.model.CategoryModel;
-import com.apps.trollino.data.model.ItemPostModel;
 import com.apps.trollino.data.model.PostsModel;
-import com.apps.trollino.data.model.RequestBookmarkPostModel;
-import com.apps.trollino.data.model.ResponseBookmarkModel;
 
 import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
-import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -54,5 +49,10 @@ public interface PostApi {
     @GET("/posts/search")
     Call<PostsModel> getSearchPosts(@Header("Cookie") String cookie, @Query("title") String textSearch, @Query("page") int page);
 
-
+    @Headers({
+            "Content-Type: application/json",
+            "Accepts: application/json"
+    })
+    @GET("/posts/bookmark/list?_format=json")
+    Call<PostsModel> getFavoritePostList(@Header("Cookie") String cookie, @Query("page") int page);
 }

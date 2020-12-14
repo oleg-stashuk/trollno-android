@@ -13,9 +13,9 @@ import com.apps.trollino.ui.base.BaseActivity;
 
 import java.util.List;
 
-public class FavoriteVideoAdapter extends BaseRecyclerAdapter<FavoriteModel> {
+public class FavoriteAdapter extends BaseRecyclerAdapter<FavoriteModel> {
 
-    public FavoriteVideoAdapter(BaseActivity baseActivity, List<FavoriteModel> items, OnItemClick<FavoriteModel> onItemClick) {
+    public FavoriteAdapter(BaseActivity baseActivity, List<FavoriteModel> items, OnItemClick<FavoriteModel> onItemClick) {
         super(baseActivity, items, onItemClick);
     }
 

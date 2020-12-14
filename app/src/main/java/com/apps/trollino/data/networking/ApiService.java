@@ -95,6 +95,10 @@ public class ApiService {
         postApi.getSearchPosts(cookie, searchText, page).enqueue(callback);
     }
 
+    public void getFavoritePostList(String cookie, int page, Callback<PostsModel> callback) {
+        postApi.getFavoritePostList(cookie, page).enqueue(callback);
+    }
+
     // GET and POST request for Single Post block
     public void getItemPost(String cookie, String postId, Callback<ItemPostModel> callback) {
         singlePostApi.getPostItem(cookie, postId).enqueue(callback);

@@ -12,11 +12,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.apps.trollino.R;
-import com.apps.trollino.adapters.FavoriteVideoAdapter;
+import com.apps.trollino.adapters.FavoriteAdapter;
 import com.apps.trollino.data.model.FavoriteModel;
 import com.apps.trollino.ui.authorisation.LoginActivity;
 import com.apps.trollino.ui.authorisation.RegistrationActivity;
 import com.apps.trollino.ui.base.BaseActivity;
+import com.apps.trollino.utils.networking.main_group.GetFavoriteList;
 
 import java.util.List;
 
@@ -46,6 +47,9 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
         findViewById(R.id.registration_button_include_activity_for_guest).setOnClickListener(this);
 
         isUserAuthorization = prefUtils.getIsUserAuthorization();
+        new Thread(() -> {
+            GetFavoriteList.makeGetNewPosts(this, prefUtils);
+        }).start();
 
         checkFavoriteListAndUserAuthorization(); // проверить пользователь авторизирован или нет, если да - то проверить есть посты добаленные в избранное или нет
         initToolbar();
@@ -69,11 +73,11 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
 
     private void makeFavoriteRecyclerView() {
         favoriteRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        favoriteRecyclerView.setAdapter(new FavoriteVideoAdapter(this, favoriteVideoList, favoriteVideoItemListener));
+        favoriteRecyclerView.setAdapter(new FavoriteAdapter(this, favoriteVideoList, favoriteVideoItemListener));
     }
 
     // Обработка нажатия на элемент списка
-    private final FavoriteVideoAdapter.OnItemClick<FavoriteModel> favoriteVideoItemListener =
+    private final FavoriteAdapter.OnItemClick<FavoriteModel> favoriteVideoItemListener =
             (item, position) -> {
                 showToast ("Press " + item.getVideoId());
                 startActivity(new Intent(FavoriteActivity.this, PostActivity.class));
