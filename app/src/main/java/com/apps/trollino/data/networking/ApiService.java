@@ -2,13 +2,13 @@ package com.apps.trollino.data.networking;
 
 import android.content.Context;
 
-import com.apps.trollino.data.model.RequestBookmarkPostModel;
 import com.apps.trollino.data.model.CategoryModel;
 import com.apps.trollino.data.model.ItemPostModel;
 import com.apps.trollino.data.model.PostsModel;
 import com.apps.trollino.data.model.RegistrationRequestModel;
 import com.apps.trollino.data.model.RegistrationResponseModel;
 import com.apps.trollino.data.model.RequestBlockUserModel;
+import com.apps.trollino.data.model.RequestBookmarkPostModel;
 import com.apps.trollino.data.model.RequestLoginModel;
 import com.apps.trollino.data.model.RequestUpdateAvatarModel;
 import com.apps.trollino.data.model.RequestUpdateUserPassword;
@@ -96,12 +96,12 @@ public class ApiService {
         postApi.getSearchPosts(cookie, searchText, page).enqueue(callback);
     }
 
-//    public void addPostToFavorite(String cookie, String token, String flagId, String entityType, String postId, Callback<ResponseBookmarkModel> callback) {
-//        postApi.addPostInFavorite(cookie, token, new BookmarkPostModel(flagId, entityType, postId)).enqueue(callback);
-//    }
-
     public void addPostToFavorite(String cookie, String token, String postId, Callback<ResponseBookmarkModel> callback) {
         postApi.addPostInFavorite(cookie, token, new RequestBookmarkPostModel(postId)).enqueue(callback);
+    }
+
+    public void removePostFromFavorite(String cookie, String token, String postId, Callback<Void> callback) {
+        postApi.removePostFromFavorite(cookie, token, new RequestBookmarkPostModel(postId)).enqueue(callback);
     }
 
     // GET and POST request for work with Authorisation block

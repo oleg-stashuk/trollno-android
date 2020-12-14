@@ -1,6 +1,7 @@
 package com.apps.trollino.ui.main_group;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,7 +11,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +19,7 @@ import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.OnSwipeTouchListener;
 import com.apps.trollino.utils.networking.GetItemPost;
 import com.apps.trollino.utils.networking.single_post.PostBookmark;
+import com.apps.trollino.utils.networking.single_post.PostUnbookmark;
 
 public class PostActivity extends BaseActivity implements View.OnClickListener{
     public static String POST_ID_KEY = "POST_ID_KEY";
@@ -35,7 +36,6 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
 
     private Menu menu;
     private RecyclerView partOfPostRecyclerView;
-    private boolean isFavoritePost;
     private boolean isPostFromCategory;
     private String currentPostId;
 
@@ -62,8 +62,6 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
         currentPostId = this.getIntent().getStringExtra(POST_ID_KEY);
         isPostFromCategory = this.getIntent().getBooleanExtra(POST_FROM_CATEGORY_LIST, false);
         categoryTextView.setFocusable(true);
-
-        isFavoritePost = false;
     }
 
     // Иницировать Toolbar
@@ -85,18 +83,8 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.post_menu, menu);
         this.menu = menu;
-        changeImageFavoriteButton();
         getPostFromAPi(currentPostId);
         return true;
-    }
-
-    // Смена картинки для кнопки favorite из menu в ToolBar
-    private void changeImageFavoriteButton() {
-        if (isFavoritePost) {
-            menu.getItem(1).setIcon(ContextCompat.getDrawable(this, R.drawable.ic_favorite_button));
-        } else {
-            menu.getItem(1).setIcon(ContextCompat.getDrawable(this, R.drawable.ic_favorite_border_button));
-        }
     }
 
     // Действия при свайпах в разные стороны
@@ -133,8 +121,6 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
                     partOfPostRecyclerView, menu, categoryTextView, postId, titleTextView,
                     countCommentTextView, commentButton, imageView, body, isPostFromCategory);
         }).start();
-
-        isFavoritePost = prefUtils.getIsFavorite();
     }
 
     // Open activity with category
@@ -157,9 +143,16 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
                 commentToPostActivity();
                 break;
             case R.id.favorite_button:
-                isFavoritePost = !isFavoritePost;
-                changeImageFavoriteButton(); // Смена картинки для кнопки favorite
-                new Thread(() -> PostBookmark.addPostToFavorite(this, prefUtils, currentPostId)).start();
+                if (!prefUtils.getCookie().isEmpty()) {
+                    Log.d("OkHttp", "!!!!!!!!!! isFavoritePost in Activity " + prefUtils.getIsFavorite());
+                    if (prefUtils.getIsFavorite()) {
+                        new Thread(() -> PostUnbookmark.removePostFromFavorite(this, prefUtils, currentPostId, menu)).start();
+                    } else {
+                        new Thread(() -> PostBookmark.addPostToFavorite(this, prefUtils, currentPostId, menu)).start();
+                    }
+                } else {
+                    showToast("Пользователь не зарегестрирован. Вывести диалог для регистрации или входа");
+                }
                 break;
             }
         return true;

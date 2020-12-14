@@ -1,9 +1,9 @@
 package com.apps.trollino.data.networking;
 
-import com.apps.trollino.data.model.RequestBookmarkPostModel;
 import com.apps.trollino.data.model.CategoryModel;
 import com.apps.trollino.data.model.ItemPostModel;
 import com.apps.trollino.data.model.PostsModel;
+import com.apps.trollino.data.model.RequestBookmarkPostModel;
 import com.apps.trollino.data.model.ResponseBookmarkModel;
 
 import java.util.List;
@@ -67,4 +67,11 @@ public interface PostApi {
     })
     @POST("/api/flag?_format=json")
     Call<ResponseBookmarkModel> addPostInFavorite(@Header("Cookie") String cookie, @Header("X-CSRF-Token") String token, @Body RequestBookmarkPostModel bookmarkPostModel);
+
+    @Headers({
+            "Content-Type: application/json",
+            "Accepts: application/json"
+    })
+    @POST("/api/unflag?_format=json")
+    Call<Void> removePostFromFavorite(@Header("Cookie") String cookie, @Header("X-CSRF-Token") String token, @Body RequestBookmarkPostModel bookmarkPostModel);
 }
