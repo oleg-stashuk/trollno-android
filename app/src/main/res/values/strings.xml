@@ -78,4 +78,5 @@
     <string name="password_was_send">"Новый пароль отправлен на почту "</string>
     <string name="do_you_really_want_to_delete_your_account">Вы действительно хотите удалить свой аккаунт</string>
     <string name="remove_account_confirm_button">Удалить</string>
+    <string name="no_button_for_dialog">Нет</string>
 </resources>

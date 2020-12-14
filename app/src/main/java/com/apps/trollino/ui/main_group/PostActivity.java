@@ -18,6 +18,7 @@ import com.apps.trollino.R;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.OnSwipeTouchListener;
 import com.apps.trollino.utils.networking.GetItemPost;
+import com.apps.trollino.utils.networking.single_post.PostBookmark;
 
 public class PostActivity extends BaseActivity implements View.OnClickListener{
     public static String POST_ID_KEY = "POST_ID_KEY";
@@ -158,6 +159,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
             case R.id.favorite_button:
                 isFavoritePost = !isFavoritePost;
                 changeImageFavoriteButton(); // Смена картинки для кнопки favorite
+                new Thread(() -> PostBookmark.addPostToFavorite(this, prefUtils, currentPostId)).start();
                 break;
             }
         return true;

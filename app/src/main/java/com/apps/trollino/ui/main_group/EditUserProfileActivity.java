@@ -79,7 +79,7 @@ public class EditUserProfileActivity extends BaseActivity implements View.OnClic
     private void showDeleteConfirmationDialog() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         dialogBuilder.setMessage(getResources().getString(R.string.do_you_really_want_to_delete_your_account))
-                .setNegativeButton(this.getString(android.R.string.no), (dialog1, which) -> {
+                .setNegativeButton(this.getString(R.string.no_button_for_dialog), (dialog1, which) -> {
                     Log.d("OkHttp", "Нет");
                     dialog1.cancel();
                 })

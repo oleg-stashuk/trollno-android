@@ -2,6 +2,7 @@ package com.apps.trollino.data.networking;
 
 import android.content.Context;
 
+import com.apps.trollino.data.model.RequestBookmarkPostModel;
 import com.apps.trollino.data.model.CategoryModel;
 import com.apps.trollino.data.model.ItemPostModel;
 import com.apps.trollino.data.model.PostsModel;
@@ -11,6 +12,7 @@ import com.apps.trollino.data.model.RequestBlockUserModel;
 import com.apps.trollino.data.model.RequestLoginModel;
 import com.apps.trollino.data.model.RequestUpdateAvatarModel;
 import com.apps.trollino.data.model.RequestUpdateUserPassword;
+import com.apps.trollino.data.model.ResponseBookmarkModel;
 import com.apps.trollino.data.model.ResponseLoginModel;
 import com.apps.trollino.data.model.SettingsModel;
 import com.apps.trollino.data.model.UserProfileModel;
@@ -94,6 +96,14 @@ public class ApiService {
         postApi.getSearchPosts(cookie, searchText, page).enqueue(callback);
     }
 
+//    public void addPostToFavorite(String cookie, String token, String flagId, String entityType, String postId, Callback<ResponseBookmarkModel> callback) {
+//        postApi.addPostInFavorite(cookie, token, new BookmarkPostModel(flagId, entityType, postId)).enqueue(callback);
+//    }
+
+    public void addPostToFavorite(String cookie, String token, String postId, Callback<ResponseBookmarkModel> callback) {
+        postApi.addPostInFavorite(cookie, token, new RequestBookmarkPostModel(postId)).enqueue(callback);
+    }
+
     // GET and POST request for work with Authorisation block
     public void postLogin(String login, String password, Callback<ResponseLoginModel> callback) {
         authorisationApi.postLogin(new RequestLoginModel(login, password)).enqueue(callback);
@@ -120,7 +130,7 @@ public class ApiService {
         settingsApi.getUserSettings(cookie).enqueue(callback);
     }
 
-
+    // request for update user profile
     public void updateAvatar(String cookie, String token, RequestUpdateAvatarModel UidAvatar, int userUid, Callback<UserProfileModel> callback) {
         userApi.updateAvatar(cookie, token, UidAvatar, userUid).enqueue(callback);
     }
