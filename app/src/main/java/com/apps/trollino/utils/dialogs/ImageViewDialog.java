@@ -1,4 +1,4 @@
-package com.apps.trollino.utils;
+package com.apps.trollino.utils.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apps.trollino.R;
+import com.apps.trollino.utils.OnSwipeTouchListener;
 import com.squareup.picasso.Picasso;
 
 public class ImageViewDialog {

@@ -1,4 +1,4 @@
-package com.apps.trollino.utils;
+package com.apps.trollino.utils.dialogs;
 
 import android.content.Context;
 import android.content.DialogInterface;
