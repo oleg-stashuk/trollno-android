@@ -7,6 +7,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.apps.trollino.adapters.PostListAdapter;
+import com.apps.trollino.data.model.PagerModel;
 import com.apps.trollino.data.model.PostsModel;
 import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.utils.data.PostListBySearchFromApi;
@@ -38,14 +39,14 @@ public class GetPostBySearch {
                 if(response.isSuccessful()) {
                     PostsModel postsModel = response.body();
 
-                    PostsModel.Pager pager = postsModel.getPager();
-                    if(pager.getTotalItems() == 0) {
+                    PagerModel pagerModel = postsModel.getPagerModel();
+                    if(pagerModel.getTotalItems() == 0) {
                         nothingSearch.setVisibility(View.VISIBLE);
                     } else {
                         nothingSearch.setVisibility(View.GONE);
                         List<PostsModel.PostDetails> newPostList = postsModel.getPostDetailsList();
 
-                        saveCurrentPage(postsModel.getPager().getTotalPages(), prefUtils);
+                        saveCurrentPage(postsModel.getPagerModel().getTotalPages(), prefUtils);
                         updatePostListAndNotifyRecyclerAdapter(newPostList, adapter);
                     }
 

@@ -40,7 +40,7 @@ public class GetNewPosts {
                     PostsModel post = response.body();
                     List<PostsModel.PostDetails> newPostList = post.getPostDetailsList();
 
-                    saveCurrentPage(post.getPager().getTotalPages(), prefUtils);
+                    saveCurrentPage(post.getPagerModel().getTotalPages(), prefUtils);
                     updatePostListAndNotifyRecyclerAdapter(newPostList, adapter);
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());

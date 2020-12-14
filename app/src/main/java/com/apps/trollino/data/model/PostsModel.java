@@ -11,10 +11,10 @@ public class PostsModel {
     private List<PostDetails> postDetailsList;
     @SerializedName("pager")
     @Expose
-    private Pager pager;
+    private PagerModel pagerModel;
 
-    public Pager getPager() {
-        return pager;
+    public PagerModel getPagerModel() {
+        return pagerModel;
     }
 
     public List<PostDetails> getPostDetailsList() {
@@ -134,40 +134,4 @@ public class PostsModel {
         }
     }
 
-    public class Pager {
-        @SerializedName("current_page")
-        @Expose
-        private int currentPage;
-        @SerializedName("total_pages")
-        @Expose
-        private int totalPages;
-        @SerializedName("total_items")
-        @Expose
-        private int totalItems;
-        @SerializedName("items_per_page")
-        @Expose
-        private int itemPerPage;
-
-        public int getCurrentPage() {
-            return currentPage;
-        }
-
-        public int getTotalPages() {
-            return totalPages;
-        }
-
-        public int getTotalItems() {
-            return totalItems;
-        }
-
-        public int getItemPerPage() {
-            return itemPerPage;
-        }
-
-        @Override
-        public String toString() {
-            return "currentPage: " + getCurrentPage() + " total_pages: " + getTotalPages() +
-                    " totalItems: " + getTotalItems() + " itemPerPage: " +  getItemPerPage();
-        }
-    }
 }
