@@ -18,6 +18,7 @@ import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.Validation;
 import com.apps.trollino.utils.networking.GetSettings;
 import com.apps.trollino.utils.networking.authorisation.GetUserProfile;
+import com.apps.trollino.utils.networking.user.UpdatePassword;
 
 public class EditUserProfileActivity extends BaseActivity implements View.OnClickListener {
     private ImageView imageView;
@@ -75,21 +76,9 @@ public class EditUserProfileActivity extends BaseActivity implements View.OnClic
         });
     }
 
-    @Override
-    public void onBackPressed() {
-        startActivity(new Intent(this, ProfileActivity.class));
-        finish();
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.back_button_edit_user_profile:
-                onBackPressed();
-                break;
-            case R.id.delete_button_edit_user_profile:
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-                dialogBuilder.setMessage(getResources().getString(R.string.do_you_really_want_to_delete_your_account))
+    private void showDeleteConfirmationDialog() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setMessage(getResources().getString(R.string.do_you_really_want_to_delete_your_account))
                 .setNegativeButton(this.getString(android.R.string.no), (dialog1, which) -> {
                     Log.d("OkHttp", "Нет");
                     dialog1.cancel();
@@ -104,15 +93,30 @@ public class EditUserProfileActivity extends BaseActivity implements View.OnClic
                     dialog.cancel();
                 });
 
-                AlertDialog dialog = dialogBuilder.create();
-                dialog.show();
+        AlertDialog dialog = dialogBuilder.create();
+        dialog.show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, ProfileActivity.class));
+        finish();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.back_button_edit_user_profile:
+                onBackPressed();
+                break;
+            case R.id.delete_button_edit_user_profile:
+                showDeleteConfirmationDialog();
                 break;
             case R.id.image_edit_user_profile:
                 new Thread(() -> GetSettings.getSettings(this, prefUtils, imageView)).start();
                 break;
             case R.id.update_button_edit_user_profile:
-                showToast("Обновить профиль");
-//                new Thread(() -> ).start();
+                new Thread(() -> UpdatePassword.updatePassword(this, prefUtils, password, passwordEditText.getText().toString())).start();
                 break;
         }
     }
