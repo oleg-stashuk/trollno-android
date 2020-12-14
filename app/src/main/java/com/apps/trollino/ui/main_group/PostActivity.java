@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apps.trollino.R;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.OnSwipeTouchListener;
+import com.apps.trollino.utils.dialogs.GuestDialog;
 import com.apps.trollino.utils.networking.GetItemPost;
 import com.apps.trollino.utils.networking.single_post.PostBookmark;
 import com.apps.trollino.utils.networking.single_post.PostUnbookmark;
@@ -132,6 +133,21 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
         finish();
     }
 
+    // Press "favorite" button
+    private void pressFavoriteButton() {
+        if (!prefUtils.getCookie().isEmpty()) {
+            Log.d("OkHttp", "!!!!!!!!!! isFavoritePost in Activity " + prefUtils.getIsFavorite());
+            if (prefUtils.getIsFavorite()) {
+                new Thread(() -> PostUnbookmark.removePostFromFavorite(this, prefUtils, currentPostId, menu)).start();
+            } else {
+                new Thread(() -> PostBookmark.addPostToFavorite(this, prefUtils, currentPostId, menu)).start();
+            }
+        } else {
+            GuestDialog dialog = new GuestDialog();
+            dialog.showDialog(this);
+        }
+    }
+
     // Обрабтка нажантия на выпадающий список из Menu
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -143,16 +159,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
                 commentToPostActivity();
                 break;
             case R.id.favorite_button:
-                if (!prefUtils.getCookie().isEmpty()) {
-                    Log.d("OkHttp", "!!!!!!!!!! isFavoritePost in Activity " + prefUtils.getIsFavorite());
-                    if (prefUtils.getIsFavorite()) {
-                        new Thread(() -> PostUnbookmark.removePostFromFavorite(this, prefUtils, currentPostId, menu)).start();
-                    } else {
-                        new Thread(() -> PostBookmark.addPostToFavorite(this, prefUtils, currentPostId, menu)).start();
-                    }
-                } else {
-                    showToast("Пользователь не зарегестрирован. Вывести диалог для регистрации или входа");
-                }
+                pressFavoriteButton();
                 break;
             }
         return true;
