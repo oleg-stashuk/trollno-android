@@ -36,6 +36,7 @@ public class ApiService {
     private AuthorisationApi authorisationApi;
     private SettingsApi settingsApi;
     private UserApi userApi;
+    private SinglePostApi singlePostApi;
 
     private static volatile ApiService instance = null;
     public static ApiService getInstance(Context context) {
@@ -69,6 +70,7 @@ public class ApiService {
         authorisationApi = retrofit.create(AuthorisationApi.class);
         settingsApi = retrofit.create(SettingsApi.class);
         userApi = retrofit.create(UserApi.class);
+        singlePostApi = retrofit.create(SinglePostApi.class);
     }
 
     // GET and POST request for work with for Tape Post block
@@ -88,20 +90,22 @@ public class ApiService {
         postApi.getPostsByCategory(cookie, categoryId, page).enqueue(callback);
     }
 
-    public void getItemPost(String cookie, String postId, Callback<ItemPostModel> callback) {
-        postApi.getPostItem(cookie, postId).enqueue(callback);
-    }
 
     public void getSearchPosts(String cookie, String searchText, int page, Callback<PostsModel> callback) {
         postApi.getSearchPosts(cookie, searchText, page).enqueue(callback);
     }
 
+    // GET and POST request for Single Post block
+    public void getItemPost(String cookie, String postId, Callback<ItemPostModel> callback) {
+        singlePostApi.getPostItem(cookie, postId).enqueue(callback);
+    }
+
     public void addPostToFavorite(String cookie, String token, String postId, Callback<ResponseBookmarkModel> callback) {
-        postApi.addPostInFavorite(cookie, token, new RequestBookmarkPostModel(postId)).enqueue(callback);
+        singlePostApi.addPostInFavorite(cookie, token, new RequestBookmarkPostModel(postId)).enqueue(callback);
     }
 
     public void removePostFromFavorite(String cookie, String token, String postId, Callback<Void> callback) {
-        postApi.removePostFromFavorite(cookie, token, new RequestBookmarkPostModel(postId)).enqueue(callback);
+        singlePostApi.removePostFromFavorite(cookie, token, new RequestBookmarkPostModel(postId)).enqueue(callback);
     }
 
     // GET and POST request for work with Authorisation block

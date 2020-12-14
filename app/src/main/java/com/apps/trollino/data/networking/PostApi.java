@@ -51,27 +51,8 @@ public interface PostApi {
             "Content-Type: application/json",
             "Accepts: application/json"
     })
-    @GET("/node/{post_id}?_format=json")
-    Call<ItemPostModel> getPostItem(@Header("Cookie") String cookie, @Path("post_id") String postId);
-
-    @Headers({
-            "Content-Type: application/json",
-            "Accepts: application/json"
-    })
     @GET("/posts/search")
     Call<PostsModel> getSearchPosts(@Header("Cookie") String cookie, @Query("title") String textSearch, @Query("page") int page);
 
-    @Headers({
-            "Content-Type: application/json",
-            "Accepts: application/json"
-    })
-    @POST("/api/flag?_format=json")
-    Call<ResponseBookmarkModel> addPostInFavorite(@Header("Cookie") String cookie, @Header("X-CSRF-Token") String token, @Body RequestBookmarkPostModel bookmarkPostModel);
 
-    @Headers({
-            "Content-Type: application/json",
-            "Accepts: application/json"
-    })
-    @POST("/api/unflag?_format=json")
-    Call<Void> removePostFromFavorite(@Header("Cookie") String cookie, @Header("X-CSRF-Token") String token, @Body RequestBookmarkPostModel bookmarkPostModel);
 }
