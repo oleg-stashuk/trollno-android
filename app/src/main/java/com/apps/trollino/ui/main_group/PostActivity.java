@@ -18,7 +18,7 @@ import com.apps.trollino.R;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.OnSwipeTouchListener;
 import com.apps.trollino.utils.dialogs.GuestDialog;
-import com.apps.trollino.utils.networking.GetItemPost;
+import com.apps.trollino.utils.networking.single_post.GetItemPost;
 import com.apps.trollino.utils.networking.single_post.PostBookmark;
 import com.apps.trollino.utils.networking.single_post.PostUnbookmark;
 
@@ -92,7 +92,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
     private void makeTouchListener() {
         layout.setOnTouchListener(new OnSwipeTouchListener(this) {
             public void onSwipeRight() {
-                prefUtils.saveIsFavorite(false);
+//                prefUtils.saveIsFavorite(false);
                 showToast("onSwipeRight");
                 String nextPostId = prefUtils.getNextPostId();
                 if(!nextPostId.isEmpty() && nextPostId.length() > 0 && !nextPostId.equals("0")) {
@@ -102,7 +102,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
             }
 
             public void onSwipeLeft() {
-                prefUtils.saveIsFavorite(false);
+//                prefUtils.saveIsFavorite(false);
                 showToast("onSwipeLeft");
                 String prevPostId = prefUtils.gePrevPostId();
                 if(!prevPostId.isEmpty() && prevPostId.length() > 0 && !prevPostId.equals("0")) {

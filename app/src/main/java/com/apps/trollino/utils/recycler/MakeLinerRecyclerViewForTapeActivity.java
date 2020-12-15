@@ -14,7 +14,7 @@ import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.RecyclerScrollListener;
 import com.apps.trollino.utils.data.DataListFromApi;
 import com.apps.trollino.utils.data.PrefUtils;
-import com.apps.trollino.utils.networking.GetMostDiscusPosts;
+import com.apps.trollino.utils.networking.main_group.GetMostDiscusPosts;
 
 import static com.apps.trollino.utils.OpenPostActivityHelper.openPostActivity;
 

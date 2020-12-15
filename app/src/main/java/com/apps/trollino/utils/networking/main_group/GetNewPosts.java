@@ -1,4 +1,4 @@
-package com.apps.trollino.utils.networking;
+package com.apps.trollino.utils.networking.main_group;
 
 import android.content.Context;
 import android.util.Log;
@@ -9,7 +9,7 @@ import android.widget.Toast;
 import com.apps.trollino.adapters.PostListAdapter;
 import com.apps.trollino.data.model.PostsModel;
 import com.apps.trollino.data.networking.ApiService;
-import com.apps.trollino.utils.data.PostListByCategoryFromApi;
+import com.apps.trollino.utils.data.DataListFromApi;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
 
@@ -21,22 +21,22 @@ import retrofit2.Response;
 
 import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
 
-public class GetPostsByCategory {
+public class GetNewPosts {
     private static Context cont;
     private static int page;
 
-    public static void getPostsByCategory(Context context, PrefUtils prefUtils, PostListAdapter adapter, ProgressBar progressBar) {
-        cont = context;
-        page = prefUtils.getPostByCategoryCurrentPage();
-        String cookie = prefUtils.getCookie();
-        String categoryId = prefUtils.getSelectedCategoryId();
 
-        ApiService.getInstance(context).getPostsByCategory(cookie, categoryId, page, new Callback<PostsModel>() {
+    public static void makeGetNewPosts(Context context, PrefUtils prefUtils, PostListAdapter adapter, ProgressBar progressBar) {
+        cont = context;
+        page = prefUtils.getNewPostCurrentPage();
+        String cookie = prefUtils.getCookie();
+
+        ApiService.getInstance(context).getNewPosts(cookie, page, new Callback<PostsModel>() {
             int countTry = 0;
 
             @Override
             public void onResponse(Call<PostsModel> call, Response<PostsModel> response) {
-                if(response.isSuccessful()) {
+                if (response.isSuccessful()) {
                     PostsModel post = response.body();
                     List<PostsModel.PostDetails> newPostList = post.getPostDetailsList();
 
@@ -77,9 +77,7 @@ public class GetPostsByCategory {
     }
 
     private static void updatePostListAndNotifyRecyclerAdapter(List<PostsModel.PostDetails> newPostList, PostListAdapter adapter) {
-        PostListByCategoryFromApi.getInstance().savePostByCategoryInList(newPostList);
-        Log.d("OkHttp", "postList in update 333 - " + PostListByCategoryFromApi.getInstance().getPostListByCategory().size() + " " + newPostList.size());
+        DataListFromApi.getInstance().saveDataInList(newPostList);
         adapter.notifyDataSetChanged();
     }
-
 }

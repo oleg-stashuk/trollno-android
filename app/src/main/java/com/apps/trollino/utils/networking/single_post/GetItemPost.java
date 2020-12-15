@@ -1,4 +1,4 @@
-package com.apps.trollino.utils.networking;
+package com.apps.trollino.utils.networking.single_post;
 
 import android.content.Context;
 import android.util.Log;

@@ -20,7 +20,7 @@ import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.RecyclerScrollListener;
 import com.apps.trollino.utils.data.DataListFromApi;
 import com.apps.trollino.utils.data.PostListBySearchFromApi;
-import com.apps.trollino.utils.networking.GetPostBySearch;
+import com.apps.trollino.utils.networking.main_group.GetPostBySearch;
 
 import static com.apps.trollino.utils.OpenPostActivityHelper.openPostActivity;
 

@@ -16,7 +16,7 @@ import com.apps.trollino.utils.data.DataListFromApi;
 import com.apps.trollino.utils.data.PrefUtils;
 
 import static com.apps.trollino.utils.OpenPostActivityHelper.openPostActivity;
-import static com.apps.trollino.utils.networking.GetNewPosts.makeGetNewPosts;
+import static com.apps.trollino.utils.networking.main_group.GetNewPosts.makeGetNewPosts;
 
 public class MakeGridRecyclerViewForTapeActivity extends RecyclerView.OnScrollListener{
     private static Context cont;
