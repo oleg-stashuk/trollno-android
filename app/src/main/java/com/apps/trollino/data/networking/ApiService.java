@@ -16,6 +16,7 @@ import com.apps.trollino.data.model.ResponseBookmarkModel;
 import com.apps.trollino.data.model.ResponseLoginModel;
 import com.apps.trollino.data.model.SettingsModel;
 import com.apps.trollino.data.model.UserProfileModel;
+import com.apps.trollino.data.model.comment.CommentModel;
 import com.apps.trollino.utils.networking_helper.CustomConverterForItemPost;
 import com.apps.trollino.utils.networking_helper.ReceivedCookiesInterceptor;
 import com.google.gson.Gson;
@@ -37,6 +38,7 @@ public class ApiService {
     private SettingsApi settingsApi;
     private UserApi userApi;
     private SinglePostApi singlePostApi;
+    private CommentApi commentApi;
 
     private static volatile ApiService instance = null;
     public static ApiService getInstance(Context context) {
@@ -71,6 +73,7 @@ public class ApiService {
         settingsApi = retrofit.create(SettingsApi.class);
         userApi = retrofit.create(UserApi.class);
         singlePostApi = retrofit.create(SinglePostApi.class);
+        commentApi = retrofit.create(CommentApi.class);
     }
 
     // GET and POST request for work with for Tape Post block
@@ -149,5 +152,10 @@ public class ApiService {
 
     public void updatePassword(String cookie, String token, int userUid, RequestUpdateUserPassword updatePasswordModel, Callback<UserProfileModel> callback) {
         userApi.updatePassword(cookie, token, userUid, updatePasswordModel).enqueue(callback);
+    }
+
+    // request for Comments block
+    public void getCommentToPost(String cookie, String postId, Callback<CommentModel> callback) {
+        commentApi.getCommentListByPost(cookie, postId).enqueue(callback);
     }
 }

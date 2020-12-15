@@ -59,6 +59,7 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
         currentPostId = this.getIntent().getStringExtra(POST_ID_KEY);
         isPostFromCategory = this.getIntent().getBooleanExtra(POST_FROM_CATEGORY_LIST, false);
 
+        new Thread(() -> GetCommentListByPost.getCommentListByPost(this, prefUtils, currentPostId)).start();
 
         makeCommentListRecyclerView();
         showCorrectVariant();     // Если для Поста нет комментариев, то выводится на экран сообщение что комментариев нет
