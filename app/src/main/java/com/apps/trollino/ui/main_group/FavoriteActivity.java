@@ -12,20 +12,14 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.apps.trollino.R;
-import com.apps.trollino.data.model.FavoriteModel;
 import com.apps.trollino.ui.authorisation.LoginActivity;
 import com.apps.trollino.ui.authorisation.RegistrationActivity;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.data.FavoritePostListFromApi;
-import com.apps.trollino.utils.data.PostListByCategoryFromApi;
 import com.apps.trollino.utils.recycler.MakeLinerRecyclerViewForFavoriteActivity;
-
-import java.util.List;
 
 public class FavoriteActivity extends BaseActivity implements View.OnClickListener{
     private RecyclerView favoriteRecyclerView;
-    private List<FavoriteModel> favoriteVideoList = FavoriteModel.makeFavoriteVideoList();
-//    private List<FavoriteModel> favoriteVideoList = new ArrayList<>();
     private View noFavoriteListView;
     private View userAuthorizationView;
     private ProgressBar progressBar;
@@ -59,16 +53,10 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
     private void checkFavoriteListAndUserAuthorization() {
         if(isUserAuthorization) {
             userAuthorizationView.setVisibility(View.GONE);
-            if (favoriteVideoList.isEmpty()) {
-                noFavoriteListView.setVisibility(View.VISIBLE);
-                favoriteRecyclerView.setVisibility(View.GONE);
-            } else {
-                noFavoriteListView.setVisibility(View.GONE);
-                favoriteRecyclerView.setVisibility(View.VISIBLE);
-                MakeLinerRecyclerViewForFavoriteActivity.makeLinerRecyclerViewForFavoriteActivity(this, favoriteRecyclerView, progressBar ,prefUtils);
-            }
+            MakeLinerRecyclerViewForFavoriteActivity.makeLinerRecyclerViewForFavoriteActivity(this, favoriteRecyclerView, progressBar ,prefUtils, noFavoriteListView);
         } else {
             userAuthorizationView.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
         }
     }
 

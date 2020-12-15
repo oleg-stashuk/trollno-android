@@ -22,7 +22,7 @@ public class MakeLinerRecyclerViewForFavoriteActivity extends RecyclerView.OnScr
     private static Context cont;
     private static PrefUtils prefUt;
 
-    public static void makeLinerRecyclerViewForFavoriteActivity(Context context, RecyclerView recyclerView, ProgressBar progressBar, PrefUtils prefUtils) {
+    public static void makeLinerRecyclerViewForFavoriteActivity(Context context, RecyclerView recyclerView, ProgressBar progressBar, PrefUtils prefUtils, View noFavoriteListView) {
         cont = context;
         prefUt = prefUtils;
 
@@ -33,7 +33,7 @@ public class MakeLinerRecyclerViewForFavoriteActivity extends RecyclerView.OnScr
         recyclerView.setHasFixedSize(true);
         if (FavoritePostListFromApi.getInstance().getFavoritePostLis().isEmpty()) {
             new Thread(() -> {
-                GetFavoriteList.getFavoritePosts(context, prefUtils, adapter, progressBar);
+                GetFavoriteList.getFavoritePosts(context, prefUtils, recyclerView, adapter, progressBar, noFavoriteListView);
             }).start();
         }
 
@@ -43,7 +43,7 @@ public class MakeLinerRecyclerViewForFavoriteActivity extends RecyclerView.OnScr
                 progressBar.setVisibility(View.VISIBLE);
                 Handler handler = new Handler();
                 handler.postDelayed(() -> new Thread(() -> {
-                    GetFavoriteList.getFavoritePosts(context, prefUtils, adapter, progressBar);
+                    GetFavoriteList.getFavoritePosts(context, prefUtils, recyclerView, adapter, progressBar, noFavoriteListView);
                 }).start(), 1000);
             }
         });

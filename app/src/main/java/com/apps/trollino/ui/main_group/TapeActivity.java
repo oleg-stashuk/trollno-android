@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apps.trollino.R;
 import com.apps.trollino.data.model.CategoryModel;
-import com.apps.trollino.data.model.FavoriteModel;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.data.CategoryListFromApi;
 import com.apps.trollino.utils.data.DataListFromApi;
@@ -24,7 +23,6 @@ import static com.apps.trollino.utils.recycler.MakePostsByCategoryGridRecyclerVi
 
 public class TapeActivity extends BaseActivity implements View.OnClickListener{
     private RecyclerView newsRecyclerView;
-    private List<FavoriteModel> newsVideoList = FavoriteModel.makeFavoriteVideoList();
     private TabLayout tabs;
     private ProgressBar progressBar;
 

@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.apps.trollino.adapters.FavoriteAdapter;
 import com.apps.trollino.data.model.PostsModel;
 import com.apps.trollino.data.networking.ApiService;
@@ -25,7 +27,7 @@ public class GetFavoriteList {
     private static Context cont;
     private static int page;
 
-    public static void getFavoritePosts(Context context, PrefUtils prefUtils, FavoriteAdapter adapter, ProgressBar progressBar) {
+    public static void getFavoritePosts(Context context, PrefUtils prefUtils, RecyclerView recyclerView, FavoriteAdapter adapter, ProgressBar progressBar, View noFavoriteListView) {
         cont = context;
         page = prefUtils.getNewPostCurrentPage();
         String cookie = prefUtils.getCookie();
@@ -38,6 +40,14 @@ public class GetFavoriteList {
                 if (response.isSuccessful()) {
                     PostsModel post = response.body();
                     List<PostsModel.PostDetails> favoritePostList = post.getPostDetailsList();
+
+                if (favoritePostList.isEmpty()) {
+                    noFavoriteListView.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
+                } else {
+                    noFavoriteListView.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                }
 
                     saveCurrentPage(post.getPagerModel().getTotalPages(), prefUtils);
                     updatePostListAndNotifyRecyclerAdapter(favoritePostList, adapter);
