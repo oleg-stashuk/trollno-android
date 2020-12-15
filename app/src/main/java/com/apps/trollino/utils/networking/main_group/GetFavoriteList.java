@@ -41,13 +41,13 @@ public class GetFavoriteList {
                     PostsModel post = response.body();
                     List<PostsModel.PostDetails> favoritePostList = post.getPostDetailsList();
 
-                if (favoritePostList.isEmpty()) {
-                    noFavoriteListView.setVisibility(View.VISIBLE);
-                    recyclerView.setVisibility(View.GONE);
-                } else {
-                    noFavoriteListView.setVisibility(View.GONE);
-                    recyclerView.setVisibility(View.VISIBLE);
-                }
+                    if (favoritePostList.isEmpty()) {
+                        noFavoriteListView.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.GONE);
+                    } else {
+                        noFavoriteListView.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                    }
 
                     saveCurrentPage(post.getPagerModel().getTotalPages(), prefUtils);
                     updatePostListAndNotifyRecyclerAdapter(favoritePostList, adapter);

@@ -14,17 +14,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apps.trollino.R;
 import com.apps.trollino.adapters.UserCommentAdapter;
 import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
-import com.apps.trollino.data.model.UserCommentActivityModel;
+import com.apps.trollino.data.model.comment.CommentModel;
 import com.apps.trollino.ui.authorisation.LoginActivity;
 import com.apps.trollino.ui.authorisation.RegistrationActivity;
 import com.apps.trollino.ui.base.BaseActivity;
 
 import java.util.List;
 
-import static com.apps.trollino.data.model.UserCommentActivityModel.makeUserCommentList;
+import static com.apps.trollino.data.model.comment.CommentModel.makeUserCommentList;
 
 public class ActivityInPostActivity extends BaseActivity implements View.OnClickListener{
-    private List<UserCommentActivityModel> userCommentList = makeUserCommentList();
+    private List<CommentModel> userCommentList = makeUserCommentList();
     private RecyclerView postWithActivityRecyclerView;
 
     private View userAuthorizationView;
@@ -69,9 +69,9 @@ public class ActivityInPostActivity extends BaseActivity implements View.OnClick
     }
 
     // Обработка нажатия на элемент списка из ресайклера
-    private final UserCommentAdapter.OnItemClick<UserCommentActivityModel> newsVideoGridItemListener = new BaseRecyclerAdapter.OnItemClick<UserCommentActivityModel>() {
+    private final UserCommentAdapter.OnItemClick<CommentModel> newsVideoGridItemListener = new BaseRecyclerAdapter.OnItemClick<CommentModel>() {
         @Override
-        public void onItemClick(UserCommentActivityModel item, int position) {
+        public void onItemClick(CommentModel item, int position) {
             showToast("Press " + item.getTitle());
             startActivity(new Intent(ActivityInPostActivity.this, CommentToPostActivity.class));
             finish();

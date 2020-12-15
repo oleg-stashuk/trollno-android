@@ -16,8 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apps.trollino.R;
 import com.apps.trollino.adapters.CommentToPostParentAdapter;
-import com.apps.trollino.data.model.UserCommentActivityModel;
+import com.apps.trollino.data.model.comment.CommentModel;
 import com.apps.trollino.ui.base.BaseActivity;
+import com.apps.trollino.utils.networking.comment.GetCommentListByPost;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ import static com.apps.trollino.ui.main_group.PostActivity.POST_ID_KEY;
 
 public class CommentToPostActivity extends BaseActivity implements View.OnClickListener{
 
-    private List<UserCommentActivityModel> commentList = UserCommentActivityModel.makeCommentsListToPostParent();
+    private List<CommentModel> commentList = CommentModel.makeCommentsListToPostParent();
     private int countComment = 7;
 
     private TextView noCommentTextView;

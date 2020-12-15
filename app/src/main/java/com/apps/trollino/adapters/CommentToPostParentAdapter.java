@@ -11,18 +11,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apps.trollino.R;
 import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
-import com.apps.trollino.data.model.UserCommentActivityModel;
+import com.apps.trollino.data.model.comment.CommentModel;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.ClickableSpanText;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommentToPostParentAdapter extends BaseRecyclerAdapter<UserCommentActivityModel> {
+public class CommentToPostParentAdapter extends BaseRecyclerAdapter<CommentModel> {
     EditText commentEditText;
     boolean isUserLikeIt;
 
-    public CommentToPostParentAdapter(BaseActivity baseActivity, List<UserCommentActivityModel> items, EditText commentEditText) {
+    public CommentToPostParentAdapter(BaseActivity baseActivity, List<CommentModel> items, EditText commentEditText) {
         super(baseActivity, items);
         this.commentEditText = commentEditText;
     }
@@ -36,7 +36,7 @@ public class CommentToPostParentAdapter extends BaseRecyclerAdapter<UserCommentA
     protected BaseItem createViewHolder(final View view) {
         return new BaseItem(view) {
             @Override
-            public void bind(final UserCommentActivityModel item) {
+            public void bind(final CommentModel item) {
                 ImageView imageImageView = view.findViewById(R.id.image_user_single_comment_parent);
                 TextView nameTextView = view.findViewById(R.id.name_user_single_comment_parent);
                 TextView timeTextView = view.findViewById(R.id.time_user_single_comment_parent);
@@ -104,13 +104,13 @@ public class CommentToPostParentAdapter extends BaseRecyclerAdapter<UserCommentA
             private void checkAnswerToThisComment(boolean isCommentHasAnswer, final RecyclerView childCommentRecyclerView, final TextView showMoreTextView) {
                 if(isCommentHasAnswer) {
                     childCommentRecyclerView.setVisibility(View.VISIBLE);
-                    final List<UserCommentActivityModel> commentsListToPost = UserCommentActivityModel.makeCommentsListToPostChild(); // получить весь список дочерних комментариев
+                    final List<CommentModel> commentsListToPost = CommentModel.makeCommentsListToPostChild(); // получить весь список дочерних комментариев
 
                     // Если в дочернем списке ответов к коментарию больше 3 элементов, отображать кнопку "Показать все ответы"
                     if(commentsListToPost.size() > 3) {
                         showMoreTextView.setVisibility(View.VISIBLE);
 
-                        final List<UserCommentActivityModel> commentsListSize2 = new ArrayList<>();
+                        final List<CommentModel> commentsListSize2 = new ArrayList<>();
                         commentsListSize2.add(commentsListToPost.get(0));
                         commentsListSize2.add(commentsListToPost.get(1));
                         makeChildCommentRecyclerView(childCommentRecyclerView, commentsListSize2);
@@ -134,7 +134,7 @@ public class CommentToPostParentAdapter extends BaseRecyclerAdapter<UserCommentA
             }
 
             // Создание childCommentRecyclerView
-            private void makeChildCommentRecyclerView(RecyclerView childCommentRecyclerView, List<UserCommentActivityModel> commentList) {
+            private void makeChildCommentRecyclerView(RecyclerView childCommentRecyclerView, List<CommentModel> commentList) {
                 childCommentRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
                 childCommentRecyclerView.setAdapter( new CommentToPostChildAdapter((BaseActivity) view.getContext(), commentList, commentEditText));
             }

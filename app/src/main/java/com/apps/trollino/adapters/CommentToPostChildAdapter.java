@@ -8,17 +8,17 @@ import android.widget.TextView;
 
 import com.apps.trollino.R;
 import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
-import com.apps.trollino.data.model.UserCommentActivityModel;
+import com.apps.trollino.data.model.comment.CommentModel;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.ClickableSpanText;
 
 import java.util.List;
 
-class CommentToPostChildAdapter extends BaseRecyclerAdapter<UserCommentActivityModel> {
+class CommentToPostChildAdapter extends BaseRecyclerAdapter<CommentModel> {
     EditText commentEditText;
     boolean isUserLikeIt;
 
-    public CommentToPostChildAdapter(BaseActivity baseActivity, List<UserCommentActivityModel> items, EditText commentEditText) {
+    public CommentToPostChildAdapter(BaseActivity baseActivity, List<CommentModel> items, EditText commentEditText) {
         super(baseActivity, items);
         this.commentEditText = commentEditText;
     }
@@ -32,7 +32,7 @@ class CommentToPostChildAdapter extends BaseRecyclerAdapter<UserCommentActivityM
     protected BaseItem createViewHolder(final View view) {
         return new BaseItem(view) {
             @Override
-            public void bind(final UserCommentActivityModel item) {
+            public void bind(final CommentModel item) {
                 ImageView imageImageView = view.findViewById(R.id.image_user_single_comment_child);
                 TextView nameTextView = view.findViewById(R.id.name_user_single_comment_child);
                 TextView timeTextView = view.findViewById(R.id.time_user_single_comment_child);

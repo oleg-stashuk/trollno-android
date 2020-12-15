@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.apps.trollino.data.model.TiktokModel;
-import com.apps.trollino.data.networking.ApiServiceTiktok;
+import com.apps.trollino.data.networking.tiktok.ApiServiceTiktok;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
 import com.squareup.picasso.Picasso;
 

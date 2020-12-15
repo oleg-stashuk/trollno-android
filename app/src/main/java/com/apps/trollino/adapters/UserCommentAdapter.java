@@ -8,19 +8,19 @@ import android.widget.Toast;
 
 import com.apps.trollino.R;
 import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
-import com.apps.trollino.data.model.UserCommentActivityModel;
+import com.apps.trollino.data.model.comment.CommentModel;
 import com.apps.trollino.ui.base.BaseActivity;
 
 import java.util.List;
 
-public class UserCommentAdapter extends BaseRecyclerAdapter<UserCommentActivityModel> {
+public class UserCommentAdapter extends BaseRecyclerAdapter<CommentModel> {
 
-    public UserCommentAdapter(BaseActivity baseActivity, List<UserCommentActivityModel> items, OnItemClick<UserCommentActivityModel> onItemClick) {
+    public UserCommentAdapter(BaseActivity baseActivity, List<CommentModel> items, OnItemClick<CommentModel> onItemClick) {
         super(baseActivity, items, onItemClick);
     }
 
     @Override
-    public void setOnItemClick(OnItemClick<UserCommentActivityModel> onItemClick) {
+    public void setOnItemClick(OnItemClick<CommentModel> onItemClick) {
         super.setOnItemClick(onItemClick);
     }
 
@@ -33,7 +33,7 @@ public class UserCommentAdapter extends BaseRecyclerAdapter<UserCommentActivityM
     protected BaseItem createViewHolder(final View view) {
         return new BaseItem(view) {
             @Override
-            public void bind(UserCommentActivityModel item) {
+            public void bind(CommentModel item) {
                 LinearLayout linearLayout = view.findViewById(R.id.background_liner_layout_user_comment);
                 TextView titleTextView = view.findViewById(R.id.title_item_user_comment);
                 ImageView menuImageView = view.findViewById(R.id.menu_item_user_comment);
