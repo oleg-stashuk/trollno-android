@@ -26,7 +26,7 @@ public class MakeLinerRecyclerViewForFavoriteActivity extends RecyclerView.OnScr
         cont = context;
         prefUt = prefUtils;
 
-        FavoriteAdapter adapter = new FavoriteAdapter((BaseActivity) context, FavoritePostListFromApi.getInstance().getFavoritePostLis(), favoritePostItemListener);
+        FavoriteAdapter adapter = new FavoriteAdapter((BaseActivity) context, prefUtils, FavoritePostListFromApi.getInstance().getFavoritePostLis(), favoritePostItemListener);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);

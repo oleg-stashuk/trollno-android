@@ -1,6 +1,8 @@
 package com.apps.trollino.utils.networking.single_post;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
 import android.widget.Toast;
@@ -9,6 +11,7 @@ import androidx.core.content.ContextCompat;
 
 import com.apps.trollino.R;
 import com.apps.trollino.data.networking.ApiService;
+import com.apps.trollino.ui.main_group.FavoriteActivity;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
 
@@ -34,7 +37,12 @@ public class PostUnbookmark {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if(response.isSuccessful()) {
                     Log.d("OkHttp", "!!!!!!!!!! isSuccessful() removePostFromFavorite");
-                    menu.getItem(1).setIcon(ContextCompat.getDrawable(cont, R.drawable.ic_favorite_border_button));
+                    if (menu != null) {
+                        menu.getItem(1).setIcon(ContextCompat.getDrawable(cont, R.drawable.ic_favorite_border_button));
+                    } else {
+                        context.startActivity(new Intent(context, FavoriteActivity.class));
+                        ((Activity) context).finish();
+                    }
                     prefUtils.saveIsFavorite(false);
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());

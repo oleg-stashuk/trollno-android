@@ -4,12 +4,13 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.apps.trollino.R;
 import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
 import com.apps.trollino.data.model.PostsModel;
 import com.apps.trollino.ui.base.BaseActivity;
+import com.apps.trollino.utils.data.PrefUtils;
+import com.apps.trollino.utils.networking.single_post.PostUnbookmark;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -17,9 +18,11 @@ import java.util.List;
 import static com.apps.trollino.utils.Const.BASE_URL;
 
 public class FavoriteAdapter extends BaseRecyclerAdapter<PostsModel.PostDetails> {
+    private PrefUtils prefUtils;
 
-    public FavoriteAdapter(BaseActivity baseActivity, List<PostsModel.PostDetails> items, OnItemClick<PostsModel.PostDetails> onItemClick) {
+    public FavoriteAdapter(BaseActivity baseActivity, PrefUtils prefUtils, List<PostsModel.PostDetails> items, OnItemClick<PostsModel.PostDetails> onItemClick) {
         super(baseActivity, items, onItemClick);
+        this.prefUtils = prefUtils;
     }
 
     @Override
@@ -47,7 +50,9 @@ public class FavoriteAdapter extends BaseRecyclerAdapter<PostsModel.PostDetails>
                         .load(BASE_URL.concat(item.getImageUrl()))
                         .into(imageView);
 
-                deleteImageButton.setOnClickListener(view1 -> Toast.makeText(itemView.getContext(), "Delete", Toast.LENGTH_SHORT).show());
+                deleteImageButton.setOnClickListener(view1 -> {
+                    new Thread(() -> PostUnbookmark.removePostFromFavorite(view.getContext(), prefUtils, item.getPostId(), null)).start();
+                });
             }
         };
     }
