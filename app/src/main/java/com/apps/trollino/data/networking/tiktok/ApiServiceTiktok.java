@@ -1,4 +1,4 @@
-package com.apps.trollino.data.networking;
+package com.apps.trollino.data.networking.tiktok;
 
 import com.apps.trollino.data.model.TiktokModel;
 
