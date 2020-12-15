@@ -34,6 +34,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+        <ProgressBar
+            android:id="@+id/progress_bar_favorite"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:progressDrawable="@color/colorPrimary"
+            android:background="@drawable/progress_bar_circle_shape" />
+
         <include
             android:id="@+id/include_no_favorite"
             layout="@layout/include_no_favorite"

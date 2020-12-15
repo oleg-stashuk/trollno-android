@@ -5,19 +5,20 @@ import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.apps.trollino.R;
-import com.apps.trollino.adapters.FavoriteAdapter;
 import com.apps.trollino.data.model.FavoriteModel;
 import com.apps.trollino.ui.authorisation.LoginActivity;
 import com.apps.trollino.ui.authorisation.RegistrationActivity;
 import com.apps.trollino.ui.base.BaseActivity;
-import com.apps.trollino.utils.networking.main_group.GetFavoriteList;
+import com.apps.trollino.utils.data.FavoritePostListFromApi;
+import com.apps.trollino.utils.data.PostListByCategoryFromApi;
+import com.apps.trollino.utils.recycler.MakeLinerRecyclerViewForFavoriteActivity;
 
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
 //    private List<FavoriteModel> favoriteVideoList = new ArrayList<>();
     private View noFavoriteListView;
     private View userAuthorizationView;
+    private ProgressBar progressBar;
     private boolean isUserAuthorization; // Пользователь авторизирован или нет
     private boolean doubleBackToExitPressedOnce = false;  // для обработки нажатия onBackPressed
 
@@ -40,6 +42,7 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
         favoriteRecyclerView = findViewById(R.id.recycler_favorite);
         noFavoriteListView = findViewById(R.id.include_no_favorite);
         userAuthorizationView = findViewById(R.id.include_user_not_authorization_favorite);
+        progressBar = findViewById(R.id.progress_bar_favorite);
         findViewById(R.id.tape_button_favorite).setOnClickListener(this);
         findViewById(R.id.activity_button_favorite).setOnClickListener(this);
         findViewById(R.id.profile_button_favorite).setOnClickListener(this);
@@ -47,9 +50,7 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
         findViewById(R.id.registration_button_include_activity_for_guest).setOnClickListener(this);
 
         isUserAuthorization = prefUtils.getIsUserAuthorization();
-        new Thread(() -> {
-            GetFavoriteList.makeGetNewPosts(this, prefUtils);
-        }).start();
+        FavoritePostListFromApi.getInstance().removeAllDataFromList(prefUtils);
 
         checkFavoriteListAndUserAuthorization(); // проверить пользователь авторизирован или нет, если да - то проверить есть посты добаленные в избранное или нет
         initToolbar();
@@ -64,25 +65,12 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
             } else {
                 noFavoriteListView.setVisibility(View.GONE);
                 favoriteRecyclerView.setVisibility(View.VISIBLE);
-                makeFavoriteRecyclerView();
+                MakeLinerRecyclerViewForFavoriteActivity.makeLinerRecyclerViewForFavoriteActivity(this, favoriteRecyclerView, progressBar ,prefUtils);
             }
         } else {
             userAuthorizationView.setVisibility(View.VISIBLE);
         }
     }
-
-    private void makeFavoriteRecyclerView() {
-        favoriteRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        favoriteRecyclerView.setAdapter(new FavoriteAdapter(this, favoriteVideoList, favoriteVideoItemListener));
-    }
-
-    // Обработка нажатия на элемент списка
-    private final FavoriteAdapter.OnItemClick<FavoriteModel> favoriteVideoItemListener =
-            (item, position) -> {
-                showToast ("Press " + item.getVideoId());
-                startActivity(new Intent(FavoriteActivity.this, PostActivity.class));
-                finish();
-            };
 
     // Иницировать Toolbar
     private void initToolbar() {
@@ -128,14 +116,7 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
 
         this.doubleBackToExitPressedOnce = true;
         showToast(getString(R.string.press_twice_to_exit));
-
-        new Handler().postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce=false;
-            }
-        }, 2000);
+        new Handler().postDelayed(() -> doubleBackToExitPressedOnce=false, 2000);
     }
 
     @Override

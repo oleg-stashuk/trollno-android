@@ -2,10 +2,14 @@ package com.apps.trollino.utils.networking.main_group;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.apps.trollino.adapters.FavoriteAdapter;
 import com.apps.trollino.data.model.PostsModel;
 import com.apps.trollino.data.networking.ApiService;
+import com.apps.trollino.utils.data.FavoritePostListFromApi;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
 
@@ -21,8 +25,7 @@ public class GetFavoriteList {
     private static Context cont;
     private static int page;
 
-    public static void makeGetNewPosts(Context context, PrefUtils prefUtils) {
-//    public static void makeGetNewPosts(Context context, PrefUtils prefUtils, PostListAdapter adapter, ProgressBar progressBar) {
+    public static void getFavoritePosts(Context context, PrefUtils prefUtils, FavoriteAdapter adapter, ProgressBar progressBar) {
         cont = context;
         page = prefUtils.getNewPostCurrentPage();
         String cookie = prefUtils.getCookie();
@@ -34,16 +37,15 @@ public class GetFavoriteList {
             public void onResponse(Call<PostsModel> call, Response<PostsModel> response) {
                 if (response.isSuccessful()) {
                     PostsModel post = response.body();
-                    List<PostsModel.PostDetails> newPostList = post.getPostDetailsList();
-                    Log.d("OkHttp", "isSuccessful");
+                    List<PostsModel.PostDetails> favoritePostList = post.getPostDetailsList();
 
-//                    saveCurrentPage(post.getPagerModel().getTotalPages(), prefUtils);
-//                    updatePostListAndNotifyRecyclerAdapter(newPostList, adapter);
+                    saveCurrentPage(post.getPagerModel().getTotalPages(), prefUtils);
+                    updatePostListAndNotifyRecyclerAdapter(favoritePostList, adapter);
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
                     showToast(errorMessage);
                 }
-//                progressBar.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
@@ -54,7 +56,7 @@ public class GetFavoriteList {
                     countTry++;
                 } else {
                     showToast(t.getLocalizedMessage());
-//                    progressBar.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.GONE);
                     Log.d("OkHttp", "t.getLocalizedMessage() " + t.getLocalizedMessage());
                 }
             }
@@ -65,16 +67,16 @@ public class GetFavoriteList {
         Toast.makeText(cont, message, Toast.LENGTH_SHORT).show();
     }
 
-//    private static void saveCurrentPage(int totalPage, PrefUtils prefUtils) {
-//        if(page < totalPage - 1) {
-//            prefUtils.saveNewPostCurrentPage(page + 1);
-//        } else {
-//            prefUtils.saveNewPostCurrentPage(totalPage - 1);
-//        }
-//    }
-//
-//    private static void updatePostListAndNotifyRecyclerAdapter(List<PostsModel.PostDetails> newPostList, PostListAdapter adapter) {
-//        DataListFromApi.getInstance().saveDataInList(newPostList);
-//        adapter.notifyDataSetChanged();
-//    }
+    private static void saveCurrentPage(int totalPage, PrefUtils prefUtils) {
+        if(page < totalPage - 1) {
+            prefUtils.saveNewPostCurrentPage(page + 1);
+        } else {
+            prefUtils.saveNewPostCurrentPage(totalPage - 1);
+        }
+    }
+
+    private static void updatePostListAndNotifyRecyclerAdapter(List<PostsModel.PostDetails> favoritePostList, FavoriteAdapter adapter) {
+        FavoritePostListFromApi.getInstance().saveFavoritePostInList(favoritePostList);
+        adapter.notifyDataSetChanged();
+    }
 }
