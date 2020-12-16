@@ -43,8 +43,7 @@
             android:layout_centerVertical="true"
             android:textColor="@color/white"
             android:textSize="18dp"
-            android:textStyle="bold"
-            android:hint="1"/>
+            android:textStyle="bold"/>
 
         <Spinner
             android:id="@+id/spinner_comment_to_post"
@@ -73,13 +72,28 @@
             android:gravity="center"
             android:text="@string/post_without_comment"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_comment_comment_to_post"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:overScrollMode="never"
-            android:paddingRight="10dp"
-            android:paddingLeft="10dp" />
+            android:layout_height="wrap_content" >
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_comment_comment_to_post"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp" />
+
+            <ProgressBar
+                android:id="@+id/progress_bar_comment_to_post"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:progressDrawable="@color/colorPrimary"
+                android:background="@drawable/progress_bar_circle_shape" />
+
+        </RelativeLayout>
 
     </LinearLayout>
 

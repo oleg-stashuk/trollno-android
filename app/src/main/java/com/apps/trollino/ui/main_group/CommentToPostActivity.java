@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -15,7 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apps.trollino.R;
 import com.apps.trollino.ui.base.BaseActivity;
-import com.apps.trollino.utils.networking.comment.GetCommentListByPost;
+import com.apps.trollino.utils.data.CommentListFromApi;
+import com.apps.trollino.utils.recycler.MakeRecyclerViewForComment;
 
 import static com.apps.trollino.ui.main_group.PostActivity.POST_FROM_CATEGORY_LIST;
 import static com.apps.trollino.ui.main_group.PostActivity.POST_ID_KEY;
@@ -43,14 +45,14 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
         commentEditText = findViewById(R.id.comment_message_comment_comment_to_post);
         TextView countTextView = findViewById(R.id.count_comment_to_post);
         sortCommentSpinner = findViewById(R.id.spinner_comment_to_post);
+        ProgressBar progressBar = findViewById(R.id.progress_bar_comment_to_post);
         noCommentTextView = findViewById(R.id.text_post_without_comment_comment_to_post);
 
         currentPostId = this.getIntent().getStringExtra(POST_ID_KEY);
         isPostFromCategory = this.getIntent().getBooleanExtra(POST_FROM_CATEGORY_LIST, false);
 
-        new Thread(() ->
-                GetCommentListByPost.getCommentListByPost(this, prefUtils, currentPostId, commentsRecyclerView, commentEditText, noCommentTextView, countTextView)
-        ).start();
+        MakeRecyclerViewForComment.makeRecyclerViewForComment(this, prefUtils, commentsRecyclerView,
+                progressBar, currentPostId, commentEditText, noCommentTextView, countTextView);
 
         makeSortCommentSpinner(this);
     }
@@ -75,6 +77,7 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void onBackPressed() {
+        CommentListFromApi.getInstance().removeAllDataFromList(prefUtils);
         Intent intent = new Intent(this, PostActivity.class);
         intent.putExtra(POST_ID_KEY, currentPostId);
         intent.putExtra(POST_FROM_CATEGORY_LIST,isPostFromCategory);
