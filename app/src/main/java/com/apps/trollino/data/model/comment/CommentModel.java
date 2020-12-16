@@ -9,91 +9,84 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommentModel {
-
+    @SerializedName("rows")
+    @Expose
+    private List<Comments> commentsList;
     @SerializedName("pager")
     @Expose
     private PagerModel pagerModel;
 
-/*
-"{
-  ""rows"": [
-    {
-        ""cid"": ""1"",
-        ""pid"": """",
-        ""subject"": ""hgf hjghjf j kjg jk   jhgkjg…"",
-        ""comment_body"": ""hgf hjghjf j kjg jk   jhgkjg jh jhg"",
-        ""thread"": ""01/"",
-        ""changed"": ""пт, 10/09/2020 - 16:10"",
-        ""flagged"": ""0"",
-        ""count"": ""0""
-    },
-    {
-        ""cid"": ""29"",
-        ""pid"": ""17"",
-        ""subject"": """",
-        ""comment_body"": ""Ответ на комментарий. Данное значение не должно быть пустым"",
-        ""thread"": ""0a.00/"",
-        ""changed"": ""пн, 10/12/2020 - 16:54"",
-        ""flagged"": ""0"",
-        ""count"": ""0"",
-        ""uid"": ""70"",
-        ""name"": ""qa-restuser"",
-        ""field_user_picture"": ""/sites/default/files/allow_avatars/woman-6.jpg"",
-        ""newsappm_comment_answers_count"": ""0""
-    },
-    {
-        ""cid"": ""3"",
-        ""pid"": """",
-        ""subject"": """",
-        ""comment_body"": ""<p>Данное значение не должно быть пустым</p>\n"",
-        ""thread"": ""03/"",
-        ""changed"": ""чт, 09/24/2020 - 16:47""
-    },
-    {
-        ""cid"": ""4"",
-        ""pid"": ""2"",
-        ""subject"": ""Sooo cool"",
-        ""comment_body"": ""<p>Sooo cool</p>"",
-        ""thread"": ""02.00/"",
-        ""changed"": ""чт, 09/24/2020 - 16:49""
-    },
-    {
-        ""cid"": ""5"",
-        ""pid"": """",
-        ""subject"": """",
-        ""comment_body"": ""<p>Данное значение не должно быть пустым</p>\n"",
-        ""thread"": ""04/"",
-        ""changed"": ""чт, 09/24/2020 - 16:57""
-    },
-    {
-        ""cid"": ""6"",
-        ""pid"": ""2"",
-        ""subject"": """",
-        ""comment_body"": ""<p>Данное значение не должно быть пустым</p>\n"",
-        ""thread"": ""02.01/"",
-        ""changed"": ""чт, 09/24/2020 - 16:57""
-    },
-    {
-        ""cid"": ""7"",
-        ""pid"": ""4"",
-        ""subject"": """",
-        ""comment_body"": ""<p>Данное значение не должно быть пустым</p>\n"",
-        ""thread"": ""02.00.00/"",
-        ""changed"": ""чт, 09/24/2020 - 16:57""
+
+    public List<Comments> getCommentsList() {
+        return commentsList;
     }
-],
-  ""pager"": {
-  ""current_page"": 0,
-  ""total_items"": ""5"",
-  ""total_pages"": 3,
-  ""items_per_page"": ""2""
- }
-}"
- */
+
+    public PagerModel getPagerModel() {
+        return pagerModel;
+    }
 
 
 
+    public class Comments {
+        @SerializedName("cid")
+        @Expose
+        private String commentId;
+        @SerializedName("comment_body")
+        @Expose
+        private String commentBody;
+        @SerializedName("changed")
+        @Expose
+        private String time;
+        @SerializedName("flagged")
+        @Expose
+        private String favoriteFlag;
+        @SerializedName("count")
+        @Expose
+        private String countLike;
+        @SerializedName("name")
+        @Expose
+        private String authorComment;
+        @SerializedName("field_user_picture")
+        @Expose
+        private String urlUserImage;
+        @SerializedName("newsappm_comment_answers_count")
+        @Expose
+        private String commentAnswersCount;
 
+
+
+        public String getCommentId() {
+            return commentId;
+        }
+
+        public String getCommentBody() {
+            return commentBody;
+        }
+
+        public String getFavoriteFlag() {
+            return favoriteFlag;
+        }
+
+        public String getCountLike() {
+            return countLike;
+        }
+
+        public String getAuthorName() {
+            return authorComment;
+        }
+
+        public String getUrlUserImage() {
+            return urlUserImage;
+        }
+
+        public String getCommentAnswersCount() {
+            return commentAnswersCount;
+        }
+
+        public String getTime() {
+            return time;
+        }
+    }
 
 
     private boolean isReadComment;
@@ -157,8 +150,6 @@ public class CommentModel {
         return userCommentList;
     }
 
-
-
     public CommentModel(int userImage, String userName, String time, String comment, boolean isUserLikeIt, String likeCount, boolean isCommentHasAnswer) {
         this.userImage = userImage;
         this.userName = userName;
@@ -167,24 +158,6 @@ public class CommentModel {
         this.likeCount = likeCount;
         this.timeUserComment = time;
         this.isCommentHasAnswer = isCommentHasAnswer;
-    }
-
-
-
-    public static List<CommentModel> makeCommentsListToPostParent() {
-        List<CommentModel> commentsListToPost = new ArrayList<>();
-        String comment = "I absolutely adore the original Hairspray (RIP Divine), and the stage version was great...but the movie suffered from some less-than-stellar casting choices, especially when it came to Tracey’s parents. John Travolta just didn’t bring the energy that either Divine did in the original or Harvey Fierstein did on stage, and he had zero chemistry with Christopher Walken. As a result, “Timeless to Me” felt incredibly insincere. The movie was still good, but it could have been so much better IMHO.";
-        String comment2 = "I'm with AvalonAngel, Travolta was the worst in Hairspray. I spend the whole movie thinking it was just Travolta in a fat suit & drag.When it's remade they definitely should have a real drag queen play Edna.";
-        String comment3 = "I love both but Coraline has a great book too so I voted for it.";
-
-        commentsListToPost.add(new CommentModel(R.drawable.ic_person, "Василий", "1 ч. назад", comment,
-                true, "14", false));
-        commentsListToPost.add(new CommentModel(R.drawable.ic_person, "Иван", "3 ч. назад", comment2,
-                false, "2", true));
-        commentsListToPost.add(new CommentModel(R.drawable.ic_person, "Николай", "7 ч. назад", comment3,
-                false, "200", true));
-
-        return commentsListToPost;
     }
 
 

@@ -11,24 +11,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.apps.trollino.R;
-import com.apps.trollino.adapters.CommentToPostParentAdapter;
-import com.apps.trollino.data.model.comment.CommentModel;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.networking.comment.GetCommentListByPost;
-
-import java.util.List;
 
 import static com.apps.trollino.ui.main_group.PostActivity.POST_FROM_CATEGORY_LIST;
 import static com.apps.trollino.ui.main_group.PostActivity.POST_ID_KEY;
 
 public class CommentToPostActivity extends BaseActivity implements View.OnClickListener{
-
-    private List<CommentModel> commentList = CommentModel.makeCommentsListToPostParent();
-    private int countComment = 7;
 
     private TextView noCommentTextView;
     private RecyclerView commentsRecyclerView;
@@ -53,16 +45,13 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
         sortCommentSpinner = findViewById(R.id.spinner_comment_to_post);
         noCommentTextView = findViewById(R.id.text_post_without_comment_comment_to_post);
 
-        countTextView.setText(String.valueOf(countComment));
-
-
         currentPostId = this.getIntent().getStringExtra(POST_ID_KEY);
         isPostFromCategory = this.getIntent().getBooleanExtra(POST_FROM_CATEGORY_LIST, false);
 
-        new Thread(() -> GetCommentListByPost.getCommentListByPost(this, prefUtils, currentPostId)).start();
+        new Thread(() ->
+                GetCommentListByPost.getCommentListByPost(this, prefUtils, currentPostId, commentsRecyclerView, commentEditText, noCommentTextView, countTextView)
+        ).start();
 
-        makeCommentListRecyclerView();
-        showCorrectVariant();     // Если для Поста нет комментариев, то выводится на экран сообщение что комментариев нет
         makeSortCommentSpinner(this);
     }
 
@@ -84,22 +73,6 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
         });
     }
 
-    private void makeCommentListRecyclerView() {
-        commentsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        commentsRecyclerView.setAdapter(new CommentToPostParentAdapter(this, commentList, commentEditText));
-    }
-
-    // Если для Поста нет комментариев, то выводится на экран сообщение что комментариев нет
-    private void showCorrectVariant() {
-        if(countComment > 0) {
-            noCommentTextView.setVisibility(View.GONE);
-            commentsRecyclerView.setVisibility(View.VISIBLE);
-        } else {
-            noCommentTextView.setVisibility(View.VISIBLE);
-            commentsRecyclerView.setVisibility(View.GONE);
-        }
-    }
-
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, PostActivity.class);
@@ -117,6 +90,7 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
                 break;
             case R.id.send_button_comment_comment_to_post:
                 showToast("Отправить комментарий");
+                Log.d("OkHttp", "Коментарий: " +  commentEditText.getText().toString() + " -> " + commentEditText.getText().toString().length());
                 break;
 
         }

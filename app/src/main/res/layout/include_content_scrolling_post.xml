@@ -113,8 +113,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_alignParentRight="true"
                     android:background="@color/colorPrimary"
-                    android:textColor="@color/white"
-                    android:hint="25"/>
+                    android:textColor="@color/white"/>
             </RelativeLayout>
 
             <LinearLayout

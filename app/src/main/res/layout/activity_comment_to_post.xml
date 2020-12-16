@@ -122,7 +122,6 @@
             </ScrollView>
 
             <com.balysv.materialripple.MaterialRippleLayout
-                android:id="@+id/send_button_comment_comment_to_post"
                 android:layout_width="wrap_content"
                 android:layout_height="?actionBarSize"
                 android:padding="12dp"
@@ -131,10 +130,12 @@
                 app:mrl_rippleHover="true"
                 app:mrl_rippleOverlay="true">
 
-                <ImageView
+                <ImageButton
+                    android:id="@+id/send_button_comment_comment_to_post"
                     android:layout_width="24dp"
                     android:layout_height="match_parent"
-                    android:src="@drawable/ic_send_message_button" />
+                    android:src="@drawable/ic_send_message_button"
+                    android:background="@android:color/transparent"/>
 
             </com.balysv.materialripple.MaterialRippleLayout>
 

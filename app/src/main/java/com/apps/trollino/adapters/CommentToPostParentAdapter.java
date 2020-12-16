@@ -14,15 +14,18 @@ import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
 import com.apps.trollino.data.model.comment.CommentModel;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.ClickableSpanText;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommentToPostParentAdapter extends BaseRecyclerAdapter<CommentModel> {
+import static com.apps.trollino.utils.Const.BASE_URL;
+
+public class CommentToPostParentAdapter extends BaseRecyclerAdapter<CommentModel.Comments> {
     EditText commentEditText;
     boolean isUserLikeIt;
 
-    public CommentToPostParentAdapter(BaseActivity baseActivity, List<CommentModel> items, EditText commentEditText) {
+    public CommentToPostParentAdapter(BaseActivity baseActivity, List<CommentModel.Comments> items, EditText commentEditText) {
         super(baseActivity, items);
         this.commentEditText = commentEditText;
     }
@@ -36,36 +39,42 @@ public class CommentToPostParentAdapter extends BaseRecyclerAdapter<CommentModel
     protected BaseItem createViewHolder(final View view) {
         return new BaseItem(view) {
             @Override
-            public void bind(final CommentModel item) {
+            public void bind(final CommentModel.Comments item) {
                 ImageView imageImageView = view.findViewById(R.id.image_user_single_comment_parent);
                 TextView nameTextView = view.findViewById(R.id.name_user_single_comment_parent);
                 TextView timeTextView = view.findViewById(R.id.time_user_single_comment_parent);
-                final TextView commentTextView = view.findViewById(R.id.comment_user_single_comment_parent);
+                final TextView commentBodyTextView = view.findViewById(R.id.comment_user_single_comment_parent);
                 final ImageView likeImageView = view.findViewById(R.id.like_single_comment_parent);
                 TextView countLikeTextView = view.findViewById(R.id.count_like_single_comment_parent);
                 TextView answerTextView = view.findViewById(R.id.answer_single_comment_parent); // button
                 TextView showMoreTextView = view.findViewById(R.id.show_more_comment_single_comment_parent); // button
                 RecyclerView childCommentRecyclerView = view.findViewById(R.id.recycler_item_single_comment_parent);
 
-                final String comment = item.getComment();
-                isUserLikeIt = item.isUserLikeIt();
+                Picasso
+                        .get()
+                        .load(BASE_URL.concat(item.getUrlUserImage()))
+                        .into(imageImageView);
 
-                imageImageView.setImageResource(item.getUserImage());
-                nameTextView.setText(item.getUserName());
+                nameTextView.setText(item.getAuthorName());
                 timeTextView.setText(item.getTime());
-                commentTextView.setText(comment);
-                countLikeTextView.setText(item.getLikeCount());
 
-                checkCommentLength(commentTextView, comment, view.getContext()); // Проверить длинну комментария + обработка нажатия на кнопку "Весь комментарий"
-                changeLikeImage(isUserLikeIt, likeImageView); // Проверить пользователь оценил комент или нет
+                final String comment = item.getCommentBody();
+                checkCommentLength(commentBodyTextView, comment, view.getContext()); // Проверить длинну комментария + обработка нажатия на кнопку "Весь комментарий"
+
+                changeLikeImage(item.getFavoriteFlag(), likeImageView); // Проверить пользователь оценил комент или нет
+                isUserLikeIt = item.getFavoriteFlag().equals("1") ? true : false;
+
+                countLikeTextView.setText(item.getCountLike());
                 likeImageClickListener(likeImageView); // обработка нажатия на кномку "оценить комент"
-                answerClickListener(answerTextView, item.getUserName()); // обработка нажатия на кнопку "Ответить"
-                checkAnswerToThisComment(item.isCommentHasAnswer(), childCommentRecyclerView, showMoreTextView); // Проверить наличие ответов к этому посту
+
+                answerClickListener(answerTextView, item.getAuthorName()); // обработка нажатия на кнопку "Ответить"
+
+                checkAnswerToThisComment(item.getCommentAnswersCount(), childCommentRecyclerView, showMoreTextView); // Проверить наличие ответов к этому посту
             }
 
 
-            private void changeLikeImage(boolean isLike, ImageView imageView) {
-                if(isLike) {
+            private void changeLikeImage(String isLike, ImageView imageView) {
+                if(isLike.equals("1")) {
                     imageView.setImageResource(R.drawable.ic_favorite_color);
                 } else {
                     imageView.setImageResource(R.drawable.ic_favorite_border_color);
@@ -73,23 +82,18 @@ public class CommentToPostParentAdapter extends BaseRecyclerAdapter<CommentModel
             }
 
             private void answerClickListener(TextView textView, final String name) {
-                textView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        commentEditText.requestFocus();
-                        commentEditText.setText(name.concat(", "));
-                        commentEditText.setSelection(commentEditText.getText().length());
-                    }
+                textView.setOnClickListener(v -> {
+                    commentEditText.requestFocus();
+                    commentEditText.setText(name.concat(", "));
+                    commentEditText.setSelection(commentEditText.getText().length());
                 });
             }
 
             private void likeImageClickListener(final ImageView imageView) {
-                imageView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        isUserLikeIt = !isUserLikeIt;
-                        changeLikeImage(isUserLikeIt, imageView);
-                    }
+                imageView.setOnClickListener(v -> {
+                    isUserLikeIt = !isUserLikeIt;
+                    String favoriteFlag = isUserLikeIt ? "1" : "0";
+                    changeLikeImage(favoriteFlag, imageView);
                 });
             }
 
@@ -101,8 +105,8 @@ public class CommentToPostParentAdapter extends BaseRecyclerAdapter<CommentModel
                 }
             }
 
-            private void checkAnswerToThisComment(boolean isCommentHasAnswer, final RecyclerView childCommentRecyclerView, final TextView showMoreTextView) {
-                if(isCommentHasAnswer) {
+            private void checkAnswerToThisComment(String commentCount, final RecyclerView childCommentRecyclerView, final TextView showMoreTextView) {
+                if(! commentCount.equals("0")) {
                     childCommentRecyclerView.setVisibility(View.VISIBLE);
                     final List<CommentModel> commentsListToPost = CommentModel.makeCommentsListToPostChild(); // получить весь список дочерних комментариев
 
@@ -115,12 +119,9 @@ public class CommentToPostParentAdapter extends BaseRecyclerAdapter<CommentModel
                         commentsListSize2.add(commentsListToPost.get(1));
                         makeChildCommentRecyclerView(childCommentRecyclerView, commentsListSize2);
 
-                        showMoreTextView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                makeChildCommentRecyclerView(childCommentRecyclerView, commentsListToPost);
-                                showMoreTextView.setVisibility(View.GONE);
-                            }
+                        showMoreTextView.setOnClickListener(v -> {
+                            makeChildCommentRecyclerView(childCommentRecyclerView, commentsListToPost);
+                            showMoreTextView.setVisibility(View.GONE);
                         });
                     } else {
                         makeChildCommentRecyclerView(childCommentRecyclerView, commentsListToPost);
