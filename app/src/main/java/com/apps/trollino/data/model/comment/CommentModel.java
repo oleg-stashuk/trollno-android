@@ -86,7 +86,54 @@ public class CommentModel {
         public String getTime() {
             return time;
         }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj == null) {
+                return false;
+            }
+
+            if (obj.getClass() != this.getClass()) {
+                return false;
+            }
+
+            final Comments other = (Comments) obj;
+            if ((this.commentId == null) ? (other.commentId != null) : !this.commentId.equals(other.commentId)) {
+                return false;
+            }
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            int hash = 3;
+            hash = 53 * hash + (this.commentId != null ? this.commentId.hashCode() : 0);
+            return hash;
+        }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     private boolean isReadComment;
