@@ -28,7 +28,6 @@ public class PostUnbookmark {
         cont = context;
         String cookie = prefUtils.getCookie();
         String token = prefUtils.getToken();
-        Log.d("OkHttp", "!!!!!!!!!! postId " + postId);
 
         ApiService.getInstance(context).removePostFromFavorite(cookie, token, postId, new Callback<Void>() {
             int countTry = 0;
@@ -36,7 +35,6 @@ public class PostUnbookmark {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if(response.isSuccessful()) {
-                    Log.d("OkHttp", "!!!!!!!!!! isSuccessful() removePostFromFavorite");
                     if (menu != null) {
                         menu.getItem(1).setIcon(ContextCompat.getDrawable(cont, R.drawable.ic_favorite_border_button));
                     } else {

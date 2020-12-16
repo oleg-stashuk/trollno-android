@@ -26,7 +26,6 @@ public class PostBookmark {
         cont = context;
         String cookie = prefUtils.getCookie();
         String token = prefUtils.getToken();
-        Log.d("OkHttp", "!!!!!!!!!! postId " + postId);
 
         ApiService.getInstance(context).addPostToFavorite(cookie, token, postId, new Callback<ResponseBookmarkModel>() {
             int countTry = 0;
@@ -34,17 +33,11 @@ public class PostBookmark {
             @Override
             public void onResponse(Call<ResponseBookmarkModel> call, Response<ResponseBookmarkModel> response) {
                 if(response.isSuccessful()) {
-                    Log.d("OkHttp", "!!!!!!!!!! isSuccessful() addPostToFavorite");
                     menu.getItem(1).setIcon(ContextCompat.getDrawable(cont, R.drawable.ic_favorite_button));
                     prefUtils.saveIsFavorite(true);
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
                     showToast(errorMessage);
-
-                    // Потом удалить
-                    menu.getItem(1).setIcon(ContextCompat.getDrawable(cont, R.drawable.ic_favorite_button));
-                    prefUtils.saveIsFavorite(true);
-                    //Потом удалить
                 }
             }
 

@@ -62,7 +62,6 @@ public class GetItemPost {
                     makePartOfPostRecyclerView(recyclerView, mediaBlock);
 
                     boolean isFavorite = model.isFavorite();
-                    Log.d("OkHttp", "!!!!!!!!!!!!!isFavorite " + isFavorite );
                     changeImageFavoriteButton(menu, isFavorite);
                     prefUtils.saveIsFavorite(isFavorite);
 

@@ -92,7 +92,6 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
     private void makeTouchListener() {
         layout.setOnTouchListener(new OnSwipeTouchListener(this) {
             public void onSwipeRight() {
-//                prefUtils.saveIsFavorite(false);
                 showToast("onSwipeRight");
                 String nextPostId = prefUtils.getNextPostId();
                 if(!nextPostId.isEmpty() && nextPostId.length() > 0 && !nextPostId.equals("0")) {
@@ -102,7 +101,6 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
             }
 
             public void onSwipeLeft() {
-//                prefUtils.saveIsFavorite(false);
                 showToast("onSwipeLeft");
                 String prevPostId = prefUtils.gePrevPostId();
                 if(!prevPostId.isEmpty() && prevPostId.length() > 0 && !prevPostId.equals("0")) {
@@ -136,7 +134,6 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
     // Press "favorite" button
     private void pressFavoriteButton() {
         if (!prefUtils.getCookie().isEmpty()) {
-            Log.d("OkHttp", "!!!!!!!!!! isFavoritePost in Activity " + prefUtils.getIsFavorite());
             if (prefUtils.getIsFavorite()) {
                 new Thread(() -> PostUnbookmark.removePostFromFavorite(this, prefUtils, currentPostId, menu)).start();
             } else {
