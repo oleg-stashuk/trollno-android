@@ -23,7 +23,7 @@ public class MakeRecyclerViewForComment extends RecyclerView.OnScrollListener{
                                                   ProgressBar progressBar, String postId, EditText commentEditText,
                                                   TextView noCommentTextView, TextView countTextView) {
 
-        CommentToPostParentAdapter adapter = new CommentToPostParentAdapter((BaseActivity) context, CommentListFromApi.getInstance().getCommentList(), commentEditText);
+        CommentToPostParentAdapter adapter = new CommentToPostParentAdapter((BaseActivity) context, prefUtils, CommentListFromApi.getInstance().getCommentList(), commentEditText);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);

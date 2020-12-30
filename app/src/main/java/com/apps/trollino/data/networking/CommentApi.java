@@ -16,4 +16,10 @@ public interface CommentApi {
     @GET("/post/{post_id}/comments?_format=json")
     Call<CommentModel> getCommentListByPost(@Header("Cookie") String cookie, @Path("post_id") String postId);
 
+    @Headers({
+            "Content-Type: application/json",
+            "Accepts: application/json"
+    })
+    @GET("/comment/{parent_cid}/answers/list")
+    Call<CommentModel> getCommentListByComment(@Header("Cookie") String cookie, @Path("parent_cid") String parentCid);
 }

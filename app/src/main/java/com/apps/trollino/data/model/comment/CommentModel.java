@@ -143,11 +143,6 @@ public class CommentModel {
     private boolean isHasNewComment;
     private String timeUserComment;
 
-    private int userImage;
-    private String userName;
-    private boolean isUserLikeIt;
-    private boolean isCommentHasAnswer;
-
     public CommentModel(boolean isReadUserComment, String titleUserComment, String commentUserComment, String likeCountUserComment, boolean isHasNewCommentUserComment, String timeUserComment) {
         this.isReadComment = isReadUserComment;
         this.title = titleUserComment;
@@ -197,58 +192,4 @@ public class CommentModel {
         return userCommentList;
     }
 
-    public CommentModel(int userImage, String userName, String time, String comment, boolean isUserLikeIt, String likeCount, boolean isCommentHasAnswer) {
-        this.userImage = userImage;
-        this.userName = userName;
-        this.comment = comment;
-        this.isUserLikeIt = isUserLikeIt;
-        this.likeCount = likeCount;
-        this.timeUserComment = time;
-        this.isCommentHasAnswer = isCommentHasAnswer;
-    }
-
-
-    public static List<CommentModel> makeCommentsListToPostChild() {
-        List<CommentModel> commentsListToPost = new ArrayList<>();
-        String comment = "I love both but Coraline has a great book too so I voted for it.";
-        String comment2 = "true life is such a masterpiece!";
-        String comment3 = "LOL. The first couple of episodes of my Sweet 16 were so outrageous and I got hooked, but after about 4 episodes, it was all just the same. True Life was so much better.";
-
-        commentsListToPost.add(new CommentModel(R.drawable.ic_person, "Даша", "12 ч. назад", comment,
-                true, "3", false));
-        commentsListToPost.add(new CommentModel(R.drawable.ic_person, "Маша", "12 ч. назад", comment2,
-                false, "5", true));
-        commentsListToPost.add(new CommentModel(R.drawable.ic_person, "Иван", "12 ч. назад", comment3,
-                false, "20", true));
-        commentsListToPost.add(new CommentModel(R.drawable.ic_person, "Иван", "12 ч. назад", comment2,
-                false, "20", true));
-        commentsListToPost.add(new CommentModel(R.drawable.ic_person, "Иван", "12 ч. назад", comment2,
-                false, "20", true));
-
-        return commentsListToPost;
-    }
-
-    public boolean isReadComment() {
-        return isReadComment;
-    }
-
-    public String getTimeUserComment() {
-        return timeUserComment;
-    }
-
-    public int getUserImage() {
-        return userImage;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public boolean isUserLikeIt() {
-        return isUserLikeIt;
-    }
-
-    public boolean isCommentHasAnswer() {
-        return isCommentHasAnswer;
-    }
 }

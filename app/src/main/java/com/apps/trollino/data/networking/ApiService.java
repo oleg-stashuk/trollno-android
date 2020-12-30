@@ -158,4 +158,8 @@ public class ApiService {
     public void getCommentToPost(String cookie, String postId, Callback<CommentModel> callback) {
         commentApi.getCommentListByPost(cookie, postId).enqueue(callback);
     }
+
+    public void getCommentListByComment(String cookie, String commentParentId, Callback<CommentModel> callback) {
+        commentApi.getCommentListByComment(cookie, commentParentId).enqueue(callback);
+    }
 }

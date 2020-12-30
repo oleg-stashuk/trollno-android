@@ -11,14 +11,17 @@ import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
 import com.apps.trollino.data.model.comment.CommentModel;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.ClickableSpanText;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-class CommentToPostChildAdapter extends BaseRecyclerAdapter<CommentModel> {
-    EditText commentEditText;
-    boolean isUserLikeIt;
+import static com.apps.trollino.utils.Const.BASE_URL;
 
-    public CommentToPostChildAdapter(BaseActivity baseActivity, List<CommentModel> items, EditText commentEditText) {
+public class CommentToPostChildAdapter extends BaseRecyclerAdapter<CommentModel.Comments> {
+    private EditText commentEditText;
+    private boolean isUserLikeIt;
+
+    public CommentToPostChildAdapter(BaseActivity baseActivity, List<CommentModel.Comments> items, EditText commentEditText) {
         super(baseActivity, items);
         this.commentEditText = commentEditText;
     }
@@ -32,7 +35,7 @@ class CommentToPostChildAdapter extends BaseRecyclerAdapter<CommentModel> {
     protected BaseItem createViewHolder(final View view) {
         return new BaseItem(view) {
             @Override
-            public void bind(final CommentModel item) {
+            public void bind(final CommentModel.Comments item) {
                 ImageView imageImageView = view.findViewById(R.id.image_user_single_comment_child);
                 TextView nameTextView = view.findViewById(R.id.name_user_single_comment_child);
                 TextView timeTextView = view.findViewById(R.id.time_user_single_comment_child);
@@ -41,22 +44,26 @@ class CommentToPostChildAdapter extends BaseRecyclerAdapter<CommentModel> {
                 TextView countLikeTextView = view.findViewById(R.id.count_like_single_comment_child);
                 TextView answerTextView = view.findViewById(R.id.answer_single_comment_child); // button
 
-                final String comment = item.getComment();
-                isUserLikeIt = item.isUserLikeIt();
+                final String comment = item.getCommentBody();
+                isUserLikeIt = item.getFavoriteFlag().equals("1") ? true : false;
 
-                imageImageView.setImageResource(item.getUserImage());
-                nameTextView.setText(item.getUserName());
+                Picasso
+                        .get()
+                        .load(BASE_URL.concat(item.getUrlUserImage()))
+                        .into(imageImageView);
+
+                nameTextView.setText(item.getAuthorName());
                 timeTextView.setText(item.getTime());
-                countLikeTextView.setText(item.getLikeCount());
+                countLikeTextView.setText(item.getCountLike());
 
                 checkCommentLength(commentTextView, comment, view.getContext()); // Проверить длинну комментария
-                changeLikeImage(isUserLikeIt, likeImageView); // Проверить пользователь оценил комент или нет
-                likeImageClickListener(likeImageView); // обработка нажатия на кномку "оценить комент"
-                answerClickListener(answerTextView, item.getUserName()); // обработка нажатия на кнопку "Ответить"
+                changeLikeImage(item.getFavoriteFlag(), likeImageView); // Проверить пользователь оценил комент или нет
+                likeImageClickListener(likeImageView); // обработка нажатия на кнопку "оценить комент"
+                answerClickListener(answerTextView, item.getAuthorName()); // обработка нажатия на кнопку "Ответить"
             }
 
-            private void changeLikeImage(boolean isLike, ImageView imageView) {
-                if(isLike) {
+            private void changeLikeImage(String isLike, ImageView imageView) {
+                if(isLike.equals("1")) {
                     imageView.setImageResource(R.drawable.ic_favorite_color);
                 } else {
                     imageView.setImageResource(R.drawable.ic_favorite_border_color);
@@ -64,23 +71,18 @@ class CommentToPostChildAdapter extends BaseRecyclerAdapter<CommentModel> {
             }
 
             private void answerClickListener(TextView textView, final String name) {
-                textView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        commentEditText.requestFocus();
-                        commentEditText.setText(name.concat(", "));
-                        commentEditText.setSelection(commentEditText.getText().length());
-                    }
+                textView.setOnClickListener(v -> {
+                    commentEditText.requestFocus();
+                    commentEditText.setText(name.concat(", "));
+                    commentEditText.setSelection(commentEditText.getText().length());
                 });
             }
 
             private void likeImageClickListener(final ImageView imageView) {
-                imageView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        isUserLikeIt = !isUserLikeIt;
-                        changeLikeImage(isUserLikeIt, imageView);
-                    }
+                imageView.setOnClickListener(v -> {
+                    isUserLikeIt = !isUserLikeIt;
+                    String favoriteFlag = isUserLikeIt ? "1" : "0";
+                    changeLikeImage(favoriteFlag, imageView);
                 });
             }
 
