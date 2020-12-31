@@ -21,9 +21,11 @@ public class MakeRecyclerViewForComment extends RecyclerView.OnScrollListener{
 
     public static void makeRecyclerViewForComment(Context context, PrefUtils prefUtils, RecyclerView recyclerView,
                                                   ProgressBar progressBar, String postId, EditText commentEditText,
-                                                  TextView noCommentTextView, TextView countTextView) {
+                                                  TextView noCommentTextView, TextView countTextView, String sortBy, String sortOrder) {
 
-        CommentToPostParentAdapter adapter = new CommentToPostParentAdapter((BaseActivity) context, prefUtils, CommentListFromApi.getInstance().getCommentList(), commentEditText);
+        CommentToPostParentAdapter adapter = new CommentToPostParentAdapter((BaseActivity) context,
+                prefUtils, CommentListFromApi.getInstance().getCommentList(), commentEditText);
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
@@ -32,7 +34,8 @@ public class MakeRecyclerViewForComment extends RecyclerView.OnScrollListener{
         progressBar.setVisibility(View.VISIBLE);
 
         new Thread(() -> {
-            GetCommentListByPost.getCommentListByPost(context, prefUtils, postId, recyclerView, adapter, commentEditText,
+            GetCommentListByPost.getCommentListByPost(context, prefUtils, postId, sortBy, sortOrder,
+                    recyclerView, adapter, commentEditText,
                     noCommentTextView, countTextView, progressBar);
         }).start();
 
@@ -42,7 +45,8 @@ public class MakeRecyclerViewForComment extends RecyclerView.OnScrollListener{
                 progressBar.setVisibility(View.VISIBLE);
                 Handler handler = new Handler();
                 handler.postDelayed(() -> new Thread(() -> {
-                    GetCommentListByPost.getCommentListByPost(context, prefUtils, postId, recyclerView, adapter, commentEditText,
+                    GetCommentListByPost.getCommentListByPost(context, prefUtils, postId, sortBy, sortOrder,
+                            recyclerView, adapter, commentEditText,
                             noCommentTextView, countTextView, progressBar);
                 }).start(), 1000);
             }

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apps.trollino.R;
 import com.apps.trollino.ui.base.BaseActivity;
+import com.apps.trollino.utils.Const;
 import com.apps.trollino.utils.data.CommentListFromApi;
 import com.apps.trollino.utils.recycler.MakeRecyclerViewForComment;
 
@@ -28,6 +29,8 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
     private RecyclerView commentsRecyclerView;
     private EditText commentEditText;
     private Spinner sortCommentSpinner;
+    private TextView countTextView;
+    private ProgressBar progressBar;
 
     private String currentPostId;
     private boolean isPostFromCategory;
@@ -43,16 +46,13 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
         findViewById(R.id.back_button_comment_comment_to_post).setOnClickListener(this);
         findViewById(R.id.send_button_comment_comment_to_post).setOnClickListener(this);
         commentEditText = findViewById(R.id.comment_message_comment_comment_to_post);
-        TextView countTextView = findViewById(R.id.count_comment_to_post);
+        countTextView = findViewById(R.id.count_comment_to_post);
         sortCommentSpinner = findViewById(R.id.spinner_comment_to_post);
-        ProgressBar progressBar = findViewById(R.id.progress_bar_comment_to_post);
+        progressBar = findViewById(R.id.progress_bar_comment_to_post);
         noCommentTextView = findViewById(R.id.text_post_without_comment_comment_to_post);
 
         currentPostId = this.getIntent().getStringExtra(POST_ID_KEY);
         isPostFromCategory = this.getIntent().getBooleanExtra(POST_FROM_CATEGORY_LIST, false);
-
-        MakeRecyclerViewForComment.makeRecyclerViewForComment(this, prefUtils, commentsRecyclerView,
-                progressBar, currentPostId, commentEditText, noCommentTextView, countTextView);
 
         makeSortCommentSpinner(this);
     }
@@ -67,7 +67,13 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 ((TextView)parent.getChildAt(0)).setTextColor(ContextCompat.getColor(context, R.color.white));
-                Log.d("12345", sortCommentArray[position]);
+                String sortBy = position == 0 ? Const.SORT_BY_COUNT : Const.SORT_BY_CHANGE;
+                String sortOrder = position == 0 ? Const.SORT_ORDER_BY_ASC : Const.SORT_ORDER_BY_DESC;
+
+                CommentListFromApi.getInstance().removeAllDataFromList(prefUtils);
+                MakeRecyclerViewForComment.makeRecyclerViewForComment(CommentToPostActivity.this,
+                        prefUtils, commentsRecyclerView, progressBar, currentPostId, commentEditText,
+                        noCommentTextView, countTextView, sortBy, sortOrder);
             }
 
             @Override

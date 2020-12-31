@@ -9,4 +9,9 @@ public class Const {
     private static final String TOKENURL="https://api.instagram.com/oauth/access_token";
     public static final String APIURL="https://api.instagram.com/v1";
     public static String CALLBACKURL="Your Redirect URI";
+
+    public static String SORT_BY_COUNT = "count"; // сортировать по количеству лайков
+    public static String SORT_BY_CHANGE = "changed"; // сортировать по дате создания
+    public static String SORT_ORDER_BY_DESC = "DESC"; // сортировать по возрастанию
+    public static String SORT_ORDER_BY_ASC = "ASC"; // сортировать по убыванию
 }

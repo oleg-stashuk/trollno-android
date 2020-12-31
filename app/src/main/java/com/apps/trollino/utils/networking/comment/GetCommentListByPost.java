@@ -30,15 +30,17 @@ public class GetCommentListByPost {
     private static Context cont;
     private static int page;
 
-    public static void getCommentListByPost(Context context, PrefUtils prefUtils, String postId,
+    public static void getCommentListByPost(Context context, PrefUtils prefUtils,
+                                            String postId, String sortBy, String sortOrder,
                                             RecyclerView recyclerView, CommentToPostParentAdapter adapter,
-                                            EditText commentEditText, TextView noCommentTextView, TextView countTextView, ProgressBar progressBar) {
+                                            EditText commentEditText, TextView noCommentTextView,
+                                            TextView countTextView, ProgressBar progressBar) {
 
         cont = context;
         page = prefUtils.getNewPostCurrentPage();
         String cookie = prefUtils.getCookie();
 
-        ApiService.getInstance(context).getCommentToPost(cookie, postId, new Callback<CommentModel>() {
+        ApiService.getInstance(context).getCommentToPost(cookie, postId, sortBy, sortOrder, new Callback<CommentModel>() {
             int countTry = 0;
 
             @Override

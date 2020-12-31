@@ -155,8 +155,8 @@ public class ApiService {
     }
 
     // request for Comments block
-    public void getCommentToPost(String cookie, String postId, Callback<CommentModel> callback) {
-        commentApi.getCommentListByPost(cookie, postId).enqueue(callback);
+    public void getCommentToPost(String cookie, String postId, String sortBy, String sortOrder, Callback<CommentModel> callback) {
+        commentApi.getCommentListByPost(cookie, postId, sortBy, sortOrder).enqueue(callback);
     }
 
     public void getCommentListByComment(String cookie, String commentParentId, Callback<CommentModel> callback) {
