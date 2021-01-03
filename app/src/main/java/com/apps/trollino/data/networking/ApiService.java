@@ -16,7 +16,10 @@ import com.apps.trollino.data.model.ResponseBookmarkModel;
 import com.apps.trollino.data.model.ResponseLoginModel;
 import com.apps.trollino.data.model.SettingsModel;
 import com.apps.trollino.data.model.UserProfileModel;
+import com.apps.trollino.data.model.comment.CreateCommentBody;
 import com.apps.trollino.data.model.comment.CommentModel;
+import com.apps.trollino.data.model.comment.CreateNewCommentRequest;
+import com.apps.trollino.data.model.comment.CreateNewCommentResponse;
 import com.apps.trollino.utils.networking_helper.CustomConverterForItemPost;
 import com.apps.trollino.utils.networking_helper.ReceivedCookiesInterceptor;
 import com.google.gson.Gson;
@@ -161,5 +164,13 @@ public class ApiService {
 
     public void getCommentListByComment(String cookie, String commentParentId, Callback<CommentModel> callback) {
         commentApi.getCommentListByComment(cookie, commentParentId).enqueue(callback);
+    }
+
+    public void postNewCommentToPost(String cookie, String token, List<CreateNewCommentRequest.PostId> entityIdList,
+                                     List<CreateCommentBody> commentBodyList, List<CreateNewCommentRequest.ParentIdComment> parentCidList,
+                                     Callback<CreateNewCommentResponse> callback) {
+        commentApi.postNewCommentToPost(cookie, token,
+                new CreateNewCommentRequest(entityIdList, commentBodyList, parentCidList)
+        ).enqueue(callback);
     }
 }

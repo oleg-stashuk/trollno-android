@@ -18,6 +18,8 @@ import com.apps.trollino.R;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.Const;
 import com.apps.trollino.utils.data.CommentListFromApi;
+import com.apps.trollino.utils.dialogs.GuestDialog;
+import com.apps.trollino.utils.networking.comment.PostNewComment;
 import com.apps.trollino.utils.recycler.MakeRecyclerViewForComment;
 
 import static com.apps.trollino.ui.main_group.PostActivity.POST_FROM_CATEGORY_LIST;
@@ -98,8 +100,18 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
                 onBackPressed();
                 break;
             case R.id.send_button_comment_comment_to_post:
-                showToast("Отправить комментарий");
-                Log.d("OkHttp", "Коментарий: " +  commentEditText.getText().toString() + " -> " + commentEditText.getText().toString().length());
+                if(prefUtils.getIsUserAuthorization()) {
+                    showToast("Отправить комментарий");
+                    Log.d("OkHttp", "Коментарий: " +  commentEditText.getText().toString()
+                            + " -> " + commentEditText.getText().toString().length());
+
+
+//                    PostNewComment.postNewComment(this, prefUtils, currentPostId,
+//                            commentEditText.getText().toString(), "33", commentEditText);
+                } else {
+                    GuestDialog dialog = new GuestDialog();
+                    dialog.showDialog(this);
+                }
                 break;
 
         }
