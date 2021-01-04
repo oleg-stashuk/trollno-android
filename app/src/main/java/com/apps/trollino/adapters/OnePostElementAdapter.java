@@ -97,7 +97,7 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
                     content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
                     sourceLinkTextView.setText(content);
                     sourceLinkTextView.setOnClickListener(v -> {
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(image.getResource()));
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(image.getUrlImage()));
                         view.getContext().startActivity(browserIntent);
                     });
 
