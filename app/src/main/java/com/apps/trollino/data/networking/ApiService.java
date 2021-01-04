@@ -20,6 +20,7 @@ import com.apps.trollino.data.model.comment.CreateCommentBody;
 import com.apps.trollino.data.model.comment.CommentModel;
 import com.apps.trollino.data.model.comment.CreateNewCommentRequest;
 import com.apps.trollino.data.model.comment.CreateNewCommentResponse;
+import com.apps.trollino.data.model.comment.LikeCommentModelRequest;
 import com.apps.trollino.utils.networking_helper.CustomConverterForItemPost;
 import com.apps.trollino.utils.networking_helper.ReceivedCookiesInterceptor;
 import com.google.gson.Gson;
@@ -172,5 +173,13 @@ public class ApiService {
         commentApi.postNewCommentToPost(cookie, token,
                 new CreateNewCommentRequest(entityIdList, commentBodyList, parentCidList)
         ).enqueue(callback);
+    }
+
+    public void postLikeToComment(String cookie, String token, String entityCommentId, Callback<Void> callback) {
+        commentApi.postLikeToComment(cookie, token, new LikeCommentModelRequest(entityCommentId)).enqueue(callback);
+    }
+
+    public void postUnlikeToComment(String cookie, String token, String entityCommentId, Callback<Void> callback) {
+        commentApi.postUnlikeToComment(cookie, token, new LikeCommentModelRequest(entityCommentId)).enqueue(callback);
     }
 }

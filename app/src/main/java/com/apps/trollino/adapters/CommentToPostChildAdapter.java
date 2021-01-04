@@ -12,6 +12,8 @@ import com.apps.trollino.data.model.comment.CommentModel;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.ClickableSpanText;
 import com.apps.trollino.utils.data.PrefUtils;
+import com.apps.trollino.utils.networking.comment.PostLikeToComment;
+import com.apps.trollino.utils.networking.comment.PostUnlikeToComment;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -20,7 +22,6 @@ import static com.apps.trollino.utils.Const.BASE_URL;
 
 public class CommentToPostChildAdapter extends BaseRecyclerAdapter<CommentModel.Comments> {
     private EditText commentEditText;
-    private boolean isUserLikeIt;
     private PrefUtils prefUtils;
 
     public CommentToPostChildAdapter(BaseActivity baseActivity, PrefUtils prefUtils, List<CommentModel.Comments> items, EditText commentEditText) {
@@ -48,7 +49,7 @@ public class CommentToPostChildAdapter extends BaseRecyclerAdapter<CommentModel.
                 TextView answerTextView = view.findViewById(R.id.answer_single_comment_child); // button
 
                 final String comment = item.getCommentBody();
-                isUserLikeIt = item.getFavoriteFlag().equals("1") ? true : false;
+                boolean isLike = item.getFavoriteFlag().equals("1") ? true : false;
 
                 Picasso
                         .get()
@@ -59,14 +60,14 @@ public class CommentToPostChildAdapter extends BaseRecyclerAdapter<CommentModel.
                 timeTextView.setText(item.getTime());
                 countLikeTextView.setText(item.getCountLike());
 
+                changeLikeImage(isLike, likeImageView); // Проверить пользователь оценил комент или нет
                 checkCommentLength(commentTextView, comment, view.getContext()); // Проверить длинну комментария
-                changeLikeImage(item.getFavoriteFlag(), likeImageView); // Проверить пользователь оценил комент или нет
-                likeImageClickListener(likeImageView); // обработка нажатия на кнопку "оценить комент"
+                likeImageClickListener(view.getContext(), likeImageView, item.getCommentId(), isLike); // обработка нажатия на кнопку "оценить комент"
                 answerClickListener(answerTextView, item.getAuthorName(), item.getCommentId()); // обработка нажатия на кнопку "Ответить"
             }
 
-            private void changeLikeImage(String isLike, ImageView imageView) {
-                if(isLike.equals("1")) {
+            private void changeLikeImage(boolean isLike, ImageView imageView) {
+                if(isLike) {
                     imageView.setImageResource(R.drawable.ic_favorite_color);
                 } else {
                     imageView.setImageResource(R.drawable.ic_favorite_border_color);
@@ -84,11 +85,13 @@ public class CommentToPostChildAdapter extends BaseRecyclerAdapter<CommentModel.
                 });
             }
 
-            private void likeImageClickListener(final ImageView imageView) {
+            private void likeImageClickListener(Context context, final ImageView imageView, String commentId, boolean isLike) {
                 imageView.setOnClickListener(v -> {
-                    isUserLikeIt = !isUserLikeIt;
-                    String favoriteFlag = isUserLikeIt ? "1" : "0";
-                    changeLikeImage(favoriteFlag, imageView);
+                    if (isLike) {
+                        new Thread(() -> PostUnlikeToComment.postUnlikeToComment(context, prefUtils, commentId)).start();
+                    } else {
+                        new Thread(() -> PostLikeToComment.postLikeToComment(context, prefUtils, commentId)).start();
+                    }
                 });
             }
 
