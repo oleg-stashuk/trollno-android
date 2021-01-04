@@ -31,7 +31,6 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
     private ProgressBar progressBar;
 
     private String currentPostId;
-    private boolean isPostFromCategory;
 
     @Override
     protected int getLayoutID() {
@@ -50,8 +49,6 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
         noCommentTextView = findViewById(R.id.text_post_without_comment_comment_to_post);
 
         currentPostId = prefUtils.getCurrentPostId();
-        isPostFromCategory = prefUtils.IsPostFromCategoryList();
-
         makeSortCommentSpinner(this);
     }
 
@@ -66,12 +63,11 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 ((TextView)parent.getChildAt(0)).setTextColor(ContextCompat.getColor(context, R.color.white));
                 String sortBy = position == 0 ? Const.SORT_BY_COUNT : Const.SORT_BY_CHANGE;
-                String sortOrder = position == 0 ? Const.SORT_ORDER_BY_ASC : Const.SORT_ORDER_BY_DESC;
 
                 CommentListFromApi.getInstance().removeAllDataFromList(prefUtils);
                 MakeRecyclerViewForComment.makeRecyclerViewForComment(CommentToPostActivity.this,
                         prefUtils, commentsRecyclerView, progressBar, currentPostId, commentEditText,
-                        noCommentTextView, countTextView, sortBy, sortOrder);
+                        noCommentTextView, countTextView, sortBy);
             }
 
             @Override
