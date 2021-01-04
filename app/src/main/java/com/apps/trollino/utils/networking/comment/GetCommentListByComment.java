@@ -28,11 +28,13 @@ import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
 
 public class GetCommentListByComment {
     private static Context cont;
+    private static PrefUtils prefUt;
 
     public static void getCommentListByComment(Context context, PrefUtils prefUtils, String parentId,
                                                RecyclerView childCommentRecyclerView,
                                                TextView showMoreTextView, EditText commentEditText) {
         cont = context;
+        prefUt = prefUtils;
         String cookie = prefUtils.getCookie();
 
         ApiService.getInstance(context).getCommentListByComment(cookie, parentId, new Callback<CommentModel>() {
@@ -97,6 +99,6 @@ public class GetCommentListByComment {
     // Создание childCommentRecyclerView
     private static void makeChildCommentRecyclerView(RecyclerView childCommentRecyclerView, List<CommentModel.Comments> commentList, EditText commentEditText) {
         childCommentRecyclerView.setLayoutManager(new LinearLayoutManager(cont));
-        childCommentRecyclerView.setAdapter( new CommentToPostChildAdapter((BaseActivity) cont, commentList, commentEditText));
+        childCommentRecyclerView.setAdapter( new CommentToPostChildAdapter((BaseActivity) cont, prefUt, commentList, commentEditText));
     }
 }

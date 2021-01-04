@@ -69,7 +69,7 @@ public class CommentToPostParentAdapter extends BaseRecyclerAdapter<CommentModel
                 countLikeTextView.setText(item.getCountLike());
                 likeImageClickListener(likeImageView); // обработка нажатия на кномку "оценить комент"
 
-                answerClickListener(answerTextView, item.getAuthorName()); // обработка нажатия на кнопку "Ответить"
+                answerClickListener(answerTextView, item.getAuthorName(), item.getCommentId()); // обработка нажатия на кнопку "Ответить"
 
                 // Загрузить дочерние комментарии
                 GetCommentListByComment.getCommentListByComment(view.getContext(), prefUtils, item.getCommentId(),
@@ -85,11 +85,14 @@ public class CommentToPostParentAdapter extends BaseRecyclerAdapter<CommentModel
                 }
             }
 
-            private void answerClickListener(TextView textView, final String name) {
+            private void answerClickListener(TextView textView, final String name, String commentId) {
                 textView.setOnClickListener(v -> {
                     commentEditText.requestFocus();
                     commentEditText.setText(name.concat(", "));
                     commentEditText.setSelection(commentEditText.getText().length());
+
+                    prefUtils.saveCommentIdToAnswer(commentId);
+                    prefUtils.saveAnswerToUserName(name);
                 });
             }
 

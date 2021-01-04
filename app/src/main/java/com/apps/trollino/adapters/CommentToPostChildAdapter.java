@@ -11,6 +11,7 @@ import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
 import com.apps.trollino.data.model.comment.CommentModel;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.ClickableSpanText;
+import com.apps.trollino.utils.data.PrefUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -20,10 +21,12 @@ import static com.apps.trollino.utils.Const.BASE_URL;
 public class CommentToPostChildAdapter extends BaseRecyclerAdapter<CommentModel.Comments> {
     private EditText commentEditText;
     private boolean isUserLikeIt;
+    private PrefUtils prefUtils;
 
-    public CommentToPostChildAdapter(BaseActivity baseActivity, List<CommentModel.Comments> items, EditText commentEditText) {
+    public CommentToPostChildAdapter(BaseActivity baseActivity, PrefUtils prefUtils, List<CommentModel.Comments> items, EditText commentEditText) {
         super(baseActivity, items);
         this.commentEditText = commentEditText;
+        this.prefUtils = prefUtils;
     }
 
     @Override
@@ -59,7 +62,7 @@ public class CommentToPostChildAdapter extends BaseRecyclerAdapter<CommentModel.
                 checkCommentLength(commentTextView, comment, view.getContext()); // Проверить длинну комментария
                 changeLikeImage(item.getFavoriteFlag(), likeImageView); // Проверить пользователь оценил комент или нет
                 likeImageClickListener(likeImageView); // обработка нажатия на кнопку "оценить комент"
-                answerClickListener(answerTextView, item.getAuthorName()); // обработка нажатия на кнопку "Ответить"
+                answerClickListener(answerTextView, item.getAuthorName(), item.getCommentId()); // обработка нажатия на кнопку "Ответить"
             }
 
             private void changeLikeImage(String isLike, ImageView imageView) {
@@ -70,11 +73,14 @@ public class CommentToPostChildAdapter extends BaseRecyclerAdapter<CommentModel.
                 }
             }
 
-            private void answerClickListener(TextView textView, final String name) {
+            private void answerClickListener(TextView textView, final String name, String commentId) {
                 textView.setOnClickListener(v -> {
                     commentEditText.requestFocus();
                     commentEditText.setText(name.concat(", "));
                     commentEditText.setSelection(commentEditText.getText().length());
+
+                    prefUtils.saveCommentIdToAnswer(commentId);
+                    prefUtils.saveAnswerToUserName(name);
                 });
             }
 

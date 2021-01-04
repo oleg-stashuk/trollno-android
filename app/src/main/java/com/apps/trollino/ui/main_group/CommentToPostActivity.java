@@ -2,7 +2,6 @@ package com.apps.trollino.ui.main_group;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,6 +18,7 @@ import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.Const;
 import com.apps.trollino.utils.data.CommentListFromApi;
 import com.apps.trollino.utils.dialogs.GuestDialog;
+import com.apps.trollino.utils.networking.comment.PostNewComment;
 import com.apps.trollino.utils.recycler.MakeRecyclerViewForComment;
 
 public class CommentToPostActivity extends BaseActivity implements View.OnClickListener{
@@ -95,13 +95,24 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
                 break;
             case R.id.send_button_comment_comment_to_post:
                 if(prefUtils.getIsUserAuthorization()) {
-                    showToast("Отправить комментарий");
-                    Log.d("OkHttp", "Коментарий: " +  commentEditText.getText().toString()
-                            + " -> " + commentEditText.getText().toString().length());
+                    String commentId;
+                    String userName = prefUtils.getAnswerToUserName();
+                    if(commentEditText.getText().toString().length() >= userName.length()) {
+                        String commentTo = commentEditText.getText().toString().substring(0, userName.length());
+                        if (commentTo.equals(userName)) {
+                            commentId = prefUtils.getCommentIdToAnswer();
+                        } else {
+                            commentId = null;
+                        }
+                    } else {
+                        commentId = null;
+                    }
 
+                    new Thread(() ->
+                            PostNewComment.postNewComment(this, prefUtils,
+                            commentEditText.getText().toString(), commentId, commentEditText)
+                    ).start();
 
-//                    PostNewComment.postNewComment(this, prefUtils, currentPostId,
-//                            commentEditText.getText().toString(), "33", commentEditText);
                 } else {
                     GuestDialog dialog = new GuestDialog();
                     dialog.showDialog(this);

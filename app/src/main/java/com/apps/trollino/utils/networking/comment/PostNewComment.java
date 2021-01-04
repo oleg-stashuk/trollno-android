@@ -1,7 +1,9 @@
 package com.apps.trollino.utils.networking.comment;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -10,6 +12,7 @@ import com.apps.trollino.data.model.comment.CreateCommentBody;
 import com.apps.trollino.data.model.comment.CreateNewCommentRequest;
 import com.apps.trollino.data.model.comment.CreateNewCommentResponse;
 import com.apps.trollino.data.networking.ApiService;
+import com.apps.trollino.ui.main_group.CommentToPostActivity;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
 
@@ -25,12 +28,12 @@ import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
 public class PostNewComment {
     private static Context cont;
 
-    public static void postNewComment(Context context, PrefUtils prefUtils,
-                                      String postId, String comment, String parentId,
+    public static void postNewComment(Context context, PrefUtils prefUtils, String comment, String parentId,
                                       EditText commentEditText) {
         cont = context;
         String cookie = prefUtils.getCookie();
         String token = prefUtils.getToken();
+        String postId = prefUtils.getCurrentPostId();
 
         List<CreateNewCommentRequest.PostId> postIdList = new ArrayList<>();
         postIdList.add(new CreateNewCommentRequest.PostId(postId));
@@ -54,11 +57,19 @@ public class PostNewComment {
                                     .setMessage("Ваш комментарий отправлен успешно")
                                     .setPositiveButton("Ok", (dialogInterface, i) -> {
                                         dialogInterface.dismiss();
+
+                                        Intent intent = new Intent(context, CommentToPostActivity.class);
+                                        ((Activity) context).finish();
+                                        context.startActivity(intent);
                                     })
                                     .create()
                                     .show();
 
                             commentEditText.setText("");
+                            prefUtils.saveAnswerToUserName("");
+                            prefUtils.saveCommentIdToAnswer("");
+
+
                         } else {
                             String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
                             showToast(errorMessage);
