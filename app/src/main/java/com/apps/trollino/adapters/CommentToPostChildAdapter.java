@@ -12,6 +12,7 @@ import com.apps.trollino.data.model.comment.CommentModel;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.ClickableSpanText;
 import com.apps.trollino.utils.data.PrefUtils;
+import com.apps.trollino.utils.dialogs.GuestDialog;
 import com.apps.trollino.utils.networking.comment.PostLikeToComment;
 import com.apps.trollino.utils.networking.comment.PostUnlikeToComment;
 import com.squareup.picasso.Picasso;
@@ -63,7 +64,7 @@ public class CommentToPostChildAdapter extends BaseRecyclerAdapter<CommentModel.
                 changeLikeImage(isLike, likeImageView); // Проверить пользователь оценил комент или нет
                 checkCommentLength(commentTextView, comment, view.getContext()); // Проверить длинну комментария
                 likeImageClickListener(view.getContext(), likeImageView, item.getCommentId(), isLike); // обработка нажатия на кнопку "оценить комент"
-                answerClickListener(answerTextView, item.getAuthorName(), item.getCommentId()); // обработка нажатия на кнопку "Ответить"
+                answerClickListener(answerTextView, item.getAuthorName(), item.getParentId()); // обработка нажатия на кнопку "Ответить"
             }
 
             private void changeLikeImage(boolean isLike, ImageView imageView) {
@@ -74,23 +75,28 @@ public class CommentToPostChildAdapter extends BaseRecyclerAdapter<CommentModel.
                 }
             }
 
-            private void answerClickListener(TextView textView, final String name, String commentId) {
+            private void answerClickListener(TextView textView, final String name, String parentId) {
                 textView.setOnClickListener(v -> {
                     commentEditText.requestFocus();
                     commentEditText.setText(name.concat(", "));
                     commentEditText.setSelection(commentEditText.getText().length());
 
-                    prefUtils.saveCommentIdToAnswer(commentId);
+                    prefUtils.saveCommentIdToAnswer(parentId);
                     prefUtils.saveAnswerToUserName(name);
                 });
             }
 
             private void likeImageClickListener(Context context, final ImageView imageView, String commentId, boolean isLike) {
                 imageView.setOnClickListener(v -> {
-                    if (isLike) {
-                        new Thread(() -> PostUnlikeToComment.postUnlikeToComment(context, prefUtils, commentId)).start();
+                    if (prefUtils.getIsUserAuthorization()) {
+                        if (isLike) {
+                            new Thread(() -> PostUnlikeToComment.postUnlikeToComment(context, prefUtils, commentId)).start();
+                        } else {
+                            new Thread(() -> PostLikeToComment.postLikeToComment(context, prefUtils, commentId)).start();
+                        }
                     } else {
-                        new Thread(() -> PostLikeToComment.postLikeToComment(context, prefUtils, commentId)).start();
+                        GuestDialog dialog = new GuestDialog();
+                        dialog.showDialog(context);
                     }
                 });
             }

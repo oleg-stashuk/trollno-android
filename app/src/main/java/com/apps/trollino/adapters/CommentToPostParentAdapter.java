@@ -14,6 +14,7 @@ import com.apps.trollino.data.model.comment.CommentModel;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.ClickableSpanText;
 import com.apps.trollino.utils.data.PrefUtils;
+import com.apps.trollino.utils.dialogs.GuestDialog;
 import com.apps.trollino.utils.networking.comment.GetCommentListByComment;
 import com.apps.trollino.utils.networking.comment.PostLikeToComment;
 import com.apps.trollino.utils.networking.comment.PostUnlikeToComment;
@@ -99,10 +100,15 @@ public class CommentToPostParentAdapter extends BaseRecyclerAdapter<CommentModel
 
             private void likeImageClickListener(Context context, final ImageView imageView, String commentId, Boolean isLike) {
                 imageView.setOnClickListener(v -> {
-                    if (isLike) {
-                        new Thread(() -> PostUnlikeToComment.postUnlikeToComment(context, prefUtils, commentId)).start();
+                    if (prefUtils.getIsUserAuthorization()) {
+                        if (isLike) {
+                            new Thread(() -> PostUnlikeToComment.postUnlikeToComment(context, prefUtils, commentId)).start();
+                        } else {
+                            new Thread(() -> PostLikeToComment.postLikeToComment(context, prefUtils, commentId)).start();
+                        }
                     } else {
-                        new Thread(() -> PostLikeToComment.postLikeToComment(context, prefUtils, commentId)).start();
+                        GuestDialog dialog = new GuestDialog();
+                        dialog.showDialog(context);
                     }
                 });
             }

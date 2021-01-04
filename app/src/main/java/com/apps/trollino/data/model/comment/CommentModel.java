@@ -31,6 +31,9 @@ public class CommentModel {
         @SerializedName("cid")
         @Expose
         private String commentId;
+        @SerializedName("pid")
+        @Expose
+        private String parentId;
         @SerializedName("comment_body")
         @Expose
         private String commentBody;
@@ -57,6 +60,10 @@ public class CommentModel {
 
         public String getCommentId() {
             return commentId;
+        }
+
+        public String getParentId() {
+            return parentId;
         }
 
         public String getCommentBody() {
