@@ -21,6 +21,12 @@ public class PrefUtils {
     private final String PREV_POST_ID = "PREV_POST_ID"; // запоминание ID предыдущего поста
     private final String IS_FAVORITE = "IS_FAVORITE"; // запоминание текущий пост в Избранном или нет
 
+    private final String ANSWER_COMMENT_ID = "ANSWER_COMMENT_ID";
+    private final String ANSWER_TO_USER_NAME = "ANSWER_TO_USER_NAME";
+
+    private final String SELECTED_POST_ID = "SELECTED_POST_ID";
+    private final String POST_FROM_CATEGORY_LIST = "POST_FROM_CATEGORY_LIST";
+
     public PrefUtils(SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
     }
@@ -123,5 +129,37 @@ public class PrefUtils {
 
     public void saveIsFavorite(boolean isFavorite) {
         getEditor().putBoolean(IS_FAVORITE, isFavorite).apply();
+    }
+
+    public String getCommentIdToAnswer() {
+        return sharedPreferences.getString(ANSWER_COMMENT_ID, "");
+    }
+
+    public void saveCommentIdToAnswer(String commentId) {
+        getEditor().putString(ANSWER_COMMENT_ID, commentId).apply();
+    }
+
+    public String getAnswerToUserName() {
+        return sharedPreferences.getString(ANSWER_TO_USER_NAME, "");
+    }
+
+    public void saveAnswerToUserName(String userName) {
+        getEditor().putString(ANSWER_TO_USER_NAME, userName).apply();
+    }
+
+    public String getCurrentPostId() {
+        return sharedPreferences.getString(SELECTED_POST_ID, "");
+    }
+
+    public void saveCurrentPostId(String postId) {
+        getEditor().putString(SELECTED_POST_ID, postId).apply();
+    }
+
+    public boolean IsPostFromCategoryList() {
+        return sharedPreferences.getBoolean(POST_FROM_CATEGORY_LIST, false);
+    }
+
+    public void saveValuePostFromCategoryList(boolean postFromCategoryList) {
+        getEditor().putBoolean(POST_FROM_CATEGORY_LIST, postFromCategoryList).apply();
     }
 }

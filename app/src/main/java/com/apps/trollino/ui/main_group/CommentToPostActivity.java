@@ -19,11 +19,7 @@ import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.Const;
 import com.apps.trollino.utils.data.CommentListFromApi;
 import com.apps.trollino.utils.dialogs.GuestDialog;
-import com.apps.trollino.utils.networking.comment.PostNewComment;
 import com.apps.trollino.utils.recycler.MakeRecyclerViewForComment;
-
-import static com.apps.trollino.ui.main_group.PostActivity.POST_FROM_CATEGORY_LIST;
-import static com.apps.trollino.ui.main_group.PostActivity.POST_ID_KEY;
 
 public class CommentToPostActivity extends BaseActivity implements View.OnClickListener{
 
@@ -53,8 +49,8 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
         progressBar = findViewById(R.id.progress_bar_comment_to_post);
         noCommentTextView = findViewById(R.id.text_post_without_comment_comment_to_post);
 
-        currentPostId = this.getIntent().getStringExtra(POST_ID_KEY);
-        isPostFromCategory = this.getIntent().getBooleanExtra(POST_FROM_CATEGORY_LIST, false);
+        currentPostId = prefUtils.getCurrentPostId();
+        isPostFromCategory = prefUtils.IsPostFromCategoryList();
 
         makeSortCommentSpinner(this);
     }
@@ -87,8 +83,6 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
     public void onBackPressed() {
         CommentListFromApi.getInstance().removeAllDataFromList(prefUtils);
         Intent intent = new Intent(this, PostActivity.class);
-        intent.putExtra(POST_ID_KEY, currentPostId);
-        intent.putExtra(POST_FROM_CATEGORY_LIST,isPostFromCategory);
         startActivity(intent);
         finish();
     }

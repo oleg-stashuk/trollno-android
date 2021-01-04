@@ -1,7 +1,6 @@
 package com.apps.trollino.ui.main_group;
 
 import android.content.Intent;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,10 +22,6 @@ import com.apps.trollino.utils.networking.single_post.PostBookmark;
 import com.apps.trollino.utils.networking.single_post.PostUnbookmark;
 
 public class PostActivity extends BaseActivity implements View.OnClickListener{
-    public static String POST_ID_KEY = "POST_ID_KEY";
-    // Если пост открыт с категории, то предыдущий/следующий пост смотрим в данных с API для "category", если со Свежее или Обсуждаемое - с "publ"
-    public static String POST_FROM_CATEGORY_LIST = "POST_FROM_CATEGORY_LIST";
-
     private NestedScrollView layout;
     private TextView categoryTextView;
     private TextView titleTextView;
@@ -60,8 +55,9 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
         initToolbar();
         makeTouchListener();
 
-        currentPostId = this.getIntent().getStringExtra(POST_ID_KEY);
-        isPostFromCategory = this.getIntent().getBooleanExtra(POST_FROM_CATEGORY_LIST, false);
+        currentPostId = prefUtils.getCurrentPostId();
+        isPostFromCategory = prefUtils.IsPostFromCategoryList();
+
         categoryTextView.setFocusable(true);
     }
 
@@ -125,8 +121,8 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
     // Open activity with category
     private void commentToPostActivity() {
         Intent intent = new Intent( this, CommentToPostActivity.class);
-        intent.putExtra(POST_ID_KEY, currentPostId);
-        intent.putExtra(POST_FROM_CATEGORY_LIST, isPostFromCategory);
+        prefUtils.saveCurrentPostId(currentPostId);
+        prefUtils.saveValuePostFromCategoryList(isPostFromCategory);
         startActivity(intent);
         finish();
     }
