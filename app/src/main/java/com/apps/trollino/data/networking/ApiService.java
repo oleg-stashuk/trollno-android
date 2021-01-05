@@ -182,4 +182,8 @@ public class ApiService {
     public void postUnlikeToComment(String cookie, String token, String entityCommentId, Callback<Void> callback) {
         commentApi.postUnlikeToComment(cookie, token, new LikeCommentModelRequest(entityCommentId)).enqueue(callback);
     }
+
+    public void getCommentListToUserActivity(String cookie, String userId, Callback<CommentModel> callback) {
+        commentApi.getCommentListToUserActivity(cookie, userId).enqueue(callback);
+    }
 }

@@ -51,4 +51,11 @@ public interface CommentApi {
     })
     @POST("/api/unflag?_format=json")
     Call<Void> postUnlikeToComment(@Header("Cookie") String cookie, @Header("X-CSRF-Token") String token, @Body LikeCommentModelRequest likeCommentModelRequest);
+
+    @Headers({
+            "Content-Type: application/json",
+            "Accepts: application/json"
+    })
+    @GET("/user/{uid}/comments?_format=json")
+    Call<CommentModel> getCommentListToUserActivity(@Header("Cookie") String cookie, @Path("uid") String userId);
 }
