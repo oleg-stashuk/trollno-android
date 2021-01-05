@@ -121,6 +121,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
     // Open activity with category
     private void commentToPostActivity() {
         Intent intent = new Intent( this, CommentToPostActivity.class);
+        prefUtils.saveCommentIdForActivity("");
         prefUtils.saveCurrentPostId(currentPostId);
         prefUtils.saveValuePostFromCategoryList(isPostFromCategory);
         startActivity(intent);

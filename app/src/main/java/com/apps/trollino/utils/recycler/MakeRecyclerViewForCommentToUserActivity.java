@@ -49,6 +49,7 @@ public class MakeRecyclerViewForCommentToUserActivity extends RecyclerView.OnScr
 
     // Обработка нажатия на элемент списка
     private static final UserCommentAdapter.OnItemClick<CommentModel.Comments> userCommentItemListener = (item, position) -> {
+        prefUt.saveCommentIdForActivity(item.getCommentId());
         prefUt.saveCurrentPostId(item.getPostId());
         prefUt.saveValuePostFromCategoryList(false);
         cont.startActivity(new Intent(cont, CommentToPostActivity.class));

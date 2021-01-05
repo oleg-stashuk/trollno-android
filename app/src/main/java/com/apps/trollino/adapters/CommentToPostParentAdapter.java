@@ -1,6 +1,7 @@
 package com.apps.trollino.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -53,6 +54,10 @@ public class CommentToPostParentAdapter extends BaseRecyclerAdapter<CommentModel
                 TextView answerTextView = view.findViewById(R.id.answer_single_comment_parent); // button
                 TextView showMoreTextView = view.findViewById(R.id.show_more_comment_single_comment_parent); // button
                 RecyclerView childCommentRecyclerView = view.findViewById(R.id.recycler_item_single_comment_parent);
+
+                if(item.getCommentId().equals(prefUtils.getCommentIdForActivity())) {
+                    commentBodyTextView.setTextColor(Color.parseColor("#DD6AA0"));
+                }
 
                 Picasso
                         .get()

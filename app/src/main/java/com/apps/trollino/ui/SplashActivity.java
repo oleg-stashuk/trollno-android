@@ -22,6 +22,8 @@ public class SplashActivity extends BaseActivity {
     protected void initView() {
         handler = new Handler();
         prefUtils.saveNewPostCurrentPage(0);
+        prefUtils.saveCurrentPage(0);
+        prefUtils.saveCommentIdForActivity("");
         Thread thread = new Thread(() -> {
             try {
                 for (startTime = 0; startTime < maxTime; startTime++) {

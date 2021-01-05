@@ -78,7 +78,13 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
     @Override
     public void onBackPressed() {
         CommentListFromApi.getInstance().removeAllDataFromList(prefUtils);
-        Intent intent = new Intent(this, PostActivity.class);
+        Intent intent;
+        if(prefUtils.getCommentIdForActivity().isEmpty()) {
+            intent = new Intent(this, PostActivity.class);
+        } else {
+            intent = new Intent(this, ActivityInPostActivity.class);
+        }
+        prefUtils.saveCommentIdForActivity("");
         startActivity(intent);
         finish();
     }
@@ -101,7 +107,7 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
                             commentId = "";
                         }
                     } else {
-                        commentId = ",";
+                        commentId = "";
                     }
 
                     new Thread(() ->

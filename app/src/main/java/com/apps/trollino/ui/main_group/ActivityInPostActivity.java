@@ -95,6 +95,7 @@
 
     @Override
     public void onBackPressed() {
+        prefUtils.saveCommentIdForActivity("");
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
             return;
@@ -116,14 +117,17 @@
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tape_button_activity_in_post: // "Перейти на экран Лента"
+                prefUtils.saveCommentIdForActivity("");
                 startActivity(new Intent(this, TapeActivity.class));
                 finish();
                 break;
             case R.id.favorites_button_activity_in_post: // "Перейти на экран Избранное"
+                prefUtils.saveCommentIdForActivity("");
                 startActivity(new Intent(this, FavoriteActivity.class));
                 finish();
                 break;
             case R.id.profile_button_activity_in_post: // "Перейти на экран Профиль"
+                prefUtils.saveCommentIdForActivity("");
                 startActivity(new Intent(this, ProfileActivity.class));
                 finish();
                 break;

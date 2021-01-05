@@ -59,7 +59,7 @@ public class CommentModel {
         private String postId;
         @SerializedName("title")
         @Expose
-        private String commentTitle;
+        private String postTitle;
         @SerializedName("created")
         @Expose
         private String created;
@@ -105,8 +105,8 @@ public class CommentModel {
             return postId;
         }
 
-        public String getCommentTitle() {
-            return commentTitle;
+        public String getPostTitle() {
+            return postTitle;
         }
 
         public String getCreated() {

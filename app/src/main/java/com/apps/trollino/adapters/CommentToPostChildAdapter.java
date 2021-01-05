@@ -1,6 +1,7 @@
 package com.apps.trollino.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -47,7 +48,11 @@ public class CommentToPostChildAdapter extends BaseRecyclerAdapter<CommentModel.
                 final TextView commentTextView = view.findViewById(R.id.comment_user_single_comment_child);
                 final ImageView likeImageView = view.findViewById(R.id.like_single_comment_child);
                 TextView countLikeTextView = view.findViewById(R.id.count_like_single_comment_child);
-                TextView answerTextView = view.findViewById(R.id.answer_single_comment_child); // button
+                TextView answerTextView = view.findViewById(R.id.answer_single_comment_child);
+
+                if(item.getCommentId().equals(prefUtils.getCommentIdForActivity())) {
+                    commentTextView.setTextColor(Color.parseColor("#DD6AA0"));
+                }
 
                 final String comment = item.getCommentBody();
                 boolean isLike = item.getFavoriteFlag().equals("1") ? true : false;

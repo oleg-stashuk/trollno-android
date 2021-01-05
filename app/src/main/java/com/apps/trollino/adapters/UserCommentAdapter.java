@@ -49,7 +49,7 @@ public class UserCommentAdapter extends BaseRecyclerAdapter<CommentModel.Comment
 //                    linearLayout.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.colorLightGrey));
 //                }
 
-                titleTextView.setText(item.getCommentTitle());
+                titleTextView.setText(item.getPostTitle());
                 commentTextView.setText(item.getCommentBody());
                 countLikeTextView.setText(item.getCountLike());
 //                if(item.isHasNewComment()) {
