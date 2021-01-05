@@ -2,13 +2,12 @@ package com.apps.trollino.utils.networking.authorisation;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.apps.trollino.data.model.ResponseLoginModel;
 import com.apps.trollino.data.networking.ApiService;
-import com.apps.trollino.ui.main_group.ProfileActivity;
+import com.apps.trollino.utils.OpenActivityHelper;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
 
@@ -39,7 +38,7 @@ public class PostUserLogin {
                     prefUtils.saveIsUserAuthorization(true);
                     prefUtils.savePassword(password);
 
-                    context.startActivity(new Intent(context, ProfileActivity.class));
+                    context.startActivity(OpenActivityHelper.openActivity(context,prefUtils));
                     ((Activity) context).finish();
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());

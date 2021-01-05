@@ -46,6 +46,7 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
 
         createTabLayout();
 
+        prefUtils.saveCurrentActivity("");
         makeTabSelectedListener();
         MakeGridRecyclerViewForTapeActivity.makeNewPostsRecyclerView(this, newsRecyclerView, progressBar, prefUtils);
     }

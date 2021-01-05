@@ -29,6 +29,8 @@ public class PrefUtils {
 
     private final String COMMENT_ID_FROM_ACTIVITY = "COMMENT_ID_FROM_ACTIVITY";
 
+    private final String CURRENT_ACTIVITY = "CURRENT_ACTIVITY";
+
     public PrefUtils(SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
     }
@@ -51,6 +53,14 @@ public class PrefUtils {
 
     public void saveLogoutToken(String logoutToken) {
         getEditor().putString(LOGOUT_TOKEN_KEY, logoutToken).apply();
+    }
+
+    public String getCurrentActivity() {
+        return sharedPreferences.getString(CURRENT_ACTIVITY, "");
+    }
+
+    public void saveCurrentActivity(String currentActivity) {
+        getEditor().putString(CURRENT_ACTIVITY, currentActivity).apply();
     }
 
     public String getUserUid() {

@@ -6,6 +6,7 @@ import android.widget.EditText;
 
 import com.apps.trollino.R;
 import com.apps.trollino.ui.base.BaseActivity;
+import com.apps.trollino.utils.OpenActivityHelper;
 import com.apps.trollino.utils.Validation;
 import com.apps.trollino.utils.networking.authorisation.PostUserRegistration;
 
@@ -69,7 +70,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this, LoginActivity.class));
+        startActivity(OpenActivityHelper.openActivity(this, prefUtils));
         finish();
     }
 

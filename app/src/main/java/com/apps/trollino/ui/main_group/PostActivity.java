@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apps.trollino.R;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.OnSwipeTouchListener;
+import com.apps.trollino.utils.OpenActivityHelper;
 import com.apps.trollino.utils.dialogs.GuestDialog;
 import com.apps.trollino.utils.networking.single_post.GetItemPost;
 import com.apps.trollino.utils.networking.single_post.PostBookmark;
@@ -55,6 +56,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
         initToolbar();
         makeTouchListener();
 
+        prefUtils.saveCurrentActivity(OpenActivityHelper.POST_ACTIVITY);
         currentPostId = prefUtils.getCurrentPostId();
         isPostFromCategory = prefUtils.IsPostFromCategoryList();
 
@@ -120,11 +122,11 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
 
     // Open activity with category
     private void commentToPostActivity() {
-        Intent intent = new Intent( this, CommentToPostActivity.class);
         prefUtils.saveCommentIdForActivity("");
         prefUtils.saveCurrentPostId(currentPostId);
         prefUtils.saveValuePostFromCategoryList(isPostFromCategory);
-        startActivity(intent);
+        prefUtils.saveCurrentActivity("");
+        startActivity(new Intent( this, CommentToPostActivity.class));
         finish();
     }
 
@@ -161,6 +163,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
 
     @Override
     public void onBackPressed() {
+        prefUtils.saveCurrentActivity("");
         startActivity(new Intent(this, TapeActivity.class));
         finish();
     }

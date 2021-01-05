@@ -6,7 +6,7 @@ import android.widget.EditText;
 
 import com.apps.trollino.R;
 import com.apps.trollino.ui.base.BaseActivity;
-import com.apps.trollino.ui.main_group.TapeActivity;
+import com.apps.trollino.utils.OpenActivityHelper;
 import com.apps.trollino.utils.Validation;
 import com.apps.trollino.utils.networking.authorisation.PostUserLogin;
 
@@ -56,7 +56,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this, TapeActivity.class));
+        startActivity(OpenActivityHelper.openActivity(this, prefUtils));
         finish();
     }
 

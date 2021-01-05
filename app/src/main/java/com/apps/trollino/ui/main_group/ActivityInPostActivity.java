@@ -14,6 +14,7 @@
  import com.apps.trollino.ui.authorisation.LoginActivity;
  import com.apps.trollino.ui.authorisation.RegistrationActivity;
  import com.apps.trollino.ui.base.BaseActivity;
+ import com.apps.trollino.utils.OpenActivityHelper;
  import com.apps.trollino.utils.data.CommentListToUserActivityFromApi;
  import com.apps.trollino.utils.recycler.MakeRecyclerViewForCommentToUserActivity;
 
@@ -40,6 +41,7 @@
         findViewById(R.id.registration_button_include_activity_for_guest).setOnClickListener(this);
 
         isUserAuthorization = prefUtils.getIsUserAuthorization();
+        prefUtils.saveCurrentActivity(OpenActivityHelper.ACTIVITY_USER_ACTIVITY);
 
         CommentListToUserActivityFromApi.getInstance().removeAllDataFromList(prefUtils); // при загрузке активити почистить сохраненные данные для инфинитискрол и текущую страницу для загрузки с АПИ
         checkUserAuthorization(); // проверить пользователь авторизирован или нет, если да - то проверить есть посты добаленные в избранное или нет
@@ -96,6 +98,7 @@
     @Override
     public void onBackPressed() {
         prefUtils.saveCommentIdForActivity("");
+        prefUtils.saveCurrentActivity("");
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
             return;

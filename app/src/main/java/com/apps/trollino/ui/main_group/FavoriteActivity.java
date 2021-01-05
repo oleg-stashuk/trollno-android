@@ -15,6 +15,7 @@ import com.apps.trollino.R;
 import com.apps.trollino.ui.authorisation.LoginActivity;
 import com.apps.trollino.ui.authorisation.RegistrationActivity;
 import com.apps.trollino.ui.base.BaseActivity;
+import com.apps.trollino.utils.OpenActivityHelper;
 import com.apps.trollino.utils.data.FavoritePostListFromApi;
 import com.apps.trollino.utils.recycler.MakeLinerRecyclerViewForFavoriteActivity;
 
@@ -43,6 +44,7 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
         findViewById(R.id.login_button_include_favorite_for_guest).setOnClickListener(this);
         findViewById(R.id.registration_button_include_activity_for_guest).setOnClickListener(this);
 
+        prefUtils.saveCurrentActivity(OpenActivityHelper.FAVORITE_ACTIVITY);
         isUserAuthorization = prefUtils.getIsUserAuthorization();
         FavoritePostListFromApi.getInstance().removeAllDataFromList(prefUtils);
 
@@ -97,6 +99,7 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void onBackPressed() {
+        prefUtils.saveCurrentActivity("");
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
             return;

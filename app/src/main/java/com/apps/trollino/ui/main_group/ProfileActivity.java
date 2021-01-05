@@ -14,6 +14,7 @@ import com.apps.trollino.R;
 import com.apps.trollino.ui.authorisation.LoginActivity;
 import com.apps.trollino.ui.authorisation.RegistrationActivity;
 import com.apps.trollino.ui.base.BaseActivity;
+import com.apps.trollino.utils.OpenActivityHelper;
 import com.apps.trollino.utils.dialogs.InformationAboutAppDialog;
 import com.apps.trollino.utils.networking.authorisation.GetUserProfile;
 import com.apps.trollino.utils.networking.authorisation.PostLogout;
@@ -57,6 +58,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         emailTextView.setOnClickListener(this);
 
         isUserAuthorization = prefUtils.getIsUserAuthorization();
+        prefUtils.saveCurrentActivity(OpenActivityHelper.PROFILE_ACTIVITY);
 
         makeDarkThemeOnCheckedListener();
         makeIsUserAuthorizationCorrectData();
@@ -90,6 +92,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void onBackPressed() {
+        prefUtils.saveCurrentActivity("");
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
             return;

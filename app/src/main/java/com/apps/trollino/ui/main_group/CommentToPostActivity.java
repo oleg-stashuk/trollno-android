@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apps.trollino.R;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.Const;
+import com.apps.trollino.utils.OpenActivityHelper;
 import com.apps.trollino.utils.data.CommentListFromApi;
 import com.apps.trollino.utils.dialogs.GuestDialog;
 import com.apps.trollino.utils.networking.comment.PostNewComment;
@@ -48,6 +49,7 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
         progressBar = findViewById(R.id.progress_bar_comment_to_post);
         noCommentTextView = findViewById(R.id.text_post_without_comment_comment_to_post);
 
+        prefUtils.saveCurrentActivity(OpenActivityHelper.COMMENT_ACTIVITY);
         currentPostId = prefUtils.getCurrentPostId();
         makeSortCommentSpinner(this);
     }
@@ -85,6 +87,7 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
             intent = new Intent(this, ActivityInPostActivity.class);
         }
         prefUtils.saveCommentIdForActivity("");
+        prefUtils.saveCurrentActivity("");
         startActivity(intent);
         finish();
     }
