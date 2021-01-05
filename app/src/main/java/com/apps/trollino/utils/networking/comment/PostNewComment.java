@@ -30,6 +30,11 @@ public class PostNewComment {
 
     public static void postNewComment(Context context, PrefUtils prefUtils, String comment, String parentId,
                                       EditText commentEditText) {
+
+        if(parentId.isEmpty()) {
+            parentId = null;
+        }
+
         cont = context;
         String cookie = prefUtils.getCookie();
         String token = prefUtils.getToken();

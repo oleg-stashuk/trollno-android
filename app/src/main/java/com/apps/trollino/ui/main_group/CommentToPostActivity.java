@@ -98,10 +98,10 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
                         if (commentTo.equals(userName)) {
                             commentId = prefUtils.getCommentIdToAnswer();
                         } else {
-                            commentId = null;
+                            commentId = "";
                         }
                     } else {
-                        commentId = null;
+                        commentId = ",";
                     }
 
                     new Thread(() ->
