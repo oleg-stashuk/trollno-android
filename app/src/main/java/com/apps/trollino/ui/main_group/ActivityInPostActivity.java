@@ -1,30 +1,23 @@
-package com.apps.trollino.ui.main_group;
+ package com.apps.trollino.ui.main_group;
 
-import android.content.Intent;
-import android.os.Handler;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
+ import android.content.Intent;
+ import android.os.Handler;
+ import android.view.Menu;
+ import android.view.MenuItem;
+ import android.view.View;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+ import androidx.appcompat.app.ActionBar;
+ import androidx.appcompat.widget.Toolbar;
+ import androidx.recyclerview.widget.RecyclerView;
 
-import com.apps.trollino.R;
-import com.apps.trollino.adapters.UserCommentAdapter;
-import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
-import com.apps.trollino.data.model.comment.CommentModel;
-import com.apps.trollino.ui.authorisation.LoginActivity;
-import com.apps.trollino.ui.authorisation.RegistrationActivity;
-import com.apps.trollino.ui.base.BaseActivity;
+ import com.apps.trollino.R;
+ import com.apps.trollino.ui.authorisation.LoginActivity;
+ import com.apps.trollino.ui.authorisation.RegistrationActivity;
+ import com.apps.trollino.ui.base.BaseActivity;
+ import com.apps.trollino.utils.data.CommentListToUserActivityFromApi;
+ import com.apps.trollino.utils.recycler.MakeRecyclerViewForCommentToUserActivity;
 
-import java.util.List;
-
-import static com.apps.trollino.data.model.comment.CommentModel.makeUserCommentList;
-
-public class ActivityInPostActivity extends BaseActivity implements View.OnClickListener{
-    private List<CommentModel> userCommentList = makeUserCommentList();
+ public class ActivityInPostActivity extends BaseActivity implements View.OnClickListener{
     private RecyclerView postWithActivityRecyclerView;
 
     private View userAuthorizationView;
@@ -48,6 +41,7 @@ public class ActivityInPostActivity extends BaseActivity implements View.OnClick
 
         isUserAuthorization = prefUtils.getIsUserAuthorization();
 
+        CommentListToUserActivityFromApi.getInstance().removeAllDataFromList(prefUtils); // при загрузке активити почистить сохраненные данные для инфинитискрол и текущую страницу для загрузки с АПИ
         checkUserAuthorization(); // проверить пользователь авторизирован или нет, если да - то проверить есть посты добаленные в избранное или нет
         initToolbar();
     }
@@ -56,27 +50,13 @@ public class ActivityInPostActivity extends BaseActivity implements View.OnClick
         if(isUserAuthorization) {
             userAuthorizationView.setVisibility(View.GONE);
             postWithActivityRecyclerView.setVisibility(View.VISIBLE);
-            makePostWithActivityRecyclerView();
+
+            MakeRecyclerViewForCommentToUserActivity.makeRecyclerViewForCommentToUserActivity(this, prefUtils, postWithActivityRecyclerView);
         } else {
             userAuthorizationView.setVisibility(View.VISIBLE);
             postWithActivityRecyclerView.setVisibility(View.GONE);
         }
     }
-
-    private void makePostWithActivityRecyclerView() {
-        postWithActivityRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        postWithActivityRecyclerView.setAdapter(new UserCommentAdapter(this, userCommentList, newsVideoGridItemListener));
-    }
-
-    // Обработка нажатия на элемент списка из ресайклера
-    private final UserCommentAdapter.OnItemClick<CommentModel> newsVideoGridItemListener = new BaseRecyclerAdapter.OnItemClick<CommentModel>() {
-        @Override
-        public void onItemClick(CommentModel item, int position) {
-            showToast("Press " + item.getTitle());
-            startActivity(new Intent(ActivityInPostActivity.this, CommentToPostActivity.class));
-            finish();
-        }
-    };
 
     // Иницировать Toolbar
     private void initToolbar() {
