@@ -91,11 +91,11 @@ public class PrefUtils {
         getEditor().putInt(NEW_POST_CURRENT_PAGE, currentPage).apply();
     }
 
-    public int getPostByCategoryCurrentPage() {
+    public int getCurrentPage() {
         return sharedPreferences.getInt(POST_BY_CATEGORY_CURRENT_PAGE, 0);
     }
 
-    public void savePostByCategoryCurrentPage(int currentPage) {
+    public void saveCurrentPage(int currentPage) {
         getEditor().putInt(POST_BY_CATEGORY_CURRENT_PAGE, currentPage).apply();
     }
 

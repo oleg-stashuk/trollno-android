@@ -38,6 +38,6 @@ public class PostListByCategoryFromApi {
 
     public void removeAllDataFromList(PrefUtils prefUtils) {
         postListByCategory.clear();
-        prefUtils.savePostByCategoryCurrentPage(0);
+        prefUtils.saveCurrentPage(0);
     }
 }

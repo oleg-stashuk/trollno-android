@@ -27,7 +27,7 @@ public class GetPostsByCategory {
 
     public static void getPostsByCategory(Context context, PrefUtils prefUtils, PostListAdapter adapter, ProgressBar progressBar) {
         cont = context;
-        page = prefUtils.getPostByCategoryCurrentPage();
+        page = prefUtils.getCurrentPage();
         String cookie = prefUtils.getCookie();
         String categoryId = prefUtils.getSelectedCategoryId();
 
@@ -78,7 +78,6 @@ public class GetPostsByCategory {
 
     private static void updatePostListAndNotifyRecyclerAdapter(List<PostsModel.PostDetails> newPostList, PostListAdapter adapter) {
         PostListByCategoryFromApi.getInstance().savePostByCategoryInList(newPostList);
-        Log.d("OkHttp", "postList in update 333 - " + PostListByCategoryFromApi.getInstance().getPostListByCategory().size() + " " + newPostList.size());
         adapter.notifyDataSetChanged();
     }
 

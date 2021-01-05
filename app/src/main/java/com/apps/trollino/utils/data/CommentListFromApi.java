@@ -38,6 +38,6 @@ public class CommentListFromApi {
 
     public void removeAllDataFromList(PrefUtils prefUtils) {
         commentListModel.clear();
-        prefUtils.savePostByCategoryCurrentPage(0);
+        prefUtils.saveCurrentPage(0);
     }
 }
