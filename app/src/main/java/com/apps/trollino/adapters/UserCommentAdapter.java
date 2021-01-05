@@ -13,14 +13,14 @@ import com.apps.trollino.ui.base.BaseActivity;
 
 import java.util.List;
 
-public class UserCommentAdapter extends BaseRecyclerAdapter<CommentModel> {
+public class UserCommentAdapter extends BaseRecyclerAdapter<CommentModel.Comments> {
 
-    public UserCommentAdapter(BaseActivity baseActivity, List<CommentModel> items, OnItemClick<CommentModel> onItemClick) {
+    public UserCommentAdapter(BaseActivity baseActivity, List<CommentModel.Comments> items, OnItemClick<CommentModel.Comments> onItemClick) {
         super(baseActivity, items, onItemClick);
     }
 
     @Override
-    public void setOnItemClick(OnItemClick<CommentModel> onItemClick) {
+    public void setOnItemClick(OnItemClick<CommentModel.Comments> onItemClick) {
         super.setOnItemClick(onItemClick);
     }
 
@@ -33,7 +33,7 @@ public class UserCommentAdapter extends BaseRecyclerAdapter<CommentModel> {
     protected BaseItem createViewHolder(final View view) {
         return new BaseItem(view) {
             @Override
-            public void bind(CommentModel item) {
+            public void bind(CommentModel.Comments item) {
                 LinearLayout linearLayout = view.findViewById(R.id.background_liner_layout_user_comment);
                 TextView titleTextView = view.findViewById(R.id.title_item_user_comment);
                 ImageView menuImageView = view.findViewById(R.id.menu_item_user_comment);
@@ -49,29 +49,21 @@ public class UserCommentAdapter extends BaseRecyclerAdapter<CommentModel> {
 //                    linearLayout.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.colorLightGrey));
 //                }
 
-                titleTextView.setText(item.getTitle());
-                commentTextView.setText(item.getComment());
-                countLikeTextView.setText(item.getLikeCount());
-                if(item.isHasNewComment()) {
+                titleTextView.setText(item.getCommentTitle());
+                commentTextView.setText(item.getCommentBody());
+                countLikeTextView.setText(item.getCountLike());
+//                if(item.isHasNewComment()) {
                     indicatorImageView.setVisibility(View.VISIBLE);
                     newCommentTextView.setVisibility(View.VISIBLE);
-                } else {
-                    indicatorImageView.setVisibility(View.GONE);
-                    newCommentTextView.setVisibility(View.GONE);
-                }
-                if(item.getTime().isEmpty()) {
-                    timeTextView.setVisibility(View.GONE);
-                } else {
-                    timeTextView.setVisibility(View.VISIBLE);
-                    timeTextView.setText(item.getTime());
-                }
+//                } else {
+//                    indicatorImageView.setVisibility(View.GONE);
+//                    newCommentTextView.setVisibility(View.GONE);
+//                }
+                timeTextView.setText(item.getCreated());
 
-                menuImageView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(view.getContext(), "Кнопка меню", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                menuImageView.setOnClickListener(v ->
+                        Toast.makeText(view.getContext(), "Кнопка меню", Toast.LENGTH_SHORT).show()
+                );
             }
         };
     }
