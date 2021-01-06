@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="5dp"
             android:layout_centerVertical="true"
             android:background="@android:color/transparent"
             android:src="@drawable/ic_arrow_back_white" />
@@ -26,7 +26,7 @@
             android:id="@+id/txt_app_bar_comment_to_post"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/back_button_comment_comment_to_post"
             android:layout_centerVertical="true"
             android:textColor="@color/white"
@@ -49,7 +49,7 @@
             android:id="@+id/spinner_comment_to_post"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="5dp"
             android:backgroundTint="@color/white"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true" />
