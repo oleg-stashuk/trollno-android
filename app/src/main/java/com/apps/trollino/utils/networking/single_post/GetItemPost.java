@@ -19,9 +19,8 @@ import com.apps.trollino.data.model.CategoryModel;
 import com.apps.trollino.data.model.ItemPostModel;
 import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.ui.base.BaseActivity;
-import com.apps.trollino.utils.dialogs.ImageViewDialog;
-import com.apps.trollino.utils.data.CategoryListFromApi;
 import com.apps.trollino.utils.data.PrefUtils;
+import com.apps.trollino.utils.dialogs.ImageViewDialog;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
 import com.squareup.picasso.Picasso;
 
@@ -36,11 +35,13 @@ import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
 public class GetItemPost {
     private static Context cont;
     private static ItemPostModel model;
+    private static PrefUtils prefUt;
 
     public static void getItemPost(Context context, PrefUtils prefUtils, RecyclerView recyclerView, Menu menu, TextView categoryTextView, String postId, TextView titleTextView,
                                    TextView countCommentTextView, Button commentButton, ImageView imageView,
                                    TextView bodyPostTextView, boolean isPostFromCategory) {
         cont = context;
+        prefUt = prefUtils;
         String cookie = prefUtils.getCookie();
 
         ApiService.getInstance(context).getItemPost(cookie, postId, new Callback<ItemPostModel>() {
@@ -56,7 +57,7 @@ public class GetItemPost {
                     setPostHeadBanner(imageView);
                     setPostHeadText(bodyPostTextView);
                     setCommentCount(countCommentTextView, commentButton);
-                    saveNextAndPrevPostId(isPostFromCategory, prefUtils);
+                    saveNextAndPrevPostId(isPostFromCategory);
 
                     List<ItemPostModel.MediaBlock> mediaBlock = model.getMediaBlock();
                     makePartOfPostRecyclerView(recyclerView, mediaBlock);
@@ -87,7 +88,7 @@ public class GetItemPost {
     }
 
     private static void setPostCategory(TextView categoryTextView) {
-        List<CategoryModel> categoryList = CategoryListFromApi.getInstance().getCategoryList();
+        List<CategoryModel> categoryList = prefUt.getCategoryList();
         List<ItemPostModel.CategoryPost> categoryIdList = model.getCategory();
         String categoryId = "";
         for(ItemPostModel.CategoryPost id : categoryIdList) {
@@ -157,30 +158,30 @@ public class GetItemPost {
         }
     }
 
-    private static void saveNextAndPrevPostId(boolean isPostFromCategory, PrefUtils prefUtils) {
+    private static void saveNextAndPrevPostId(boolean isPostFromCategory) {
         if(isPostFromCategory) {
             List<ItemPostModel.IdNeighboringPost> nextPostList = model.getNextPost().getCategory();
             for(ItemPostModel.IdNeighboringPost post : nextPostList) {
-                prefUtils.saveNextPostId(String.valueOf(post.getIdPost()));
+                prefUt.saveNextPostId(String.valueOf(post.getIdPost()));
                 Log.d("OkHttp", "next in category: " + post.getIdPost());
             }
 
             List<ItemPostModel.IdNeighboringPost> prevPostList = model.getPrevPost().getCategory();
             for(ItemPostModel.IdNeighboringPost post : prevPostList) {
-                prefUtils.savePrevPostId(String.valueOf(post.getIdPost()));
+                prefUt.savePrevPostId(String.valueOf(post.getIdPost()));
                 Log.d("OkHttp", "prev in category: " + post.getIdPost());
             }
 
         } else {
             List<ItemPostModel.IdNeighboringPost> nextPostList = model.getNextPost().getPubl();
             for(ItemPostModel.IdNeighboringPost post : nextPostList) {
-                prefUtils.saveNextPostId(String.valueOf(post.getIdPost()));
+                prefUt.saveNextPostId(String.valueOf(post.getIdPost()));
                 Log.d("OkHttp", "next in other: " + post.getIdPost());
             }
 
             List<ItemPostModel.IdNeighboringPost> prevPostList = model.getPrevPost().getPubl();
             for(ItemPostModel.IdNeighboringPost post : prevPostList) {
-                prefUtils.savePrevPostId(String.valueOf(post.getIdPost()));
+                prefUt.savePrevPostId(String.valueOf(post.getIdPost()));
                 Log.d("OkHttp", "prev in other: " + post.getIdPost());
             }
         }

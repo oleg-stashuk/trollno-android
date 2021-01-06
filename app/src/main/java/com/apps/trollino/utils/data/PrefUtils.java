@@ -2,7 +2,13 @@ package com.apps.trollino.utils.data;
 
 import android.content.SharedPreferences;
 
+import com.apps.trollino.data.model.CategoryModel;
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class PrefUtils {
     private SharedPreferences sharedPreferences;
@@ -20,6 +26,8 @@ public class PrefUtils {
     private final String NEXT_POST_ID = "NEXT_POST_ID"; // запоминание ID следующего поста
     private final String PREV_POST_ID = "PREV_POST_ID"; // запоминание ID предыдущего поста
     private final String IS_FAVORITE = "IS_FAVORITE"; // запоминание текущий пост в Избранном или нет
+
+    private final String CATEGORY_LIST_KEY = "CATEGORY_LIST_KEY";
 
     private final String ANSWER_COMMENT_ID = "ANSWER_COMMENT_ID";
     private final String ANSWER_TO_USER_NAME = "ANSWER_TO_USER_NAME";
@@ -61,6 +69,26 @@ public class PrefUtils {
 
     public void saveCurrentActivity(String currentActivity) {
         getEditor().putString(CURRENT_ACTIVITY, currentActivity).apply();
+    }
+
+    public List<CategoryModel> getCategoryList() {
+        List<CategoryModel> categoryList = new ArrayList<>();
+        Set<String> categoriesSet = sharedPreferences.getStringSet(CATEGORY_LIST_KEY, null);
+
+        for(String json : categoriesSet) {
+            CategoryModel category = new Gson().fromJson(json, CategoryModel.class);
+            categoryList.add(category);
+        }
+        return categoryList;
+    }
+
+    public void saveCategoryList(List<CategoryModel> categoryList) {
+        Set<String> categoriesSet = new HashSet<>();
+        for(CategoryModel category : categoryList) {
+            String json = new Gson().toJson(category);
+            categoriesSet.add(json);
+        }
+        getEditor().putStringSet(CATEGORY_LIST_KEY, categoriesSet).apply();
     }
 
     public String getUserUid() {

@@ -7,9 +7,6 @@ public class CategoryModel {
     @SerializedName("tid")
     @Expose
     private String idCategory;
-    @SerializedName("vid")
-    @Expose
-    private String categories;
     @SerializedName("name")
     @Expose
     private String nameCategory;
@@ -18,16 +15,12 @@ public class CategoryModel {
         return idCategory;
     }
 
-    public String getCategories() {
-        return categories;
-    }
-
     public String getNameCategory() {
         return nameCategory;
     }
 
     @Override
     public String toString() {
-        return "Category id: " + getIdCategory() + " vid: " + getCategories() + " name: " + getNameCategory();
+        return "Category id: " + getIdCategory() + " name: " + getNameCategory();
     }
 }

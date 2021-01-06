@@ -29,7 +29,7 @@ public class SplashActivity extends BaseActivity {
         Thread thread = new Thread(() -> {
             try {
                 for (startTime = 0; startTime < maxTime; startTime++) {
-                    Thread.sleep(10);
+                    Thread.sleep(15);
                     handler.post(openNextActivity);
                 }
             } catch (InterruptedException exc) {

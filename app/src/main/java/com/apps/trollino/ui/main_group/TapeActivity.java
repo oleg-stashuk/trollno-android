@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apps.trollino.R;
 import com.apps.trollino.data.model.CategoryModel;
 import com.apps.trollino.ui.base.BaseActivity;
-import com.apps.trollino.utils.data.CategoryListFromApi;
 import com.apps.trollino.utils.data.DataListFromApi;
 import com.apps.trollino.utils.data.PostListByCategoryFromApi;
 import com.apps.trollino.utils.recycler.MakeGridRecyclerViewForTapeActivity;
@@ -53,7 +52,7 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
 
     // Add category list from Api to TabLayout
     private void createTabLayout() {
-        List<CategoryModel> categoryList = CategoryListFromApi.getInstance().getCategoryList();
+        List<CategoryModel> categoryList = prefUtils.getCategoryList();
         for (CategoryModel category : categoryList) {
             tabs.addTab(tabs.newTab().setText(category.getNameCategory()).setTag(category.getIdCategory()));
         }
