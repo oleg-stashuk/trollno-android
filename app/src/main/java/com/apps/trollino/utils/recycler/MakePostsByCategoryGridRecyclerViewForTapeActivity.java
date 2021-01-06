@@ -26,7 +26,7 @@ public class MakePostsByCategoryGridRecyclerViewForTapeActivity extends Recycler
         cont = context;
         prefUt = prefUtils;
 
-        PostListAdapter adapter = new PostListAdapter((BaseActivity) cont, PostListByCategoryFromApi.getInstance().getPostListByCategory(), newPostsItemListener);
+        PostListAdapter adapter = new PostListAdapter((BaseActivity) cont, prefUtils, PostListByCategoryFromApi.getInstance().getPostListByCategory(), newPostsItemListener);
         recyclerView.setLayoutManager(new GridLayoutManager(cont, 2));
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);

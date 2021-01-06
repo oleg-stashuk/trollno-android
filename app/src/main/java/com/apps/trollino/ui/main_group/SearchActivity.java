@@ -76,7 +76,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     public void makeSearchPostsRecyclerView() {
         DataListFromApi.getInstance().removeAllDataFromList(prefUtils);
 
-        PostListAdapter adapter = new PostListAdapter(SearchActivity.this, PostListBySearchFromApi.getInstance().getPostListByCategory(), searchPostsItemListener);
+        PostListAdapter adapter = new PostListAdapter(SearchActivity.this, prefUtils, PostListBySearchFromApi.getInstance().getPostListByCategory(), searchPostsItemListener);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);

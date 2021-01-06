@@ -1,13 +1,18 @@
 package com.apps.trollino.adapters;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
 
 import com.apps.trollino.R;
 import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
 import com.apps.trollino.data.model.PostsModel;
 import com.apps.trollino.ui.base.BaseActivity;
+import com.apps.trollino.utils.data.PrefUtils;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
@@ -15,9 +20,11 @@ import java.util.List;
 import static com.apps.trollino.utils.Const.BASE_URL;
 
 public class DiscussPostsAdapter extends BaseRecyclerAdapter<PostsModel.PostDetails> {
+    private PrefUtils prefUtils;
 
-    public DiscussPostsAdapter(BaseActivity baseActivity, List<PostsModel.PostDetails> items, OnItemClick<PostsModel.PostDetails> onItemClick) {
+    public DiscussPostsAdapter(BaseActivity baseActivity, PrefUtils prefUtils, List<PostsModel.PostDetails> items, OnItemClick<PostsModel.PostDetails> onItemClick) {
         super(baseActivity, items, onItemClick);
+        this.prefUtils = prefUtils;
     }
 
     @Override
@@ -35,9 +42,17 @@ public class DiscussPostsAdapter extends BaseRecyclerAdapter<PostsModel.PostDeta
         return new BaseItem(view) {
             @Override
             public void bind(final PostsModel.PostDetails item) {
+                LinearLayout linearLayout = itemView.findViewById(R.id.item_discuss_post);
                 ImageView postImageView = itemView.findViewById(R.id.image_item_discuss_post);
                 TextView commentCountTextView = itemView.findViewById(R.id.comment_count_discuss_post);
                 TextView titleVideoTextView = itemView.findViewById(R.id.title_discuss_post);
+
+                Log.d("OkHttp", "!!!!!!!!!!!!!!!!!!! " + item.getRead());
+                if(item.getRead() == 0 && prefUtils.getIsUserAuthorization()) {
+                    linearLayout.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.white));
+                } else {
+                    linearLayout.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.transparent));
+                }
 
                 String imageUrl = BASE_URL.concat(item.getImageUrl());
                 Glide

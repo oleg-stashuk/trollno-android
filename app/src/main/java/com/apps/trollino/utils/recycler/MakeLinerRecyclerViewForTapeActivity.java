@@ -26,7 +26,7 @@ public class MakeLinerRecyclerViewForTapeActivity extends RecyclerView.OnScrollL
         cont = context;
         prefUt = prefUtils;
 
-        DiscussPostsAdapter adapter = new DiscussPostsAdapter((BaseActivity) context, DataListFromApi.getInstance().getDiscussPostsList(), newsVideoItemListener);
+        DiscussPostsAdapter adapter = new DiscussPostsAdapter((BaseActivity) context, prefUtils, DataListFromApi.getInstance().getDiscussPostsList(), newsVideoItemListener);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);

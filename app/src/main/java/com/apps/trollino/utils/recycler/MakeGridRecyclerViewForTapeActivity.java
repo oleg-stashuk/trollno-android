@@ -27,7 +27,7 @@ public class MakeGridRecyclerViewForTapeActivity extends RecyclerView.OnScrollLi
         prefUt = prefUtils;
         DataListFromApi.getInstance().removeAllDataFromList(prefUtils);
 
-        PostListAdapter adapter = new PostListAdapter((BaseActivity) cont, DataListFromApi.getInstance().getNewPostsList(), newPostsItemListener);
+        PostListAdapter adapter = new PostListAdapter((BaseActivity) cont, prefUtils, DataListFromApi.getInstance().getNewPostsList(), newPostsItemListener);
         recyclerView.setLayoutManager(new GridLayoutManager(cont, 2));
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
