@@ -91,6 +91,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginLeft="30dp"
         style="@style/PressedTextStyle"
+        android:visibility="gone"
         android:text="@string/see_more_comments" />
 
 </LinearLayout>

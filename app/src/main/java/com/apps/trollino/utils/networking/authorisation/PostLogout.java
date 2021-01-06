@@ -33,18 +33,20 @@ public class PostLogout {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if(response.isSuccessful()) {
                     if(response.code() == 204) {
-                        prefUtils.saveIsUserAuthorization(false);
-                        prefUtils.saveCookie("");
-                        prefUtils.saveToken("");
-                        prefUtils.saveLogoutToken("");
-                        prefUtils.savePassword("");
-                        context.startActivity(new Intent(context, LoginActivity.class));
-                        ((Activity) context).finish();
+                        Log.d("OkHttp", "response.code() == 204");
                     }
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
                     showToast(errorMessage);
                 }
+
+                prefUtils.saveIsUserAuthorization(false);
+                prefUtils.saveCookie("");
+                prefUtils.saveToken("");
+                prefUtils.saveLogoutToken("");
+                prefUtils.savePassword("");
+                context.startActivity(new Intent(context, LoginActivity.class));
+                ((Activity) context).finish();
 
             }
 
