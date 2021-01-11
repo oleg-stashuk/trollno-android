@@ -50,7 +50,7 @@
             android:layout_marginLeft="5dp"
             android:textColor="@color/colorPink"
             android:textStyle="bold"
-            android:text="@string/discuss" />
+            android:text="@string/discuss_post" />
 
     </LinearLayout>
 

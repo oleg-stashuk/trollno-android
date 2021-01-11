@@ -24,8 +24,8 @@
     <string name="app_info">О приложении</string>
     <string name="tape">Лента</string>
     <string name="favorites">Избранное</string>
-    <string name="new_video">Свежее</string>
-    <string name="discuss">Обсуждают</string>
+    <string name="fresh_post">Свежее</string>
+    <string name="discuss_post">Обсуждают</string>
     <string name="search">Поиск</string>
     <string name="swipe_left_or_right_for_more_post">Проведите пальцем влево или вправо, чтобы увидеть другие посты</string>
     <string name="source_of_image">Источник:</string>
@@ -79,4 +79,6 @@
     <string name="do_you_really_want_to_delete_your_account">Вы действительно хотите удалить свой аккаунт</string>
     <string name="remove_account_confirm_button">Удалить</string>
     <string name="no_button_for_dialog">Нет</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
