@@ -72,7 +72,7 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"  />
 
-<!--        <include layout="@layout/include_content_tape" />-->
+        <include layout="@layout/include_content_tape" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
