@@ -1,6 +1,7 @@
 package com.apps.trollino.ui.main_group;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
@@ -90,6 +91,15 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         });
     }
 
+    private void openPlayMarketForRateTheApp() {
+        final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+        } catch (android.content.ActivityNotFoundException anfe) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+        }
+    }
+
     @Override
     public void onBackPressed() {
         prefUtils.saveCurrentActivity("");
@@ -129,7 +139,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 finish();
                 break;
             case R.id.rate_profile:
-                showToast("Оцените приложение");
+                openPlayMarketForRateTheApp();
                 break;
             case R.id.info_profile:
                 InformationAboutAppDialog.aboutDialog(this);
