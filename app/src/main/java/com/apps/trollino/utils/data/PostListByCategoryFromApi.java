@@ -1,5 +1,7 @@
 package com.apps.trollino.utils.data;
 
+import android.util.Log;
+
 import com.apps.trollino.data.model.PostsModel;
 
 import java.util.ArrayList;
@@ -37,7 +39,12 @@ public class PostListByCategoryFromApi {
     }
 
     public void removeAllDataFromList(PrefUtils prefUtils) {
-        postListByCategory.clear();
-        prefUtils.saveCurrentPage(0);
+        try {
+            postListByCategory.clear();
+            prefUtils.saveCurrentPage(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("OkHttp", "!!!!!!!!!!!!!! " + e.getLocalizedMessage());
+        }
     }
 }
