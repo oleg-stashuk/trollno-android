@@ -1,6 +1,5 @@
 package com.apps.trollino.adapters;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -47,7 +46,6 @@ public class DiscussPostsAdapter extends BaseRecyclerAdapter<PostsModel.PostDeta
                 TextView commentCountTextView = itemView.findViewById(R.id.comment_count_discuss_post);
                 TextView titleVideoTextView = itemView.findViewById(R.id.title_discuss_post);
 
-                Log.d("OkHttp", "!!!!!!!!!!!!!!!!!!! " + item.getRead());
                 if(item.getRead() == 0 && prefUtils.getIsUserAuthorization()) {
                     linearLayout.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.white));
                 } else {

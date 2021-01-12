@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.ui.main_group.CommentToPostActivity;
+import com.apps.trollino.utils.data.CommentListFromApi;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
 
@@ -31,6 +32,7 @@ public class PostLikeToComment {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if(response.isSuccessful()) {
+                    CommentListFromApi.getInstance().removeAllDataFromList(prefUtils);
                     Intent intent = new Intent(context, CommentToPostActivity.class);
                     ((Activity) context).finish();
                     context.startActivity(intent);
