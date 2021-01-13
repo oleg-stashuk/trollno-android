@@ -19,6 +19,7 @@ public class PrefUtils {
     private final String USER_AUTHORIZATION_KEY = "USER_AUTHORIZATION_KEY";
     private final String COOKIE_KEY = "COOKIE_KEY";
     private final String USER_PASSWORD = "USER_PASSWORD";
+    private final String COUNT_BETWEEN_ADS = "COUNT_BETWEEN_ADS";
 
     private final String NEW_POST_CURRENT_PAGE = "NEW_POST_CURRENT_PAGE"; // запоминание текущей страницы данных с Api для постов из категории "Свежее"
     private final String POST_BY_CATEGORY_CURRENT_PAGE = "POST_BY_CATEGORY_CURRENT_PAGE"; // запоминание текущей страницы данных с Api для постов из категорий, загружаемых с Api
@@ -69,6 +70,14 @@ public class PrefUtils {
 
     public void saveCurrentActivity(String currentActivity) {
         getEditor().putString(CURRENT_ACTIVITY, currentActivity).apply();
+    }
+
+    public int getCountBetweenAds() {
+        return sharedPreferences.getInt(COUNT_BETWEEN_ADS, 0);
+    }
+
+    public void saveCountBetweenAds(int countBetweenAds) {
+        getEditor().putInt(COUNT_BETWEEN_ADS, countBetweenAds).apply();
     }
 
     public List<CategoryModel> getCategoryList() {

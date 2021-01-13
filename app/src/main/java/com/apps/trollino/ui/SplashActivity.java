@@ -7,6 +7,7 @@ import com.apps.trollino.R;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.ui.main_group.TapeActivity;
 import com.apps.trollino.utils.networking.GetCategoryList;
+import com.apps.trollino.utils.networking.GetSettings;
 
 public class SplashActivity extends BaseActivity {
     private Handler handler;
@@ -39,6 +40,7 @@ public class SplashActivity extends BaseActivity {
         thread.start();
 
         new Thread(() -> GetCategoryList.getCategoryList(this, prefUtils)).start();
+        new Thread(() -> GetSettings.getSettings(this, prefUtils, null)).start();
     }
 
     Runnable openNextActivity = new Runnable() {

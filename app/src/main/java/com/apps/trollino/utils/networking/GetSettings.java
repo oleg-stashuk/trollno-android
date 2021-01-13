@@ -8,8 +8,8 @@ import android.widget.Toast;
 import com.apps.trollino.data.model.AvatarImageModel;
 import com.apps.trollino.data.model.SettingsModel;
 import com.apps.trollino.data.networking.ApiService;
-import com.apps.trollino.utils.dialogs.AvatarsDialog;
 import com.apps.trollino.utils.data.PrefUtils;
+import com.apps.trollino.utils.dialogs.AvatarsDialog;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
 
 import java.util.List;
@@ -35,14 +35,16 @@ public class GetSettings {
                 if(response.isSuccessful()) {
                     SettingsModel settingsModel = response.body();
 
-                    List<SettingsModel.AdvertisingModel> advertisingList = settingsModel.getAdvertisingList();
-                    for(SettingsModel.AdvertisingModel advertising : advertisingList) {
-                        Log.d("OkHttp", "advertising " + advertising.getValue());
+                    if (prefUtils.getCurrentActivity().equals("")) {
+                        List<SettingsModel.AdvertisingModel> advertisingList = settingsModel.getAdvertisingList();
+                        for(SettingsModel.AdvertisingModel advertising : advertisingList) {
+                            prefUtils.saveCountBetweenAds(advertising.getValue());
+                        }
+                    } else {
+                        List<AvatarImageModel> avatarImageList = settingsModel.getAvatarImageList();
+                        AvatarsDialog dialog = new AvatarsDialog();
+                        dialog.showDialog(context, prefUtils, avatarImageList, imageView);
                     }
-
-                    List<AvatarImageModel> avatarImageList = settingsModel.getAvatarImageList();
-                    AvatarsDialog dialog = new AvatarsDialog();
-                    dialog.showDialog(context, prefUtils, avatarImageList, imageView);
 
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
