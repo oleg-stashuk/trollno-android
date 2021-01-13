@@ -81,4 +81,9 @@
     <string name="no_button_for_dialog">Нет</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    // For ads
+    <string name="banner_admob_id">ca-app-pub-3729162410044084~6144363065</string>
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+<!--    <string name="banner_ad_unit_id">ca-app-pub-3729162410044084/9720645991</string>-->
 </resources>

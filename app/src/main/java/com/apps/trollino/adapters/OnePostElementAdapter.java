@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -19,6 +20,8 @@ import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.ui.main_group.YoutubeActivity;
 import com.apps.trollino.utils.Const;
 import com.apps.trollino.utils.dialogs.ImageViewDialog;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubeThumbnailLoader;
 import com.google.android.youtube.player.YouTubeThumbnailView;
@@ -30,9 +33,14 @@ import static com.apps.trollino.utils.networking.GetTikTok.getTikTok;
 
 public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.MediaBlock> {
     private final int RECOVERY_REQUEST = 1;
+    private int blockCountFromApi;
+    private int blockCount = 1;
+    private int itemsSize;
 
-    public OnePostElementAdapter(BaseActivity baseActivity, List<ItemPostModel.MediaBlock> items) {
+    public OnePostElementAdapter(BaseActivity baseActivity, int blockCountFromApi, List<ItemPostModel.MediaBlock> items) {
         super(baseActivity, items);
+        this.blockCountFromApi = blockCountFromApi;
+        this.itemsSize = items.size();
     }
 
     @Override
@@ -45,6 +53,9 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
         return new BaseItem(view) {
             @Override
             public void bind(ItemPostModel.MediaBlock item) {
+                AdView adView = view.findViewById(R.id.ad_view_element_of_post);
+                LinearLayout adLinearLayout = view.findViewById(R.id.ad_block_element_of_post);
+
                 TextView titleTextView = view.findViewById(R.id.title_element_of_post);
                 ImageView imageView = view.findViewById(R.id.image_element_of_post);
                 TextView sourceTextView = view.findViewById(R.id.source_text_element_of_post);
@@ -81,6 +92,29 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
                     descriptionTextView.setText(entityItem.getDesc());
                 }
 
+                showAdBlock(adView, adLinearLayout);// show advertising
+            }
+
+            private void showAdBlock(AdView adView, LinearLayout adLinearLayout) {
+                if(blockCountFromApi > itemsSize) {
+                    if(blockCount == 1) {
+                        getAdBlock(adView, adLinearLayout);
+                    }
+                    blockCount++;
+                } else if (blockCount < blockCountFromApi) {
+                    blockCount++;
+                    adLinearLayout.setVisibility(View.GONE);
+                } else {
+                    blockCount = 1;
+                    getAdBlock(adView, adLinearLayout);
+                }
+                Log.d("OkHttp", "!!!!!!!!!!!!!!! in recycler block count " + blockCountFromApi + " -> " + blockCount);
+            }
+
+            private void getAdBlock(AdView adView, LinearLayout adLinearLayout) {
+                adLinearLayout.setVisibility(View.VISIBLE);
+                AdRequest adRequest = new AdRequest.Builder().build();
+                adView.loadAd(adRequest);
             }
 
             private void makeImageBlock(ItemPostModel.ImageBlock image, ImageView imageView, TextView sourceTextView, TextView sourceLinkTextView) {
