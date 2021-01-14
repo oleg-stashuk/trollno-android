@@ -30,7 +30,10 @@ public class OtherCategoryPostFragment extends Fragment {
 
     private PrefUtils prefUtils;
     private RecyclerView recyclerView;
-    private ProgressBar progressBar;
+    private ProgressBar progressBarTop;
+    private ProgressBar progressBarBottom;
+
+    private PostListAdapter adapter;
 
     public static OtherCategoryPostFragment getInstance() {
         OtherCategoryPostFragment tapeFragment = new OtherCategoryPostFragment();
@@ -49,35 +52,36 @@ public class OtherCategoryPostFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_post_other_category, container, false);
         recyclerView = view.findViewById(R.id.other_category_recycler_tape);
-        progressBar = view.findViewById(R.id.other_category_progress_bar_tape);
+        progressBarBottom = view.findViewById(R.id.other_category_progress_bar_bottom_tape);
+        progressBarTop = view.findViewById(R.id.other_category_progress_bar_top_tape);
 
-//        makeGridRecycler();
         recyclerView.setVisibility(View.GONE);
-        progressBar.setVisibility(View.GONE);
+//        makeGridRecycler();
+        progressBarBottom.setVisibility(View.GONE);
+        progressBarTop.setVisibility(View.GONE);
         return view;
     }
 
     public void makeGridRecycler() {
-        PostListAdapter adapter = new PostListAdapter((BaseActivity) getContext(), prefUtils, PostListByCategoryFromApi.getInstance().getPostListByCategory(), newPostsItemListener);
+        adapter = new PostListAdapter((BaseActivity) getContext(), prefUtils, PostListByCategoryFromApi.getInstance().getPostListByCategory(), newPostsItemListener);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         if(PostListByCategoryFromApi.getInstance().getPostListByCategory().isEmpty()) {
-            progressBar.setVisibility(View.VISIBLE);
+            progressBarBottom.setVisibility(View.VISIBLE);
             Handler handler = new Handler();
-            handler.postDelayed(() -> new Thread(() -> {
-                    GetPostsByCategory.getPostsByCategory(getContext(), prefUtils, adapter, progressBar);
-            }).start(), 1000);
+            handler.postDelayed(() -> updateDataFromApi(false), 1000);
         }
 
         recyclerView.addOnScrollListener(new RecyclerScrollListener() {
             @Override
             public void onScrolledToEnd() {
-                progressBar.setVisibility(View.VISIBLE);
-                Handler handler = new Handler();
-                handler.postDelayed(() -> new Thread(() -> {
-                        GetPostsByCategory.getPostsByCategory(getContext(), prefUtils, adapter, progressBar);
-                }).start(), 1000);
+                infiniteScroll(false);
+            }
+
+            @Override
+            public void onScrolledToTop() {
+                infiniteScroll(true);
             }
         });
     }
@@ -86,4 +90,19 @@ public class OtherCategoryPostFragment extends Fragment {
     private final PostListAdapter.OnItemClick<PostsModel.PostDetails> newPostsItemListener = (item, position) -> {
         openPostActivity(getContext(), item, prefUtils, true);
     };
+
+    // Загрузить/обновить данные с API
+    private void updateDataFromApi(boolean isScrollOnTop) {
+        new Thread(() -> {
+            GetPostsByCategory.getPostsByCategory(getContext(), prefUtils, adapter, progressBarBottom, progressBarTop, isScrollOnTop);
+        }).start();
+    }
+
+    // Загрузить/обновить данные с API при скролах ресайклера вверх или вниз, если достигнут конец списка
+    private void infiniteScroll(boolean isScrollOnTop) {
+        progressBarTop.setVisibility(isScrollOnTop ? View.VISIBLE : View.GONE);
+        progressBarBottom.setVisibility(isScrollOnTop ? View.GONE : View.VISIBLE);
+        Handler handler = new Handler();
+        handler.postDelayed(() -> updateDataFromApi(isScrollOnTop), 1000);
+    }
 }

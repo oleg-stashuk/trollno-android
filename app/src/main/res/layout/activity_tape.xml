@@ -38,10 +38,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
+                    android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/ic_search_button" />
+                    android:src="@drawable/ic_search_button"/>
             </RelativeLayout>
 
 
@@ -55,14 +56,7 @@
                 app:tabIndicatorColor="@color/white"
                 app:tabTextAppearance="@style/TabItemStyle"
                 android:elevation="5dp"
-                app:tabContentStart="20dp">
-
-                <com.google.android.material.tabs.TabItem
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/discuss_post" />
-
-            </com.google.android.material.tabs.TabLayout>
+                app:tabContentStart="20dp" />
 
         </com.google.android.material.appbar.AppBarLayout>
 

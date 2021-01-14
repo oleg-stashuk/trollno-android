@@ -7,8 +7,10 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.apps.trollino.adapters.PostListAdapter;
+import com.apps.trollino.data.model.PagerModel;
 import com.apps.trollino.data.model.PostsModel;
 import com.apps.trollino.data.networking.ApiService;
+import com.apps.trollino.utils.data.DataListFromApi;
 import com.apps.trollino.utils.data.PostListByCategoryFromApi;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
@@ -25,9 +27,10 @@ public class GetPostsByCategory {
     private static Context cont;
     private static int page;
 
-    public static void getPostsByCategory(Context context, PrefUtils prefUtils, PostListAdapter adapter, ProgressBar progressBar) {
+    public static void getPostsByCategory(Context context, PrefUtils prefUtils, PostListAdapter adapter,
+                                          ProgressBar progressBarBottom, ProgressBar progressBarTop, boolean scrollOnTop) {
         cont = context;
-        page = prefUtils.getCurrentPage();
+        page = scrollOnTop ? 0 : prefUtils.getCurrentPage();
         String cookie = prefUtils.getCookie();
         String categoryId = prefUtils.getSelectedCategoryId();
 
@@ -39,14 +42,34 @@ public class GetPostsByCategory {
                 if(response.isSuccessful()) {
                     PostsModel post = response.body();
                     List<PostsModel.PostDetails> newPostList = post.getPostDetailsList();
+                    PagerModel pagerModel = post.getPagerModel();
 
-                    saveCurrentPage(post.getPagerModel().getTotalPages(), prefUtils);
-                    updatePostListAndNotifyRecyclerAdapter(newPostList, adapter);
+                    String lastIdInListFromApi = newPostList.isEmpty() ? "null" : newPostList.get(newPostList.size()-1).getPostId();
+                    boolean isLastPage = pagerModel.getCurrentPage() == pagerModel.getTotalPages()-1;
+
+                    List<PostsModel.PostDetails> savedPostList = PostListByCategoryFromApi.getInstance().getPostListByCategory();
+                    String firstIdInSavedList = savedPostList.isEmpty() ? "null" : savedPostList.get(0).getPostId();
+                    String lastIdInSavedList = savedPostList.isEmpty() ? "null" : savedPostList.get(newPostList.size() - 1).getPostId();
+
+                    if(newPostList.isEmpty()) {
+                        showToast("Новых постов пока нет!!!!!!!!!!!!!!!!!!!!!!");
+                    } else if (newPostList.get(0).getPostId().equals(firstIdInSavedList) && scrollOnTop) {
+                        showToast("Новых постов пока нет");
+                    } else if(lastIdInListFromApi.equals(lastIdInSavedList) && isLastPage) {
+                        showToast("Новых постов пока нет");
+                    } else {
+                        if(scrollOnTop) {
+                            DataListFromApi.getInstance().removeAllDataFromList(prefUtils);
+                        }
+                        saveCurrentPage(post.getPagerModel().getTotalPages(), prefUtils);
+                        updatePostListAndNotifyRecyclerAdapter(newPostList, adapter);
+                    }
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
                     showToast(errorMessage);
                 }
-                progressBar.setVisibility(View.GONE);
+                progressBarTop.setVisibility(View.GONE);
+                progressBarBottom.setVisibility(View.GONE);
             }
 
             @Override
@@ -57,7 +80,8 @@ public class GetPostsByCategory {
                     countTry++;
                 } else {
                     showToast(t.getLocalizedMessage());
-                    progressBar.setVisibility(View.GONE);
+                    progressBarTop.setVisibility(View.GONE);
+                    progressBarBottom.setVisibility(View.GONE);
                     Log.d("OkHttp", "t.getLocalizedMessage() " + t.getLocalizedMessage());
                 }
             }

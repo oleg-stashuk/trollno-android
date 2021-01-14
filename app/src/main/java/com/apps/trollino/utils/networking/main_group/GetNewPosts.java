@@ -42,7 +42,7 @@ public class GetNewPosts {
                     List<PostsModel.PostDetails> newPostList = post.getPostDetailsList();
                     PagerModel pagerModel = post.getPagerModel();
 
-                    String lastIdInListFromApi = newPostList.get(newPostList.size()-1).getPostId();
+                    String lastIdInListFromApi = newPostList.isEmpty() ? "null" : newPostList.get(newPostList.size()-1).getPostId();
                     boolean isLastPage = pagerModel.getCurrentPage() == pagerModel.getTotalPages()-1;
 
                     List<PostsModel.PostDetails> postList = DataListFromApi.getInstance().getNewPostsList();
@@ -50,7 +50,9 @@ public class GetNewPosts {
                     String lastIdInSavedList = postList.isEmpty() ? "null" : postList.get(postList.size() - 1).getPostId();
 
 
-                    if (newPostList.get(0).getPostId().equals(firstIdInSavedList) && scrollOnTop) {
+                    if(newPostList.isEmpty()) {
+                        showToast("Новых постов пока нет!!!!!!!!!!!!!!!!!!!!!!");
+                    } else if (newPostList.get(0).getPostId().equals(firstIdInSavedList) && scrollOnTop) {
                         showToast("Новых постов пока нет");
                     } else if(lastIdInListFromApi.equals(lastIdInSavedList) && isLastPage) {
                         showToast("Новых постов пока нет");

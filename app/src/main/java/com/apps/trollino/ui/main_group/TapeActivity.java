@@ -29,7 +29,8 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
     private int pagerPosition;
     private List<CategoryModel> categoryList;
     private RecyclerView recyclerView;
-    private ProgressBar progressBar;
+    private ProgressBar progressBarBottom;
+    private ProgressBar progressBarTop;
 
     private boolean doubleBackToExitPressedOnce = false;  // для обработки нажатия onBackPressed
 
@@ -43,7 +44,8 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
         tabs = findViewById(R.id.tab_layout_tape);
         viewPager = findViewById(R.id.view_pager_tape);
         recyclerView = findViewById(R.id.news_recycler_tape);
-        progressBar = findViewById(R.id.progress_bar_tape);
+        progressBarBottom = findViewById(R.id.progress_bar_bottom_tape);
+        progressBarTop = findViewById(R.id.progress_bar_top_tape);
         findViewById(R.id.search_button_tape).setOnClickListener(this);
         findViewById(R.id.activity_button_tape).setOnClickListener(this);
         findViewById(R.id.favorites_button_tape).setOnClickListener(this);
@@ -84,7 +86,7 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
 
                         showOrHideItem(View.VISIBLE);
                         MakePostsByCategoryGridRecyclerViewForTapeActivity
-                                .makePostsByCategoryGridRecyclerViewForTapeActivity(TapeActivity.this, recyclerView, progressBar, prefUtils);
+                                .makePostsByCategoryGridRecyclerViewForTapeActivity(TapeActivity.this, recyclerView, progressBarBottom, progressBarTop, prefUtils);
                     } else {
                         prefUtils.saveSelectedCategoryId("");
                         showOrHideItem(View.GONE);
@@ -102,7 +104,7 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
 
     private void showOrHideItem(int visibility) {
         recyclerView.setVisibility(visibility);
-        progressBar.setVisibility(visibility);
+        progressBarBottom.setVisibility(visibility);
     }
 
     @Override

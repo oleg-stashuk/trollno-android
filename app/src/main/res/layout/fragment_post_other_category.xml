@@ -14,7 +14,16 @@
         android:layout_height="wrap_content"/>
 
     <ProgressBar
-        android:id="@+id/other_category_progress_bar_tape"
+        android:id="@+id/other_category_progress_bar_top_tape"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:progressDrawable="@color/colorPrimary"
+        android:background="@drawable/progress_bar_circle_shape" />
+
+
+    <ProgressBar
+        android:id="@+id/other_category_progress_bar_bottom_tape"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
