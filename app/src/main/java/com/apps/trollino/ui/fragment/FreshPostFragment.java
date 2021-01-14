@@ -30,7 +30,10 @@ public class FreshPostFragment extends Fragment {
 
     private PrefUtils prefUtils;
     private RecyclerView recyclerView;
-    private ProgressBar progressBar;
+    private ProgressBar progressBarTop;
+    private ProgressBar progressBarBottom;
+
+    private PostListAdapter adapter;
 
     public static FreshPostFragment getInstance() {
         FreshPostFragment freshPostFragment = new FreshPostFragment();
@@ -50,7 +53,8 @@ public class FreshPostFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_post_fresh, container, false);
         recyclerView = view.findViewById(R.id.fresh_recycler_tape);
-        progressBar = view.findViewById(R.id.fresh_progress_bar_tape);
+        progressBarTop = view.findViewById(R.id.fresh_progress_bar_top_tape);
+        progressBarBottom = view.findViewById(R.id.fresh_progress_bar_bottom_tape);
 
         makeNewPostsRecyclerView();
         return view;
@@ -59,24 +63,35 @@ public class FreshPostFragment extends Fragment {
     private void makeNewPostsRecyclerView() {
         DataListFromApi.getInstance().removeAllDataFromList(prefUtils);
 
-        PostListAdapter adapter = new PostListAdapter((BaseActivity) getContext(), prefUtils, DataListFromApi.getInstance().getNewPostsList(), newPostsItemListener);
+        adapter = new PostListAdapter((BaseActivity) getContext(), prefUtils, DataListFromApi.getInstance().getNewPostsList(), newPostsItemListener);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         if(DataListFromApi.getInstance().getNewPostsList().isEmpty()) {
-            new Thread(() -> {
-                makeGetNewPosts(getContext(), prefUtils, adapter, progressBar);
-            }).start();
+            updateDataFromApi(false);
         }
 
         recyclerView.addOnScrollListener(new RecyclerScrollListener() {
             @Override
             public void onScrolledToEnd() {
-                progressBar.setVisibility(View.VISIBLE);
-                Handler handler = new Handler();
-                handler.postDelayed(() -> new Thread(() -> {
-                    makeGetNewPosts(getContext(), prefUtils, adapter, progressBar);
-                }).start(), 1000);
+                infiniteScroll(false);
+//                progressBarTop.setVisibility(View.GONE);
+//                progressBarBottom.setVisibility(View.VISIBLE);
+//                Handler handler = new Handler();
+//                handler.postDelayed(() -> new Thread(() -> {
+//                    makeGetNewPosts(getContext(), prefUtils, adapter, progressBarBottom, progressBarTop, false);
+//                }).start(), 1000);
+            }
+
+            @Override
+            public void onScrolledToTop() {
+                infiniteScroll(true);
+//                progressBarTop.setVisibility(View.VISIBLE);
+//                progressBarBottom.setVisibility(View.GONE);
+//                Handler handler = new Handler();
+//                handler.postDelayed(() -> new Thread(() -> {
+//                    makeGetNewPosts(getContext(), prefUtils, adapter, progressBarBottom, progressBarTop, true);
+//                }).start(), 1000);
             }
         });
     }
@@ -85,4 +100,19 @@ public class FreshPostFragment extends Fragment {
     private final PostListAdapter.OnItemClick<PostsModel.PostDetails> newPostsItemListener = (item, position) -> {
         openPostActivity(getContext(), item, prefUtils, false);
     };
+
+    // Загрузить/обновить данные с API
+    private void updateDataFromApi(boolean isScrollOnTop) {
+        new Thread(() -> {
+            makeGetNewPosts(getContext(), prefUtils, adapter, progressBarBottom, progressBarTop, isScrollOnTop);
+        }).start();
+    }
+
+    // Загрузить/обновить данные с API при скролах ресайклера вверх или вниз, если достигнут конец списка
+    private void infiniteScroll(boolean isScrollOnTop) {
+        progressBarTop.setVisibility(isScrollOnTop ? View.VISIBLE : View.GONE);
+        progressBarBottom.setVisibility(isScrollOnTop ? View.GONE : View.VISIBLE);
+        Handler handler = new Handler();
+        handler.postDelayed(() -> updateDataFromApi(isScrollOnTop), 1000);
+    }
 }
