@@ -12,11 +12,11 @@ public abstract class RecyclerScrollListener extends RecyclerView.OnScrollListen
         if(!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
             onScrolledToEnd();
         }
-//        if (!recyclerView.canScrollVertically(-1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
-//            onScrolledToTop();
-//        }
+        if (!recyclerView.canScrollVertically(-1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
+            onScrolledToTop();
+        }
     }
 
     public abstract void onScrolledToEnd();
-//    public abstract void onScrolledToTop();
+    public abstract void onScrolledToTop();
 }
