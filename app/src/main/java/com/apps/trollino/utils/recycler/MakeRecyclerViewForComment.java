@@ -2,6 +2,7 @@ package com.apps.trollino.utils.recycler;
 
 import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -52,6 +53,11 @@ public class MakeRecyclerViewForComment extends RecyclerView.OnScrollListener{
                             recyclerView, adapter, commentEditText,
                             noCommentTextView, countTextView, progressBar);
                 }).start(), 1000);
+            }
+
+            @Override
+            public void onScrolledToTop() {
+                Log.d("OkHttp", "!!!!!!!!!!!!!!!!!!!!!! onScrolledToTop");
             }
         });
     }

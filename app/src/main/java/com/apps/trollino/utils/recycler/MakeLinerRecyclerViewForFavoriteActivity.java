@@ -2,6 +2,7 @@ package com.apps.trollino.utils.recycler;
 
 import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -45,6 +46,11 @@ public class MakeLinerRecyclerViewForFavoriteActivity extends RecyclerView.OnScr
                 handler.postDelayed(() -> new Thread(() -> {
                     GetFavoriteList.getFavoritePosts(context, prefUtils, recyclerView, adapter, progressBar, noFavoriteListView);
                 }).start(), 1000);
+            }
+
+            @Override
+            public void onScrolledToTop() {
+                Log.d("OkHttp", "!!!!!!!!!!!!!!!!!!!!!! onScrolledToTop");
             }
         });
     }

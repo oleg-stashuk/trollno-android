@@ -3,6 +3,7 @@ package com.apps.trollino.ui.main_group;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -94,6 +95,11 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                 handler.postDelayed(() -> new Thread(() -> {
                     GetPostBySearch.getPostBySearch(SearchActivity.this, prefUtils, searchString, nothingSearch, progressBar, adapter);
                 }).start(), 1000);
+            }
+
+            @Override
+            public void onScrolledToTop() {
+                Log.d("OkHttp", "!!!!!!!!!!!!!!!!!!!!!! onScrolledToTop");
             }
         });
     }

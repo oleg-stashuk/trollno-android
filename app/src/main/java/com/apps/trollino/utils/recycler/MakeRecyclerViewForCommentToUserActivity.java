@@ -3,6 +3,7 @@ package com.apps.trollino.utils.recycler;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
+import android.util.Log;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,6 +44,11 @@ public class MakeRecyclerViewForCommentToUserActivity extends RecyclerView.OnScr
                 handler.postDelayed(() -> new Thread(() -> {
                     GetCommentListToUserActivity.getCommentListToUserActivity(context, prefUtils, adapter);
                 }).start(), 1000);
+            }
+
+            @Override
+            public void onScrolledToTop() {
+                Log.d("OkHttp", "!!!!!!!!!!!!!!!!!!!!!! onScrolledToTop");
             }
         });
     }
