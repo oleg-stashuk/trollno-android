@@ -30,7 +30,10 @@ public class DiscussPostFragment extends Fragment {
 
     private PrefUtils prefUtils;
     private RecyclerView recyclerView;
-    private ProgressBar progressBar;
+    private ProgressBar progressBarTop;
+    private ProgressBar progressBarBottom;
+
+    private DiscussPostsAdapter adapter;
 
     public static DiscussPostFragment getInstance() {
         DiscussPostFragment tapeFragment = new DiscussPostFragment();
@@ -50,30 +53,30 @@ public class DiscussPostFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_post_discuss, container, false);
         recyclerView = view.findViewById(R.id.discuss_recycler_tape);
-        progressBar = view.findViewById(R.id.discuss_progress_bar_tape);
+        progressBarTop = view.findViewById(R.id.discuss_progress_bar_top_tape);
+        progressBarBottom = view.findViewById(R.id.discuss_progress_bar_bottom_tape);
 
         makeLinerRecyclerView();
         return view;
     }
 
     private void makeLinerRecyclerView() {
-        DiscussPostsAdapter adapter = new DiscussPostsAdapter((BaseActivity) getContext(), prefUtils, DataListFromApi.getInstance().getDiscussPostsList(), newsVideoItemListener);
+        adapter = new DiscussPostsAdapter((BaseActivity) getContext(), prefUtils, DataListFromApi.getInstance().getDiscussPostsList(), newsVideoItemListener);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
-        new Thread(() -> {
-            GetMostDiscusPosts.makeGetNewPosts(getContext(), prefUtils, adapter, progressBar);
-        }).start();
+        updateDataFromApi(false);
 
         recyclerView.addOnScrollListener(new RecyclerScrollListener() {
             @Override
             public void onScrolledToEnd() {
-                progressBar.setVisibility(View.GONE);
-                Handler handler = new Handler();
-                handler.postDelayed(() -> new Thread(() -> {
-                    GetMostDiscusPosts.makeGetNewPosts(getContext(), prefUtils, adapter, progressBar);
-                }).start(), 1000);
+                infiniteScroll(false);
+            }
+
+            @Override
+            public void onScrolledToTop() {
+                infiniteScroll(true);
             }
         });
     }
@@ -82,4 +85,19 @@ public class DiscussPostFragment extends Fragment {
     private final DiscussPostsAdapter.OnItemClick<PostsModel.PostDetails> newsVideoItemListener = (item, position) -> {
         openPostActivity(getContext(), item, prefUtils, false);
     };
+
+    // Загрузить/обновить данные с API
+    private void updateDataFromApi(boolean isScrollOnTop) {
+        new Thread(() -> {
+            GetMostDiscusPosts.makeGetNewPosts(getContext(), prefUtils, adapter, progressBarBottom, progressBarTop, isScrollOnTop);
+        }).start();
+    }
+
+    // Загрузить/обновить данные с API при скролах ресайклера вверх или вниз, если достигнут конец списка
+    private void infiniteScroll(boolean isScrollOnTop) {
+        progressBarTop.setVisibility(isScrollOnTop ? View.VISIBLE : View.GONE);
+        progressBarBottom.setVisibility(isScrollOnTop ? View.GONE : View.VISIBLE);
+        Handler handler = new Handler();
+        handler.postDelayed(() -> updateDataFromApi(isScrollOnTop), 1000);
+    }
 }

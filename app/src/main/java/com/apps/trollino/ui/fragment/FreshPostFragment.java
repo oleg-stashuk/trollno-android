@@ -75,23 +75,11 @@ public class FreshPostFragment extends Fragment {
             @Override
             public void onScrolledToEnd() {
                 infiniteScroll(false);
-//                progressBarTop.setVisibility(View.GONE);
-//                progressBarBottom.setVisibility(View.VISIBLE);
-//                Handler handler = new Handler();
-//                handler.postDelayed(() -> new Thread(() -> {
-//                    makeGetNewPosts(getContext(), prefUtils, adapter, progressBarBottom, progressBarTop, false);
-//                }).start(), 1000);
             }
 
             @Override
             public void onScrolledToTop() {
                 infiniteScroll(true);
-//                progressBarTop.setVisibility(View.VISIBLE);
-//                progressBarBottom.setVisibility(View.GONE);
-//                Handler handler = new Handler();
-//                handler.postDelayed(() -> new Thread(() -> {
-//                    makeGetNewPosts(getContext(), prefUtils, adapter, progressBarBottom, progressBarTop, true);
-//                }).start(), 1000);
             }
         });
     }
