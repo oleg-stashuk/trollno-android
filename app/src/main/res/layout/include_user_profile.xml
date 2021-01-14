@@ -24,16 +24,23 @@
             android:layout_height="wrap_content"
             android:textColor="@color/colorText"
             android:textStyle="bold"
-            android:textSize="16dp"
-            android:hint="user name"/>
+            android:textSize="16dp"/>
 
         <TextView
             android:id="@+id/email_account_profile_include"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
+            android:textSize="16dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:textSize="16dp"
-            android:hint="user email" />
+            android:textColor="@color/colorAccent"
+            android:text="@string/txt_edit_profile" />
+
     </LinearLayout>
 
 </LinearLayout>
