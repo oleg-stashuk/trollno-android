@@ -17,7 +17,9 @@
 
     <!--others-->
     <color name="colorLightTheme">#CAE4F5</color>
+    <color name="colorLightTransparent">#80FFFFFF</color>
     <color name="black">#FF000000</color>
+    <color name="blackTransparent">#80000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="colorLightGrey">#DCDDE0</color>
     <color name="colorGrey">#BCBEC1</color>

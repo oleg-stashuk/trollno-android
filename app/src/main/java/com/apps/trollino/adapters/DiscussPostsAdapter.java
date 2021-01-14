@@ -1,6 +1,7 @@
 package com.apps.trollino.adapters;
 
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -41,6 +42,7 @@ public class DiscussPostsAdapter extends BaseRecyclerAdapter<PostsModel.PostDeta
         return new BaseItem(view) {
             @Override
             public void bind(final PostsModel.PostDetails item) {
+                FrameLayout frameLayout = itemView.findViewById(R.id.frame_layout_discuss_post);
                 LinearLayout linearLayout = itemView.findViewById(R.id.item_discuss_post);
                 ImageView postImageView = itemView.findViewById(R.id.image_item_discuss_post);
                 TextView commentCountTextView = itemView.findViewById(R.id.comment_count_discuss_post);
@@ -48,8 +50,12 @@ public class DiscussPostsAdapter extends BaseRecyclerAdapter<PostsModel.PostDeta
 
                 if(item.getRead() == 0 && prefUtils.getIsUserAuthorization()) {
                     linearLayout.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.white));
+                    titleVideoTextView.setTextColor(ContextCompat.getColor(view.getContext(), R.color.colorText));
+                    frameLayout.setVisibility(View.GONE);
                 } else {
-                    linearLayout.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.transparent));
+                    linearLayout.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.colorLightTransparent));
+                    titleVideoTextView.setTextColor(ContextCompat.getColor(view.getContext(), R.color.blackTransparent));
+                    frameLayout.setVisibility(View.VISIBLE);
                 }
 
                 String imageUrl = BASE_URL.concat(item.getImageUrl());

@@ -13,8 +13,7 @@
         android:layout_width="0dp"
         android:layout_height="90dp"
         android:layout_weight="1"
-        android:layout_gravity="center_vertical"
-        android:background="@color/colorGreyBackgroundVideo">
+        android:layout_gravity="center_vertical">
 
         <ImageView
             android:id="@+id/image_item_discuss_post"
@@ -34,6 +33,12 @@
             android:background="@color/colorPrimary"
             android:textColor="@color/white"
             android:hint="25"/>
+
+        <FrameLayout
+            android:id="@+id/frame_layout_discuss_post"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorLightTransparent"/>
     </RelativeLayout>
 
     <TextView
