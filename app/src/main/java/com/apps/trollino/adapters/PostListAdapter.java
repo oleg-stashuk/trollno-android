@@ -49,7 +49,7 @@ public class PostListAdapter extends BaseRecyclerAdapter<PostsModel.PostDetails>
                 TextView textDiscussImageView = itemView.findViewById(R.id.discuss_text_post_two_columns);
                 TextView titleVideoTextView = itemView.findViewById(R.id.title_post_two_columns);
 
-                if(item.getRead() == 0 && prefUtils.getIsUserAuthorization()) {
+                if(!prefUtils.getIsUserAuthorization() || (item.getRead() == 0 && prefUtils.getIsUserAuthorization())) {
                     linearLayout.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.white));
                     titleVideoTextView.setTextColor(ContextCompat.getColor(view.getContext(), R.color.colorText));
                     frameLayout.setVisibility(View.GONE);
