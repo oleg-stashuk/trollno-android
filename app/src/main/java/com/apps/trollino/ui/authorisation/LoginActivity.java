@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.EditText;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.Toolbar;
+
 import com.apps.trollino.R;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.OpenActivityHelper;
@@ -29,8 +32,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         findViewById(R.id.forgot_login).setOnClickListener(this);
         findViewById(R.id.login_button_login).setOnClickListener(this);
         findViewById(R.id.register_login).setOnClickListener(this);
-        findViewById(R.id.login_with_facebook_login).setOnClickListener(this);
-        findViewById(R.id.login_with_google_login).setOnClickListener(this);
+        findViewById(R.id.facebook_button_layout).setOnClickListener(this);
+        findViewById(R.id.google_button_layout).setOnClickListener(this);
+
+        initToolbar();
     }
 
     private boolean inputFieldIsValid(){
@@ -52,6 +57,21 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             return false;
         }
         return true;
+    }
+
+    // Иницировать Toolbar
+    private void initToolbar() {
+        final Toolbar toolbar = findViewById(R.id.toolbar_login);
+        setSupportActionBar(toolbar);
+
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(R.string.title_autorisation);
+
+        if(actionBar != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false); // отображать кнопку BackPress
+            getSupportActionBar().setHomeButtonEnabled(false);; // вернуться на предыдущую активность
+            getSupportActionBar().setDisplayShowTitleEnabled(true); // отображать Заголовок
+        }
     }
 
     @Override
@@ -76,10 +96,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 startActivity(new Intent(this, RegistrationActivity.class));
                 finish();
                 break;
-            case R.id.login_with_facebook_login:
+            case R.id.facebook_button_layout:
                 showToast("Войти через Facebook");
                 break;
-            case R.id.login_with_google_login:
+            case R.id.google_button_layout:
                 showToast("Войти через Google");
                 break;
         }

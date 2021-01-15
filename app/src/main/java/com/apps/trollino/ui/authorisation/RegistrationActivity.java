@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.EditText;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.Toolbar;
+
 import com.apps.trollino.R;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.OpenActivityHelper;
@@ -32,8 +35,10 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
 
         findViewById(R.id.registration_button_registration).setOnClickListener(this);
         findViewById(R.id.login_registration).setOnClickListener(this);
-        findViewById(R.id.register_with_facebook_registration).setOnClickListener(this);
-        findViewById(R.id.register_with_google_registration).setOnClickListener(this);
+        findViewById(R.id.facebook_button_layout).setOnClickListener(this);
+        findViewById(R.id.google_button_layout).setOnClickListener(this);
+
+        initToolbar();
     }
 
     private boolean inputFieldIsValid(){
@@ -68,6 +73,22 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         return true;
     }
 
+
+    // Иницировать Toolbar
+    private void initToolbar() {
+        final Toolbar toolbar = findViewById(R.id.toolbar_registration);
+        setSupportActionBar(toolbar);
+
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(R.string.title_registration);
+
+        if(actionBar != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false); // отображать кнопку BackPress
+            getSupportActionBar().setHomeButtonEnabled(false);; // вернуться на предыдущую активность
+            getSupportActionBar().setDisplayShowTitleEnabled(true); // отображать Заголовок
+        }
+    }
+
     @Override
     public void onBackPressed() {
         startActivity(OpenActivityHelper.openActivity(this, prefUtils));
@@ -86,10 +107,10 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 startActivity(new Intent(this, LoginActivity.class));
                 finish();
                 break;
-            case R.id.register_with_facebook_registration:
+            case R.id.facebook_button_layout:
                 showToast("Зарегистрироваться через Facebook");
                 break;
-            case R.id.register_with_google_registration:
+            case R.id.google_button_layout:
                 showToast("Зарегистрироваться через Google");
                 break;
         }
