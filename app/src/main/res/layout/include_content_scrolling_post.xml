@@ -117,6 +117,7 @@
             </RelativeLayout>
 
             <LinearLayout
+                android:id="@+id/swiped_image_post_activity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#929699"

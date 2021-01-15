@@ -53,7 +53,12 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
 
         categoryList = prefUtils.getCategoryList();
         prefUtils.saveCurrentActivity("");
-        pagerPosition = viewPager.getCurrentItem();
+        try {
+            pagerPosition = viewPager.getCurrentItem();
+        } catch (Exception e) {
+            e.printStackTrace();
+            pagerPosition = 0;
+        }
         getTabs();
     }
 

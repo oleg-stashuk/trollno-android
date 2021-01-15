@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
@@ -21,9 +22,11 @@ import com.apps.trollino.utils.dialogs.GuestDialog;
 import com.apps.trollino.utils.networking.single_post.GetItemPost;
 import com.apps.trollino.utils.networking.single_post.PostBookmark;
 import com.apps.trollino.utils.networking.single_post.PostUnbookmark;
+import com.google.android.material.snackbar.Snackbar;
 
 public class PostActivity extends BaseActivity implements View.OnClickListener{
     private NestedScrollView layout;
+    private LinearLayout swipedImageView;
     private TextView categoryTextView;
     private TextView titleTextView;
     private TextView countCommentTextView;
@@ -44,6 +47,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
     @Override
     protected void initView() {
         layout = findViewById(R.id.include_post_screen);
+        swipedImageView = findViewById(R.id.swiped_image_post_activity);
         partOfPostRecyclerView = findViewById(R.id.recycler_post_activity);
         categoryTextView = findViewById(R.id.category_post_activity);
         titleTextView = findViewById(R.id.title_post_activity);
@@ -88,9 +92,10 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
 
     // Действия при свайпах в разные стороны
     private void makeTouchListener() {
-        layout.setOnTouchListener(new OnSwipeTouchListener(this) {
+        swipedImageView.setOnTouchListener(new OnSwipeTouchListener(this) {
+//        layout.setOnTouchListener(new OnSwipeTouchListener(this) {
             public void onSwipeRight() {
-                showToast("onSwipeRight");
+//                Snackbar.make(swipedImageView, "onSwipeRight", Snackbar.LENGTH_SHORT).show();
                 String nextPostId = prefUtils.getNextPostId();
                 if(!nextPostId.isEmpty() && nextPostId.length() > 0 && !nextPostId.equals("0")) {
                     getPostFromAPi(nextPostId);
@@ -99,7 +104,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
             }
 
             public void onSwipeLeft() {
-                showToast("onSwipeLeft");
+//                Snackbar.make(swipedImageView, "onSwipeLeft", Snackbar.LENGTH_SHORT).show();
                 String prevPostId = prefUtils.gePrevPostId();
                 if(!prevPostId.isEmpty() && prevPostId.length() > 0 && !prevPostId.equals("0")) {
                     getPostFromAPi(prevPostId);
