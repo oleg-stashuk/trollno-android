@@ -72,7 +72,7 @@
          Point point = new Point();
          display.getSize(point);
          int screenWidth = point.x; //Ширина экрана
-         int photoWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 70, context.getResources().getDisplayMetrics()); //Переводим в точки
+         int photoWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 120, context.getResources().getDisplayMetrics()); //Переводим в точки
          int columnsCount = screenWidth/photoWidth; //Число столбцов
 
          return columnsCount;
