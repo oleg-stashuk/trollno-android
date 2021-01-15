@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.apps.trollino.R;
 import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.ui.authorisation.LoginActivity;
+import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
 
 import retrofit2.Call;
@@ -21,7 +22,7 @@ import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
 public class PostLostPassword {
     private static Context cont;
 
-    public static void postLostPassword(Context context, String email) {
+    public static void postLostPassword(Context context, PrefUtils prefUtils, String email) {
         cont = context;
 
         ApiService.getInstance(context).postLostPassword(email, new Callback<Void>() {
@@ -30,6 +31,12 @@ public class PostLostPassword {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if(response.isSuccessful()) {
+                    prefUtils.saveIsUserAuthorization(false);
+                    prefUtils.saveCookie("");
+                    prefUtils.saveToken("");
+                    prefUtils.saveLogoutToken("");
+                    prefUtils.savePassword("");
+
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
                     alertDialog.setMessage(context.getString(R.string.password_was_send) + email)
                             .setPositiveButton(android.R.string.yes, (dialogInterface, i) -> {

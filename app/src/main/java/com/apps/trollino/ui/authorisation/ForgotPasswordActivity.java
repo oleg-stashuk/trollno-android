@@ -52,7 +52,7 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
         switch (v.getId()) {
             case R.id.send_button_forgot_password:
                 if (inputFieldIsValid()) {
-                    new Thread(() -> PostLostPassword.postLostPassword(this, email)).start();
+                    new Thread(() -> PostLostPassword.postLostPassword(this, prefUtils, email)).start();
                 }
                 break;
             case R.id.back_button_forgot_password:
