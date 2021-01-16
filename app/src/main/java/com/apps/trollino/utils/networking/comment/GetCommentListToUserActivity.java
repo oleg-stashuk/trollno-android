@@ -54,6 +54,7 @@ public class GetCommentListToUserActivity {
                     countTry++;
                 } else {
                     showToast(t.getLocalizedMessage());
+                    Log.d("OkHttp", "!!!!!!!!!!! t.getLocalizedMessage() " + ErrorMessageFromApi.messageNoInternet(t));
                     Log.d("OkHttp", "t.getLocalizedMessage() " + t.getLocalizedMessage());
                 }
             }

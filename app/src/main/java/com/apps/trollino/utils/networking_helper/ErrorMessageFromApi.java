@@ -26,5 +26,8 @@ public class ErrorMessageFromApi {
         return userMessage;
     }
 
-
+    public static String messageNoInternet(Throwable t) {
+        return t.getLocalizedMessage().contains("No address associated with hostname") ?
+                "ОШИБКА \nПроблемы с подключением к Интернету." : "";
+    }
 }
