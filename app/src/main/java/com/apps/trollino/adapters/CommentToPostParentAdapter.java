@@ -14,6 +14,7 @@ import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
 import com.apps.trollino.data.model.comment.CommentModel;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.ClickableSpanText;
+import com.apps.trollino.utils.ShowTimeAgoHelper;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.dialogs.GuestDialog;
 import com.apps.trollino.utils.networking.comment.GetCommentListByComment;
@@ -65,7 +66,7 @@ public class CommentToPostParentAdapter extends BaseRecyclerAdapter<CommentModel
                         .into(imageImageView);
 
                 nameTextView.setText(item.getAuthorName());
-                timeTextView.setText(item.getTime());
+                timeTextView.setText(ShowTimeAgoHelper.showTimeAgo(item.getTime()));
 
                 final String comment = item.getCommentBody();
                 checkCommentLength(commentBodyTextView, comment, view.getContext()); // Проверить длинну комментария + обработка нажатия на кнопку "Весь комментарий"

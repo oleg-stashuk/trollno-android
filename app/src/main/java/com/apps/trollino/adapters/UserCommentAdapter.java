@@ -10,6 +10,7 @@ import com.apps.trollino.R;
 import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
 import com.apps.trollino.data.model.comment.CommentModel;
 import com.apps.trollino.ui.base.BaseActivity;
+import com.apps.trollino.utils.ShowTimeAgoHelper;
 
 import java.util.List;
 
@@ -59,7 +60,7 @@ public class UserCommentAdapter extends BaseRecyclerAdapter<CommentModel.Comment
 //                    indicatorImageView.setVisibility(View.GONE);
 //                    newCommentTextView.setVisibility(View.GONE);
 //                }
-                timeTextView.setText(item.getCreated());
+                timeTextView.setText(ShowTimeAgoHelper.showTimeAgo(item.getCreated()));
 
                 menuImageView.setOnClickListener(v ->
                         Toast.makeText(view.getContext(), "Кнопка меню", Toast.LENGTH_SHORT).show()

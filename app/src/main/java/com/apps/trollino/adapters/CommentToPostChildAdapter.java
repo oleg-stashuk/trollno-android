@@ -12,6 +12,7 @@ import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
 import com.apps.trollino.data.model.comment.CommentModel;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.ClickableSpanText;
+import com.apps.trollino.utils.ShowTimeAgoHelper;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.dialogs.GuestDialog;
 import com.apps.trollino.utils.networking.comment.PostLikeToComment;
@@ -63,7 +64,7 @@ public class CommentToPostChildAdapter extends BaseRecyclerAdapter<CommentModel.
                         .into(imageImageView);
 
                 nameTextView.setText(item.getAuthorName());
-                timeTextView.setText(item.getTime());
+                timeTextView.setText(ShowTimeAgoHelper.showTimeAgo(item.getTime()));
                 countLikeTextView.setText(item.getCountLike());
 
                 changeLikeImage(isLike, likeImageView); // Проверить пользователь оценил комент или нет
