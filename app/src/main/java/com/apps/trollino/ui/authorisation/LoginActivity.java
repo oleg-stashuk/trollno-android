@@ -43,17 +43,17 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         password = passwordEditText.getText().toString();
         if(name.isEmpty()) {
             nameEditText.requestFocus();
-            showToast(getString(R.string.name_is_empty_toast));
+            showSnackBarMessage(findViewById(R.id.activity_login), getString(R.string.name_is_empty_toast));
             return false;
         }
 
             if(password.isEmpty()) {
             passwordEditText.requestFocus();
-            showToast(getString(R.string.password_is_empty_toast));
+            showSnackBarMessage(findViewById(R.id.activity_login), getString(R.string.password_is_empty_toast));
             return false;
         } else if(!Validation.isCorrectPassword(password)) {
             passwordEditText.requestFocus();
-            showToast(getString(R.string.pasword_length_toast));
+            showSnackBarMessage(findViewById(R.id.activity_login), getString(R.string.pasword_length_toast));
             return false;
         }
         return true;
@@ -97,10 +97,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 finish();
                 break;
             case R.id.facebook_button_layout:
-                showToast("Войти через Facebook");
+                showSnackBarMessage(findViewById(R.id.activity_login), "Войти через Facebook");
                 break;
             case R.id.google_button_layout:
-                showToast("Войти через Google");
+                showSnackBarMessage(findViewById(R.id.activity_login), "Войти через Google");
                 break;
         }
     }

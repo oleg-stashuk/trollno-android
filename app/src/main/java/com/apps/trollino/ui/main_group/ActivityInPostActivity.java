@@ -95,7 +95,7 @@
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.mark_all_as_read_menu) {
-            showToast(getString(R.string.mark_all_as_read));
+            showSnackBarMessage(findViewById(R.id.activity_in_post), getString(R.string.mark_all_as_read));
         }
         return true;
     }
@@ -110,15 +110,8 @@
         }
 
         this.doubleBackToExitPressedOnce = true;
-        showToast(getString(R.string.press_twice_to_exit));
-
-        new Handler().postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce=false;
-            }
-        }, 2000);
+        showSnackBarMessage(findViewById(R.id.activity_in_post), getString(R.string.press_twice_to_exit));
+        new Handler().postDelayed(() -> doubleBackToExitPressedOnce=false, 2000);
     }
 
     @Override

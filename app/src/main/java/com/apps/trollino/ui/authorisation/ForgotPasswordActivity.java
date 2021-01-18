@@ -30,11 +30,11 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
 
         if(email.isEmpty()) {
             emailEditText.requestFocus();
-            showToast(getString(R.string.mail_is_empty_toast));
+            showSnackBarMessage(findViewById(R.id.activity_forgot_password), getString(R.string.mail_is_empty_toast));
             return false;
         } else if(!Validation.isCorrectEmail(email)) {
             emailEditText.requestFocus();
-            showToast(getString(R.string.uncorrect_email_toast));
+            showSnackBarMessage(findViewById(R.id.activity_forgot_password), getString(R.string.uncorrect_email_toast));
             return false;
         }
 

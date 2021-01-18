@@ -51,6 +51,8 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
         findViewById(R.id.favorites_button_tape).setOnClickListener(this);
         findViewById(R.id.profile_button_tape).setOnClickListener(this);
 
+        removeAllDataFromPostList();
+
         categoryList = prefUtils.getCategoryList();
         prefUtils.saveCurrentActivity("");
         try {
@@ -121,7 +123,7 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
         }
 
         this.doubleBackToExitPressedOnce = true;
-        showToast(getString(R.string.press_twice_to_exit));
+        showSnackBarMessage(findViewById(R.id.activity_tape), getString(R.string.press_twice_to_exit));
         new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
     }
 

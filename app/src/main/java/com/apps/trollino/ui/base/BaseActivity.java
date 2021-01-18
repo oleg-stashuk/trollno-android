@@ -1,12 +1,14 @@
 package com.apps.trollino.ui.base;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.apps.trollino.R;
+import com.apps.trollino.utils.SnackBarMessageCustom;
 import com.apps.trollino.utils.data.PrefUtils;
 
 public abstract class BaseActivity extends AppCompatActivity {
@@ -26,6 +28,10 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected void showToast(String text){
         Toast.makeText(this,text,Toast.LENGTH_SHORT).show();
+    }
+
+    protected void showSnackBarMessage(View view, String text) {
+        SnackBarMessageCustom.showSnackBar(view, text);
     }
 
 }

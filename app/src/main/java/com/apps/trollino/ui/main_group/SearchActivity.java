@@ -53,7 +53,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         if (actionId == EditorInfo.IME_ACTION_SEARCH) {
             searchString = searchEditText.getText().toString();
             if (searchString.isEmpty() || searchString.length() == 0) {
-                showToast(getString(R.string.enter_data_to_search));
+                showSnackBarMessage(findViewById(R.id.activity_search), getString(R.string.enter_data_to_search));
             } else {
                 PostListBySearchFromApi.getInstance().removeAllDataFromList(prefUtils);
                 progressBar.setVisibility(View.VISIBLE);

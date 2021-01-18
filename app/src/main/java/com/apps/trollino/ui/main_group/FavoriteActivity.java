@@ -92,7 +92,7 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.to_do_something) {
-            showToast("Что-то сделать");
+            showSnackBarMessage(findViewById(R.id.activity_favorite), "Что-то сделать");
         }
         return true;
     }
@@ -106,7 +106,7 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
         }
 
         this.doubleBackToExitPressedOnce = true;
-        showToast(getString(R.string.press_twice_to_exit));
+        showSnackBarMessage(findViewById(R.id.activity_favorite), getString(R.string.press_twice_to_exit));
         new Handler().postDelayed(() -> doubleBackToExitPressedOnce=false, 2000);
     }
 

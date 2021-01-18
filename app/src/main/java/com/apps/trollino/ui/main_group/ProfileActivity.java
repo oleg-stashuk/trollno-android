@@ -86,7 +86,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         darkThemeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                ProfileActivity.this.showToast(isChecked ? "Dark theme" : "Light theme");
+                showSnackBarMessage(findViewById(R.id.activity_profile), isChecked ? "Dark theme" : "Light theme");
             }
         });
     }
@@ -109,7 +109,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         }
 
         this.doubleBackToExitPressedOnce = true;
-        showToast(getString(R.string.press_twice_to_exit));
+        showSnackBarMessage(findViewById(R.id.activity_profile), getString(R.string.press_twice_to_exit));
 
         new Handler().postDelayed(new Runnable() {
 

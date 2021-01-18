@@ -48,26 +48,26 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
 
         if(name.isEmpty()) {
             nameEditText.requestFocus();
-            showToast(getString(R.string.name_is_empty_toast));
+            showSnackBarMessage(findViewById(R.id.activity_registration), getString(R.string.name_is_empty_toast));
             return false;
         }
         if(email.isEmpty()) {
             emailEditText.requestFocus();
-            showToast(getString(R.string.mail_is_empty_toast));
+            showSnackBarMessage(findViewById(R.id.activity_registration), getString(R.string.mail_is_empty_toast));
             return false;
         } else if(!Validation.isCorrectEmail(email)) {
             emailEditText.requestFocus();
-            showToast(getString(R.string.uncorrect_email_toast));
+            showSnackBarMessage(findViewById(R.id.activity_registration), getString(R.string.uncorrect_email_toast));
             return false;
         }
 
         if(password.isEmpty()) {
             passwordEditText.requestFocus();
-            showToast(getString(R.string.password_is_empty_toast));
+            showSnackBarMessage(findViewById(R.id.activity_registration), getString(R.string.password_is_empty_toast));
             return false;
         } else if(!Validation.isCorrectPassword(password)) {
             passwordEditText.requestFocus();
-            showToast(getString(R.string.pasword_length_toast));
+            showSnackBarMessage(findViewById(R.id.activity_registration), getString(R.string.pasword_length_toast));
             return false;
         }
         return true;
@@ -108,10 +108,10 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
                 finish();
                 break;
             case R.id.facebook_button_layout:
-                showToast("Зарегистрироваться через Facebook");
+                showSnackBarMessage(findViewById(R.id.activity_registration), "Зарегистрироваться через Facebook");
                 break;
             case R.id.google_button_layout:
-                showToast("Зарегистрироваться через Google");
+                showSnackBarMessage(findViewById(R.id.activity_registration), "Зарегистрироваться через Google");
                 break;
         }
     }

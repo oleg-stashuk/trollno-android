@@ -85,7 +85,7 @@ public class EditUserProfileActivity extends BaseActivity implements View.OnClic
                 })
                 .setPositiveButton(R.string.remove_account_confirm_button, (dialog, which) -> {
                     Log.d("OkHttp", "Удалить");
-                    showToast("Удалить профиль");
+                    showSnackBarMessage(findViewById(R.id.activity_edit_user_profile), "Удалить профиль");
 //                    List<RequestBlockUserModel.StatusBlockUserModel> blockStatus = new ArrayList<>();
 //                    blockStatus.add(new RequestBlockUserModel.StatusBlockUserModel(false));
 //                    RequestBlockUserModel requestBlockUserModel = new RequestBlockUserModel(blockStatus);
