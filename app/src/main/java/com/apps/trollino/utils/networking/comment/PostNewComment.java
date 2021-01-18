@@ -6,15 +6,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.EditText;
-import android.widget.Toast;
 
+import com.apps.trollino.R;
 import com.apps.trollino.data.model.comment.CreateCommentBody;
 import com.apps.trollino.data.model.comment.CreateNewCommentRequest;
 import com.apps.trollino.data.model.comment.CreateNewCommentResponse;
 import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.ui.main_group.CommentToPostActivity;
+import com.apps.trollino.utils.SnackBarMessageCustom;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +28,6 @@ import retrofit2.Response;
 import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
 
 public class PostNewComment {
-    private static Context cont;
 
     public static void postNewComment(Context context, PrefUtils prefUtils, String comment, String parentId,
                                       EditText commentEditText) {
@@ -34,8 +35,6 @@ public class PostNewComment {
         if(parentId.isEmpty()) {
             parentId = null;
         }
-
-        cont = context;
         String cookie = prefUtils.getCookie();
         String token = prefUtils.getToken();
         String postId = prefUtils.getCurrentPostId();
@@ -77,7 +76,7 @@ public class PostNewComment {
 
                         } else {
                             String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
-                            showToast(errorMessage);
+                            SnackBarMessageCustom.showSnackBar(commentEditText, errorMessage);
                         }
                     }
 
@@ -88,15 +87,23 @@ public class PostNewComment {
                             call.clone().enqueue(this);
                             countTry++;
                         } else {
-                            showToast(t.getLocalizedMessage());
+                            boolean isHaveNotInternet = t.getLocalizedMessage().contains(context.getString(R.string.internet_error_from_api));
+                            String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
+                            if (isHaveNotInternet) {
+                                Snackbar
+                                        .make(commentEditText, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
+                                        .setMaxInlineActionWidth(3)
+                                        .setAction(R.string.refresh_button, v -> {
+                                            call.clone().enqueue(this);
+                                        })
+                                        .show();
+                            } else {
+                                SnackBarMessageCustom.showSnackBar(commentEditText, t.getLocalizedMessage());
+                            }
                             Log.d("OkHttp", "t.getLocalizedMessage() " + t.getLocalizedMessage());
                         }
                     }
                 });
 
-    }
-
-    private static void showToast(String message) {
-        Toast.makeText(cont, message, Toast.LENGTH_SHORT).show();
     }
 }

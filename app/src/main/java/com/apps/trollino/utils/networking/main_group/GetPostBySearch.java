@@ -4,15 +4,17 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
+import com.apps.trollino.R;
 import com.apps.trollino.adapters.PostListAdapter;
 import com.apps.trollino.data.model.PagerModel;
 import com.apps.trollino.data.model.PostsModel;
 import com.apps.trollino.data.networking.ApiService;
+import com.apps.trollino.utils.SnackBarMessageCustom;
 import com.apps.trollino.utils.data.PostListBySearchFromApi;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -23,11 +25,9 @@ import retrofit2.Response;
 import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
 
 public class GetPostBySearch {
-    private static Context cont;
     private static int page;
 
     public static void getPostBySearch(Context context, PrefUtils prefUtils, String searchText, View nothingSearch, ProgressBar progressBar, PostListAdapter adapter) {
-        cont = context;
         String cookie = prefUtils.getCookie();
         page = prefUtils.getNewPostCurrentPage();
 
@@ -52,7 +52,7 @@ public class GetPostBySearch {
 
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
-                    showToast(errorMessage);
+                    SnackBarMessageCustom.showSnackBar(progressBar, errorMessage);
                 }
                 progressBar.setVisibility(View.GONE);
             }
@@ -65,7 +65,19 @@ public class GetPostBySearch {
                     call.clone().enqueue(this);
                     countTry++;
                 } else {
-                    showToast(t.getLocalizedMessage());
+                    boolean isHaveNotInternet = t.getLocalizedMessage().contains(context.getString(R.string.internet_error_from_api));
+                    String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
+                    if (isHaveNotInternet) {
+                        Snackbar
+                                .make(progressBar, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
+                                .setMaxInlineActionWidth(3)
+                                .setAction(R.string.refresh_button, v -> {
+                                    call.clone().enqueue(this);
+                                })
+                                .show();
+                    } else {
+                        SnackBarMessageCustom.showSnackBar(progressBar, t.getLocalizedMessage());
+                    }
                     Log.d("OkHttp", "t.getLocalizedMessage() " + t.getLocalizedMessage());
                 }
             }
@@ -84,9 +96,5 @@ public class GetPostBySearch {
     private static void updatePostListAndNotifyRecyclerAdapter(List<PostsModel.PostDetails> newPostList, PostListAdapter adapter) {
         PostListBySearchFromApi.getInstance().savePostByCategoryInList(newPostList);
         adapter.notifyDataSetChanged();
-    }
-
-    private static void showToast(String message) {
-        Toast.makeText(cont, message, Toast.LENGTH_SHORT).show();
     }
 }

@@ -4,15 +4,17 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
+import com.apps.trollino.R;
 import com.apps.trollino.adapters.PostListAdapter;
 import com.apps.trollino.data.model.PagerModel;
 import com.apps.trollino.data.model.PostsModel;
 import com.apps.trollino.data.networking.ApiService;
+import com.apps.trollino.utils.SnackBarMessageCustom;
 import com.apps.trollino.utils.data.DataListFromApi;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -23,12 +25,10 @@ import retrofit2.Response;
 import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
 
 public class GetNewPosts {
-    private static Context cont;
     private static int page;
 
 
     public static void makeGetNewPosts(Context context, PrefUtils prefUtils, PostListAdapter adapter, ProgressBar progressBarTop, ProgressBar progressBarBottom, boolean scrollOnTop) {
-        cont = context;
         page = scrollOnTop ? 0 : prefUtils.getNewPostCurrentPage();
         String cookie = prefUtils.getCookie();
 
@@ -51,11 +51,11 @@ public class GetNewPosts {
 
 
                     if(newPostList.isEmpty()) {
-                        showToast("Новых постов пока нет!!!!!!!!!!!!!!!!!!!!!!");
+                        SnackBarMessageCustom.showSnackBar(progressBarTop, "Новых постов пока нет!!!!!!!!!!!!!!!!!!!!!!");
                     } else if (newPostList.get(0).getPostId().equals(firstIdInSavedList) && scrollOnTop) {
-                        showToast("Новых постов пока нет");
+                        SnackBarMessageCustom.showSnackBar(progressBarTop, "Новых постов пока нет");
                     } else if(lastIdInListFromApi.equals(lastIdInSavedList) && isLastPage) {
-                        showToast("Новых постов пока нет");
+                        SnackBarMessageCustom.showSnackBar(progressBarTop, "Новых постов пока нет");
                     } else {
                         if(scrollOnTop) {
                             DataListFromApi.getInstance().removeAllDataFromList(prefUtils);
@@ -65,7 +65,7 @@ public class GetNewPosts {
                     }
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
-                    showToast(errorMessage);
+                    SnackBarMessageCustom.showSnackBar(progressBarTop, errorMessage);
                 }
                 progressBarBottom.setVisibility(View.GONE);
                 progressBarTop.setVisibility(View.GONE);
@@ -78,17 +78,26 @@ public class GetNewPosts {
                     call.clone().enqueue(this);
                     countTry++;
                 } else {
-                    showToast(t.getLocalizedMessage());
+                    boolean isHaveNotInternet = t.getLocalizedMessage().contains(context.getString(R.string.internet_error_from_api));
+                    String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
+                    if (isHaveNotInternet) {
+                        Snackbar
+                                .make(progressBarTop, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
+                                .setMaxInlineActionWidth(3)
+                                .setAction(R.string.refresh_button, v -> {
+                                    call.clone().enqueue(this);
+                                })
+                        .show();
+                    } else {
+                        SnackBarMessageCustom.showSnackBar(progressBarTop, t.getLocalizedMessage());
+                    }
+
                     progressBarBottom.setVisibility(View.GONE);
                     progressBarTop.setVisibility(View.GONE);
                     Log.d("OkHttp", "t.getLocalizedMessage() " + t.getLocalizedMessage());
                 }
             }
         });
-    }
-
-    private static void showToast(String message) {
-        Toast.makeText(cont, message, Toast.LENGTH_SHORT).show();
     }
 
     private static void saveCurrentPage(int totalPage, PrefUtils prefUtils) {

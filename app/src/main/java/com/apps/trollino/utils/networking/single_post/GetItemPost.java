@@ -6,7 +6,6 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,8 +17,10 @@ import com.apps.trollino.data.model.CategoryModel;
 import com.apps.trollino.data.model.ItemPostModel;
 import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.ui.base.BaseActivity;
+import com.apps.trollino.utils.SnackBarMessageCustom;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -64,7 +65,7 @@ public class GetItemPost {
 
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
-                    showToast(errorMessage);
+                    SnackBarMessageCustom.showSnackBar(titleTextView, errorMessage);
                 }
             }
 
@@ -75,7 +76,19 @@ public class GetItemPost {
                     call.clone().enqueue(this);
                     countTry++;
                 } else {
-                    showToast(t.getLocalizedMessage());
+                    boolean isHaveNotInternet = t.getLocalizedMessage().contains(context.getString(R.string.internet_error_from_api));
+                    String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
+                    if (isHaveNotInternet) {
+                        Snackbar
+                                .make(titleTextView, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
+                                .setMaxInlineActionWidth(3)
+                                .setAction(R.string.refresh_button, v -> {
+                                    call.clone().enqueue(this);
+                                })
+                                .show();
+                    } else {
+                        SnackBarMessageCustom.showSnackBar(titleTextView, t.getLocalizedMessage());
+                    }
                     Log.d("OkHttp", "t.getLocalizedMessage() " + t.getLocalizedMessage());
                 }
             }
@@ -165,10 +178,6 @@ public class GetItemPost {
         recyclerView.setLayoutManager(new LinearLayoutManager(cont));
         recyclerView.setAdapter(new OnePostElementAdapter((BaseActivity) cont, prefUt.getCountBetweenAds(), mediaBlock));
         recyclerView.setFocusable(false);
-    }
-
-    private static void showToast(String message) {
-        Toast.makeText(cont, message, Toast.LENGTH_SHORT).show();
     }
 
     // Смена картинки для кнопки favorite из menu в ToolBar

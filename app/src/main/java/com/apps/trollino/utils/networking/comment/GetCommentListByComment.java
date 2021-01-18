@@ -5,17 +5,19 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.apps.trollino.R;
 import com.apps.trollino.adapters.CommentToPostChildAdapter;
 import com.apps.trollino.data.model.comment.CommentModel;
 import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.ui.base.BaseActivity;
+import com.apps.trollino.utils.SnackBarMessageCustom;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +48,7 @@ public class GetCommentListByComment {
                     checkAnswerToThisComment(response.body().getCommentsList(), childCommentRecyclerView, showMoreTextView, commentEditText);
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
-                    showToast(errorMessage);
+                    SnackBarMessageCustom.showSnackBar(showMoreTextView, errorMessage);
                 }
             }
 
@@ -57,15 +59,23 @@ public class GetCommentListByComment {
                     call.clone().enqueue(this);
                     countTry++;
                 } else {
-                    showToast(t.getLocalizedMessage());
+                    boolean isHaveNotInternet = t.getLocalizedMessage().contains(context.getString(R.string.internet_error_from_api));
+                    String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
+                    if (isHaveNotInternet) {
+                        Snackbar
+                                .make(showMoreTextView, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
+                                .setMaxInlineActionWidth(3)
+                                .setAction(R.string.refresh_button, v -> {
+                                    call.clone().enqueue(this);
+                                })
+                                .show();
+                    } else {
+                        SnackBarMessageCustom.showSnackBar(showMoreTextView, t.getLocalizedMessage());
+                    }
                     Log.d("OkHttp", "t.getLocalizedMessage() " + t.getLocalizedMessage());
                 }
             }
         });
-    }
-
-    private static void showToast(String message) {
-        Toast.makeText(cont, message, Toast.LENGTH_SHORT).show();
     }
 
     private static void checkAnswerToThisComment(List<CommentModel.Comments> commentsListToPost, final RecyclerView childCommentRecyclerView, final TextView showMoreTextView, EditText commentEditText) {

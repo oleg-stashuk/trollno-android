@@ -4,15 +4,16 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.apps.trollino.R;
 import com.apps.trollino.adapters.UserCommentAdapter;
 import com.apps.trollino.data.model.comment.CommentModel;
 import com.apps.trollino.data.networking.ApiService;
+import com.apps.trollino.utils.SnackBarMessageCustom;
 import com.apps.trollino.utils.data.CommentListToUserActivityFromApi;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -23,11 +24,9 @@ import retrofit2.Response;
 import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
 
 public class GetCommentListToUserActivity {
-    private static Context cont;
     private static int page;
 
     public static void getCommentListToUserActivity(Context context, PrefUtils prefUtils, UserCommentAdapter adapter, View includeNoDataForUser, TextView noDataTextView) {
-        cont = context;
         String cookie = prefUtils.getCookie();
         String userId = prefUtils.getUserUid();
         page = prefUtils.getCurrentPage();
@@ -51,7 +50,7 @@ public class GetCommentListToUserActivity {
                     }
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
-                    showToast(errorMessage);
+                    SnackBarMessageCustom.showSnackBar(includeNoDataForUser, errorMessage);
                 }
             }
 
@@ -62,16 +61,23 @@ public class GetCommentListToUserActivity {
                     call.clone().enqueue(this);
                     countTry++;
                 } else {
-                    showToast(t.getLocalizedMessage());
-                    Log.d("OkHttp", "!!!!!!!!!!! t.getLocalizedMessage() " + ErrorMessageFromApi.messageNoInternet(t));
+                    boolean isHaveNotInternet = t.getLocalizedMessage().contains(context.getString(R.string.internet_error_from_api));
+                    String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
+                    if (isHaveNotInternet) {
+                        Snackbar
+                                .make(includeNoDataForUser, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
+                                .setMaxInlineActionWidth(3)
+                                .setAction(R.string.refresh_button, v -> {
+                                    call.clone().enqueue(this);
+                                })
+                                .show();
+                    } else {
+                        SnackBarMessageCustom.showSnackBar(includeNoDataForUser, t.getLocalizedMessage());
+                    }
                     Log.d("OkHttp", "t.getLocalizedMessage() " + t.getLocalizedMessage());
                 }
             }
         });
-    }
-
-    private static void showToast(String message) {
-        Toast.makeText(cont, message, Toast.LENGTH_SHORT).show();
     }
 
     private static void saveCurrentPage(int totalPage, PrefUtils prefUtils) {

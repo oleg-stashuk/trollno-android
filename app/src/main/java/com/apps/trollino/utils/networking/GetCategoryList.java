@@ -1,13 +1,17 @@
 package com.apps.trollino.utils.networking;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
+import android.view.View;
 
+import com.apps.trollino.R;
 import com.apps.trollino.data.model.CategoryModel;
 import com.apps.trollino.data.networking.ApiService;
+import com.apps.trollino.utils.SnackBarMessageCustom;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -16,13 +20,13 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
+import static com.facebook.appevents.internal.AppEventUtility.getRootView;
 
 public class GetCategoryList {
-    private static Context cont;
 
     public static void getCategoryList(Context context, PrefUtils prefUtils) {
-        cont = context;
         String cookie = prefUtils.getCookie();
+        final View rootView = getRootView((Activity)context);
 
         ApiService.getInstance(context).getCategoryList(cookie, new Callback<List<CategoryModel>>() {
             int countTry = 0;
@@ -35,7 +39,7 @@ public class GetCategoryList {
                     }
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
-                    showToast(errorMessage);
+                    SnackBarMessageCustom.showSnackBar(rootView ,errorMessage);
                 }
             }
 
@@ -46,16 +50,22 @@ public class GetCategoryList {
                     call.clone().enqueue(this);
                     countTry++;
                 } else {
-                    showToast(t.getLocalizedMessage());
+                    boolean isHaveNotInternet = t.getLocalizedMessage().contains(context.getString(R.string.internet_error_from_api));
+                    String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
+                    if (isHaveNotInternet) {
+                        Snackbar
+                                .make(rootView, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
+                                .setMaxInlineActionWidth(3)
+                                .setAction(R.string.refresh_button, v -> {
+                                    call.clone().enqueue(this);
+                                })
+                                .show();
+                    } else {
+                        SnackBarMessageCustom.showSnackBar(rootView, t.getLocalizedMessage());
+                    }
                     Log.d("OkHttp_1", "t.getLocalizedMessage() " + t.getLocalizedMessage());
                 }
             }
         });
     }
-
-    private static void showToast(String message) {
-        Toast.makeText(cont, message, Toast.LENGTH_SHORT).show();
-    }
-
-
 }

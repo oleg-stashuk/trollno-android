@@ -6,17 +6,19 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.apps.trollino.R;
 import com.apps.trollino.adapters.CommentToPostParentAdapter;
 import com.apps.trollino.data.model.PagerModel;
 import com.apps.trollino.data.model.comment.CommentModel;
 import com.apps.trollino.data.networking.ApiService;
+import com.apps.trollino.utils.SnackBarMessageCustom;
 import com.apps.trollino.utils.data.CommentListFromApi;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -27,7 +29,6 @@ import retrofit2.Response;
 import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
 
 public class GetCommentListByPost {
-    private static Context cont;
     private static int page;
 
     public static void getCommentListByPost(Context context, PrefUtils prefUtils,
@@ -36,7 +37,6 @@ public class GetCommentListByPost {
                                             EditText commentEditText, TextView noCommentTextView,
                                             TextView countTextView, ProgressBar progressBar) {
 
-        cont = context;
         page = prefUtils.getNewPostCurrentPage();
         String cookie = prefUtils.getCookie();
 
@@ -55,7 +55,7 @@ public class GetCommentListByPost {
                     showCorrectVariant(commentList, recyclerView, adapter, commentEditText, noCommentTextView, countTextView);
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
-                    showToast(errorMessage);
+                    SnackBarMessageCustom.showSnackBar(progressBar, errorMessage);
                 }
 
                 progressBar.setVisibility(View.GONE);
@@ -68,7 +68,19 @@ public class GetCommentListByPost {
                     call.clone().enqueue(this);
                     countTry++;
                 } else {
-                    showToast(t.getLocalizedMessage());
+                    boolean isHaveNotInternet = t.getLocalizedMessage().contains(context.getString(R.string.internet_error_from_api));
+                    String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
+                    if (isHaveNotInternet) {
+                        Snackbar
+                                .make(progressBar, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
+                                .setMaxInlineActionWidth(3)
+                                .setAction(R.string.refresh_button, v -> {
+                                    call.clone().enqueue(this);
+                                })
+                                .show();
+                    } else {
+                        SnackBarMessageCustom.showSnackBar(progressBar, t.getLocalizedMessage());
+                    }
                     progressBar.setVisibility(View.GONE);
                     Log.d("OkHttp", "t.getLocalizedMessage() " + t.getLocalizedMessage());
                 }
@@ -98,10 +110,6 @@ public class GetCommentListByPost {
         }
 
         countTextView.setText(String.valueOf(commentCount));
-    }
-
-    private static void showToast(String message) {
-        Toast.makeText(cont, message, Toast.LENGTH_SHORT).show();
     }
 
     private static void saveCurrentPage(int totalPage, PrefUtils prefUtils) {
