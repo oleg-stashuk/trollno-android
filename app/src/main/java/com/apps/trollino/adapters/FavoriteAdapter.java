@@ -1,5 +1,6 @@
 package com.apps.trollino.adapters;
 
+import android.app.AlertDialog;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -51,7 +52,18 @@ public class FavoriteAdapter extends BaseRecyclerAdapter<PostsModel.PostDetails>
                         .into(imageView);
 
                 deleteImageButton.setOnClickListener(view1 -> {
-                    new Thread(() -> PostUnbookmark.removePostFromFavorite(view.getContext(), prefUtils, item.getPostId(), null)).start();
+                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(view.getContext());
+                    dialogBuilder.setMessage(view.getContext().getResources().getString(R.string.do_you_really_want_to_delete_post_from_favorite))
+                            .setPositiveButton(R.string.remove_account_confirm_button, (dialog, which) -> {
+                                new Thread(() -> PostUnbookmark.removePostFromFavorite(view.getContext(), prefUtils, item.getPostId(), null)).start();
+                                dialog.cancel();
+                            })
+                            .setNegativeButton(R.string.no_button_for_dialog, (dialog, which) -> {
+                                dialog.cancel();
+                            });
+
+                    AlertDialog dialog = dialogBuilder.create();
+                    dialog.show();
                 });
             }
         };
