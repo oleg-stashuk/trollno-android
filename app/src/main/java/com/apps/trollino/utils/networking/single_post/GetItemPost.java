@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,9 +19,7 @@ import com.apps.trollino.data.model.ItemPostModel;
 import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.data.PrefUtils;
-import com.apps.trollino.utils.dialogs.ImageViewDialog;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -38,7 +35,7 @@ public class GetItemPost {
     private static PrefUtils prefUt;
 
     public static void getItemPost(Context context, PrefUtils prefUtils, RecyclerView recyclerView, Menu menu, TextView categoryTextView, String postId, TextView titleTextView,
-                                   TextView countCommentTextView, Button commentButton, ImageView imageView,
+                                   TextView countCommentTextView, Button commentButton,
                                    TextView bodyPostTextView, boolean isPostFromCategory) {
         cont = context;
         prefUt = prefUtils;
@@ -54,7 +51,6 @@ public class GetItemPost {
 
                     setPostCategory(categoryTextView);
                     setPostTitle(titleTextView);
-                    setPostHeadBanner(imageView);
                     setPostHeadText(bodyPostTextView);
                     setCommentCount(countCommentTextView, commentButton);
                     saveNextAndPrevPostId(isPostFromCategory);
@@ -108,28 +104,6 @@ public class GetItemPost {
             titleTextView.setText(title.getTitle());
         }
     }
-
-    private static void setPostHeadBanner(ImageView imageView) {
-        List<ItemPostModel.BannerPost> bannerModel = model.getBanner();
-        for(ItemPostModel.BannerPost banner : bannerModel) {
-            String imageUrl = banner.getUrlBanner();
-            if (imageUrl.isEmpty()) {
-                imageView.setVisibility(View.GONE);
-            } else {
-                imageView.setVisibility(View.VISIBLE);
-                Picasso
-                        .get()
-                        .load(imageUrl)
-                        .into(imageView);
-            }
-
-            imageView.setOnClickListener(v -> {
-                ImageViewDialog dialog = new ImageViewDialog();
-                dialog.showDialog(cont, "", imageUrl);
-            });
-        }
-    }
-
 
     private static void setPostHeadText(TextView bodyPostTextView) {
         List<ItemPostModel.BodyPost> bodyModel = model.getBody();

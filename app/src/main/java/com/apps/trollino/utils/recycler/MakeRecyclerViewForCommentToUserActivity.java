@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,7 +23,7 @@ public class MakeRecyclerViewForCommentToUserActivity extends RecyclerView.OnScr
     private static Context cont;
     private static PrefUtils prefUt;
 
-    public static void makeRecyclerViewForCommentToUserActivity(Context context, PrefUtils prefUtils, RecyclerView recyclerView) {
+    public static void makeRecyclerViewForCommentToUserActivity(Context context, PrefUtils prefUtils, RecyclerView recyclerView, View includeNoDataForUser, TextView noDataTextView) {
         cont = context;
         prefUt = prefUtils;
 
@@ -34,7 +36,7 @@ public class MakeRecyclerViewForCommentToUserActivity extends RecyclerView.OnScr
         recyclerView.setHasFixedSize(true);
 
         new Thread(() -> {
-            GetCommentListToUserActivity.getCommentListToUserActivity(context, prefUtils, adapter);
+            GetCommentListToUserActivity.getCommentListToUserActivity(context, prefUtils, adapter, includeNoDataForUser, noDataTextView);
         }).start();
 
         recyclerView.addOnScrollListener(new RecyclerScrollListener() {
@@ -42,7 +44,7 @@ public class MakeRecyclerViewForCommentToUserActivity extends RecyclerView.OnScr
             public void onScrolledToEnd() {
                 Handler handler = new Handler();
                 handler.postDelayed(() -> new Thread(() -> {
-                    GetCommentListToUserActivity.getCommentListToUserActivity(context, prefUtils, adapter);
+                    GetCommentListToUserActivity.getCommentListToUserActivity(context, prefUtils, adapter, includeNoDataForUser, noDataTextView);
                 }).start(), 1000);
             }
 

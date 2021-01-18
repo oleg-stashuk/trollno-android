@@ -39,15 +39,6 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp" />
 
-            <ImageView
-                android:id="@+id/image_post_activity"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:scaleType="fitXY"
-                android:adjustViewBounds="true"
-                android:layout_gravity="center_horizontal"/>
-
             <TextView
                 android:id="@+id/body_post_activity"
                 android:layout_width="match_parent"

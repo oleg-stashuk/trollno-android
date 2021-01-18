@@ -5,7 +5,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -22,7 +21,6 @@ import com.apps.trollino.utils.dialogs.GuestDialog;
 import com.apps.trollino.utils.networking.single_post.GetItemPost;
 import com.apps.trollino.utils.networking.single_post.PostBookmark;
 import com.apps.trollino.utils.networking.single_post.PostUnbookmark;
-import com.google.android.material.snackbar.Snackbar;
 
 public class PostActivity extends BaseActivity implements View.OnClickListener{
     private NestedScrollView layout;
@@ -30,7 +28,6 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
     private TextView categoryTextView;
     private TextView titleTextView;
     private TextView countCommentTextView;
-    private ImageView imageView;
     private TextView body;
     private Button commentButton;
 
@@ -52,7 +49,6 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
         categoryTextView = findViewById(R.id.category_post_activity);
         titleTextView = findViewById(R.id.title_post_activity);
         countCommentTextView = findViewById(R.id.comment_count_post_activity);
-        imageView = findViewById(R.id.image_post_activity);
         body = findViewById(R.id.body_post_activity);
         commentButton = findViewById(R.id.add_comment_button_post_activity);
         commentButton.setOnClickListener(this);
@@ -117,11 +113,10 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
     // Get post data by Id from API
     private void getPostFromAPi(String postId) {
         layout.smoothScrollTo(0, layout.getTop());
-
         new Thread(() -> {
             GetItemPost.getItemPost(PostActivity.this, prefUtils,
                     partOfPostRecyclerView, menu, categoryTextView, postId, titleTextView,
-                    countCommentTextView, commentButton, imageView, body, isPostFromCategory);
+                    countCommentTextView, commentButton, body, isPostFromCategory);
         }).start();
     }
 

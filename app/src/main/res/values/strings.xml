@@ -39,7 +39,7 @@
     <string name="login_using_other_account">Или войти с помощью:</string>
     <string name="registration_using_other_account">Зарегистрироваться с помощью:</string>
     <string name="whops">Упс!</string>
-    <string name="have_no_favorites">Вы пока ничего не добавили в Избранное</string>
+    <string name="txt_have_no_favorites">Вы пока ничего не добавили в Избранное</string>
     <string name="see_all_comment">Весь комментарий</string>
     <string name="answer">Ответить</string>
     <string name="see_more_comments">Больше комментариев</string>
@@ -88,5 +88,6 @@
     <string name="txt_edit_profile">Редактировать профиль</string>
     <string name="title_autorisation">Авторизация</string>
     <string name="title_registration">Регистрация</string>
+    <string name="txt_have_no_comments">Вы еще не добавили ни одного комментария</string>
     <!--    <string name="banner_ad_unit_id">ca-app-pub-3729162410044084/9720645991</string>-->
 </resources>

@@ -2,8 +2,11 @@ package com.apps.trollino.utils.networking.comment;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.apps.trollino.R;
 import com.apps.trollino.adapters.UserCommentAdapter;
 import com.apps.trollino.data.model.comment.CommentModel;
 import com.apps.trollino.data.networking.ApiService;
@@ -23,7 +26,7 @@ public class GetCommentListToUserActivity {
     private static Context cont;
     private static int page;
 
-    public static void getCommentListToUserActivity(Context context, PrefUtils prefUtils, UserCommentAdapter adapter) {
+    public static void getCommentListToUserActivity(Context context, PrefUtils prefUtils, UserCommentAdapter adapter, View includeNoDataForUser, TextView noDataTextView) {
         cont = context;
         String cookie = prefUtils.getCookie();
         String userId = prefUtils.getUserUid();
@@ -38,8 +41,14 @@ public class GetCommentListToUserActivity {
                     CommentModel commentModel = response.body();
                     List<CommentModel.Comments> commentList = commentModel.getCommentsList();
 
-                    updatePostListAndNotifyRecyclerAdapter(commentList, adapter);
-                    saveCurrentPage(commentModel.getPagerModel().getTotalPages(), prefUtils);
+                    if (commentList.size() == 0 || commentList.isEmpty()) {
+                        includeNoDataForUser.setVisibility(View.VISIBLE);
+                        noDataTextView.setText(context.getResources().getString(R.string.txt_have_no_comments));
+                    } else {
+                        includeNoDataForUser.setVisibility(View.GONE);
+                        updatePostListAndNotifyRecyclerAdapter(commentList, adapter);
+                        saveCurrentPage(commentModel.getPagerModel().getTotalPages(), prefUtils);
+                    }
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
                     showToast(errorMessage);

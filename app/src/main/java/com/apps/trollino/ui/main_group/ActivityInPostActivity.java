@@ -5,6 +5,7 @@
  import android.view.Menu;
  import android.view.MenuItem;
  import android.view.View;
+ import android.widget.TextView;
 
  import androidx.appcompat.app.ActionBar;
  import androidx.appcompat.widget.Toolbar;
@@ -21,6 +22,8 @@
  public class ActivityInPostActivity extends BaseActivity implements View.OnClickListener{
     private RecyclerView postWithActivityRecyclerView;
 
+    private View includeNoDataForUser;
+    private TextView noDataTextView;
     private View userAuthorizationView;
     private boolean isUserAuthorization; // Пользователь авторизирован или нет
     private boolean doubleBackToExitPressedOnce = false;  // для обработки нажатия onBackPressed
@@ -33,6 +36,8 @@
     @Override
     protected void initView() {
         userAuthorizationView = findViewById(R.id.include_user_not_authorization_activity_in_post);
+        includeNoDataForUser = findViewById(R.id.include_no_data_for_user_activity_in_post);
+        noDataTextView = findViewById(R.id.txt_include_no_data);
         postWithActivityRecyclerView = findViewById(R.id.recycler_activity_in_post);
         findViewById(R.id.tape_button_activity_in_post).setOnClickListener(this);
         findViewById(R.id.favorites_button_activity_in_post).setOnClickListener(this);
@@ -53,7 +58,7 @@
             userAuthorizationView.setVisibility(View.GONE);
             postWithActivityRecyclerView.setVisibility(View.VISIBLE);
 
-            MakeRecyclerViewForCommentToUserActivity.makeRecyclerViewForCommentToUserActivity(this, prefUtils, postWithActivityRecyclerView);
+            MakeRecyclerViewForCommentToUserActivity.makeRecyclerViewForCommentToUserActivity(this, prefUtils, postWithActivityRecyclerView, includeNoDataForUser , noDataTextView);
         } else {
             userAuthorizationView.setVisibility(View.VISIBLE);
             postWithActivityRecyclerView.setVisibility(View.GONE);
