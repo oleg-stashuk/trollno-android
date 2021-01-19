@@ -4,7 +4,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.apps.trollino.R;
 import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
@@ -37,7 +36,7 @@ public class UserCommentAdapter extends BaseRecyclerAdapter<CommentModel.Comment
             public void bind(CommentModel.Comments item) {
                 LinearLayout linearLayout = view.findViewById(R.id.background_liner_layout_user_comment);
                 TextView titleTextView = view.findViewById(R.id.title_item_user_comment);
-                ImageView menuImageView = view.findViewById(R.id.menu_item_user_comment);
+//                ImageView menuImageView = view.findViewById(R.id.menu_item_user_comment);
                 TextView commentTextView = view.findViewById(R.id.comment_item_user_comment);
                 TextView countLikeTextView = view.findViewById(R.id.count_like_item_user_comment);
                 ImageView indicatorImageView = view.findViewById(R.id.new_comment_indicator_item_user_comment);
@@ -62,9 +61,9 @@ public class UserCommentAdapter extends BaseRecyclerAdapter<CommentModel.Comment
 //                }
                 timeTextView.setText(ShowTimeAgoHelper.showTimeAgo(item.getCreated()));
 
-                menuImageView.setOnClickListener(v ->
-                        Toast.makeText(view.getContext(), "Кнопка меню", Toast.LENGTH_SHORT).show()
-                );
+//                menuImageView.setOnClickListener(v ->
+//                        Toast.makeText(view.getContext(), "Кнопка меню", Toast.LENGTH_SHORT).show()
+//                );
             }
         };
     }

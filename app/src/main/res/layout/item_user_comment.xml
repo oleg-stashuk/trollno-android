@@ -31,13 +31,13 @@
                     android:textColor="@color/colorGrey"
                     android:hint="Title"/>
 
-                <ImageView
-                    android:id="@+id/menu_item_user_comment"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:background="@color/transparent"
-                    android:src="@drawable/ic_horizontal_menu"/>
+<!--                <ImageView-->
+<!--                    android:id="@+id/menu_item_user_comment"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:padding="5dp"-->
+<!--                    android:background="@color/transparent"-->
+<!--                    android:src="@drawable/ic_horizontal_menu"/>-->
 
             </LinearLayout>
 

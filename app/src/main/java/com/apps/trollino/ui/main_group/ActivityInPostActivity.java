@@ -81,25 +81,25 @@
         }
     }
 
-    // Добавить Menu
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if(isUserAuthorization) {
-            getMenuInflater().inflate(R.menu.post_with_activity_menu, menu);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    // Обрабтка нажатия на выпадающий список из Menu
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.mark_all_as_read_menu) {
-            showSnackBarMessage(findViewById(R.id.activity_in_post), getString(R.string.mark_all_as_read));
-        }
-        return true;
-    }
+//    // Добавить Menu
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        if(isUserAuthorization) {
+//            getMenuInflater().inflate(R.menu.post_with_activity_menu, menu);
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
+//
+//    // Обрабтка нажатия на выпадающий список из Menu
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        if(item.getItemId() == R.id.mark_all_as_read_menu) {
+//            showSnackBarMessage(findViewById(R.id.activity_in_post), getString(R.string.mark_all_as_read));
+//        }
+//        return true;
+//    }
 
     @Override
     public void onBackPressed() {

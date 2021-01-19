@@ -100,7 +100,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         switch (v.getId()) {
             case R.id.registration_button_registration:
                 if(inputFieldIsValid()){
-                    new Thread(() -> PostUserRegistration.postRegistration(this, name, email, password, prefUtils)).start();
+                    new Thread(() -> PostUserRegistration.postRegistration(this, name, email, password, prefUtils, findViewById(R.id.activity_registration))).start();
                 }
                 break;
             case R.id.login_registration:
