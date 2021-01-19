@@ -77,25 +77,25 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
         }
     }
 
-    // Добавить Menu
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if(isUserAuthorization) {
-            getMenuInflater().inflate(R.menu.favorite_menu, menu);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    // Обрабтка нажантия на выпадающий список из Menu
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.to_do_something) {
-            showSnackBarMessage(findViewById(R.id.activity_favorite), "Что-то сделать");
-        }
-        return true;
-    }
+//    // Добавить Menu
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        if(isUserAuthorization) {
+//            getMenuInflater().inflate(R.menu.favorite_menu, menu);
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
+//
+//    // Обрабтка нажантия на выпадающий список из Menu
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        if(item.getItemId() == R.id.to_do_something) {
+//            showSnackBarMessage(findViewById(R.id.activity_favorite), "Удалить все из избранного");
+//        }
+//        return true;
+//    }
 
     @Override
     public void onBackPressed() {
