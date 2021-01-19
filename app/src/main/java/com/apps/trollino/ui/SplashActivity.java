@@ -6,6 +6,7 @@ import android.os.Handler;
 import com.apps.trollino.R;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.ui.main_group.TapeActivity;
+import com.apps.trollino.utils.data.CleanSavedDataHelper;
 import com.apps.trollino.utils.networking.GetCategoryList;
 import com.apps.trollino.utils.networking.GetSettings;
 
@@ -22,8 +23,7 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void initView() {
         handler = new Handler();
-        prefUtils.saveNewPostCurrentPage(0);
-        prefUtils.saveCurrentPage(0);
+        CleanSavedDataHelper.cleanAllDataFromApi(prefUtils);
         prefUtils.saveCommentIdForActivity("");
         prefUtils.saveCurrentActivity("");
 

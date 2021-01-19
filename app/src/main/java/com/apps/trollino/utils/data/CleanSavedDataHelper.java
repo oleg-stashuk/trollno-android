@@ -9,15 +9,22 @@ public class CleanSavedDataHelper {
         FavoritePostListFromApi.getInstance().removeAllDataFromList(prefUtils);
         PostListByCategoryFromApi.getInstance().removeAllDataFromList(prefUtils);
         PostListBySearchFromApi.getInstance().removeAllDataFromList(prefUtils);
+
+        prefUtils.saveNewPostCurrentPage(0);
+        prefUtils.saveCurrentPage(0);
     }
 
     public static void cleanAllDataIfUserRemoveOrLogout(PrefUtils prefUtils) {
         cleanAllDataFromApi(prefUtils);
+
         prefUtils.saveToken("");
         prefUtils.saveCookie("");
         prefUtils.saveUserUid("");
         prefUtils.savePassword("");
         prefUtils.saveIsUserAuthorization(false);
         prefUtils.saveLogoutToken("");
+
+        prefUtils.saveCommentIdForActivity("");
+        prefUtils.saveCurrentActivity("");
     }
 }

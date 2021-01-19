@@ -10,6 +10,7 @@ import com.apps.trollino.R;
 import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.ui.authorisation.LoginActivity;
 import com.apps.trollino.utils.SnackBarMessageCustom;
+import com.apps.trollino.utils.data.CleanSavedDataHelper;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
 import com.google.android.material.snackbar.Snackbar;
@@ -40,12 +41,7 @@ public class PostLogout {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
                     SnackBarMessageCustom.showSnackBar(view, errorMessage);
                 }
-
-                prefUtils.saveIsUserAuthorization(false);
-                prefUtils.saveCookie("");
-                prefUtils.saveToken("");
-                prefUtils.saveLogoutToken("");
-                prefUtils.savePassword("");
+                CleanSavedDataHelper.cleanAllDataIfUserRemoveOrLogout(prefUtils);
                 context.startActivity(new Intent(context, LoginActivity.class));
                 ((Activity) context).finish();
 
