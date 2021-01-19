@@ -23,7 +23,8 @@ public class MakeRecyclerViewForCommentToUserActivity extends RecyclerView.OnScr
     private static Context cont;
     private static PrefUtils prefUt;
 
-    public static void makeRecyclerViewForCommentToUserActivity(Context context, PrefUtils prefUtils, RecyclerView recyclerView, View includeNoDataForUser, TextView noDataTextView) {
+    public static void makeRecyclerViewForCommentToUserActivity(Context context, PrefUtils prefUtils, RecyclerView recyclerView,
+                                                                View includeNoDataForUser, TextView noDataTextView, View view) {
         cont = context;
         prefUt = prefUtils;
 
@@ -36,7 +37,7 @@ public class MakeRecyclerViewForCommentToUserActivity extends RecyclerView.OnScr
         recyclerView.setHasFixedSize(true);
 
         new Thread(() -> {
-            GetCommentListToUserActivity.getCommentListToUserActivity(context, prefUtils, adapter, includeNoDataForUser, noDataTextView);
+            GetCommentListToUserActivity.getCommentListToUserActivity(context, prefUtils, adapter, includeNoDataForUser, noDataTextView, view);
         }).start();
 
         recyclerView.addOnScrollListener(new RecyclerScrollListener() {
@@ -44,7 +45,7 @@ public class MakeRecyclerViewForCommentToUserActivity extends RecyclerView.OnScr
             public void onScrolledToEnd() {
                 Handler handler = new Handler();
                 handler.postDelayed(() -> new Thread(() -> {
-                    GetCommentListToUserActivity.getCommentListToUserActivity(context, prefUtils, adapter, includeNoDataForUser, noDataTextView);
+                    GetCommentListToUserActivity.getCommentListToUserActivity(context, prefUtils, adapter, includeNoDataForUser, noDataTextView, view);
                 }).start(), 1000);
             }
 

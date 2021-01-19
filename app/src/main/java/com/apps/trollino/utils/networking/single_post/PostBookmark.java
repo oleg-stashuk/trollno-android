@@ -1,6 +1,5 @@
 package com.apps.trollino.utils.networking.single_post;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.Menu;
@@ -21,12 +20,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
-import static com.facebook.appevents.internal.AppEventUtility.getRootView;
 
 public class PostBookmark {
 
-    public static void addPostToFavorite(Context context, PrefUtils prefUtils, String postId, Menu menu) {
-        final View rootView = getRootView((Activity)context);
+    public static void addPostToFavorite(Context context, PrefUtils prefUtils, String postId, Menu menu, View view) {
         String cookie = prefUtils.getCookie();
         String token = prefUtils.getToken();
 
@@ -40,7 +37,7 @@ public class PostBookmark {
                     prefUtils.saveIsFavorite(true);
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
-                    SnackBarMessageCustom.showSnackBar(rootView,errorMessage);
+                    SnackBarMessageCustom.showSnackBar(view,errorMessage);
                 }
             }
 
@@ -55,14 +52,14 @@ public class PostBookmark {
                     String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
                     if (isHaveNotInternet) {
                         Snackbar
-                                .make(rootView, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
+                                .make(view, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
                                 .setMaxInlineActionWidth(3)
                                 .setAction(R.string.refresh_button, v -> {
                                     call.clone().enqueue(this);
                                 })
                                 .show();
                     } else {
-                        SnackBarMessageCustom.showSnackBar(rootView, t.getLocalizedMessage());
+                        SnackBarMessageCustom.showSnackBar(view, t.getLocalizedMessage());
                     }
                     Log.d("OkHttp", "t.getLocalizedMessage() " + t.getLocalizedMessage());
                 }

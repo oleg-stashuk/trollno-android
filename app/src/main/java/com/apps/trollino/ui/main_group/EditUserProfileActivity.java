@@ -50,7 +50,7 @@ public class EditUserProfileActivity extends BaseActivity implements View.OnClic
         password = prefUtils.getPassword();
         passwordEditText.setText(password);
 
-        new Thread(() -> GetUserProfile.getUserProfile(this, prefUtils, imageView, nameTextView, emailTextView)).start();
+        new Thread(() -> GetUserProfile.getUserProfile(this, prefUtils, imageView, nameTextView, emailTextView, findViewById(R.id.activity_edit_user_profile))).start();
         passwordTextChangedListener();
     }
 
@@ -113,10 +113,12 @@ public class EditUserProfileActivity extends BaseActivity implements View.OnClic
                 showDeleteConfirmationDialog();
                 break;
             case R.id.image_edit_user_profile:
-                new Thread(() -> GetSettings.getSettings(this, prefUtils, imageView)).start();
+                new Thread(() -> GetSettings.getSettings(this, prefUtils, imageView, findViewById(R.id.activity_edit_user_profile))).start();
                 break;
             case R.id.update_button_edit_user_profile:
-                new Thread(() -> UpdatePassword.updatePassword(this, prefUtils, password, passwordEditText.getText().toString())).start();
+                new Thread(() ->
+                        UpdatePassword.updatePassword(this, prefUtils, password,
+                                passwordEditText.getText().toString(), findViewById(R.id.activity_edit_user_profile))).start();
                 break;
         }
     }

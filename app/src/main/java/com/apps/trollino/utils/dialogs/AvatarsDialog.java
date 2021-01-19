@@ -46,7 +46,7 @@
              avatarUidList.add(new AvatarImageModel(item.getAvatarId()));
              RequestUpdateAvatarModel uidAvatar = new RequestUpdateAvatarModel(avatarUidList);
 
-             new Thread(() -> UpdateAvatar.updateAvatar(context, prefUtils, uidAvatar, dialog, imageView)).start();
+             new Thread(() -> UpdateAvatar.updateAvatar(context, prefUtils, uidAvatar, dialog, imageView, dialog.findViewById(R.id.custom_dialog_avatar_list))).start();
          };
 
         AvatarsAdapter adapter = new AvatarsAdapter((BaseActivity) context, avatarList, avatarItemListener);

@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.apps.trollino.R;
 import com.apps.trollino.utils.OnSwipeTouchListener;
+import com.apps.trollino.utils.TouchImageView;
 import com.squareup.picasso.Picasso;
 
 public class ImageViewDialog {
@@ -43,7 +44,7 @@ public class ImageViewDialog {
             Toast.makeText(context,"SHARE" ,Toast.LENGTH_SHORT).show();
         });
 
-
+//        TouchImageView image = dialog.findViewById(R.id.image_dialog_view);
         ImageView image = dialog.findViewById(R.id.image_dialog_view);
         try {
             Picasso.get()

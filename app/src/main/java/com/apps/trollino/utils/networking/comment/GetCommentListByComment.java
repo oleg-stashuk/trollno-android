@@ -33,8 +33,8 @@ public class GetCommentListByComment {
     private static PrefUtils prefUt;
 
     public static void getCommentListByComment(Context context, PrefUtils prefUtils, String parentId,
-                                               RecyclerView childCommentRecyclerView,
-                                               TextView showMoreTextView, EditText commentEditText) {
+                                               RecyclerView childCommentRecyclerView, TextView showMoreTextView,
+                                               EditText commentEditText, View view) {
         cont = context;
         prefUt = prefUtils;
         String cookie = prefUtils.getCookie();
@@ -48,7 +48,7 @@ public class GetCommentListByComment {
                     checkAnswerToThisComment(response.body().getCommentsList(), childCommentRecyclerView, showMoreTextView, commentEditText);
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
-                    SnackBarMessageCustom.showSnackBar(showMoreTextView, errorMessage);
+                    SnackBarMessageCustom.showSnackBar(view, errorMessage);
                 }
             }
 
@@ -63,14 +63,14 @@ public class GetCommentListByComment {
                     String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
                     if (isHaveNotInternet) {
                         Snackbar
-                                .make(showMoreTextView, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
+                                .make(view, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
                                 .setMaxInlineActionWidth(3)
                                 .setAction(R.string.refresh_button, v -> {
                                     call.clone().enqueue(this);
                                 })
                                 .show();
                     } else {
-                        SnackBarMessageCustom.showSnackBar(showMoreTextView, t.getLocalizedMessage());
+                        SnackBarMessageCustom.showSnackBar(view, t.getLocalizedMessage());
                     }
                     Log.d("OkHttp", "t.getLocalizedMessage() " + t.getLocalizedMessage());
                 }

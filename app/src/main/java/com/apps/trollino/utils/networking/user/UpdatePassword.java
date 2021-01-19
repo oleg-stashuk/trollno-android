@@ -3,14 +3,17 @@ package com.apps.trollino.utils.networking.user;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
+import android.view.View;
 
+import com.apps.trollino.R;
 import com.apps.trollino.data.model.RequestUpdateUserPassword;
 import com.apps.trollino.data.model.UserProfileModel;
 import com.apps.trollino.data.networking.ApiService;
+import com.apps.trollino.utils.SnackBarMessageCustom;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.networking.authorisation.PostUserLogin;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +27,7 @@ import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
 public class UpdatePassword {
     private static Context cont;
 
-    public static void updatePassword(Context context, PrefUtils prefUtils, String existingPassword, String newPassword) {
+    public static void updatePassword(Context context, PrefUtils prefUtils, String existingPassword, String newPassword, View view) {
         cont = context;
         String cookie = prefUtils.getCookie();
         String token = prefUtils.getToken();
@@ -46,10 +49,10 @@ public class UpdatePassword {
                         userName = name.getValue();
                     }
 
-                    showSuccessDialog(newPassword, userName, prefUtils);
+                    showSuccessDialog(newPassword, userName, prefUtils, view);
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
-                    showToast(errorMessage);
+                    SnackBarMessageCustom.showSnackBar(view, errorMessage);
                 }
             }
 
@@ -60,27 +63,35 @@ public class UpdatePassword {
                     call.clone().enqueue(this);
                     countTry++;
                 } else {
-                    showToast(t.getLocalizedMessage());
-                    Log.d("OkHttp", "t.getLocalizedMessage() " + t.getLocalizedMessage());
+                    boolean isHaveNotInternet = t.getLocalizedMessage().contains(context.getString(R.string.internet_error_from_api));
+                    String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
+                    if (isHaveNotInternet) {
+                        Snackbar
+                                .make(view, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
+                                .setMaxInlineActionWidth(3)
+                                .setAction(R.string.refresh_button, v -> {
+                                    call.clone().enqueue(this);
+                                })
+                                .show();
+                    } else {
+                        SnackBarMessageCustom.showSnackBar(view, t.getLocalizedMessage());
+                    }
+                    Log.d("OkHttp_1", "t.getLocalizedMessage() " + t.getLocalizedMessage());
                 }
             }
         });
 
     }
 
-    private static void showSuccessDialog(String newPassword, String userName, PrefUtils prefUtils) {
+    private static void showSuccessDialog(String newPassword, String userName, PrefUtils prefUtils, View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(cont);
         builder
                 .setMessage("Пароль успешно изменен на " + newPassword)
                 .setPositiveButton(cont.getString(android.R.string.yes), (dialog, which) -> {
-                    PostUserLogin.postUserLogin(cont, userName, newPassword, prefUtils);
+                    PostUserLogin.postUserLogin(cont, userName, newPassword, prefUtils, view);
                 });
 
         AlertDialog dialog = builder.create();
         dialog.show();
-    }
-
-    private static void showToast(String message) {
-        Toast.makeText(cont, message, Toast.LENGTH_SHORT).show();
     }
 }

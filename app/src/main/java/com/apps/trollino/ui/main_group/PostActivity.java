@@ -91,7 +91,6 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
         swipedImageView.setOnTouchListener(new OnSwipeTouchListener(this) {
 //        layout.setOnTouchListener(new OnSwipeTouchListener(this) {
             public void onSwipeRight() {
-//                Snackbar.make(swipedImageView, "onSwipeRight", Snackbar.LENGTH_SHORT).show();
                 String nextPostId = prefUtils.getNextPostId();
                 if(!nextPostId.isEmpty() && nextPostId.length() > 0 && !nextPostId.equals("0")) {
                     getPostFromAPi(nextPostId);
@@ -100,7 +99,6 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
             }
 
             public void onSwipeLeft() {
-//                Snackbar.make(swipedImageView, "onSwipeLeft", Snackbar.LENGTH_SHORT).show();
                 String prevPostId = prefUtils.gePrevPostId();
                 if(!prevPostId.isEmpty() && prevPostId.length() > 0 && !prevPostId.equals("0")) {
                     getPostFromAPi(prevPostId);
@@ -116,7 +114,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
         new Thread(() -> {
             GetItemPost.getItemPost(PostActivity.this, prefUtils,
                     partOfPostRecyclerView, menu, categoryTextView, postId, titleTextView,
-                    countCommentTextView, commentButton, body, isPostFromCategory);
+                    countCommentTextView, commentButton, body, isPostFromCategory, findViewById(R.id.activity_post));
         }).start();
     }
 
@@ -134,9 +132,9 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
     private void pressFavoriteButton() {
         if (!prefUtils.getCookie().isEmpty()) {
             if (prefUtils.getIsFavorite()) {
-                new Thread(() -> PostUnbookmark.removePostFromFavorite(this, prefUtils, currentPostId, menu)).start();
+                new Thread(() -> PostUnbookmark.removePostFromFavorite(this, prefUtils, currentPostId, menu, findViewById(R.id.activity_post))).start();
             } else {
-                new Thread(() -> PostBookmark.addPostToFavorite(this, prefUtils, currentPostId, menu)).start();
+                new Thread(() -> PostBookmark.addPostToFavorite(this, prefUtils, currentPostId, menu, findViewById(R.id.activity_post))).start();
             }
         } else {
             GuestDialog dialog = new GuestDialog();

@@ -26,7 +26,8 @@ import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
 public class GetCommentListToUserActivity {
     private static int page;
 
-    public static void getCommentListToUserActivity(Context context, PrefUtils prefUtils, UserCommentAdapter adapter, View includeNoDataForUser, TextView noDataTextView) {
+    public static void getCommentListToUserActivity(Context context, PrefUtils prefUtils, UserCommentAdapter adapter,
+                                                    View includeNoDataForUser, TextView noDataTextView, View view) {
         String cookie = prefUtils.getCookie();
         String userId = prefUtils.getUserUid();
         page = prefUtils.getCurrentPage();
@@ -50,7 +51,7 @@ public class GetCommentListToUserActivity {
                     }
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
-                    SnackBarMessageCustom.showSnackBar(includeNoDataForUser, errorMessage);
+                    SnackBarMessageCustom.showSnackBar(view, errorMessage);
                 }
             }
 
@@ -65,14 +66,14 @@ public class GetCommentListToUserActivity {
                     String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
                     if (isHaveNotInternet) {
                         Snackbar
-                                .make(includeNoDataForUser, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
+                                .make(view, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
                                 .setMaxInlineActionWidth(3)
                                 .setAction(R.string.refresh_button, v -> {
                                     call.clone().enqueue(this);
                                 })
                                 .show();
                     } else {
-                        SnackBarMessageCustom.showSnackBar(includeNoDataForUser, t.getLocalizedMessage());
+                        SnackBarMessageCustom.showSnackBar(view, t.getLocalizedMessage());
                     }
                     Log.d("OkHttp", "t.getLocalizedMessage() " + t.getLocalizedMessage());
                 }

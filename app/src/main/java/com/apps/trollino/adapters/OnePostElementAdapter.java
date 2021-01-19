@@ -83,7 +83,7 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
                 makeImageBlock(entityItem.getImage(), imageView, sourceTextView, sourceLinkTextView);
                 makeInstagramBlock(entityItem.getInstagram(), instagramLinearLayout, instagramTextView, view.getContext());
                 makeYoutubeBlock(entityItem.getYoutube(), youtubeTextView, youTubeThumbnailView);
-                makeTokImageBlock(entityItem.getTiktok(), tikTokImageView);
+                makeTokImageBlock(entityItem.getTiktok(), tikTokImageView, view);
 
                 if (entityItem.getDesc().isEmpty()) {
                     descriptionTextView.setVisibility(View.GONE);
@@ -203,12 +203,12 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
                 }
             }
 
-            private void makeTokImageBlock(String tikTokLink, ImageView tikTokImageView) {
+            private void makeTokImageBlock(String tikTokLink, ImageView tikTokImageView, View view) {
                 if (tikTokLink.isEmpty()) {
                     tikTokImageView.setVisibility(View.GONE);
                 } else {
                     tikTokImageView.setVisibility(View.VISIBLE);
-                    getTikTok(view.getContext(), tikTokImageView, tikTokLink);
+                    getTikTok(view.getContext(), tikTokImageView, tikTokLink, view);
 
                     tikTokImageView.setOnClickListener(v -> {
                         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(tikTokLink));

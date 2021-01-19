@@ -72,7 +72,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             exitButton.setVisibility(View.VISIBLE);
 
             new Thread(() -> {
-                GetUserProfile.getUserProfile(this, prefUtils, userImageView, nameTextView, emailTextView);
+                GetUserProfile.getUserProfile(this, prefUtils, userImageView, nameTextView, emailTextView, findViewById(R.id.activity_profile));
             }).start();
         } else {
             userIncludeLinearLayout.setVisibility(View.GONE);
@@ -132,7 +132,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 finish();
                 break;
             case R.id.exit_button_profile:
-                new Thread(() -> PostLogout.postLogout(this, prefUtils)).start();
+                new Thread(() -> PostLogout.postLogout(this, prefUtils, findViewById(R.id.activity_profile))).start();
                 break;
             case R.id.registration_button_include_profile_for_guest:
                 startActivity(new Intent(this, RegistrationActivity.class));

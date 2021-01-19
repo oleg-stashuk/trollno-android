@@ -1,6 +1,5 @@
 package com.apps.trollino.utils.networking.authorisation;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
@@ -21,13 +20,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
-import static com.facebook.appevents.internal.AppEventUtility.getRootView;
 
 public class PostUserRegistration {
 
-    public static void postRegistration(Context context, String login, String mail, String pass, PrefUtils prefUtils) {
-        final View rootView = getRootView((Activity)context);
-
+    public static void postRegistration(Context context, String login, String mail, String pass, PrefUtils prefUtils, View view) {
         List<String> loginList = new ArrayList<>();
         loginList.add(login);
 
@@ -43,10 +39,10 @@ public class PostUserRegistration {
             @Override
             public void onResponse(Call<RegistrationResponseModel> call, Response<RegistrationResponseModel> response) {
                 if(response.isSuccessful()) {
-                    PostUserLogin.postUserLogin(context, login, pass, prefUtils);
+                    PostUserLogin.postUserLogin(context, login, pass, prefUtils, view);
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
-                    SnackBarMessageCustom.showSnackBar(rootView, errorMessage);
+                    SnackBarMessageCustom.showSnackBar(view, errorMessage);
                 }
             }
 
@@ -61,14 +57,14 @@ public class PostUserRegistration {
                     String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
                     if (isHaveNotInternet) {
                         Snackbar
-                                .make(rootView, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
+                                .make(view, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
                                 .setMaxInlineActionWidth(3)
                                 .setAction(R.string.refresh_button, v -> {
                                     call.clone().enqueue(this);
                                 })
                                 .show();
                     } else {
-                        SnackBarMessageCustom.showSnackBar(rootView, t.getLocalizedMessage());
+                        SnackBarMessageCustom.showSnackBar(view, t.getLocalizedMessage());
                     }
                     Log.d("OkHttp", "t.getLocalizedMessage() " + t.getLocalizedMessage());
                 }

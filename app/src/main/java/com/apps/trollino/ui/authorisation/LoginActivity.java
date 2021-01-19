@@ -89,7 +89,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 break;
             case R.id.login_button_login:
                 if (inputFieldIsValid()) {
-                    new Thread(() -> PostUserLogin.postUserLogin(this, name, password, prefUtils)).start();
+                    new Thread(() -> PostUserLogin.postUserLogin(this, name, password, prefUtils, findViewById(R.id.activity_login))).start();
                 }
                 break;
             case R.id.register_login:

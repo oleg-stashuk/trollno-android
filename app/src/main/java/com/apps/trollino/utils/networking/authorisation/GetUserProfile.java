@@ -1,6 +1,5 @@
 package com.apps.trollino.utils.networking.authorisation;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
@@ -24,13 +23,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
-import static com.facebook.appevents.internal.AppEventUtility.getRootView;
 
 public class GetUserProfile {
 
-    public static void getUserProfile(Context context, PrefUtils prefUtils,
-                                      ImageView imageView, View nameView, View emailView) {
-        final View rootView = getRootView((Activity)context);
+    public static void getUserProfile(Context context, PrefUtils prefUtils, ImageView imageView,
+                                      View nameView, View emailView, View view) {
         String cookie = prefUtils.getCookie();
         String userUid = prefUtils.getUserUid();
 
@@ -75,7 +72,7 @@ public class GetUserProfile {
 
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
-                    SnackBarMessageCustom.showSnackBar(rootView, errorMessage);
+                    SnackBarMessageCustom.showSnackBar(view, errorMessage);
                 }
             }
 
@@ -90,14 +87,14 @@ public class GetUserProfile {
                     String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
                     if (isHaveNotInternet) {
                         Snackbar
-                                .make(rootView, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
+                                .make(view, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
                                 .setMaxInlineActionWidth(3)
                                 .setAction(R.string.refresh_button, v -> {
                                     call.clone().enqueue(this);
                                 })
                                 .show();
                     } else {
-                        SnackBarMessageCustom.showSnackBar(rootView, t.getLocalizedMessage());
+                        SnackBarMessageCustom.showSnackBar(view, t.getLocalizedMessage());
                     }
                     Log.d("OkHttp", "t.getLocalizedMessage() " + t.getLocalizedMessage());
                 }

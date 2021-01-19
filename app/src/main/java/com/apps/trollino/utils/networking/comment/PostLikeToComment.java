@@ -20,12 +20,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
-import static com.facebook.appevents.internal.AppEventUtility.getRootView;
 
 public class PostLikeToComment {
 
-    public static void postLikeToComment(Context context, PrefUtils prefUtils, String commentId) {
-        final View rootView = getRootView((Activity)context);
+    public static void postLikeToComment(Context context, PrefUtils prefUtils, String commentId, View view) {
         String cookie = prefUtils.getCookie();
         String token = prefUtils.getToken();
 
@@ -41,7 +39,7 @@ public class PostLikeToComment {
                     context.startActivity(intent);
                 } else {
                     String errorMassage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
-                    SnackBarMessageCustom.showSnackBar(rootView, errorMassage);
+                    SnackBarMessageCustom.showSnackBar(view, errorMassage);
                 }
             }
 
@@ -56,14 +54,14 @@ public class PostLikeToComment {
                     String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
                     if (isHaveNotInternet) {
                         Snackbar
-                                .make(rootView, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
+                                .make(view, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
                                 .setMaxInlineActionWidth(3)
                                 .setAction(R.string.refresh_button, v -> {
                                     call.clone().enqueue(this);
                                 })
                                 .show();
                     } else {
-                        SnackBarMessageCustom.showSnackBar(rootView, t.getLocalizedMessage());
+                        SnackBarMessageCustom.showSnackBar(view, t.getLocalizedMessage());
                     }
                     Log.d("OkHttp", "t.getLocalizedMessage() " + t.getLocalizedMessage());
                 }

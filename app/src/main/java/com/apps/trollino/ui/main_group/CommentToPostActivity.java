@@ -115,7 +115,7 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
 
                     new Thread(() ->
                             PostNewComment.postNewComment(this, prefUtils,
-                            commentEditText.getText().toString(), commentId, commentEditText)
+                            commentEditText.getText().toString(), commentId, commentEditText, findViewById(R.id.activity_comment_to_post))
                     ).start();
 
                 } else {

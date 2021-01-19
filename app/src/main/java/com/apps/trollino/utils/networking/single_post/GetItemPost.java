@@ -35,9 +35,10 @@ public class GetItemPost {
     private static ItemPostModel model;
     private static PrefUtils prefUt;
 
-    public static void getItemPost(Context context, PrefUtils prefUtils, RecyclerView recyclerView, Menu menu, TextView categoryTextView, String postId, TextView titleTextView,
+    public static void getItemPost(Context context, PrefUtils prefUtils, RecyclerView recyclerView, Menu menu,
+                                   TextView categoryTextView, String postId, TextView titleTextView,
                                    TextView countCommentTextView, Button commentButton,
-                                   TextView bodyPostTextView, boolean isPostFromCategory) {
+                                   TextView bodyPostTextView, boolean isPostFromCategory, View view) {
         cont = context;
         prefUt = prefUtils;
         String cookie = prefUtils.getCookie();
@@ -65,7 +66,7 @@ public class GetItemPost {
 
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
-                    SnackBarMessageCustom.showSnackBar(titleTextView, errorMessage);
+                    SnackBarMessageCustom.showSnackBar(view, errorMessage);
                 }
             }
 
@@ -80,14 +81,14 @@ public class GetItemPost {
                     String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
                     if (isHaveNotInternet) {
                         Snackbar
-                                .make(titleTextView, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
+                                .make(view, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
                                 .setMaxInlineActionWidth(3)
                                 .setAction(R.string.refresh_button, v -> {
                                     call.clone().enqueue(this);
                                 })
                                 .show();
                     } else {
-                        SnackBarMessageCustom.showSnackBar(titleTextView, t.getLocalizedMessage());
+                        SnackBarMessageCustom.showSnackBar(view, t.getLocalizedMessage());
                     }
                     Log.d("OkHttp", "t.getLocalizedMessage() " + t.getLocalizedMessage());
                 }

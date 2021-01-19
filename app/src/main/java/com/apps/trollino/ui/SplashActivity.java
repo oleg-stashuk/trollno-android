@@ -39,8 +39,8 @@ public class SplashActivity extends BaseActivity {
         });
         thread.start();
 
-        new Thread(() -> GetCategoryList.getCategoryList(this, prefUtils)).start();
-        new Thread(() -> GetSettings.getSettings(this, prefUtils, null)).start();
+        new Thread(() -> GetCategoryList.getCategoryList(this, prefUtils, findViewById(R.id.splash_activity))).start();
+        new Thread(() -> GetSettings.getSettings(this, prefUtils, null, findViewById(R.id.splash_activity))).start();
     }
 
     Runnable openNextActivity = new Runnable() {

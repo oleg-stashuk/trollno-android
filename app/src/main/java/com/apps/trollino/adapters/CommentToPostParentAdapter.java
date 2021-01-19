@@ -81,7 +81,7 @@ public class CommentToPostParentAdapter extends BaseRecyclerAdapter<CommentModel
 
                 // Загрузить дочерние комментарии
                 GetCommentListByComment.getCommentListByComment(view.getContext(), prefUtils, item.getCommentId(),
-                        childCommentRecyclerView, showMoreTextView, commentEditText);
+                        childCommentRecyclerView, showMoreTextView, commentEditText, view);
             }
 
 
@@ -108,9 +108,9 @@ public class CommentToPostParentAdapter extends BaseRecyclerAdapter<CommentModel
                 imageView.setOnClickListener(v -> {
                     if (prefUtils.getIsUserAuthorization()) {
                         if (isLike) {
-                            new Thread(() -> PostUnlikeToComment.postUnlikeToComment(context, prefUtils, commentId)).start();
+                            new Thread(() -> PostUnlikeToComment.postUnlikeToComment(context, prefUtils, commentId, view)).start();
                         } else {
-                            new Thread(() -> PostLikeToComment.postLikeToComment(context, prefUtils, commentId)).start();
+                            new Thread(() -> PostLikeToComment.postLikeToComment(context, prefUtils, commentId, view)).start();
                         }
                     } else {
                         GuestDialog dialog = new GuestDialog();

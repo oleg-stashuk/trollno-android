@@ -55,7 +55,7 @@ public class FavoriteAdapter extends BaseRecyclerAdapter<PostsModel.PostDetails>
                     AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(view.getContext());
                     dialogBuilder.setMessage(view.getContext().getResources().getString(R.string.do_you_really_want_to_delete_post_from_favorite))
                             .setPositiveButton(R.string.remove_account_confirm_button, (dialog, which) -> {
-                                new Thread(() -> PostUnbookmark.removePostFromFavorite(view.getContext(), prefUtils, item.getPostId(), null)).start();
+                                new Thread(() -> PostUnbookmark.removePostFromFavorite(view.getContext(), prefUtils, item.getPostId(), null, view)).start();
                                 dialog.cancel();
                             })
                             .setNegativeButton(R.string.no_button_for_dialog, (dialog, which) -> {

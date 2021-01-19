@@ -58,7 +58,8 @@
             userAuthorizationView.setVisibility(View.GONE);
             postWithActivityRecyclerView.setVisibility(View.VISIBLE);
 
-            MakeRecyclerViewForCommentToUserActivity.makeRecyclerViewForCommentToUserActivity(this, prefUtils, postWithActivityRecyclerView, includeNoDataForUser , noDataTextView);
+            MakeRecyclerViewForCommentToUserActivity
+                    .makeRecyclerViewForCommentToUserActivity(this, prefUtils, postWithActivityRecyclerView, includeNoDataForUser , noDataTextView, findViewById(R.id.activity_in_post));
         } else {
             userAuthorizationView.setVisibility(View.VISIBLE);
             postWithActivityRecyclerView.setVisibility(View.GONE);
