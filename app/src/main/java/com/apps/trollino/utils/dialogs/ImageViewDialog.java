@@ -46,7 +46,7 @@ public class ImageViewDialog {
                 shareIntent.setType("text/plain");
                 shareIntent.putExtra(Intent.EXTRA_SUBJECT, dialog.getContext().getResources().getString(R.string.app_name));
                 shareIntent.putExtra(Intent.EXTRA_TEXT, imageResource);
-                dialog.getContext().startActivity(Intent.createChooser(shareIntent, "choose one"));
+                dialog.getContext().startActivity(Intent.createChooser(shareIntent, ""));
             } catch(Exception e) {
                 Log.d("OkHttp", "!!!!!!!!!!!! " + e.getLocalizedMessage());
             }

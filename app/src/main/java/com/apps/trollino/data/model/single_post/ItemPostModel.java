@@ -1,4 +1,4 @@
-package com.apps.trollino.data.model;
+package com.apps.trollino.data.model.single_post;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

@@ -3,16 +3,17 @@ package com.apps.trollino.data.networking;
 import android.content.Context;
 
 import com.apps.trollino.data.model.CategoryModel;
-import com.apps.trollino.data.model.ItemPostModel;
+import com.apps.trollino.data.model.single_post.ItemPostModel;
 import com.apps.trollino.data.model.PostsModel;
 import com.apps.trollino.data.model.RegistrationRequestModel;
 import com.apps.trollino.data.model.RegistrationResponseModel;
 import com.apps.trollino.data.model.RequestBlockUserModel;
-import com.apps.trollino.data.model.RequestBookmarkPostModel;
+import com.apps.trollino.data.model.single_post.MarkPostAsReadModel;
+import com.apps.trollino.data.model.single_post.RequestBookmarkPostModel;
 import com.apps.trollino.data.model.RequestLoginModel;
 import com.apps.trollino.data.model.RequestUpdateAvatarModel;
 import com.apps.trollino.data.model.RequestUpdateUserPassword;
-import com.apps.trollino.data.model.ResponseBookmarkModel;
+import com.apps.trollino.data.model.single_post.ResponseBookmarkModel;
 import com.apps.trollino.data.model.ResponseLoginModel;
 import com.apps.trollino.data.model.SettingsModel;
 import com.apps.trollino.data.model.UserProfileModel;
@@ -30,6 +31,7 @@ import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

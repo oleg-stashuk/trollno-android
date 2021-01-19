@@ -1,6 +1,6 @@
 package com.apps.trollino.utils.networking_helper;
 
-import com.apps.trollino.data.model.ItemPostModel;
+import com.apps.trollino.data.model.single_post.ItemPostModel;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;

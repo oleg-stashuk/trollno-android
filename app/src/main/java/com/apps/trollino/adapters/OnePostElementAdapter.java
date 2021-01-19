@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import com.apps.trollino.R;
 import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
-import com.apps.trollino.data.model.ItemPostModel;
+import com.apps.trollino.data.model.single_post.ItemPostModel;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.ui.main_group.YoutubeActivity;
 import com.apps.trollino.utils.Const;

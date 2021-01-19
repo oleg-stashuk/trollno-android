@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apps.trollino.R;
 import com.apps.trollino.adapters.OnePostElementAdapter;
 import com.apps.trollino.data.model.CategoryModel;
-import com.apps.trollino.data.model.ItemPostModel;
+import com.apps.trollino.data.model.single_post.ItemPostModel;
 import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.SnackBarMessageCustom;
