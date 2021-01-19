@@ -164,7 +164,7 @@ public class PrefUtils {
         getEditor().putString(NEXT_POST_ID, postId).apply();
     }
 
-    public String gePrevPostId() {
+    public String getPrevPostId() {
         return sharedPreferences.getString(PREV_POST_ID, "");
     }
 
