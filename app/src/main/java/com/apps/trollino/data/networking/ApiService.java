@@ -155,7 +155,7 @@ public class ApiService {
         userApi.updateAvatar(cookie, token, UidAvatar, userUid).enqueue(callback);
     }
 
-    public void blockUser(String cookie, String token, RequestBlockUserModel userBlockModel, int userUid, Callback<UserProfileModel> callback) {
+    public void blockUser(String cookie, String token, RequestBlockUserModel userBlockModel, int userUid, Callback<Void> callback) {
         userApi.blockUser(cookie, token, userBlockModel, userUid).enqueue(callback);
     }
 

@@ -99,7 +99,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
             }
 
             public void onSwipeLeft() {
-                String prevPostId = prefUtils.gePrevPostId();
+                String prevPostId = prefUtils.getPrevPostId();
                 if(!prevPostId.isEmpty() && prevPostId.length() > 0 && !prevPostId.equals("0")) {
                     getPostFromAPi(prevPostId);
                     currentPostId = prevPostId;

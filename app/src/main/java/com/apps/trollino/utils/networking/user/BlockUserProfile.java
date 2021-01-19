@@ -1,14 +1,20 @@
 package com.apps.trollino.utils.networking.user;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
+import android.view.View;
 
+import com.apps.trollino.R;
 import com.apps.trollino.data.model.profile.RequestBlockUserModel;
-import com.apps.trollino.data.model.profile.UserProfileModel;
 import com.apps.trollino.data.networking.ApiService;
+import com.apps.trollino.ui.authorisation.LoginActivity;
+import com.apps.trollino.utils.SnackBarMessageCustom;
+import com.apps.trollino.utils.data.CleanSavedDataHelper;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
+import com.google.android.material.snackbar.Snackbar;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -17,44 +23,51 @@ import retrofit2.Response;
 import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
 
 public class BlockUserProfile {
-    private static Context cont;
-
-    public static void blockUserProfile(Context context, PrefUtils prefUtils, RequestBlockUserModel blockUserModel) {
-        cont = context;
+    public static void blockUserProfile(Context context, PrefUtils prefUtils, RequestBlockUserModel blockUserModel, View view) {
         String cookie = prefUtils.getCookie();
         String token = prefUtils.getToken();
         int uidUser = Integer.parseInt(prefUtils.getUserUid());
 
-        ApiService.getInstance(context).blockUser(cookie, token, blockUserModel, uidUser, new Callback<UserProfileModel>() {
+        ApiService.getInstance(context).blockUser(cookie, token, blockUserModel, uidUser, new Callback<Void>() {
             int countTry = 0;
 
             @Override
-            public void onResponse(Call<UserProfileModel> call, Response<UserProfileModel> response) {
+            public void onResponse(Call<Void> call, Response<Void> response) {
                 if(response.isSuccessful()) {
-                    Log.d("OkHttp","response.isSuccessful()");
+                    CleanSavedDataHelper.cleanAllDataIfUserRemoveOrLogout(prefUtils);
+                    context.startActivity(new Intent(context, LoginActivity.class));
+                    ((Activity) context).finish();
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
-                    showToast(errorMessage);
+                    SnackBarMessageCustom.showSnackBar(view, errorMessage);
                 }
             }
 
             @Override
-            public void onFailure(Call<UserProfileModel> call, Throwable t) {
+            public void onFailure(Call<Void> call, Throwable t) {
                 t.getStackTrace();
                 if (countTry <= COUNT_TRY_REQUEST) {
                     call.clone().enqueue(this);
                     countTry++;
                 } else {
-                    showToast(t.getLocalizedMessage());
+                    boolean isHaveNotInternet = t.getLocalizedMessage().contains(context.getString(R.string.internet_error_from_api));
+                    String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
+                    if (isHaveNotInternet) {
+                        Snackbar
+                                .make(view, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
+                                .setMaxInlineActionWidth(3)
+                                .setAction(R.string.refresh_button, v -> {
+                                    call.clone().enqueue(this);
+                                })
+                                .show();
+                    } else {
+                        SnackBarMessageCustom.showSnackBar(view, t.getLocalizedMessage());
+                    }
                     Log.d("OkHttp", "t.getLocalizedMessage() " + t.getLocalizedMessage());
                 }
             }
         });
 
 
-    }
-
-    private static void showToast(String message) {
-        Toast.makeText(cont, message, Toast.LENGTH_SHORT).show();
     }
 }

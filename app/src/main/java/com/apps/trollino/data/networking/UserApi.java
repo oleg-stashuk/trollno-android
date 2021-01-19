@@ -26,7 +26,7 @@ public interface UserApi {
             "Accepts: application/json",
     })
     @PATCH("/user/{uid}?_format=json")
-    Call<UserProfileModel> blockUser(@Header("Cookie") String cookie, @Header("X-CSRF-Token") String token, @Body RequestBlockUserModel blockUserModel, @Path("uid") int userUid);
+    Call<Void> blockUser(@Header("Cookie") String cookie, @Header("X-CSRF-Token") String token, @Body RequestBlockUserModel blockUserModel, @Path("uid") int userUid);
 
     @Headers({
             "Content-Type: application/json",

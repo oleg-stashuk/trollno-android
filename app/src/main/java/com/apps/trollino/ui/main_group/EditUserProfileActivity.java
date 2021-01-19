@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,10 +13,12 @@ import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 
 import com.apps.trollino.R;
+import com.apps.trollino.data.model.profile.RequestBlockUserModel;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.Validation;
 import com.apps.trollino.utils.networking.GetSettings;
 import com.apps.trollino.utils.networking.authorisation.GetUserProfile;
+import com.apps.trollino.utils.networking.user.BlockUserProfile;
 import com.apps.trollino.utils.networking.user.UpdatePassword;
 
 public class EditUserProfileActivity extends BaseActivity implements View.OnClickListener {
@@ -80,16 +81,10 @@ public class EditUserProfileActivity extends BaseActivity implements View.OnClic
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         dialogBuilder.setMessage(getResources().getString(R.string.do_you_really_want_to_delete_your_account))
                 .setNegativeButton(this.getString(R.string.no_button_for_dialog), (dialog1, which) -> {
-                    Log.d("OkHttp", "Нет");
                     dialog1.cancel();
                 })
                 .setPositiveButton(R.string.remove_account_confirm_button, (dialog, which) -> {
-                    Log.d("OkHttp", "Удалить");
-                    showSnackBarMessage(findViewById(R.id.activity_edit_user_profile), "Удалить профиль");
-//                    List<RequestBlockUserModel.StatusBlockUserModel> blockStatus = new ArrayList<>();
-//                    blockStatus.add(new RequestBlockUserModel.StatusBlockUserModel(false));
-//                    RequestBlockUserModel requestBlockUserModel = new RequestBlockUserModel(blockStatus);
-//                    new Thread(() -> BlockUserProfile.blockUserProfile(this, prefUtils, requestBlockUserModel)).start();
+                    new Thread(() -> BlockUserProfile.blockUserProfile(this, prefUtils, new RequestBlockUserModel(), findViewById(R.id.activity_edit_user_profile))).start();
                     dialog.cancel();
                 });
 
