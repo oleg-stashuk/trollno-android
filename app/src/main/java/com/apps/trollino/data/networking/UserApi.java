@@ -1,9 +1,9 @@
 package com.apps.trollino.data.networking;
 
-import com.apps.trollino.data.model.RequestBlockUserModel;
-import com.apps.trollino.data.model.RequestUpdateAvatarModel;
-import com.apps.trollino.data.model.RequestUpdateUserPassword;
-import com.apps.trollino.data.model.UserProfileModel;
+import com.apps.trollino.data.model.profile.RequestBlockUserModel;
+import com.apps.trollino.data.model.profile.RequestUpdateAvatarModel;
+import com.apps.trollino.data.model.profile.RequestUpdateUserPassword;
+import com.apps.trollino.data.model.profile.UserProfileModel;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

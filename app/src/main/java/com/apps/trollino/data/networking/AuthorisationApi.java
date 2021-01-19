@@ -1,10 +1,10 @@
 package com.apps.trollino.data.networking;
 
-import com.apps.trollino.data.model.RegistrationRequestModel;
-import com.apps.trollino.data.model.RegistrationResponseModel;
-import com.apps.trollino.data.model.RequestLoginModel;
-import com.apps.trollino.data.model.ResponseLoginModel;
-import com.apps.trollino.data.model.UserProfileModel;
+import com.apps.trollino.data.model.login.RegistrationRequestModel;
+import com.apps.trollino.data.model.login.RegistrationResponseModel;
+import com.apps.trollino.data.model.login.RequestLoginModel;
+import com.apps.trollino.data.model.login.ResponseLoginModel;
+import com.apps.trollino.data.model.profile.UserProfileModel;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

@@ -1,5 +1,6 @@
 package com.apps.trollino.data.model;
 
+import com.apps.trollino.data.model.profile.AvatarImageModel;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.apps.trollino.R;
-import com.apps.trollino.data.model.AvatarImageModel;
+import com.apps.trollino.data.model.profile.AvatarImageModel;
 import com.apps.trollino.data.model.SettingsModel;
 import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.utils.SnackBarMessageCustom;

@@ -1,4 +1,4 @@
-package com.apps.trollino.data.model;
+package com.apps.trollino.data.model.login;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

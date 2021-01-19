@@ -4,8 +4,8 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.apps.trollino.data.model.RequestBlockUserModel;
-import com.apps.trollino.data.model.UserProfileModel;
+import com.apps.trollino.data.model.profile.RequestBlockUserModel;
+import com.apps.trollino.data.model.profile.UserProfileModel;
 import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;

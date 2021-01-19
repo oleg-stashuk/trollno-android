@@ -5,7 +5,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.apps.trollino.R;
-import com.apps.trollino.data.model.RegistrationResponseModel;
+import com.apps.trollino.data.model.login.RegistrationResponseModel;
 import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.utils.SnackBarMessageCustom;
 import com.apps.trollino.utils.data.PrefUtils;

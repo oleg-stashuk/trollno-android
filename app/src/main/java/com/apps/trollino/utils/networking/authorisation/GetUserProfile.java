@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.apps.trollino.R;
-import com.apps.trollino.data.model.UserProfileModel;
+import com.apps.trollino.data.model.profile.UserProfileModel;
 import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.utils.SnackBarMessageCustom;
 import com.apps.trollino.utils.data.PrefUtils;
