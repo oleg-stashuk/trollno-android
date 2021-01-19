@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -108,7 +107,6 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
                     blockCount = 1;
                     getAdBlock(adView, adLinearLayout);
                 }
-                Log.d("OkHttp", "!!!!!!!!!!!!!!! in recycler block count " + blockCountFromApi + " -> " + blockCount);
             }
 
             private void getAdBlock(AdView adView, LinearLayout adLinearLayout) {

@@ -49,10 +49,10 @@ public class GetItemPost {
             @Override
             public void onResponse(Call<ItemPostModel> call, Response<ItemPostModel> response) {
                 if(response.isSuccessful()) {
-                    if (prefUtils.getIsUserAuthorization()) {
+                    model = response.body();
+                    if (prefUtils.getIsUserAuthorization() && ! model.isReadByUser()) {
                         new Thread(() -> PostMarkPostAsRead.postMarkPostAsRead(context, prefUtils, postId)).start();
                     }
-                    model = response.body();
 
                     setPostCategory(categoryTextView);
                     setPostTitle(titleTextView);

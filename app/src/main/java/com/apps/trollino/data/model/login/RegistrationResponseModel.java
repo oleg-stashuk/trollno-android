@@ -24,10 +24,4 @@ public class RegistrationResponseModel {
             return uid;
         }
     }
-
-    /*
-    "{
-    ""uid"": [ {  ""value"": 7 } ],
-    ""name"": [ {   ""value"": ""qa-restuser""  } ],
-     */
 }

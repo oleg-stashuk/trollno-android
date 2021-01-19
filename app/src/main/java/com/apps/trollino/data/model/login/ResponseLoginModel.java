@@ -47,8 +47,3 @@ public class ResponseLoginModel {
     }
 
 }
-
-/*
-Header:
-Set-cookie: <COOKIE>
-*/

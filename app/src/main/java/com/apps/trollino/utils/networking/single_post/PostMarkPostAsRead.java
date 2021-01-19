@@ -3,7 +3,6 @@ package com.apps.trollino.utils.networking.single_post;
 import android.content.Context;
 import android.util.Log;
 
-import com.apps.trollino.data.model.single_post.ItemPostModel;
 import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
@@ -20,11 +19,11 @@ public class PostMarkPostAsRead {
         String cookie = prefUtils.getCookie();
         String token = prefUtils.getToken();
 
-        ApiService.getInstance(context).markPostAsRead(cookie, token, postId, new Callback<ItemPostModel>() {
+        ApiService.getInstance(context).markPostAsRead(cookie, token, postId, new Callback<Void>() {
             int countTry = 0;
 
             @Override
-            public void onResponse(Call<ItemPostModel> call, Response<ItemPostModel> response) {
+            public void onResponse(Call<Void> call, Response<Void> response) {
                 if(response.isSuccessful()) {
                     Log.d("OkHttp", "!!!!!!!!!!!!!!!!!! POST ADD IN READ");
                 } else {
@@ -34,13 +33,13 @@ public class PostMarkPostAsRead {
             }
 
             @Override
-            public void onFailure(Call<ItemPostModel> call, Throwable t) {
+            public void onFailure(Call<Void> call, Throwable t) {
                 t.getStackTrace();
                 if (countTry <= COUNT_TRY_REQUEST) {
                     call.clone().enqueue(this);
                     countTry++;
-                    Log.d("OkHttp", "t.getLocalizedMessage() " + t.getLocalizedMessage());
                 }
+                Log.d("OkHttp", "!!!!!! t.getLocalizedMessage() " + t.getLocalizedMessage());
             }
         });
     }

@@ -36,10 +36,13 @@ public class ItemPostModel {
     @SerializedName("bookmarked")
     @Expose
     private boolean isFavorite;
+    @SerializedName("read_by_user")
+    @Expose
+    private boolean IsReadByUser;
 
     public ItemPostModel(List<IdPost> postId, List<TitlePost> title, List<BodyPost> body,
                          List<BannerPost> banner, List<CategoryPost> category, List<CommentPost> comment,
-                         List<MediaBlock> mediaBlock, NeighboringPost nextPost, NeighboringPost prevPost, boolean isFavorite) {
+                         List<MediaBlock> mediaBlock, NeighboringPost nextPost, NeighboringPost prevPost, boolean isFavorite, boolean IsReadByUser) {
         this.postId = postId;
         this.title = title;
         this.body = body;
@@ -50,6 +53,7 @@ public class ItemPostModel {
         this.nextPost = nextPost;
         this.prevPost = prevPost;
         this.isFavorite = isFavorite;
+        this.IsReadByUser = IsReadByUser;
     }
 
 
@@ -91,6 +95,10 @@ public class ItemPostModel {
 
     public boolean isFavorite() {
         return isFavorite;
+    }
+
+    public boolean isReadByUser() {
+        return IsReadByUser;
     }
 
     public static class IdPost {

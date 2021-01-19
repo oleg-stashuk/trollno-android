@@ -73,12 +73,4 @@ public class UserProfileModel {
             return imageUrl;
         }
     }
-
-    /*
-    ""field_user_comment_answers"": [
-        {
-            ""value"": false
-        }
-    ],
-     */
 }

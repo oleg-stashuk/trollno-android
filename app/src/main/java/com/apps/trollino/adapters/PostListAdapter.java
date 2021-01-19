@@ -1,8 +1,5 @@
 package com.apps.trollino.adapters;
 
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -18,7 +15,6 @@ import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.bumptech.glide.Glide;
 
-import java.io.File;
 import java.util.List;
 
 import static com.apps.trollino.utils.Const.BASE_URL;
@@ -68,18 +64,7 @@ public class PostListAdapter extends BaseRecyclerAdapter<PostsModel.PostDetails>
                         .with(view.getContext())
                         .load(imageUrl)
                         .into(postImageView);
-
-                Uri uri = Uri.parse(item.getImageUrl());
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inJustDecodeBounds = true;
-                BitmapFactory.decodeFile(new File(uri.getPath()).getAbsolutePath(), options);
-                int imageHeight = options.outHeight;
-                int imageWidth = options.outWidth;
-                Log.d("OkHttp", "!!!!!!!!!!!!!!!!!! size " + imageWidth + " - " + imageHeight);
-
 //                Picasso.get().load(imageUrl).into(postImageView);
-
-
 
                 titleVideoTextView.setText(item.getTitle());
                 if(item.getCommentActiveDiscus() != 0) {

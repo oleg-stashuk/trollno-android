@@ -1,9 +1,9 @@
 package com.apps.trollino.data.networking;
 
-import com.apps.trollino.data.model.single_post.MarkPostAsReadModel;
-import com.apps.trollino.data.model.single_post.ResponseBookmarkModel;
 import com.apps.trollino.data.model.single_post.ItemPostModel;
+import com.apps.trollino.data.model.single_post.MarkPostAsReadModel;
 import com.apps.trollino.data.model.single_post.RequestBookmarkPostModel;
+import com.apps.trollino.data.model.single_post.ResponseBookmarkModel;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -40,5 +40,5 @@ public interface SinglePostApi {
             "Accepts: application/json"
     })
     @POST("/api/flag?_format=json")
-    Call<ItemPostModel> markPostAsRead(@Header("Cookie") String cookie, @Header("X-CSRF-Token") String token, @Body MarkPostAsReadModel markPostAsReadModel);
+    Call<Void> markPostAsRead(@Header("Cookie") String cookie, @Header("X-CSRF-Token") String token, @Body MarkPostAsReadModel markPostAsReadModel);
 }

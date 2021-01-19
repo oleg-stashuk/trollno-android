@@ -106,7 +106,11 @@ public class CustomConverterForItemPost implements JsonDeserializer<ItemPostMode
         JsonElement isFavoriteJsonElement = items.get("bookmarked");
         boolean isFavorite = isFavoriteJsonElement.getAsBoolean();
 
-        return new ItemPostModel(postId, title, body, banner, category, comment, mediaBlock, nextPost, prevPost, isFavorite);
+        // Для поля isRead
+        JsonElement isReadJsonElement = items.get("read_by_user");
+        boolean isRead = isReadJsonElement.getAsBoolean();
+
+        return new ItemPostModel(postId, title, body, banner, category, comment, mediaBlock, nextPost, prevPost, isFavorite, isRead);
     }
 
 
