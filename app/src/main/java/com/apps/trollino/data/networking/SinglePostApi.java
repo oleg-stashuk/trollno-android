@@ -34,4 +34,11 @@ public interface SinglePostApi {
     })
     @POST("/api/unflag?_format=json")
     Call<Void> removePostFromFavorite(@Header("Cookie") String cookie, @Header("X-CSRF-Token") String token, @Body RequestBookmarkPostModel bookmarkPostModel);
+
+    @Headers({
+            "Content-Type: application/json",
+            "Accepts: application/json"
+    })
+    @POST("/api/flag?_format=json")
+    Call<ItemPostModel> markPostAsRead(@Header("Cookie") String cookie, @Header("X-CSRF-Token") String token, @Body MarkPostAsReadModel markPostAsReadModel);
 }
