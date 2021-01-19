@@ -53,21 +53,14 @@ public class PostNewComment {
 
             int countTry = 0;
 
-                    @Override
-                    public void onResponse(Call<CreateNewCommentResponse> call, Response<CreateNewCommentResponse> response) {
-                        if (response.isSuccessful()) {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                            builder
-                                    .setMessage("Ваш комментарий отправлен успешно")
-                                    .setPositiveButton("Ok", (dialogInterface, i) -> {
-                                        dialogInterface.dismiss();
+            @Override
+            public void onResponse(Call<CreateNewCommentResponse> call, Response<CreateNewCommentResponse> response) {
+                if (response.isSuccessful()) {
+                    SnackBarMessageCustom.showSnackBar(view, context.getResources().getString(R.string.txt_comment_sent_succesful));
 
-                                        Intent intent = new Intent(context, CommentToPostActivity.class);
-                                        ((Activity) context).finish();
-                                        context.startActivity(intent);
-                                    })
-                                    .create()
-                                    .show();
+                    Intent intent = new Intent(context, CommentToPostActivity.class);
+                    ((Activity) context).finish();
+                    context.startActivity(intent);
 
                     commentEditText.setText("");
                     prefUtils.saveAnswerToUserName("");
