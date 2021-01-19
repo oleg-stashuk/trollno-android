@@ -144,7 +144,7 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
 
                     imageView.setOnClickListener(v -> {
                         ImageViewDialog dialog = new ImageViewDialog();
-                        dialog.showDialog(view.getContext(), image.getResourceTitle(), image.getUrlImage());
+                        dialog.showDialog(view.getContext(), image.getResourceTitle(), image.getUrlImage(), image.getResource());
                     });
                 }
             }

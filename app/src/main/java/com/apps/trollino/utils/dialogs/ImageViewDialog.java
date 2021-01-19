@@ -2,7 +2,9 @@ package com.apps.trollino.utils.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -10,16 +12,14 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.apps.trollino.R;
 import com.apps.trollino.utils.OnSwipeTouchListener;
-import com.apps.trollino.utils.TouchImageView;
 import com.squareup.picasso.Picasso;
 
 public class ImageViewDialog {
 
-    public void showDialog(Context context, String msg, String imageUrl){
+    public void showDialog(Context context, String msg, String imageUrl, String imageResource){
         int width = ViewGroup.LayoutParams.MATCH_PARENT;
         int height = ViewGroup.LayoutParams.MATCH_PARENT;
 
@@ -41,7 +41,16 @@ public class ImageViewDialog {
 
         ImageButton shareButton = dialog.findViewById(R.id.share_button_dialog_view);
         shareButton.setOnClickListener(v -> {
-            Toast.makeText(context,"SHARE" ,Toast.LENGTH_SHORT).show();
+            try {
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, dialog.getContext().getResources().getString(R.string.app_name));
+                shareIntent.putExtra(Intent.EXTRA_TEXT, imageResource);
+                dialog.getContext().startActivity(Intent.createChooser(shareIntent, "choose one"));
+            } catch(Exception e) {
+                Log.d("OkHttp", "!!!!!!!!!!!! " + e.getLocalizedMessage());
+            }
+
         });
 
 //        TouchImageView image = dialog.findViewById(R.id.image_dialog_view);
@@ -49,7 +58,6 @@ public class ImageViewDialog {
         try {
             Picasso.get()
                     .load(imageUrl)
-//                    .error(R.drawable.icon_facebook)
                     .into(image);
         } catch (Exception e) {
             e.printStackTrace();
