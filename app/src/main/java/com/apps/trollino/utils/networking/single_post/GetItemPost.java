@@ -1,13 +1,16 @@
 package com.apps.trollino.utils.networking.single_post;
 
 import android.content.Context;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,10 +22,14 @@ import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.SnackBarMessageCustom;
 import com.apps.trollino.utils.data.PrefUtils;
+import com.apps.trollino.utils.networking.user_action.GetCommentListToUserActivity;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
+import com.apps.trollino.utils.networking_helper.ShimmerHide;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
+import java.util.logging.LogRecord;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -38,7 +45,8 @@ public class GetItemPost {
     public static void getItemPost(Context context, PrefUtils prefUtils, RecyclerView recyclerView, Menu menu,
                                    TextView categoryTextView, String postId, TextView titleTextView,
                                    TextView countCommentTextView, Button commentButton,
-                                   TextView bodyPostTextView, boolean isPostFromCategory, View view) {
+                                   TextView bodyPostTextView, boolean isPostFromCategory, View view,
+                                   LinearLayout layout, ShimmerFrameLayout shimmerLayout) {
         cont = context;
         prefUt = prefUtils;
         String cookie = prefUtils.getCookie();
@@ -67,6 +75,7 @@ public class GetItemPost {
                     changeImageFavoriteButton(menu, isFavorite);
                     prefUtils.saveIsFavorite(isFavorite);
 
+                    ShimmerHide.shimmerHide(layout, shimmerLayout);
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
                     SnackBarMessageCustom.showSnackBar(view, errorMessage);

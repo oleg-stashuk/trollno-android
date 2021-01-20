@@ -21,9 +21,12 @@ import com.apps.trollino.utils.dialogs.GuestDialog;
 import com.apps.trollino.utils.networking.single_post.GetItemPost;
 import com.apps.trollino.utils.networking.single_post.PostBookmark;
 import com.apps.trollino.utils.networking.single_post.PostUnbookmark;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 public class PostActivity extends BaseActivity implements View.OnClickListener{
-    private NestedScrollView layout;
+    private NestedScrollView nestedScrollView;
+    private LinearLayout postLayout;
+    private ShimmerFrameLayout shimmerLayout;
     private LinearLayout swipedImageView;
     private TextView categoryTextView;
     private TextView titleTextView;
@@ -43,7 +46,9 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
 
     @Override
     protected void initView() {
-        layout = findViewById(R.id.include_post_screen);
+        nestedScrollView = findViewById(R.id.include_post_screen);
+        postLayout = findViewById(R.id.post_layout);
+        shimmerLayout = findViewById(R.id.post_shimmer);
         swipedImageView = findViewById(R.id.swiped_image_post_activity);
         partOfPostRecyclerView = findViewById(R.id.recycler_post_activity);
         categoryTextView = findViewById(R.id.category_post_activity);
@@ -110,11 +115,13 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
 
     // Get post data by Id from API
     private void getPostFromAPi(String postId) {
-        layout.smoothScrollTo(0, layout.getTop());
+        nestedScrollView.smoothScrollTo(0, nestedScrollView.getTop());
+        postLayout.setVisibility(View.GONE);
+        shimmerLayout.setVisibility(View.VISIBLE);
         new Thread(() -> {
             GetItemPost.getItemPost(PostActivity.this, prefUtils,
                     partOfPostRecyclerView, menu, categoryTextView, postId, titleTextView,
-                    countCommentTextView, commentButton, body, isPostFromCategory, findViewById(R.id.activity_post));
+                    countCommentTextView, commentButton, body, isPostFromCategory, findViewById(R.id.activity_post), postLayout, shimmerLayout);
         }).start();
     }
 
