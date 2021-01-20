@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
@@ -20,8 +21,11 @@ import com.apps.trollino.utils.networking.GetSettings;
 import com.apps.trollino.utils.networking.authorisation.GetUserProfile;
 import com.apps.trollino.utils.networking.user.BlockUserProfile;
 import com.apps.trollino.utils.networking.user.UpdatePassword;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 public class EditUserProfileActivity extends BaseActivity implements View.OnClickListener {
+    LinearLayout editUserLayout;
+    ShimmerFrameLayout editUserShimmer;
     private ImageView imageView;
     private TextView nameTextView;
     private TextView emailTextView;
@@ -37,6 +41,8 @@ public class EditUserProfileActivity extends BaseActivity implements View.OnClic
 
     @Override
     protected void initView() {
+        editUserLayout = findViewById(R.id.edit_user_profile_layout);
+        editUserShimmer = findViewById(R.id.edit_user_profile_shimmer);
         nameTextView = findViewById(R.id.name_edit_user_profile);
         emailTextView = findViewById(R.id.email_edit_user_profile);
         passwordEditText = findViewById(R.id.password_edit_user_profile);
@@ -51,7 +57,8 @@ public class EditUserProfileActivity extends BaseActivity implements View.OnClic
         password = prefUtils.getPassword();
         passwordEditText.setText(password);
 
-        new Thread(() -> GetUserProfile.getUserProfile(this, prefUtils, imageView, nameTextView, emailTextView, findViewById(R.id.activity_edit_user_profile))).start();
+        new Thread(() -> GetUserProfile.getUserProfile(this, prefUtils, imageView, nameTextView, emailTextView,
+                findViewById(R.id.activity_edit_user_profile), editUserLayout, editUserShimmer)).start();
         passwordTextChangedListener();
     }
 

@@ -46,12 +46,65 @@
 
     <include layout="@layout/include_appbar_shadow" />
 
-    <LinearLayout
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/edit_user_profile_shimmer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="15dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:background="@color/shimmer_item_color" />
+
+            <ImageView
+                android:layout_width="180dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:background="@color/shimmer_item_color" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:drawablePadding="12dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/shimmer_item_color" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:drawablePadding="12dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/shimmer_item_color" />
+
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:drawablePadding="12dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/shimmer_item_color" />
+
+        </LinearLayout>
+
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <LinearLayout
+        android:id="@+id/edit_user_profile_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="15dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/image_edit_user_profile"
@@ -103,27 +156,27 @@
                 android:hint="@string/edt_password"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.balysv.materialripple.MaterialRippleLayout
+    </LinearLayout>
+
+    <com.balysv.materialripple.MaterialRippleLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:mrl_rippleAlpha="0.2"
+        app:mrl_rippleColor="@color/colorRipple"
+        android:layout_marginTop="10dp"
+        android:padding="15dp"
+        app:mrl_rippleHover="true"
+        app:mrl_rippleOverlay="true">
+
+        <Button
+            android:id="@+id/update_button_edit_user_profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:mrl_rippleAlpha="0.2"
-            app:mrl_rippleColor="@color/colorRipple"
-            android:layout_marginTop="10dp"
-            app:mrl_rippleHover="true"
-            app:mrl_rippleOverlay="true">
-
-            <Button
-                android:id="@+id/update_button_edit_user_profile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:background="@drawable/button_background"
-                android:layout_gravity="center"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:enabled="false"
-                android:text="@string/update" />
-        </com.balysv.materialripple.MaterialRippleLayout>
-
-    </LinearLayout>
+            android:background="@drawable/button_background"
+            android:layout_gravity="center"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:enabled="false"
+            android:text="@string/update" />
+    </com.balysv.materialripple.MaterialRippleLayout>
 </LinearLayout>

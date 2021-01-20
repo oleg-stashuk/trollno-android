@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.apps.trollino.R;
 import com.apps.trollino.data.model.profile.UserProfileModel;
 import com.apps.trollino.data.networking.ApiService;
-import com.apps.trollino.utils.OpenActivityHelper;
 import com.apps.trollino.utils.SnackBarMessageCustom;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
@@ -31,7 +30,7 @@ public class GetUserProfile {
 
     public static void getUserProfile(Context context, PrefUtils prefUtils, ImageView imageView,
                                       View nameView, View emailView, View view,
-                                      LinearLayout userIncludeLinearLayout, ShimmerFrameLayout userIncludeShimmer) {
+                                      LinearLayout linearLayout, ShimmerFrameLayout shimmer) {
         String cookie = prefUtils.getCookie();
         String userUid = prefUtils.getUserUid();
 
@@ -74,10 +73,8 @@ public class GetUserProfile {
                                 .into(imageView);
                     }
 
-                    if (prefUtils.getCurrentActivity().equals(OpenActivityHelper.PROFILE_ACTIVITY)) {
-                        userIncludeLinearLayout.setVisibility(View.VISIBLE);
-                        userIncludeShimmer.setVisibility(View.GONE);
-                    }
+                    linearLayout.setVisibility(View.VISIBLE);
+                    shimmer.setVisibility(View.GONE);
 
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
