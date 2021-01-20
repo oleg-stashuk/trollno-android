@@ -21,6 +21,7 @@ import com.apps.trollino.utils.OpenActivityHelper;
 import com.apps.trollino.utils.dialogs.InformationAboutAppDialog;
 import com.apps.trollino.utils.networking.authorisation.GetUserProfile;
 import com.apps.trollino.utils.networking.authorisation.PostLogout;
+import com.apps.trollino.utils.networking.user_action.GetNewAnswersCount;
 
 public class ProfileActivity extends BaseActivity implements View.OnClickListener{
     private LinearLayout userIncludeLinearLayout;
@@ -67,9 +68,11 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
         profileBottomNavigationTextView.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_profile_green, 0, 0);
         profileBottomNavigationTextView.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        indicatorImageView.setVisibility(View.VISIBLE);
 
         isUserAuthorization = prefUtils.getIsUserAuthorization();
+        if(isUserAuthorization) {
+            new Thread(() -> GetNewAnswersCount.getNewAnswersCount(this, prefUtils, indicatorImageView)).start();
+        }
         prefUtils.saveCurrentActivity(OpenActivityHelper.PROFILE_ACTIVITY);
 
         makeDarkThemeOnCheckedListener();

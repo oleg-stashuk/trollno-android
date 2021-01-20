@@ -17,7 +17,7 @@ import com.apps.trollino.ui.main_group.CommentToPostActivity;
 import com.apps.trollino.utils.RecyclerScrollListener;
 import com.apps.trollino.utils.data.CommentListToUserActivityFromApi;
 import com.apps.trollino.utils.data.PrefUtils;
-import com.apps.trollino.utils.networking.comment.GetCommentListToUserActivity;
+import com.apps.trollino.utils.networking.user_action.GetCommentListToUserActivity;
 
 public class MakeRecyclerViewForCommentToUserActivity extends RecyclerView.OnScrollListener{
     private static Context cont;

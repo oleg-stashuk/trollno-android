@@ -1,4 +1,4 @@
-package com.apps.trollino.utils.networking.comment;
+package com.apps.trollino.utils.networking.user_action;
 
 import android.content.Context;
 import android.util.Log;

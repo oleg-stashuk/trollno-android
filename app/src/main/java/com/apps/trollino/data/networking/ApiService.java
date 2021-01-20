@@ -6,6 +6,7 @@ import com.apps.trollino.data.model.CategoryModel;
 import com.apps.trollino.data.model.PostsModel;
 import com.apps.trollino.data.model.SettingsModel;
 import com.apps.trollino.data.model.comment.CommentModel;
+import com.apps.trollino.data.model.user_action.CountNewAnswersModel;
 import com.apps.trollino.data.model.comment.CreateCommentBody;
 import com.apps.trollino.data.model.comment.CreateNewCommentRequest;
 import com.apps.trollino.data.model.comment.CreateNewCommentResponse;
@@ -190,5 +191,9 @@ public class ApiService {
 
     public void getCommentListToUserActivity(String cookie, String userId, Callback<CommentModel> callback) {
         commentApi.getCommentListToUserActivity(cookie, userId).enqueue(callback);
+    }
+
+    public void getNewAnswerToUserComment(String cookie, String token, String userId, Callback<CountNewAnswersModel> callback) {
+        commentApi.getNewAnswerToUserComment(cookie, token, userId).enqueue(callback);
     }
 }

@@ -17,6 +17,7 @@
  import com.apps.trollino.ui.base.BaseActivity;
  import com.apps.trollino.utils.OpenActivityHelper;
  import com.apps.trollino.utils.data.CommentListToUserActivityFromApi;
+ import com.apps.trollino.utils.networking.user_action.GetNewAnswersCount;
  import com.apps.trollino.utils.recycler.MakeRecyclerViewForCommentToUserActivity;
 
  public class ActivityInPostActivity extends BaseActivity implements View.OnClickListener{
@@ -51,9 +52,12 @@
 
         activityBottomNavigationTextView.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_activity_green, 0, 0);
         activityBottomNavigationTextView.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        indicatorImageView.setVisibility(View.VISIBLE);
 
         isUserAuthorization = prefUtils.getIsUserAuthorization();
+        if(isUserAuthorization) {
+            new Thread(() -> GetNewAnswersCount.getNewAnswersCount(this, prefUtils, indicatorImageView)).start();
+        }
+
         prefUtils.saveCurrentActivity(OpenActivityHelper.ACTIVITY_USER_ACTIVITY);
 
         CommentListToUserActivityFromApi.getInstance().removeAllDataFromList(prefUtils); // при загрузке активити почистить сохраненные данные для инфинитискрол и текущую страницу для загрузки с АПИ

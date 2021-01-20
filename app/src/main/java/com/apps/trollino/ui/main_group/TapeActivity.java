@@ -20,6 +20,7 @@ import com.apps.trollino.ui.fragment.OtherCategoryPostFragment;
 import com.apps.trollino.utils.ViewPagerAdapter;
 import com.apps.trollino.utils.data.DataListFromApi;
 import com.apps.trollino.utils.data.PostListByCategoryFromApi;
+import com.apps.trollino.utils.networking.user_action.GetNewAnswersCount;
 import com.apps.trollino.utils.recycler.MakePostsByCategoryGridRecyclerViewForTapeActivity;
 import com.google.android.material.tabs.TabLayout;
 
@@ -60,7 +61,9 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
 
         tapeBottomNavigationTextView.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_tape_green, 0, 0);
         tapeBottomNavigationTextView.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        indicatorImageView.setVisibility(View.VISIBLE);
+        if(prefUtils.getIsUserAuthorization()) {
+            new Thread(() -> GetNewAnswersCount.getNewAnswersCount(this, prefUtils, indicatorImageView)).start();
+        }
 
         removeAllDataFromPostList();
 

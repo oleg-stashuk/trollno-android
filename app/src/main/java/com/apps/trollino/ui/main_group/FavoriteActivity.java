@@ -18,6 +18,7 @@ import com.apps.trollino.ui.authorisation.RegistrationActivity;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.OpenActivityHelper;
 import com.apps.trollino.utils.data.FavoritePostListFromApi;
+import com.apps.trollino.utils.networking.user_action.GetNewAnswersCount;
 import com.apps.trollino.utils.recycler.MakeLinerRecyclerViewForFavoriteActivity;
 
 public class FavoriteActivity extends BaseActivity implements View.OnClickListener{
@@ -55,7 +56,9 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
 
         favoriteBottomNavigationTextView.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_favorite_green, 0, 0);
         favoriteBottomNavigationTextView.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        indicatorImageView.setVisibility(View.VISIBLE);
+        if(isUserAuthorization) {
+            new Thread(() -> GetNewAnswersCount.getNewAnswersCount(this, prefUtils, indicatorImageView)).start();
+        }
 
         checkFavoriteListAndUserAuthorization(); // проверить пользователь авторизирован или нет, если да - то проверить есть посты добаленные в избранное или нет
         initToolbar();
