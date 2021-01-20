@@ -53,6 +53,9 @@ public class CommentModel {
         @SerializedName("newsappm_comment_answers_count")
         @Expose
         private String commentAnswersCount;
+        @SerializedName("newsappm_comment_new_answers_count")
+        @Expose
+        private String commentNewAnswersCount;
 
         @SerializedName("nid")
         @Expose
@@ -111,6 +114,10 @@ public class CommentModel {
 
         public String getCreated() {
             return created;
+        }
+
+        public String getCommentNewAnswersCount() {
+            return commentNewAnswersCount;
         }
 
         @Override
