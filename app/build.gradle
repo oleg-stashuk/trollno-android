@@ -53,6 +53,7 @@ dependencies {
 
     implementation files('libs/YouTubeAndroidPlayerApi.jar')
     implementation 'com.facebook.android:facebook-android-sdk:8.2.0'
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
     implementation "androidx.multidex:multidex:2.0.1"
 

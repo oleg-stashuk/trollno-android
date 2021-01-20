@@ -29,4 +29,5 @@
     <color name="colorPink">#DD6AA0</color>
     <color name="colorText">#202020</color>
     <color name="colorDialogBackground">#313131</color>
+    <color name="shimmer_item_color">#808080</color>
 </resources>

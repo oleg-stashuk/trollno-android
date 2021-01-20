@@ -5,14 +5,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.apps.trollino.R;
 import com.apps.trollino.data.model.profile.UserProfileModel;
 import com.apps.trollino.data.networking.ApiService;
+import com.apps.trollino.utils.OpenActivityHelper;
 import com.apps.trollino.utils.SnackBarMessageCustom;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 
@@ -27,7 +30,8 @@ import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
 public class GetUserProfile {
 
     public static void getUserProfile(Context context, PrefUtils prefUtils, ImageView imageView,
-                                      View nameView, View emailView, View view) {
+                                      View nameView, View emailView, View view,
+                                      LinearLayout userIncludeLinearLayout, ShimmerFrameLayout userIncludeShimmer) {
         String cookie = prefUtils.getCookie();
         String userUid = prefUtils.getUserUid();
 
@@ -68,6 +72,11 @@ public class GetUserProfile {
                                 .get()
                                 .load(imageUrl)
                                 .into(imageView);
+                    }
+
+                    if (prefUtils.getCurrentActivity().equals(OpenActivityHelper.PROFILE_ACTIVITY)) {
+                        userIncludeLinearLayout.setVisibility(View.VISIBLE);
+                        userIncludeShimmer.setVisibility(View.GONE);
                     }
 
                 } else {

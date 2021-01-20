@@ -22,10 +22,13 @@ import com.apps.trollino.utils.dialogs.InformationAboutAppDialog;
 import com.apps.trollino.utils.networking.authorisation.GetUserProfile;
 import com.apps.trollino.utils.networking.authorisation.PostLogout;
 import com.apps.trollino.utils.networking.user_action.GetNewAnswersCount;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 public class ProfileActivity extends BaseActivity implements View.OnClickListener{
     private LinearLayout userIncludeLinearLayout;
+    private ShimmerFrameLayout userIncludeShimmer;
     private LinearLayout guestIncludeLinearLayout;
+
     private ImageView userImageView;
     private TextView emailTextView;
     private TextView nameTextView;
@@ -46,6 +49,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void initView() {
         userIncludeLinearLayout = findViewById(R.id.include_user_profile);
+        userIncludeShimmer = findViewById(R.id.include_user_profile_shimmer);
         guestIncludeLinearLayout = findViewById(R.id.include_user_not_authorization_profile);
         userImageView = findViewById(R.id.image_account_profile_include);
         nameTextView = findViewById(R.id.name_account_profile_include);
@@ -81,15 +85,18 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
     private void makeIsUserAuthorizationCorrectData() {
         if(isUserAuthorization) {
-            userIncludeLinearLayout.setVisibility(View.VISIBLE);
+            userIncludeLinearLayout.setVisibility(View.GONE);
+            userIncludeShimmer.setVisibility(View.VISIBLE);
             guestIncludeLinearLayout.setVisibility(View.GONE);
             exitButton.setVisibility(View.VISIBLE);
 
             new Thread(() -> {
-                GetUserProfile.getUserProfile(this, prefUtils, userImageView, nameTextView, emailTextView, findViewById(R.id.activity_profile));
+                GetUserProfile.getUserProfile(this, prefUtils, userImageView, nameTextView, emailTextView,
+                        findViewById(R.id.activity_profile), userIncludeLinearLayout, userIncludeShimmer);
             }).start();
         } else {
             userIncludeLinearLayout.setVisibility(View.GONE);
+            userIncludeShimmer.setVisibility(View.GONE);
             guestIncludeLinearLayout.setVisibility(View.VISIBLE);
             exitButton.setVisibility(View.GONE);
         }

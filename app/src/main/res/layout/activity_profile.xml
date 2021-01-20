@@ -38,6 +38,12 @@
             android:layout_height="wrap_content" />
 
         <include
+            android:id="@+id/include_user_profile_shimmer"
+            layout="@layout/include_user_profile_shimmer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <include
             android:id="@+id/include_user_profile"
             layout="@layout/include_user_profile"
             android:layout_width="match_parent"

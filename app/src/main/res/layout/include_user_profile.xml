@@ -40,7 +40,6 @@
             android:textSize="16dp"
             android:textColor="@color/colorAccent"
             android:text="@string/txt_edit_profile" />
-
     </LinearLayout>
 
 </LinearLayout>
