@@ -20,6 +20,7 @@ import com.apps.trollino.utils.dialogs.GuestDialog;
 import com.apps.trollino.utils.networking.comment.GetCommentListByComment;
 import com.apps.trollino.utils.networking.comment.PostLikeToComment;
 import com.apps.trollino.utils.networking.comment.PostUnlikeToComment;
+import com.apps.trollino.utils.networking.user_action.PostMarkReadAllAnswersToComment;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -58,6 +59,7 @@ public class CommentToPostParentAdapter extends BaseRecyclerAdapter<CommentModel
 
                 if(item.getCommentId().equals(prefUtils.getCommentIdForActivity())) {
                     commentBodyTextView.setTextColor(Color.parseColor("#DD6AA0"));
+                    new Thread(() -> PostMarkReadAllAnswersToComment.PostMarkReadAllAnswersToComment(view.getContext(), prefUtils, item.getCommentId())).start();
                 }
 
                 Picasso

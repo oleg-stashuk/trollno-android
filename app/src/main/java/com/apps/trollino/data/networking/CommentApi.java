@@ -5,6 +5,7 @@ import com.apps.trollino.data.model.user_action.CountNewAnswersModel;
 import com.apps.trollino.data.model.comment.CreateNewCommentRequest;
 import com.apps.trollino.data.model.comment.CreateNewCommentResponse;
 import com.apps.trollino.data.model.comment.LikeCommentModelRequest;
+import com.apps.trollino.data.model.user_action.ReadAnswerRequest;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -66,4 +67,11 @@ public interface CommentApi {
     })
     @GET("/user/{uid}/new_comments_count")
     Call<CountNewAnswersModel> getNewAnswerToUserComment(@Header("Cookie") String cookie, @Header("X-CSRF-Token") String token, @Path("uid") String userId);
+
+    @Headers({
+            "Content-Type: application/json",
+            "Accepts: application/json"
+    })
+    @POST("/read_answers")
+    Call<Void> markReadAllAnswersToComment(@Header("Cookie") String cookie, @Header("X-CSRF-Token") String token, @Body ReadAnswerRequest readAnswerRequest);
 }

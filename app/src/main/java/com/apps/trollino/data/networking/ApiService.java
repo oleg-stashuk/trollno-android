@@ -23,6 +23,7 @@ import com.apps.trollino.data.model.single_post.ItemPostModel;
 import com.apps.trollino.data.model.single_post.MarkPostAsReadModel;
 import com.apps.trollino.data.model.single_post.RequestBookmarkPostModel;
 import com.apps.trollino.data.model.single_post.ResponseBookmarkModel;
+import com.apps.trollino.data.model.user_action.ReadAnswerRequest;
 import com.apps.trollino.utils.networking_helper.CustomConverterForItemPost;
 import com.apps.trollino.utils.networking_helper.ReceivedCookiesInterceptor;
 import com.google.gson.Gson;
@@ -195,5 +196,9 @@ public class ApiService {
 
     public void getNewAnswerToUserComment(String cookie, String token, String userId, Callback<CountNewAnswersModel> callback) {
         commentApi.getNewAnswerToUserComment(cookie, token, userId).enqueue(callback);
+    }
+
+    public void markReadAllAnswersToComment(String cookie, String token, String commentId, Callback<Void> callback) {
+        commentApi.markReadAllAnswersToComment(cookie, token, new ReadAnswerRequest(true, commentId)).enqueue(callback);
     }
 }
