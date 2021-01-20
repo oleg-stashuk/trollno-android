@@ -94,6 +94,6 @@
     <string name="internet_error_from_api">No address associated with hostname</string>
     <string name="internet_error_message">ОШИБКА \nПроблемы с подключением к Интернету.</string>
     <string name="txt_comment_sent_succesful">Ваш комментарий отправлен успешно</string>
-    <string name="txt_new_answers">\"Новые комментарии: \"</string>
+    <string name="txt_new_answers">Новые комментарии: </string>
     <!--    <string name="banner_ad_unit_id">ca-app-pub-3729162410044084/9720645991</string>-->
 </resources>

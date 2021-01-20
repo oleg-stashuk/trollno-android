@@ -2,13 +2,14 @@ package com.apps.trollino.ui.main_group;
 
 import android.content.Intent;
 import android.os.Handler;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.apps.trollino.R;
@@ -24,6 +25,8 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
     private View noFavoriteListView;
     private View userAuthorizationView;
     private ProgressBar progressBar;
+    private TextView favoriteBottomNavigationTextView;
+    private ImageView indicatorImageView;
     private boolean isUserAuthorization; // Пользователь авторизирован или нет
     private boolean doubleBackToExitPressedOnce = false;  // для обработки нажатия onBackPressed
 
@@ -38,15 +41,21 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
         noFavoriteListView = findViewById(R.id.include_no_favorite);
         userAuthorizationView = findViewById(R.id.include_user_not_authorization_favorite);
         progressBar = findViewById(R.id.progress_bar_favorite);
-        findViewById(R.id.tape_button_favorite).setOnClickListener(this);
-        findViewById(R.id.activity_button_favorite).setOnClickListener(this);
-        findViewById(R.id.profile_button_favorite).setOnClickListener(this);
+        favoriteBottomNavigationTextView = findViewById(R.id.favorites_button);
+        indicatorImageView = findViewById(R.id.indicator_image);
+        findViewById(R.id.tape_button).setOnClickListener(this);
+        findViewById(R.id.activity_button).setOnClickListener(this);
+        findViewById(R.id.profile_button).setOnClickListener(this);
         findViewById(R.id.login_button_include_favorite_for_guest).setOnClickListener(this);
         findViewById(R.id.registration_button_include_activity_for_guest).setOnClickListener(this);
 
         prefUtils.saveCurrentActivity(OpenActivityHelper.FAVORITE_ACTIVITY);
         isUserAuthorization = prefUtils.getIsUserAuthorization();
         FavoritePostListFromApi.getInstance().removeAllDataFromList(prefUtils);
+
+        favoriteBottomNavigationTextView.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_favorite_green, 0, 0);
+        favoriteBottomNavigationTextView.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        indicatorImageView.setVisibility(View.VISIBLE);
 
         checkFavoriteListAndUserAuthorization(); // проверить пользователь авторизирован или нет, если да - то проверить есть посты добаленные в избранное или нет
         initToolbar();
@@ -113,15 +122,15 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tape_button_favorite: // "Перейти на экран Лента"
+            case R.id.tape_button: // "Перейти на экран Лента"
                 startActivity(new Intent(this, TapeActivity.class));
                 finish();
                 break;
-            case R.id.activity_button_favorite: // "Перейти на экран Активность"
+            case R.id.activity_button: // "Перейти на экран Активность"
                 startActivity(new Intent(this, ActivityInPostActivity.class));
                 finish();
                 break;
-            case R.id.profile_button_favorite: // "Перейти на экран Профиль"
+            case R.id.profile_button: // "Перейти на экран Профиль"
                 startActivity(new Intent(this, ProfileActivity.class));
                 finish();
                 break;

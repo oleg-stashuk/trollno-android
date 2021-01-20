@@ -2,13 +2,13 @@
 
  import android.content.Intent;
  import android.os.Handler;
- import android.view.Menu;
- import android.view.MenuItem;
  import android.view.View;
+ import android.widget.ImageView;
  import android.widget.TextView;
 
  import androidx.appcompat.app.ActionBar;
  import androidx.appcompat.widget.Toolbar;
+ import androidx.core.content.ContextCompat;
  import androidx.recyclerview.widget.RecyclerView;
 
  import com.apps.trollino.R;
@@ -25,6 +25,8 @@
     private View includeNoDataForUser;
     private TextView noDataTextView;
     private View userAuthorizationView;
+     private TextView activityBottomNavigationTextView;
+     private ImageView indicatorImageView;
     private boolean isUserAuthorization; // Пользователь авторизирован или нет
     private boolean doubleBackToExitPressedOnce = false;  // для обработки нажатия onBackPressed
 
@@ -39,11 +41,17 @@
         includeNoDataForUser = findViewById(R.id.include_no_data_for_user_activity_in_post);
         noDataTextView = findViewById(R.id.txt_include_no_data);
         postWithActivityRecyclerView = findViewById(R.id.recycler_activity_in_post);
-        findViewById(R.id.tape_button_activity_in_post).setOnClickListener(this);
-        findViewById(R.id.favorites_button_activity_in_post).setOnClickListener(this);
-        findViewById(R.id.profile_button_activity_in_post).setOnClickListener(this);
+        activityBottomNavigationTextView = findViewById(R.id.activity_button);
+        indicatorImageView = findViewById(R.id.indicator_image);
+        findViewById(R.id.tape_button).setOnClickListener(this);
+        findViewById(R.id.favorites_button).setOnClickListener(this);
+        findViewById(R.id.profile_button).setOnClickListener(this);
         findViewById(R.id.login_button_include_activity_for_guest).setOnClickListener(this);
         findViewById(R.id.registration_button_include_activity_for_guest).setOnClickListener(this);
+
+        activityBottomNavigationTextView.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_activity_green, 0, 0);
+        activityBottomNavigationTextView.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        indicatorImageView.setVisibility(View.VISIBLE);
 
         isUserAuthorization = prefUtils.getIsUserAuthorization();
         prefUtils.saveCurrentActivity(OpenActivityHelper.ACTIVITY_USER_ACTIVITY);
@@ -118,17 +126,17 @@
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tape_button_activity_in_post: // "Перейти на экран Лента"
+            case R.id.tape_button: // "Перейти на экран Лента"
                 prefUtils.saveCommentIdForActivity("");
                 startActivity(new Intent(this, TapeActivity.class));
                 finish();
                 break;
-            case R.id.favorites_button_activity_in_post: // "Перейти на экран Избранное"
+            case R.id.favorites_button: // "Перейти на экран Избранное"
                 prefUtils.saveCommentIdForActivity("");
                 startActivity(new Intent(this, FavoriteActivity.class));
                 finish();
                 break;
-            case R.id.profile_button_activity_in_post: // "Перейти на экран Профиль"
+            case R.id.profile_button: // "Перейти на экран Профиль"
                 prefUtils.saveCommentIdForActivity("");
                 startActivity(new Intent(this, ProfileActivity.class));
                 finish();

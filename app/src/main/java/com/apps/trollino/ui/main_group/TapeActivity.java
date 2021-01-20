@@ -3,8 +3,11 @@ package com.apps.trollino.ui.main_group;
 import android.content.Intent;
 import android.os.Handler;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
@@ -31,6 +34,8 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
     private RecyclerView recyclerView;
     private ProgressBar progressBarBottom;
     private ProgressBar progressBarTop;
+    private TextView tapeBottomNavigationTextView;
+    private ImageView indicatorImageView;
 
     private boolean doubleBackToExitPressedOnce = false;  // для обработки нажатия onBackPressed
 
@@ -46,10 +51,16 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
         recyclerView = findViewById(R.id.news_recycler_tape);
         progressBarBottom = findViewById(R.id.progress_bar_bottom_tape);
         progressBarTop = findViewById(R.id.progress_bar_top_tape);
+        tapeBottomNavigationTextView = findViewById(R.id.tape_button);
+        indicatorImageView = findViewById(R.id.indicator_image);
         findViewById(R.id.search_button_tape).setOnClickListener(this);
-        findViewById(R.id.activity_button_tape).setOnClickListener(this);
-        findViewById(R.id.favorites_button_tape).setOnClickListener(this);
-        findViewById(R.id.profile_button_tape).setOnClickListener(this);
+        findViewById(R.id.activity_button).setOnClickListener(this);
+        findViewById(R.id.favorites_button).setOnClickListener(this);
+        findViewById(R.id.profile_button).setOnClickListener(this);
+
+        tapeBottomNavigationTextView.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_tape_green, 0, 0);
+        tapeBottomNavigationTextView.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        indicatorImageView.setVisibility(View.VISIBLE);
 
         removeAllDataFromPostList();
 
@@ -140,17 +151,17 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
                 startActivity(new Intent(this, SearchActivity.class));
                 finish();
                 break;
-            case R.id.activity_button_tape: // "Перейти на экран Активность"
+            case R.id.activity_button: // "Перейти на экран Активность"
                 removeAllDataFromPostList();
                 startActivity(new Intent(this, ActivityInPostActivity.class));
                 finish();
                 break;
-            case R.id.favorites_button_tape: // "Перейти на экран Избранное"
+            case R.id.favorites_button: // "Перейти на экран Избранное"
                 removeAllDataFromPostList();
                 startActivity(new Intent(this, FavoriteActivity.class));
                 finish();
                 break;
-            case R.id.profile_button_tape: // "Перейти на экран Профиль"
+            case R.id.profile_button: // "Перейти на экран Профиль"
                 removeAllDataFromPostList();
                 startActivity(new Intent(this, ProfileActivity.class));
                 finish();

@@ -47,60 +47,9 @@
             android:visibility="gone"/>
     </RelativeLayout>
 
-     <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@drawable/bg_shadow" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:padding="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tape_button_activity_in_post"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableTop="@drawable/ic_tape_grey"
-                android:gravity="center"
-                android:text="@string/tape" />
-
-            <TextView
-                android:id="@+id/activity_button_activity_in_post"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableTop="@drawable/ic_activity_green"
-                android:textColor="@color/colorPrimary"
-                android:gravity="center"
-                android:text="@string/activity" />
-
-            <TextView
-                android:id="@+id/favorites_button_activity_in_post"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableTop="@drawable/ic_favorite_grey"
-                android:gravity="center"
-                android:text="@string/favorites" />
-
-            <TextView
-                android:id="@+id/profile_button_activity_in_post"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableTop="@drawable/ic_profile_grey"
-                android:gravity="center"
-                android:text="@string/title_profile" />
-
-        </LinearLayout>
-     </LinearLayout>
+    <include
+        android:id="@+id/bottom_navigation_activity"
+        layout="@layout/include_bottom_navigation_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>
