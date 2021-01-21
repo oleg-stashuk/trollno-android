@@ -89,10 +89,10 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
                     twoColumnShimmer.setVisibility(View.GONE);
                     MakeLinerRecyclerViewForTapeActivity.makeLinerRecyclerViewForTapeActivity(TapeActivity.this, newsRecyclerView, progressBarBottom, progressBarTop, prefUtils);
                 } else {
-                    twoColumnShimmer.setVisibility(View.GONE);
+                    twoColumnShimmer.setVisibility(View.VISIBLE);
                     prefUtils.saveSelectedCategoryId(tab.getTag().toString());
                     PostListByCategoryFromApi.getInstance().removeAllDataFromList(prefUtils);
-                    makePostsByCategoryGridRecyclerViewForTapeActivity(TapeActivity.this, newsRecyclerView, progressBarBottom, progressBarTop, prefUtils);
+                    makePostsByCategoryGridRecyclerViewForTapeActivity(TapeActivity.this, prefUtils, newsRecyclerView, twoColumnShimmer, progressBarBottom);
                 }
             }
 
