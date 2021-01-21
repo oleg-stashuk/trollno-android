@@ -4,6 +4,7 @@
  import android.os.Handler;
  import android.view.View;
  import android.widget.ImageView;
+ import android.widget.ProgressBar;
  import android.widget.TextView;
 
  import androidx.appcompat.app.ActionBar;
@@ -19,15 +20,18 @@
  import com.apps.trollino.utils.data.CommentListToUserActivityFromApi;
  import com.apps.trollino.utils.networking.user_action.GetNewAnswersCount;
  import com.apps.trollino.utils.recycler.MakeRecyclerViewForCommentToUserActivity;
+ import com.facebook.shimmer.ShimmerFrameLayout;
 
  public class ActivityInPostActivity extends BaseActivity implements View.OnClickListener{
     private RecyclerView postWithActivityRecyclerView;
+    private ShimmerFrameLayout shimmer;
 
     private View includeNoDataForUser;
     private TextView noDataTextView;
     private View userAuthorizationView;
-     private TextView activityBottomNavigationTextView;
-     private ImageView indicatorImageView;
+    private TextView activityBottomNavigationTextView;
+    private ImageView indicatorImageView;
+    private ProgressBar progressBar;
     private boolean isUserAuthorization; // Пользователь авторизирован или нет
     private boolean doubleBackToExitPressedOnce = false;  // для обработки нажатия onBackPressed
 
@@ -38,12 +42,14 @@
 
     @Override
     protected void initView() {
+        shimmer = findViewById(R.id.include_user_comments_shimmer);
         userAuthorizationView = findViewById(R.id.include_user_not_authorization_activity_in_post);
         includeNoDataForUser = findViewById(R.id.include_no_data_for_user_activity_in_post);
         noDataTextView = findViewById(R.id.txt_include_no_data);
         postWithActivityRecyclerView = findViewById(R.id.recycler_activity_in_post);
         activityBottomNavigationTextView = findViewById(R.id.activity_button);
         indicatorImageView = findViewById(R.id.indicator_image);
+        progressBar = findViewById(R.id.progress_bar_activity_in_post);
         findViewById(R.id.tape_button).setOnClickListener(this);
         findViewById(R.id.favorites_button).setOnClickListener(this);
         findViewById(R.id.profile_button).setOnClickListener(this);
@@ -70,8 +76,12 @@
             userAuthorizationView.setVisibility(View.GONE);
             postWithActivityRecyclerView.setVisibility(View.VISIBLE);
 
+
             MakeRecyclerViewForCommentToUserActivity
-                    .makeRecyclerViewForCommentToUserActivity(this, prefUtils, postWithActivityRecyclerView, includeNoDataForUser , noDataTextView, findViewById(R.id.activity_in_post));
+                    .makeRecyclerViewForCommentToUserActivity(this, prefUtils, progressBar, postWithActivityRecyclerView,
+                            shimmer, includeNoDataForUser , noDataTextView);
+//            MakeRecyclerViewForCommentToUserActivity
+//                    .makeRecyclerViewForCommentToUserActivity(this, prefUtils, postWithActivityRecyclerView, includeNoDataForUser , noDataTextView, findViewById(R.id.activity_in_post));
         } else {
             userAuthorizationView.setVisibility(View.VISIBLE);
             postWithActivityRecyclerView.setVisibility(View.GONE);

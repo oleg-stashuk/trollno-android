@@ -25,6 +25,9 @@
 
     <include layout="@layout/include_appbar_shadow" />
 
+    <include
+        layout="@layout/include_user_comments_shimmer" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -33,8 +36,19 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_activity_in_post"
             android:overScrollMode="never"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+
+        <ProgressBar
+            android:id="@+id/progress_bar_activity_in_post"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:visibility="gone"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:progressDrawable="@color/colorPrimary"
+            android:background="@drawable/progress_bar_circle_shape" />
 
         <include
             android:id="@+id/include_user_not_authorization_activity_in_post"
