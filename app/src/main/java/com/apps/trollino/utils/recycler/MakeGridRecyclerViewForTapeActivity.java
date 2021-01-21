@@ -58,17 +58,17 @@ public static void makeNewPostsRecyclerView(Context context, PrefUtils prefUtils
     };
 
     // Загрузить/обновить данные с API
-    private static void updateDataFromApi(ProgressBar progressBar, RecyclerView recyclerView, ShimmerFrameLayout shimmer, PostListAdapter adapter, boolean isScrollOnTop) {
+    private static void updateDataFromApi(ProgressBar progressBar, RecyclerView recyclerView, ShimmerFrameLayout shimmer, PostListAdapter adapter, boolean isGetNewList) {
         new Thread(() -> {
-            makeGetNewPosts(cont, prefUt, adapter, progressBar, recyclerView, shimmer, isScrollOnTop);
+            makeGetNewPosts(cont, prefUt, adapter, progressBar, recyclerView, shimmer, isGetNewList);
         }).start();
     }
 
     // Загрузить/обновить данные с API при скролах ресайклера вверх или вниз, если достигнут конец списка
-    private static void infiniteScroll(ProgressBar progressBar, RecyclerView recyclerView, ShimmerFrameLayout shimmer, PostListAdapter adapter, boolean isScrollOnTop) {
-        progressBar.setVisibility(isScrollOnTop? View.GONE : View.VISIBLE);
-        shimmer.setVisibility(isScrollOnTop ? View.VISIBLE : View.GONE);
+    private static void infiniteScroll(ProgressBar progressBar, RecyclerView recyclerView, ShimmerFrameLayout shimmer, PostListAdapter adapter, boolean isGetNewList) {
+        progressBar.setVisibility(isGetNewList ? View.GONE : View.VISIBLE);
+        shimmer.setVisibility(isGetNewList ? View.VISIBLE : View.GONE);
         Handler handler = new Handler();
-        handler.postDelayed(() -> updateDataFromApi(progressBar, recyclerView, shimmer, adapter, isScrollOnTop), 1000);
+        handler.postDelayed(() -> updateDataFromApi(progressBar, recyclerView, shimmer, adapter, isGetNewList), 1000);
     }
 }

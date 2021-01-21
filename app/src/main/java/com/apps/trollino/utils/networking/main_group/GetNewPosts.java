@@ -29,12 +29,16 @@ import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
 
 public class GetNewPosts {
     private static int page;
+    private static int totalPage;
     private static RecyclerView recyclerView;
+    private static boolean isGetNewListThis;
 
-    public static void makeGetNewPosts(Context context, PrefUtils prefUtils, PostListAdapter adapter, ProgressBar progressBar, RecyclerView recycler, ShimmerFrameLayout shimmer, boolean scrollOnTop) {
+    public static void makeGetNewPosts(Context context, PrefUtils prefUtils, PostListAdapter adapter, ProgressBar progressBar,
+                                       RecyclerView recycler, ShimmerFrameLayout shimmer, boolean isGetNewList) {
         recyclerView = recycler;
-        page = scrollOnTop ? 0 : prefUtils.getNewPostCurrentPage();
-        if(scrollOnTop) {
+        isGetNewListThis = isGetNewList;
+        page = isGetNewList ? 0 : prefUtils.getNewPostCurrentPage();
+        if(isGetNewList) {
             DataListFromApi.getInstance().removeAllDataFromList(prefUtils);
         }
         String cookie = prefUtils.getCookie();
@@ -48,10 +52,9 @@ public class GetNewPosts {
                     PostsModel post = response.body();
                     List<PostsModel.PostDetails> newPostList = post.getPostDetailsList();
 
-                    int currentListSize = DataListFromApi.getInstance().getNewPostsList().size();
-
-                    saveCurrentPage(post.getPagerModel().getTotalPages(), prefUtils);
-                    updatePostListAndNotifyRecyclerAdapter(newPostList, adapter, currentListSize);
+                    totalPage = post.getPagerModel().getTotalPages() - 1;
+                    saveCurrentPage(prefUtils);
+                    updatePostListAndNotifyRecyclerAdapter(newPostList, adapter);
 
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
@@ -89,20 +92,25 @@ public class GetNewPosts {
         });
     }
 
-    private static void saveCurrentPage(int totalPage, PrefUtils prefUtils) {
-        if(page < totalPage - 1) {
+    private static void saveCurrentPage(PrefUtils prefUtils) {
+        if(page < totalPage) {
             prefUtils.saveNewPostCurrentPage(page + 1);
         } else {
-            prefUtils.saveNewPostCurrentPage(totalPage - 1);
+            prefUtils.saveNewPostCurrentPage(totalPage);
         }
     }
 
-    private static void updatePostListAndNotifyRecyclerAdapter(List<PostsModel.PostDetails> newPostList, PostListAdapter adapter, int currentListSize) {
+    private static void updatePostListAndNotifyRecyclerAdapter(List<PostsModel.PostDetails> newPostList, PostListAdapter adapter) {
+        int currentListSize = DataListFromApi.getInstance().getNewPostsList().size();
         DataListFromApi.getInstance().saveDataInList(newPostList);
         int newListSize = DataListFromApi.getInstance().getNewPostsList().size();
-        if(newListSize <= currentListSize && page != 0) {
+
+        if (newListSize == 0 && isGetNewListThis) {
+            SnackBarMessageCustom.showSnackBar(recyclerView, "В этой категории пока ничего нет");
+        } else if(newListSize == currentListSize && page == totalPage && ! isGetNewListThis) {
             SnackBarMessageCustom.showSnackBar(recyclerView, "Новых постов пока нет");
         }
+
         adapter.notifyDataSetChanged();
     }
 }

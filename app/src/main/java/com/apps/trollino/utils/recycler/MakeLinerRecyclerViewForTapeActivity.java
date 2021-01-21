@@ -43,7 +43,8 @@ public class MakeLinerRecyclerViewForTapeActivity {
         recyclerView.addOnScrollListener(new RecyclerScrollListener() {
             @Override
             public void onScrolledToEnd() {
-                infiniteScroll(recyclerView, shimmer, progressBar, adapter,false);
+//                infiniteScroll(recyclerView, shimmer, progressBar, adapter,false);
+                infiniteScroll(recyclerView, shimmer, progressBar, adapter,true);
             }
 
             @Override
@@ -61,18 +62,18 @@ public class MakeLinerRecyclerViewForTapeActivity {
 
     // Загрузить/обновить данные с API
     private static void updateDataFromApi(RecyclerView recyclerView, ShimmerFrameLayout shimmer,
-                                          ProgressBar progressBar, DiscussPostsAdapter adapter, boolean isScrollOnTop) {
+                                          ProgressBar progressBar, DiscussPostsAdapter adapter, boolean isGetNewList) {
         new Thread(() -> {
-            GetMostDiscusPosts.makeGetNewPosts(cont, prefUt, adapter, recyclerView, shimmer, progressBar, isScrollOnTop);
+            GetMostDiscusPosts.makeGetNewPosts(cont, prefUt, adapter, recyclerView, shimmer, progressBar, isGetNewList);
         }).start();
     }
 
     // Загрузить/обновить данные с API при скролах ресайклера вверх или вниз, если достигнут конец списка
     private static void infiniteScroll(RecyclerView recyclerView, ShimmerFrameLayout shimmer,
-                                       ProgressBar progressBar, DiscussPostsAdapter adapter, boolean isScrollOnTop) {
-        progressBar.setVisibility(isScrollOnTop? View.GONE : View.VISIBLE);
-        shimmer.setVisibility(isScrollOnTop ? View.VISIBLE : View.GONE);
+                                       ProgressBar progressBar, DiscussPostsAdapter adapter, boolean isGetNewList) {
+        progressBar.setVisibility(isGetNewList ? View.GONE : View.VISIBLE);
+        shimmer.setVisibility(isGetNewList ? View.VISIBLE : View.GONE);
         Handler handler = new Handler();
-        handler.postDelayed(() -> updateDataFromApi(recyclerView, shimmer, progressBar, adapter, isScrollOnTop), 1000);
+        handler.postDelayed(() -> updateDataFromApi(recyclerView, shimmer, progressBar, adapter, isGetNewList), 1000);
     }
 }

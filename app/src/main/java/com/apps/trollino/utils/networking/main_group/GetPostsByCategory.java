@@ -29,14 +29,15 @@ import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
 
 public class GetPostsByCategory {
     private static int page;
+    private static int totalPage;
     private static RecyclerView recyclerView;
-    private static boolean scrollOnTopOrFirstRequest;
+    private static boolean isGetNewListThis;
 
     public static void getPostsByCategory(Context context, PrefUtils prefUtils, PostListAdapter adapter,
                                           RecyclerView recycler, ShimmerFrameLayout shimmer,
-                                          ProgressBar progressBar, boolean scrollOnTop) {
-        page = scrollOnTop ? 0 : prefUtils.getCurrentPage();
-        scrollOnTopOrFirstRequest = scrollOnTop;
+                                          ProgressBar progressBar, boolean isGetNewList) {
+        page = isGetNewList ? 0 : prefUtils.getCurrentPage();
+        isGetNewListThis = isGetNewList;
         String cookie = prefUtils.getCookie();
         String categoryId = prefUtils.getSelectedCategoryId();
         recyclerView = recycler;
@@ -50,7 +51,8 @@ public class GetPostsByCategory {
                     PostsModel post = response.body();
                     List<PostsModel.PostDetails> newPostList = post.getPostDetailsList();
 
-                    saveCurrentPage(post.getPagerModel().getTotalPages(), prefUtils);
+                    totalPage = post.getPagerModel().getTotalPages() - 1;
+                    saveCurrentPage(prefUtils);
                     updatePostListAndNotifyRecyclerAdapter(newPostList, adapter);
 
                 } else {
@@ -88,11 +90,11 @@ public class GetPostsByCategory {
         });
     }
 
-    private static void saveCurrentPage(int totalPage, PrefUtils prefUtils) {
-        if(page < totalPage - 1) {
+    private static void saveCurrentPage(PrefUtils prefUtils) {
+        if(page < totalPage) {
             prefUtils.saveNewPostCurrentPage(page + 1);
         } else {
-            prefUtils.saveNewPostCurrentPage(totalPage - 1);
+            prefUtils.saveNewPostCurrentPage(totalPage);
         }
     }
 
@@ -100,11 +102,13 @@ public class GetPostsByCategory {
         int currentListSize = PostListByCategoryFromApi.getInstance().getPostListByCategory().size();
         PostListByCategoryFromApi.getInstance().savePostByCategoryInList(newPostList);
         int newListSize = PostListByCategoryFromApi.getInstance().getPostListByCategory().size();
-        if(newListSize == 0 && scrollOnTopOrFirstRequest) {
+
+        if (newListSize == 0 && isGetNewListThis) {
             SnackBarMessageCustom.showSnackBar(recyclerView, "В этой категории пока ничего нет");
-        } else if(newListSize <= currentListSize && !scrollOnTopOrFirstRequest) {
+        } else if(newListSize == currentListSize && page == totalPage && ! isGetNewListThis) {
             SnackBarMessageCustom.showSnackBar(recyclerView, "Новых постов пока нет");
         }
+
         adapter.notifyDataSetChanged();
     }
 

@@ -29,6 +29,7 @@ import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
 
 public class GetMostDiscusPosts {
     private static int page;
+    private static int totalPage;
     private static RecyclerView recyclerView;
     private static boolean isGetNewListThis;
 
@@ -49,7 +50,8 @@ public class GetMostDiscusPosts {
                     PostsModel post = response.body();
                     List<PostsModel.PostDetails> newPostList = post.getPostDetailsList();
 
-                    saveCurrentPage(post.getPagerModel().getTotalPages(), prefUtils);
+                    totalPage = post.getPagerModel().getTotalPages() - 1;
+                    saveCurrentPage(prefUtils);
                     updatePostListAndNotifyRecyclerAdapter(newPostList, adapter);
                     ShimmerHide.shimmerHide(recycler, shimmer);
                 } else {
@@ -86,11 +88,11 @@ public class GetMostDiscusPosts {
         });
     }
 
-    private static void saveCurrentPage(int totalPage, PrefUtils prefUtils) {
-        if(page < totalPage - 1) {
+    private static void saveCurrentPage(PrefUtils prefUtils) {
+        if(page < totalPage) {
             prefUtils.saveCurrentPage(page + 1);
         } else {
-            prefUtils.saveCurrentPage(totalPage - 1);
+            prefUtils.saveCurrentPage(totalPage);
         }
     }
 
@@ -99,9 +101,9 @@ public class GetMostDiscusPosts {
         DataListFromApi.getInstance().saveDiscussDataInList(newPostList);
         int newListSize = DataListFromApi.getInstance().getDiscussPostsList().size();
 
-        if(newListSize == 0 && isGetNewListThis) {
+        if (newListSize == 0 && isGetNewListThis) {
             SnackBarMessageCustom.showSnackBar(recyclerView, "В этой категории пока ничего нет");
-        } else if(newListSize <= currentListSize && page != 0) {
+        } else if(newListSize == currentListSize && page == totalPage && ! isGetNewListThis) {
             SnackBarMessageCustom.showSnackBar(recyclerView, "Новых постов пока нет");
         }
 
