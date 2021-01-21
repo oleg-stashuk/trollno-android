@@ -5,15 +5,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.apps.trollino.R;
 import com.apps.trollino.adapters.PostListAdapter;
-import com.apps.trollino.data.model.PagerModel;
 import com.apps.trollino.data.model.PostsModel;
 import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.utils.SnackBarMessageCustom;
 import com.apps.trollino.utils.data.DataListFromApi;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
+import com.apps.trollino.utils.networking_helper.ShimmerHide;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
@@ -26,10 +29,14 @@ import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
 
 public class GetNewPosts {
     private static int page;
+    private static RecyclerView recyclerView;
 
-
-    public static void makeGetNewPosts(Context context, PrefUtils prefUtils, PostListAdapter adapter, ProgressBar progressBarTop, ProgressBar progressBarBottom, boolean scrollOnTop) {
+    public static void makeGetNewPosts(Context context, PrefUtils prefUtils, PostListAdapter adapter, ProgressBar progressBar, RecyclerView recycler, ShimmerFrameLayout shimmer, boolean scrollOnTop) {
+        recyclerView = recycler;
         page = scrollOnTop ? 0 : prefUtils.getNewPostCurrentPage();
+        if(scrollOnTop) {
+            DataListFromApi.getInstance().removeAllDataFromList(prefUtils);
+        }
         String cookie = prefUtils.getCookie();
 
         ApiService.getInstance(context).getNewPosts(cookie, page, new Callback<PostsModel>() {
@@ -40,35 +47,18 @@ public class GetNewPosts {
                 if (response.isSuccessful()) {
                     PostsModel post = response.body();
                     List<PostsModel.PostDetails> newPostList = post.getPostDetailsList();
-                    PagerModel pagerModel = post.getPagerModel();
 
-                    String lastIdInListFromApi = newPostList.isEmpty() ? "null" : newPostList.get(newPostList.size()-1).getPostId();
-                    boolean isLastPage = pagerModel.getCurrentPage() == pagerModel.getTotalPages()-1;
+                    int currentListSize = DataListFromApi.getInstance().getNewPostsList().size();
 
-                    List<PostsModel.PostDetails> postList = DataListFromApi.getInstance().getNewPostsList();
-                    String firstIdInSavedList = postList.isEmpty() ? "null" : postList.get(0).getPostId();
-                    String lastIdInSavedList = postList.isEmpty() ? "null" : postList.get(postList.size() - 1).getPostId();
+                    saveCurrentPage(post.getPagerModel().getTotalPages(), prefUtils);
+                    updatePostListAndNotifyRecyclerAdapter(newPostList, adapter, currentListSize);
 
-
-                    if(newPostList.isEmpty()) {
-                        SnackBarMessageCustom.showSnackBar(progressBarTop, "Новых постов пока нет!!!!!!!!!!!!!!!!!!!!!!");
-                    } else if (newPostList.get(0).getPostId().equals(firstIdInSavedList) && scrollOnTop) {
-                        SnackBarMessageCustom.showSnackBar(progressBarTop, "Новых постов пока нет");
-                    } else if(lastIdInListFromApi.equals(lastIdInSavedList) && isLastPage) {
-                        SnackBarMessageCustom.showSnackBar(progressBarTop, "Новых постов пока нет");
-                    } else {
-                        if(scrollOnTop) {
-                            DataListFromApi.getInstance().removeAllDataFromList(prefUtils);
-                        }
-                        saveCurrentPage(post.getPagerModel().getTotalPages(), prefUtils);
-                        updatePostListAndNotifyRecyclerAdapter(newPostList, adapter);
-                    }
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
-                    SnackBarMessageCustom.showSnackBar(progressBarTop, errorMessage);
+                    SnackBarMessageCustom.showSnackBar(progressBar, errorMessage);
                 }
-                progressBarBottom.setVisibility(View.GONE);
-                progressBarTop.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
+                ShimmerHide.shimmerHide(recycler, shimmer);
             }
 
             @Override
@@ -82,18 +72,17 @@ public class GetNewPosts {
                     String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
                     if (isHaveNotInternet) {
                         Snackbar
-                                .make(progressBarTop, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
+                                .make(progressBar, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
                                 .setMaxInlineActionWidth(3)
                                 .setAction(R.string.refresh_button, v -> {
                                     call.clone().enqueue(this);
                                 })
-                        .show();
+                                .show();
                     } else {
-                        SnackBarMessageCustom.showSnackBar(progressBarTop, t.getLocalizedMessage());
+                        SnackBarMessageCustom.showSnackBar(progressBar, t.getLocalizedMessage());
                     }
 
-                    progressBarBottom.setVisibility(View.GONE);
-                    progressBarTop.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.GONE);
                     Log.d("OkHttp", "t.getLocalizedMessage() " + t.getLocalizedMessage());
                 }
             }
@@ -108,8 +97,12 @@ public class GetNewPosts {
         }
     }
 
-    private static void updatePostListAndNotifyRecyclerAdapter(List<PostsModel.PostDetails> newPostList, PostListAdapter adapter) {
+    private static void updatePostListAndNotifyRecyclerAdapter(List<PostsModel.PostDetails> newPostList, PostListAdapter adapter, int currentListSize) {
         DataListFromApi.getInstance().saveDataInList(newPostList);
+        int newListSize = DataListFromApi.getInstance().getNewPostsList().size();
+        if(newListSize <= currentListSize && page != 0) {
+            SnackBarMessageCustom.showSnackBar(recyclerView, "Новых постов пока нет");
+        }
         adapter.notifyDataSetChanged();
     }
 }

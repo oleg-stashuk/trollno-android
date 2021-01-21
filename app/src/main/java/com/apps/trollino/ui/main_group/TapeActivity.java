@@ -9,35 +9,29 @@ import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
 import com.apps.trollino.R;
 import com.apps.trollino.data.model.CategoryModel;
 import com.apps.trollino.ui.base.BaseActivity;
-import com.apps.trollino.ui.fragment.DiscussPostFragment;
-import com.apps.trollino.ui.fragment.FreshPostFragment;
-import com.apps.trollino.ui.fragment.OtherCategoryPostFragment;
-import com.apps.trollino.utils.ViewPagerAdapter;
 import com.apps.trollino.utils.data.DataListFromApi;
 import com.apps.trollino.utils.data.PostListByCategoryFromApi;
 import com.apps.trollino.utils.networking.user_action.GetNewAnswersCount;
-import com.apps.trollino.utils.recycler.MakePostsByCategoryGridRecyclerViewForTapeActivity;
+import com.apps.trollino.utils.recycler.MakeGridRecyclerViewForTapeActivity;
+import com.apps.trollino.utils.recycler.MakeLinerRecyclerViewForTapeActivity;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.List;
 
-public class TapeActivity extends BaseActivity implements View.OnClickListener{
-    private TabLayout tabs;
-    private ViewPager viewPager;
+import static com.apps.trollino.utils.recycler.MakePostsByCategoryGridRecyclerViewForTapeActivity.makePostsByCategoryGridRecyclerViewForTapeActivity;
 
-    private int pagerPosition;
-    private List<CategoryModel> categoryList;
-    private RecyclerView recyclerView;
+public class TapeActivity extends BaseActivity implements View.OnClickListener{
+    private RecyclerView newsRecyclerView;
+    private TabLayout tabs;
     private ProgressBar progressBarBottom;
     private ProgressBar progressBarTop;
-    private TextView tapeBottomNavigationTextView;
-    private ImageView indicatorImageView;
 
+    private ShimmerFrameLayout twoColumnShimmer;
     private boolean doubleBackToExitPressedOnce = false;  // для обработки нажатия onBackPressed
 
     @Override
@@ -47,85 +41,67 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
 
     @Override
     protected void initView() {
+        twoColumnShimmer = findViewById(R.id.include_tape_two_column_shimmer);
+
         tabs = findViewById(R.id.tab_layout_tape);
-        viewPager = findViewById(R.id.view_pager_tape);
-        recyclerView = findViewById(R.id.news_recycler_tape);
+        newsRecyclerView = findViewById(R.id.news_recycler_tape);
         progressBarBottom = findViewById(R.id.progress_bar_bottom_tape);
         progressBarTop = findViewById(R.id.progress_bar_top_tape);
-        tapeBottomNavigationTextView = findViewById(R.id.tape_button);
-        indicatorImageView = findViewById(R.id.indicator_image);
+        TextView tapeBottomNavigationTextView = findViewById(R.id.tape_button);
+        ImageView indicatorImageView = findViewById(R.id.indicator_image);
         findViewById(R.id.search_button_tape).setOnClickListener(this);
         findViewById(R.id.activity_button).setOnClickListener(this);
         findViewById(R.id.favorites_button).setOnClickListener(this);
         findViewById(R.id.profile_button).setOnClickListener(this);
 
+        createTabLayout();
         tapeBottomNavigationTextView.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_tape_green, 0, 0);
         tapeBottomNavigationTextView.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
         if(prefUtils.getIsUserAuthorization()) {
             new Thread(() -> GetNewAnswersCount.getNewAnswersCount(this, prefUtils, indicatorImageView)).start();
         }
 
-        removeAllDataFromPostList();
-
-        categoryList = prefUtils.getCategoryList();
         prefUtils.saveCurrentActivity("");
-        try {
-            pagerPosition = viewPager.getCurrentItem();
-        } catch (Exception e) {
-            e.printStackTrace();
-            pagerPosition = 0;
+        makeTabSelectedListener();
+        MakeGridRecyclerViewForTapeActivity.makeNewPostsRecyclerView(this, prefUtils, newsRecyclerView, progressBarBottom, twoColumnShimmer);
+    }
+
+    // Add category list from Api to TabLayout
+    private void createTabLayout() {
+        List<CategoryModel> categoryList = prefUtils.getCategoryList();
+        tabs.addTab(tabs.newTab().setText("Свежее"));
+        tabs.addTab(tabs.newTab().setText("Обсуждаемое"));
+        for (CategoryModel category : categoryList) {
+            tabs.addTab(tabs.newTab().setText(category.getNameCategory()).setTag(category.getIdCategory()));
         }
-        getTabs();
     }
 
-    private void getTabs() {
-        ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), 0);
-        new Handler().post(() -> {
-            pagerAdapter.addFragment(FreshPostFragment.getInstance(), getResources().getString(R.string.fresh_post));
-            pagerAdapter.addFragment(DiscussPostFragment.getInstance(), getResources().getString(R.string.discuss_post));
-
-            for (CategoryModel category : categoryList) {
-                pagerAdapter.addFragment(OtherCategoryPostFragment.getInstance(), category.getNameCategory());
-            }
-
-            viewPager.setAdapter(pagerAdapter);
-            tabs.setupWithViewPager(viewPager);
-
-            makePageChangeListener();
-        });
-    }
-
-    private void makePageChangeListener() {
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+    // Обработка нажатия на элементы горизонтального ScrollBar
+    private void makeTabSelectedListener() {
+        tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                if(positionOffsetPixels == 0 && pagerPosition != position) {
-                    pagerPosition = position;
-                    if(pagerPosition > 1) {
-                        PostListByCategoryFromApi.getInstance().removeAllDataFromList(prefUtils);
-                        prefUtils.saveSelectedCategoryId(categoryList.get(pagerPosition - 2).getIdCategory());
-
-                        showOrHideItem(View.VISIBLE);
-                        MakePostsByCategoryGridRecyclerViewForTapeActivity
-                                .makePostsByCategoryGridRecyclerViewForTapeActivity(TapeActivity.this, recyclerView, progressBarBottom, progressBarTop, prefUtils);
-                    } else {
-                        prefUtils.saveSelectedCategoryId("");
-                        showOrHideItem(View.GONE);
-                    }
+            public void onTabSelected(TabLayout.Tab tab) {
+                progressBarTop.setVisibility(View.GONE);
+                progressBarBottom.setVisibility(View.GONE);
+                if(tabs.getSelectedTabPosition() == 0) {
+                    MakeGridRecyclerViewForTapeActivity.makeNewPostsRecyclerView(TapeActivity.this, prefUtils, newsRecyclerView, progressBarBottom, twoColumnShimmer);
+                } else if(tabs.getSelectedTabPosition() == 1) {
+                    twoColumnShimmer.setVisibility(View.GONE);
+                    MakeLinerRecyclerViewForTapeActivity.makeLinerRecyclerViewForTapeActivity(TapeActivity.this, newsRecyclerView, progressBarBottom, progressBarTop, prefUtils);
+                } else {
+                    twoColumnShimmer.setVisibility(View.GONE);
+                    prefUtils.saveSelectedCategoryId(tab.getTag().toString());
+                    PostListByCategoryFromApi.getInstance().removeAllDataFromList(prefUtils);
+                    makePostsByCategoryGridRecyclerViewForTapeActivity(TapeActivity.this, newsRecyclerView, progressBarBottom, progressBarTop, prefUtils);
                 }
             }
 
             @Override
-            public void onPageSelected(int position) {}
+            public void onTabUnselected(TabLayout.Tab tab) {}
 
             @Override
-            public void onPageScrollStateChanged(int state) {}
+            public void onTabReselected(TabLayout.Tab tab) {}
         });
-    }
-
-    private void showOrHideItem(int visibility) {
-        recyclerView.setVisibility(visibility);
-        progressBarBottom.setVisibility(visibility);
     }
 
     @Override
@@ -137,8 +113,8 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
         }
 
         this.doubleBackToExitPressedOnce = true;
-        showSnackBarMessage(findViewById(R.id.activity_tape), getString(R.string.press_twice_to_exit));
-        new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
+        showToast(getString(R.string.press_twice_to_exit));
+        new Handler().postDelayed(() -> doubleBackToExitPressedOnce=false, 2000);
     }
 
     private void removeAllDataFromPostList() {
