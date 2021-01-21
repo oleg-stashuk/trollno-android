@@ -19,6 +19,9 @@
         <include
             layout="@layout/include_tape_two_column_shimmer"/>
 
+        <include
+            layout="@layout/include_tape_one_column_shimmer"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/news_recycler_tape"
             android:overScrollMode="never"
@@ -26,16 +29,6 @@
             android:layout_height="wrap_content"/>
 
     </LinearLayout>
-
-    <ProgressBar
-        android:id="@+id/progress_bar_top_tape"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:visibility="gone"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="120dp"
-        android:progressDrawable="@color/colorPrimary"
-        android:background="@drawable/progress_bar_circle_shape" />
 
     <ProgressBar
         android:id="@+id/progress_bar_bottom_tape"

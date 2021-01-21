@@ -29,9 +29,9 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
     private RecyclerView newsRecyclerView;
     private TabLayout tabs;
     private ProgressBar progressBarBottom;
-    private ProgressBar progressBarTop;
 
     private ShimmerFrameLayout twoColumnShimmer;
+    private ShimmerFrameLayout oneColumnShimmer;
     private boolean doubleBackToExitPressedOnce = false;  // для обработки нажатия onBackPressed
 
     @Override
@@ -42,11 +42,11 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
     @Override
     protected void initView() {
         twoColumnShimmer = findViewById(R.id.include_tape_two_column_shimmer);
+        oneColumnShimmer = findViewById(R.id.include_tape_one_column_shimmer);
 
         tabs = findViewById(R.id.tab_layout_tape);
         newsRecyclerView = findViewById(R.id.news_recycler_tape);
         progressBarBottom = findViewById(R.id.progress_bar_bottom_tape);
-        progressBarTop = findViewById(R.id.progress_bar_top_tape);
         TextView tapeBottomNavigationTextView = findViewById(R.id.tape_button);
         ImageView indicatorImageView = findViewById(R.id.indicator_image);
         findViewById(R.id.search_button_tape).setOnClickListener(this);
@@ -63,6 +63,7 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
 
         prefUtils.saveCurrentActivity("");
         makeTabSelectedListener();
+        showCorrectShimmer(false);
         MakeGridRecyclerViewForTapeActivity.makeNewPostsRecyclerView(this, prefUtils, newsRecyclerView, progressBarBottom, twoColumnShimmer);
     }
 
@@ -81,17 +82,15 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                progressBarTop.setVisibility(View.GONE);
-                progressBarBottom.setVisibility(View.GONE);
                 if(tabs.getSelectedTabPosition() == 0) {
+                    showCorrectShimmer(false);
                     MakeGridRecyclerViewForTapeActivity.makeNewPostsRecyclerView(TapeActivity.this, prefUtils, newsRecyclerView, progressBarBottom, twoColumnShimmer);
                 } else if(tabs.getSelectedTabPosition() == 1) {
-                    twoColumnShimmer.setVisibility(View.GONE);
-                    MakeLinerRecyclerViewForTapeActivity.makeLinerRecyclerViewForTapeActivity(TapeActivity.this, newsRecyclerView, progressBarBottom, progressBarTop, prefUtils);
+                    showCorrectShimmer(true);
+                    MakeLinerRecyclerViewForTapeActivity.makeLinerRecyclerViewForTapeActivity(TapeActivity.this, prefUtils, newsRecyclerView, oneColumnShimmer, progressBarBottom);
                 } else {
-                    twoColumnShimmer.setVisibility(View.VISIBLE);
+                    showCorrectShimmer(false);
                     prefUtils.saveSelectedCategoryId(tab.getTag().toString());
-                    PostListByCategoryFromApi.getInstance().removeAllDataFromList(prefUtils);
                     makePostsByCategoryGridRecyclerViewForTapeActivity(TapeActivity.this, prefUtils, newsRecyclerView, twoColumnShimmer, progressBarBottom);
                 }
             }
@@ -102,6 +101,14 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
             @Override
             public void onTabReselected(TabLayout.Tab tab) {}
         });
+    }
+
+    private void showCorrectShimmer(boolean isOneColumn) {
+        progressBarBottom.setVisibility(View.GONE);
+        twoColumnShimmer.setVisibility(isOneColumn ? View.GONE : View.VISIBLE);
+        oneColumnShimmer.setVisibility(isOneColumn ? View.VISIBLE : View.GONE);
+
+        removeAllDataFromPostList();
     }
 
     @Override

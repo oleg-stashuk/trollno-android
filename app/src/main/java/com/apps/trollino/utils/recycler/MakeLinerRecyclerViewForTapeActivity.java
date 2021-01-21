@@ -13,8 +13,10 @@ import com.apps.trollino.data.model.PostsModel;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.RecyclerScrollListener;
 import com.apps.trollino.utils.data.DataListFromApi;
+import com.apps.trollino.utils.data.PostListByCategoryFromApi;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.networking.main_group.GetMostDiscusPosts;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import static com.apps.trollino.utils.OpenPostActivityHelper.openPostActivity;
 
@@ -23,8 +25,9 @@ public class MakeLinerRecyclerViewForTapeActivity {
     private static PrefUtils prefUt;
 
 
-    public static void makeLinerRecyclerViewForTapeActivity(Context context, RecyclerView recyclerView,
-                                                            ProgressBar progressBarBottom, ProgressBar progressBarTop, PrefUtils prefUtils) {
+    public static void makeLinerRecyclerViewForTapeActivity(Context context, PrefUtils prefUtils,
+                                                            RecyclerView recyclerView, ShimmerFrameLayout shimmer,
+                                                            ProgressBar progressBar) {
         cont = context;
         prefUt = prefUtils;
 
@@ -33,19 +36,19 @@ public class MakeLinerRecyclerViewForTapeActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
-        new Thread(() -> {
-            GetMostDiscusPosts.makeGetNewPosts(cont, prefUt, adapter, progressBarBottom, progressBarTop, true);
-        }).start();
+        if(PostListByCategoryFromApi.getInstance().getPostListByCategory().isEmpty()) {
+            infiniteScroll(recyclerView, shimmer, progressBar, adapter,true);
+        }
 
         recyclerView.addOnScrollListener(new RecyclerScrollListener() {
             @Override
             public void onScrolledToEnd() {
-                infiniteScroll(progressBarBottom, progressBarTop, adapter,false);
+                infiniteScroll(recyclerView, shimmer, progressBar, adapter,false);
             }
 
             @Override
             public void onScrolledToTop() {
-                infiniteScroll(progressBarBottom, progressBarTop, adapter,true);
+                infiniteScroll(recyclerView, shimmer, progressBar, adapter,true);
             }
         });
     }
@@ -57,17 +60,19 @@ public class MakeLinerRecyclerViewForTapeActivity {
 
 
     // Загрузить/обновить данные с API
-    private static void updateDataFromApi(ProgressBar progressBarBottom, ProgressBar progressBarTop, DiscussPostsAdapter adapter, boolean isScrollOnTop) {
+    private static void updateDataFromApi(RecyclerView recyclerView, ShimmerFrameLayout shimmer,
+                                          ProgressBar progressBar, DiscussPostsAdapter adapter, boolean isScrollOnTop) {
         new Thread(() -> {
-            GetMostDiscusPosts.makeGetNewPosts(cont, prefUt, adapter, progressBarBottom, progressBarTop, isScrollOnTop);
+            GetMostDiscusPosts.makeGetNewPosts(cont, prefUt, adapter, recyclerView, shimmer, progressBar, isScrollOnTop);
         }).start();
     }
 
     // Загрузить/обновить данные с API при скролах ресайклера вверх или вниз, если достигнут конец списка
-    private static void infiniteScroll(ProgressBar progressBarBottom, ProgressBar progressBarTop, DiscussPostsAdapter adapter, boolean isScrollOnTop) {
-        progressBarTop.setVisibility(isScrollOnTop ? View.VISIBLE : View.GONE);
-        progressBarBottom.setVisibility(isScrollOnTop ? View.GONE : View.VISIBLE);
+    private static void infiniteScroll(RecyclerView recyclerView, ShimmerFrameLayout shimmer,
+                                       ProgressBar progressBar, DiscussPostsAdapter adapter, boolean isScrollOnTop) {
+        progressBar.setVisibility(isScrollOnTop? View.GONE : View.VISIBLE);
+        shimmer.setVisibility(isScrollOnTop ? View.VISIBLE : View.GONE);
         Handler handler = new Handler();
-        handler.postDelayed(() -> updateDataFromApi(progressBarBottom, progressBarTop, adapter, isScrollOnTop), 1000);
+        handler.postDelayed(() -> updateDataFromApi(recyclerView, shimmer, progressBar, adapter, isScrollOnTop), 1000);
     }
 }
