@@ -10,16 +10,8 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 
 public class ShimmerHide {
 
-    public static void shimmerHide(LinearLayout layout, ShimmerFrameLayout shimmerLayout) {
-        layout.setVisibility(View.VISIBLE);
-        Handler handler = new Handler();
-        handler.postDelayed(() -> {
-            shimmerLayout.setVisibility(View.GONE);
-        }, 1500);
-    }
-
-    public static void shimmerHide(RecyclerView recycler, ShimmerFrameLayout shimmerLayout) {
-        recycler.setVisibility(View.VISIBLE);
+    public static void shimmerHide(View view, ShimmerFrameLayout shimmerLayout) {
+        view.setVisibility(View.VISIBLE);
         Handler handler = new Handler();
         handler.postDelayed(() -> {
             shimmerLayout.setVisibility(View.GONE);
