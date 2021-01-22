@@ -3,7 +3,6 @@ package com.apps.trollino.ui.main_group;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -22,15 +21,17 @@ import com.apps.trollino.utils.RecyclerScrollListener;
 import com.apps.trollino.utils.data.DataListFromApi;
 import com.apps.trollino.utils.data.PostListBySearchFromApi;
 import com.apps.trollino.utils.networking.main_group.GetPostBySearch;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import static com.apps.trollino.utils.OpenPostActivityHelper.openPostActivity;
 
 public class SearchActivity extends BaseActivity implements View.OnClickListener {
+    private ShimmerFrameLayout shimmer;
     private View nothingSearch;
     private RecyclerView recyclerView;
     private EditText searchEditText;
     private ProgressBar progressBar;
-
+    private PostListAdapter adapter;
     private String searchString = "";
 
     @Override
@@ -40,6 +41,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected void initView() {
+        shimmer = findViewById(R.id.search_shimmer);
         recyclerView = findViewById(R.id.recycler_search);
         nothingSearch = findViewById(R.id.include_nothing_search);
         searchEditText = findViewById(R.id.search_search);
@@ -77,29 +79,23 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     public void makeSearchPostsRecyclerView() {
         DataListFromApi.getInstance().removeAllDataFromList(prefUtils);
 
-        PostListAdapter adapter = new PostListAdapter(SearchActivity.this, prefUtils, PostListBySearchFromApi.getInstance().getPostListByCategory(), searchPostsItemListener);
+        adapter = new PostListAdapter(SearchActivity.this, prefUtils, PostListBySearchFromApi.getInstance().getPostListBySearch(), searchPostsItemListener);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         if(DataListFromApi.getInstance().getNewPostsList().isEmpty()) {
-            new Thread(() -> {
-                GetPostBySearch.getPostBySearch(this, prefUtils, searchString, nothingSearch, progressBar, adapter);
-            }).start();
+            infiniteScroll(true);
         }
 
         recyclerView.addOnScrollListener(new RecyclerScrollListener() {
             @Override
             public void onScrolledToEnd() {
-                progressBar.setVisibility(View.VISIBLE);
-                Handler handler = new Handler();
-                handler.postDelayed(() -> new Thread(() -> {
-                    GetPostBySearch.getPostBySearch(SearchActivity.this, prefUtils, searchString, nothingSearch, progressBar, adapter);
-                }).start(), 1000);
+                infiniteScroll(false);
             }
 
             @Override
             public void onScrolledToTop() {
-                Log.d("OkHttp", "!!!!!!!!!!!!!!!!!!!!!! onScrolledToTop");
+                infiniteScroll(true);
             }
         });
     }
@@ -108,6 +104,22 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     private final PostListAdapter.OnItemClick<PostsModel.PostDetails> searchPostsItemListener = (item, position) -> {
         openPostActivity(this, item, prefUtils, false);
     };
+
+    // Загрузить/обновить данные с API
+    private void updateDataFromApi(boolean isGetNewList) {
+        new Thread(() -> {
+            GetPostBySearch.getPostBySearch(SearchActivity.this, prefUtils, recyclerView, shimmer,
+                    searchString, nothingSearch, progressBar, adapter, isGetNewList);
+        }).start();
+    }
+
+    // Загрузить/обновить данные с API при скролах ресайклера вверх или вниз, если достигнут конец списка
+    private void infiniteScroll(boolean isGetNewList) {
+        progressBar.setVisibility(isGetNewList ? View.GONE : View.VISIBLE);
+        shimmer.setVisibility(isGetNewList ? View.VISIBLE : View.GONE);
+        Handler handler = new Handler();
+        handler.postDelayed(() -> updateDataFromApi(isGetNewList), 1000);
+    }
 
     @Override
     public void onBackPressed() {

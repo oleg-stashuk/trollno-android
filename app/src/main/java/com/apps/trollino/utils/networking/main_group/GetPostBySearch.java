@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.apps.trollino.R;
 import com.apps.trollino.adapters.PostListAdapter;
 import com.apps.trollino.data.model.PagerModel;
@@ -14,6 +16,8 @@ import com.apps.trollino.utils.SnackBarMessageCustom;
 import com.apps.trollino.utils.data.PostListBySearchFromApi;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
+import com.apps.trollino.utils.networking_helper.ShimmerHide;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
@@ -26,10 +30,22 @@ import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
 
 public class GetPostBySearch {
     private static int page;
+    private static int totalPage;
+    private static RecyclerView recyclerView;
+    private static boolean isGetNewListThis;
 
-    public static void getPostBySearch(Context context, PrefUtils prefUtils, String searchText, View nothingSearch, ProgressBar progressBar, PostListAdapter adapter) {
+    public static void getPostBySearch(Context context, PrefUtils prefUtils,
+                                       RecyclerView recycler, ShimmerFrameLayout shimmer,
+                                       String searchText, View nothingSearch,
+                                       ProgressBar progressBar, PostListAdapter adapter, boolean isGetNewList) {
+
+        recyclerView = recycler;
+        isGetNewListThis = isGetNewList;
+        page = isGetNewList ? 0 : prefUtils.getNewPostCurrentPage();
+        if(isGetNewList) {
+            PostListBySearchFromApi.getInstance().removeAllDataFromList(prefUtils);
+        }
         String cookie = prefUtils.getCookie();
-        page = prefUtils.getNewPostCurrentPage();
 
         ApiService.getInstance(context).getSearchPosts(cookie, searchText, page, new Callback<PostsModel>() {
             int countTry = 0;
@@ -41,14 +57,17 @@ public class GetPostBySearch {
 
                     PagerModel pagerModel = postsModel.getPagerModel();
                     if(pagerModel.getTotalItems() == 0) {
-                        nothingSearch.setVisibility(View.VISIBLE);
+                        recycler.setVisibility(View.GONE);
+                        ShimmerHide.shimmerHide(nothingSearch, shimmer);
                     } else {
                         nothingSearch.setVisibility(View.GONE);
                         List<PostsModel.PostDetails> newPostList = postsModel.getPostDetailsList();
 
-                        saveCurrentPage(postsModel.getPagerModel().getTotalPages(), prefUtils);
                         updatePostListAndNotifyRecyclerAdapter(newPostList, adapter);
+                        ShimmerHide.shimmerHide(recycler, shimmer);
                     }
+                    totalPage = postsModel.getPagerModel().getTotalPages() -1;
+                    saveCurrentPage(prefUtils);
 
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
@@ -85,16 +104,23 @@ public class GetPostBySearch {
 
     }
 
-    private static void saveCurrentPage(int totalPage, PrefUtils prefUtils) {
-        if(page < totalPage - 1) {
+    private static void saveCurrentPage(PrefUtils prefUtils) {
+        if(page < totalPage) {
             prefUtils.saveNewPostCurrentPage(totalPage++);
         } else {
-            prefUtils.saveNewPostCurrentPage(totalPage--);
+            prefUtils.saveNewPostCurrentPage(totalPage);
         }
     }
 
     private static void updatePostListAndNotifyRecyclerAdapter(List<PostsModel.PostDetails> newPostList, PostListAdapter adapter) {
-        PostListBySearchFromApi.getInstance().savePostByCategoryInList(newPostList);
+        int currentListSize = PostListBySearchFromApi.getInstance().getPostListBySearch().size();
+        PostListBySearchFromApi.getInstance().savePostBySearchInList(newPostList);
+        int newListSize = PostListBySearchFromApi.getInstance().getPostListBySearch().size();
+
+        if(newListSize == currentListSize && page == totalPage && ! isGetNewListThis) {
+            SnackBarMessageCustom.showSnackBar(recyclerView, "Показаны все результаты поиска");
+        }
+
         adapter.notifyDataSetChanged();
     }
 }

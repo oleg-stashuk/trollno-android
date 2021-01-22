@@ -107,13 +107,12 @@ public class GetCommentListByPost {
 
         if(commentCount > 0) {
             noCommentTextView.setVisibility(View.GONE);
-            ShimmerHide.shimmerHide(recyclerView, shimmer);
 
             for(CommentModel.Comments comment : commentList) {
                 commentCount += Integer.parseInt(comment.getCommentAnswersCount());
             }
             updatePostListAndNotifyRecyclerAdapter(commentList, adapter);
-
+            ShimmerHide.shimmerHide(recyclerView, shimmer);
         } else {
             recyclerView.setVisibility(View.GONE);
             ShimmerHide.shimmerHide(noCommentTextView, shimmer);

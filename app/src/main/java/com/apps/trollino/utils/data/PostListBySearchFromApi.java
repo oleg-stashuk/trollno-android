@@ -20,7 +20,7 @@ public class PostListBySearchFromApi {
         postListBySearch = new ArrayList<>();
     }
 
-    public void savePostByCategoryInList(List<PostsModel.PostDetails> postList) {
+    public void savePostBySearchInList(List<PostsModel.PostDetails> postList) {
         if (postListBySearch.isEmpty()) {
             postListBySearch.addAll(postList);
         } else {
@@ -32,7 +32,7 @@ public class PostListBySearchFromApi {
         }
     }
 
-    public List<PostsModel.PostDetails> getPostListByCategory() {
+    public List<PostsModel.PostDetails> getPostListBySearch() {
         return postListBySearch;
     }
 
