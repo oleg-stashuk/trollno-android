@@ -1,6 +1,7 @@
 package com.apps.trollino.ui.authorisation;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -12,6 +13,18 @@ import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.OpenActivityHelper;
 import com.apps.trollino.utils.Validation;
 import com.apps.trollino.utils.networking.authorisation.PostUserLogin;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.CustomTabActivity;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+
+import java.util.Arrays;
 
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
@@ -19,6 +32,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private EditText passwordEditText;
     private String name = "";
     private String password = "";
+    private LoginButton facebookLoginButton;
+    private CallbackManager callbackManager;
 
     @Override
     protected int getLayoutID() {
@@ -27,6 +42,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     protected void initView() {
+        facebookLoginButton = findViewById(R.id.login_button);
         nameEditText = findViewById(R.id.edt_name_login);
         passwordEditText = findViewById(R.id.edt_password_login);
         findViewById(R.id.forgot_login).setOnClickListener(this);
@@ -36,6 +52,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         findViewById(R.id.google_button_layout).setOnClickListener(this);
 
         initToolbar();
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
     }
 
     private boolean inputFieldIsValid(){
@@ -97,11 +116,46 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 finish();
                 break;
             case R.id.facebook_button_layout:
+                startActivity(new Intent(this, CustomTabActivity.class));
                 showSnackBarMessage(findViewById(R.id.activity_login), "Войти через Facebook");
                 break;
             case R.id.google_button_layout:
                 showSnackBarMessage(findViewById(R.id.activity_login), "Войти через Google");
                 break;
+            case R.id.login_button:
+//                callbackManager = CallbackManager.Factory.create();
+//                LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
+//
+                AccessToken accessToken = AccessToken.getCurrentAccessToken();
+                boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
+                Log.d("OkHttp", "!!!!!!!!!!!!!!!!!!! isLoggedIn " + isLoggedIn);
+
+
+                LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        String AccessToken = loginResult.getAccessToken().getToken();
+                        Log.d("OkHttp", "!!!!!!!!!!!!!!!!!!! AccessToken " + AccessToken);
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+
+                    @Override
+                    public void onError(FacebookException error) {
+
+                    }
+                });
+                break;
         }
     }
+
+
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        callbackManager.onActivityResult(requestCode, resultCode, data);
+//        super.onActivityResult(requestCode, resultCode, data);
+//    }
 }

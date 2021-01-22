@@ -129,13 +129,22 @@
             android:layout_marginTop="20dp"
             android:text="@string/login_using_other_account"/>
 
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:padding="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp" />
+
         <include
             layout="@layout/include_google_and_facebook_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_marginTop="10dp"/>
-        </LinearLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -65,7 +65,6 @@
     <string name="resourse_youtube">Источник: youtube.com</string>
 
     // For Instagram
-    <string name="facebook_app_id">316582089429479</string>
     <string name="instagram_id">eaa…</string>
     <string name="instagram_secret">04e13fba37b67282b3b7579ddf12ecfd</string>
     <string name="APP_ID">214851550206757</string>
@@ -87,6 +86,10 @@
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
 <!--    <string name="banner_admob_id">ca-app-pub-3729162410044084~6144363222</string>-->
 <!--    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978777</string>-->
+
+    // For FaceBook
+    <string name="facebook_app_id">316582089429479</string>
+    <string name="fb_login_protocol_scheme">fb316582089429479</string>
 
 
 
