@@ -189,7 +189,7 @@ public class GetItemPost {
 
     private static void makePartOfPostRecyclerView(RecyclerView recyclerView, List<ItemPostModel.MediaBlock> mediaBlock) {
         recyclerView.setLayoutManager(new LinearLayoutManager(cont));
-        recyclerView.setAdapter(new OnePostElementAdapter((BaseActivity) cont, prefUt.getCountBetweenAds(), mediaBlock));
+        recyclerView.setAdapter(new OnePostElementAdapter((BaseActivity) cont, prefUt.getCountBetweenAds(), mediaBlock, prefUt));
         recyclerView.setFocusable(false);
     }
 
