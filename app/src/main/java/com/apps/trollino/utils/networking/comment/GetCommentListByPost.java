@@ -3,7 +3,6 @@ package com.apps.trollino.utils.networking.comment;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -18,6 +17,8 @@ import com.apps.trollino.utils.SnackBarMessageCustom;
 import com.apps.trollino.utils.data.CommentListFromApi;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
+import com.apps.trollino.utils.networking_helper.ShimmerHide;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
@@ -30,14 +31,22 @@ import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
 
 public class GetCommentListByPost {
     private static int page;
+    private static int totalPage;
+    private static RecyclerView recyclerView;
+    private static boolean isGetNewListThis;
 
     public static void getCommentListByPost(Context context, PrefUtils prefUtils,
                                             String postId, String sortBy, String sortOrder,
-                                            RecyclerView recyclerView, CommentToPostParentAdapter adapter,
-                                            EditText commentEditText, TextView noCommentTextView,
-                                            TextView countTextView, ProgressBar progressBar) {
+                                            RecyclerView recycler, ShimmerFrameLayout shimmer,
+                                            CommentToPostParentAdapter adapter, TextView noCommentTextView,
+                                            TextView countTextView, ProgressBar progressBar, boolean isGetNewList) {
 
-        page = prefUtils.getNewPostCurrentPage();
+        recyclerView = recycler;
+        isGetNewListThis = isGetNewList;
+        page = isGetNewList ? 0 : prefUtils.getNewPostCurrentPage();
+        if(isGetNewList) {
+            CommentListFromApi.getInstance().removeAllDataFromList(prefUtils);
+        }
         String cookie = prefUtils.getCookie();
 
         ApiService.getInstance(context).getCommentToPost(cookie, postId, sortBy, sortOrder, new Callback<CommentModel>() {
@@ -49,13 +58,14 @@ public class GetCommentListByPost {
                     CommentModel commentModel = response.body();
 
                     PagerModel pagerModel = commentModel.getPagerModel();
-                    saveCurrentPage(pagerModel.getTotalItems(), prefUtils);
+                    totalPage = pagerModel.getTotalItems() - 1;
+                    saveCurrentPage(prefUtils);
 
                     List<CommentModel.Comments> commentList = commentModel.getCommentsList();
-                    showCorrectVariant(commentList, recyclerView, adapter, commentEditText, noCommentTextView, countTextView);
+                    showCorrectVariant(commentList, adapter, shimmer, noCommentTextView, countTextView);
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
-                    SnackBarMessageCustom.showSnackBar(progressBar, errorMessage);
+                    SnackBarMessageCustom.showSnackBar(recycler, errorMessage);
                 }
 
                 progressBar.setVisibility(View.GONE);
@@ -72,14 +82,14 @@ public class GetCommentListByPost {
                     String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
                     if (isHaveNotInternet) {
                         Snackbar
-                                .make(progressBar, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
+                                .make(recycler, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
                                 .setMaxInlineActionWidth(3)
                                 .setAction(R.string.refresh_button, v -> {
                                     call.clone().enqueue(this);
                                 })
                                 .show();
                     } else {
-                        SnackBarMessageCustom.showSnackBar(progressBar, t.getLocalizedMessage());
+                        SnackBarMessageCustom.showSnackBar(recycler, t.getLocalizedMessage());
                     }
                     progressBar.setVisibility(View.GONE);
                     Log.d("OkHttp", "t.getLocalizedMessage() " + t.getLocalizedMessage());
@@ -90,14 +100,14 @@ public class GetCommentListByPost {
     }
 
     // Если для Поста нет комментариев, то выводится на экран сообщение что комментариев нет
-    private static void showCorrectVariant(List<CommentModel.Comments> commentList, RecyclerView recyclerView,
-                                           CommentToPostParentAdapter adapter, EditText commentEditText,
+    private static void showCorrectVariant(List<CommentModel.Comments> commentList,
+                                           CommentToPostParentAdapter adapter, ShimmerFrameLayout shimmer,
                                            TextView noCommentTextView, TextView countTextView) {
         int commentCount = commentList.size();
 
         if(commentCount > 0) {
             noCommentTextView.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
+            ShimmerHide.shimmerHide(recyclerView, shimmer);
 
             for(CommentModel.Comments comment : commentList) {
                 commentCount += Integer.parseInt(comment.getCommentAnswersCount());
@@ -105,23 +115,30 @@ public class GetCommentListByPost {
             updatePostListAndNotifyRecyclerAdapter(commentList, adapter);
 
         } else {
-            noCommentTextView.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
+            ShimmerHide.shimmerHide(noCommentTextView, shimmer);
         }
 
         countTextView.setText(String.valueOf(commentCount));
     }
 
-    private static void saveCurrentPage(int totalPage, PrefUtils prefUtils) {
-        if(page < totalPage - 1) {
+    private static void saveCurrentPage(PrefUtils prefUtils) {
+        if(page < totalPage) {
             prefUtils.saveNewPostCurrentPage(page + 1);
         } else {
-            prefUtils.saveNewPostCurrentPage(totalPage - 1);
+            prefUtils.saveNewPostCurrentPage(totalPage);
         }
     }
 
     private static void updatePostListAndNotifyRecyclerAdapter(List<CommentModel.Comments> commentList, CommentToPostParentAdapter adapter) {
+        int currentListSize = CommentListFromApi.getInstance().getCommentList().size();
         CommentListFromApi.getInstance().saveCommentInList(commentList);
+        int newListSize = CommentListFromApi.getInstance().getCommentList().size();
+
+        if(newListSize == currentListSize && page == totalPage && ! isGetNewListThis) {
+            SnackBarMessageCustom.showSnackBar(recyclerView, "Показаны все комментарии к этому посту");
+        }
+
         adapter.notifyDataSetChanged();
     }
 }

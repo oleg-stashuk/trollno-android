@@ -21,9 +21,10 @@ import com.apps.trollino.utils.data.CommentListFromApi;
 import com.apps.trollino.utils.dialogs.GuestDialog;
 import com.apps.trollino.utils.networking.comment.PostNewComment;
 import com.apps.trollino.utils.recycler.MakeRecyclerViewForComment;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 public class CommentToPostActivity extends BaseActivity implements View.OnClickListener{
-
+    private ShimmerFrameLayout shimmer;
     private TextView noCommentTextView;
     private RecyclerView commentsRecyclerView;
     private EditText commentEditText;
@@ -40,6 +41,7 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initView() {
+        shimmer = findViewById(R.id.include_comments_to_post_shimmer);
         commentsRecyclerView = findViewById(R.id.recycler_comment_comment_to_post);
         findViewById(R.id.back_button_comment_comment_to_post).setOnClickListener(this);
         findViewById(R.id.send_button_comment_comment_to_post).setOnClickListener(this);
@@ -68,7 +70,7 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
 
                 CommentListFromApi.getInstance().removeAllDataFromList(prefUtils);
                 MakeRecyclerViewForComment.makeRecyclerViewForComment(CommentToPostActivity.this,
-                        prefUtils, commentsRecyclerView, progressBar, currentPostId, commentEditText,
+                        prefUtils, commentsRecyclerView, shimmer, progressBar, currentPostId, commentEditText,
                         noCommentTextView, countTextView, sortBy);
             }
 

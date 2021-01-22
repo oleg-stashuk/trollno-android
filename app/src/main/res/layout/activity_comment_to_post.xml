@@ -74,19 +74,26 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:gravity="center"
+            android:visibility="gone"
             android:text="@string/post_without_comment"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content">
+
+            <include
+                android:id="@+id/include_comments_to_post_shimmer"
+                layout="@layout/include_comments_to_post_shimmer" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_comment_comment_to_post"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:overScrollMode="never"
+                android:layout_below="@+id/include_comments_to_post_shimmer"
                 android:paddingRight="10dp"
-                android:paddingLeft="10dp" />
+                android:paddingLeft="10dp"
+                android:paddingBottom="15dp"/>
 
             <ProgressBar
                 android:id="@+id/progress_bar_comment_to_post"
@@ -94,11 +101,11 @@
                 android:layout_height="50dp"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
+                android:visibility="gone"
                 android:progressDrawable="@color/colorPrimary"
                 android:background="@drawable/progress_bar_circle_shape" />
 
         </RelativeLayout>
-
     </LinearLayout>
 
     <LinearLayout
