@@ -19,7 +19,10 @@ public class PrefUtils {
     private final String USER_AUTHORIZATION_KEY = "USER_AUTHORIZATION_KEY";
     private final String COOKIE_KEY = "COOKIE_KEY";
     private final String USER_PASSWORD = "USER_PASSWORD";
+
     private final String COUNT_BETWEEN_ADS = "COUNT_BETWEEN_ADS";
+    private final String AD_MOB_ID = "AD_MOB_ID";
+    private final String BANNER_ID = "BANNER_ID";
 
     private final String NEW_POST_CURRENT_PAGE = "NEW_POST_CURRENT_PAGE"; // запоминание текущей страницы данных с Api для постов из категории "Свежее"
     private final String POST_BY_CATEGORY_CURRENT_PAGE = "POST_BY_CATEGORY_CURRENT_PAGE"; // запоминание текущей страницы данных с Api для постов из категорий, загружаемых с Api
@@ -78,6 +81,22 @@ public class PrefUtils {
 
     public void saveCountBetweenAds(int countBetweenAds) {
         getEditor().putInt(COUNT_BETWEEN_ADS, countBetweenAds).apply();
+    }
+
+    public String getAdMobId() {
+        return sharedPreferences.getString(AD_MOB_ID, "");
+    }
+
+    public void saveAdMobId(String adMobId) {
+        getEditor().putString(AD_MOB_ID, adMobId).apply();
+    }
+
+    public String getBannerId() {
+        return sharedPreferences.getString(BANNER_ID, "");
+    }
+
+    public void saveBannerId(String bannerId) {
+        getEditor().putString(BANNER_ID, bannerId).apply();
     }
 
     public List<CategoryModel> getCategoryList() {

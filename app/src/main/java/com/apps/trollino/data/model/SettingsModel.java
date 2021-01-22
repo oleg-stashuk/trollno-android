@@ -13,6 +13,12 @@ public class SettingsModel {
     @SerializedName("field_conf_num_blocks_to_adv")
     @Expose
     private List<AdvertisingModel> advertisingList;
+    @SerializedName("field_conf_admob_id")
+    @Expose
+    private List<KeyModel> adMobIdList;
+    @SerializedName("field_conf_banner_id")
+    @Expose
+    private List<KeyModel> bannerIdList;
 
     public List<AvatarImageModel> getAvatarImageList() {
         return avatarImageList;
@@ -22,6 +28,14 @@ public class SettingsModel {
         return advertisingList;
     }
 
+    public List<KeyModel> getAdMobIdList() {
+        return adMobIdList;
+    }
+
+    public List<KeyModel> getBannerIdList() {
+        return bannerIdList;
+    }
+
 
     public class AdvertisingModel {
         @SerializedName("value")
@@ -29,6 +43,16 @@ public class SettingsModel {
         private int value;
 
         public int getValue() {
+            return value;
+        }
+    }
+
+    public class KeyModel {
+        @SerializedName("value")
+        @Expose
+        private String value;
+
+        public String getValue() {
             return value;
         }
     }

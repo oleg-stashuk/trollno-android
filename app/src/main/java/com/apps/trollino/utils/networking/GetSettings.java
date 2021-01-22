@@ -36,6 +36,19 @@ public class GetSettings {
                 if(response.isSuccessful()) {
                     SettingsModel settingsModel = response.body();
 
+                    List<SettingsModel.KeyModel> adMobIdList = settingsModel.getAdMobIdList();
+                    for(SettingsModel.KeyModel adMobId : adMobIdList) {
+                        prefUtils.saveAdMobId(adMobId.getValue());
+                    }
+
+                    List<SettingsModel.KeyModel> adBannerList = settingsModel.getBannerIdList();
+                    for(SettingsModel.KeyModel adBanner : adBannerList) {
+                        prefUtils.saveBannerId(adBanner.getValue());
+                    }
+                    Log.d("OkHttp_1", "!!!!!!!!!!!!!!! adMobId: " + prefUtils.getAdMobId());
+                    Log.d("OkHttp_1", "!!!!!!!!!!!!!!! bannerId: "  + prefUtils.getBannerId());
+
+
                     if (prefUtils.getCurrentActivity().equals("")) {
                         List<SettingsModel.AdvertisingModel> advertisingList = settingsModel.getAdvertisingList();
                         for(SettingsModel.AdvertisingModel advertising : advertisingList) {

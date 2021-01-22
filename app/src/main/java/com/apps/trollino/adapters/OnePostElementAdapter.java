@@ -18,6 +18,7 @@ import com.apps.trollino.data.model.single_post.ItemPostModel;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.ui.main_group.YoutubeActivity;
 import com.apps.trollino.utils.Const;
+import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.dialogs.ImageViewDialog;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -32,14 +33,20 @@ import static com.apps.trollino.utils.networking.GetTikTok.getTikTok;
 
 public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.MediaBlock> {
     private final int RECOVERY_REQUEST = 1;
+    private String adMobId;
+    private String bannerId;
     private int blockCountFromApi;
     private int blockCount = 1;
     private int itemsSize;
+    private PrefUtils prefUtils;
 
-    public OnePostElementAdapter(BaseActivity baseActivity, int blockCountFromApi, List<ItemPostModel.MediaBlock> items) {
+    public OnePostElementAdapter(BaseActivity baseActivity, int blockCountFromApi, List<ItemPostModel.MediaBlock> items, PrefUtils prefUtils) {
         super(baseActivity, items);
         this.blockCountFromApi = blockCountFromApi;
         this.itemsSize = items.size();
+        this.prefUtils = prefUtils;
+        this.adMobId = prefUtils.getAdMobId();
+        this.bannerId = prefUtils.getBannerId();
     }
 
     @Override
@@ -91,13 +98,16 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
                     descriptionTextView.setText(entityItem.getDesc());
                 }
 
-                showAdBlock(adView, adLinearLayout);// show advertising
+//                adView = new AdView(view.getContext());
+//                adView.setAdSize(AdSize.SMART_BANNER);
+//                adView.setAdUnitId(bannerId);
+                showAdBlock(adView, adLinearLayout, view.getContext());// show advertising
             }
 
-            private void showAdBlock(AdView adView, LinearLayout adLinearLayout) {
+            private void showAdBlock(AdView adView, LinearLayout adLinearLayout, Context context) {
                 if(blockCountFromApi > itemsSize) {
                     if(blockCount == 1) {
-                        getAdBlock(adView, adLinearLayout);
+                        getAdBlock(adView, adLinearLayout, context);
                     }
                     blockCount++;
                 } else if (blockCount < blockCountFromApi) {
@@ -105,11 +115,27 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
                     adLinearLayout.setVisibility(View.GONE);
                 } else {
                     blockCount = 1;
-                    getAdBlock(adView, adLinearLayout);
+                    getAdBlock(adView, adLinearLayout, context);
                 }
             }
 
-            private void getAdBlock(AdView adView, LinearLayout adLinearLayout) {
+            private void getAdBlock(AdView adView, LinearLayout adLinearLayout, Context context) {
+//                Log.d("OkHttp", "!!!!!!!!!!!!!!! adMobId: " + adMobId + " - "  + prefUtils.getAdMobId());
+//                Log.d("OkHttp", "!!!!!!!!!!!!!!! bannerId: " + bannerId + " " + prefUtils.getBannerId());
+//                try {
+//                    ApplicationInfo ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+//                    Bundle bundle = ai.metaData;
+//                    String myApiKey = bundle.getString("com.google.android.gms.ads.APPLICATION_ID");
+//                    Log.d("OkHttp", "Name Found: " + myApiKey);
+//                    ai.metaData.putString("com.google.android.gms.ads.APPLICATION_ID", adMobId);//you can replace your key APPLICATION_ID here
+//                    String ApiKey = bundle.getString("com.google.android.gms.ads.APPLICATION_ID");
+//                    Log.d("OkHttp", "ReNamed Found: " + ApiKey);
+//                } catch (PackageManager.NameNotFoundException e) {
+//                    Log.e("OkHttp", "Failed to load meta-data, NameNotFound: " + e.getMessage());
+//                } catch (NullPointerException e) {
+//                    Log.e("OkHttp", "Failed to load meta-data, NullPointer: " + e.getMessage());
+//                }
+
                 adLinearLayout.setVisibility(View.VISIBLE);
                 AdRequest adRequest = new AdRequest.Builder().build();
                 adView.loadAd(adRequest);

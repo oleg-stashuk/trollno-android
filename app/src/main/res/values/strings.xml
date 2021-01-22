@@ -85,6 +85,12 @@
     // For ads
     <string name="banner_admob_id">ca-app-pub-3729162410044084~6144363065</string>
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+<!--    <string name="banner_admob_id">ca-app-pub-3729162410044084~6144363222</string>-->
+<!--    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978777</string>-->
+
+
+
+
     <string name="txt_edit_profile">Редактировать профиль</string>
     <string name="title_autorisation">Авторизация</string>
     <string name="title_registration">Регистрация</string>
