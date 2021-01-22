@@ -3,6 +3,7 @@ package com.apps.trollino.ui.main_group;
 import android.content.Intent;
 import android.os.Handler;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -29,6 +30,7 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
     private RecyclerView newsRecyclerView;
     private TabLayout tabs;
     private ProgressBar progressBarBottom;
+    private ImageButton searchImageButton;
 
     private ShimmerFrameLayout twoColumnShimmer;
     private ShimmerFrameLayout oneColumnShimmer;
@@ -41,7 +43,7 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
 
     @Override
     protected void initView() {
-        twoColumnShimmer = findViewById(R.id.include_tape_two_column_shimmer);
+        twoColumnShimmer = findViewById(R.id.include_post_two_column_shimmer);
         oneColumnShimmer = findViewById(R.id.include_tape_one_column_shimmer);
 
         tabs = findViewById(R.id.tab_layout_tape);
@@ -49,7 +51,8 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
         progressBarBottom = findViewById(R.id.progress_bar_bottom_tape);
         TextView tapeBottomNavigationTextView = findViewById(R.id.tape_button);
         ImageView indicatorImageView = findViewById(R.id.indicator_image);
-        findViewById(R.id.search_button_tape).setOnClickListener(this);
+        searchImageButton = findViewById(R.id.search_button_tape);
+        searchImageButton.setOnClickListener(this);
         findViewById(R.id.activity_button).setOnClickListener(this);
         findViewById(R.id.favorites_button).setOnClickListener(this);
         findViewById(R.id.profile_button).setOnClickListener(this);

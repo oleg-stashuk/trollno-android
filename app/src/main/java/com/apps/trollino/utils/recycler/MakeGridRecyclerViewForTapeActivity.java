@@ -34,9 +34,7 @@ public static void makeNewPostsRecyclerView(Context context, PrefUtils prefUtils
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         if(DataListFromApi.getInstance().getNewPostsList().isEmpty()) {
-            new Thread(() -> {
-                makeGetNewPosts(cont, prefUtils, adapter, progressBar, recyclerView, shimmer, true);
-            }).start();
+            infiniteScroll(progressBar, recyclerView, shimmer, adapter,true);
         }
 
         recyclerView.addOnScrollListener(new RecyclerScrollListener() {

@@ -17,10 +17,10 @@
         android:orientation="vertical" >
 
         <include
-            layout="@layout/include_tape_two_column_shimmer"/>
+            layout="@layout/include_post_two_column_shimmer"/>
 
         <include
-            layout="@layout/include_tape_one_column_shimmer"/>
+            layout="@layout/include_post_one_column_shimmer"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/news_recycler_tape"
