@@ -23,7 +23,7 @@
             android:orientation="vertical">
 
             <include
-                layout="@layout/include_content_scrolling_post_shimmer" />
+                layout="@layout/include_shimmer_post" />
 
             <LinearLayout
                 android:id="@+id/top_liner_layout_post_activity"

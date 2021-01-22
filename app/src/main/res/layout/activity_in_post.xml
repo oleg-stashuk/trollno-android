@@ -32,7 +32,8 @@
 
         <include
             android:id="@+id/include_user_comments_shimmer"
-            layout="@layout/include_user_comments_shimmer" />
+            layout="@layout/include_shimmer_user_comments"
+            android:visibility="gone"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_activity_in_post"

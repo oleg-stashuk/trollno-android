@@ -60,6 +60,7 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
         favoriteBottomNavigationTextView.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_favorite_green, 0, 0);
         favoriteBottomNavigationTextView.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
         if(isUserAuthorization) {
+            shimmer.setVisibility(View.VISIBLE);
             new Thread(() -> GetNewAnswersCount.getNewAnswersCount(this, prefUtils, indicatorImageView)).start();
         }
 

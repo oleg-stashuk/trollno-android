@@ -41,7 +41,7 @@
     <include
         android:id="@+id/search_shimmer"
         android:visibility="gone"
-        layout="@layout/include_post_two_column_shimmer" />
+        layout="@layout/include_shimmer_post_two_column" />
 
     <include
         android:id="@+id/include_nothing_search"

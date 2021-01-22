@@ -43,8 +43,8 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
 
     @Override
     protected void initView() {
-        twoColumnShimmer = findViewById(R.id.include_post_two_column_shimmer);
-        oneColumnShimmer = findViewById(R.id.include_tape_one_column_shimmer);
+        twoColumnShimmer = findViewById(R.id.include_shimmer_post_two_column);
+        oneColumnShimmer = findViewById(R.id.include_shimmer_post_one_column);
 
         tabs = findViewById(R.id.tab_layout_tape);
         newsRecyclerView = findViewById(R.id.news_recycler_tape);

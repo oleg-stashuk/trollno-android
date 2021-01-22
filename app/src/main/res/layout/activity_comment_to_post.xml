@@ -82,15 +82,15 @@
             android:layout_height="wrap_content">
 
             <include
-                android:id="@+id/include_comments_to_post_shimmer"
-                layout="@layout/include_comments_to_post_shimmer" />
+                android:id="@+id/comments_to_post_shimmer"
+                layout="@layout/include_shimmer_comments_to_post"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_comment_comment_to_post"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:overScrollMode="never"
-                android:layout_below="@+id/include_comments_to_post_shimmer"
+                android:layout_below="@+id/comments_to_post_shimmer"
                 android:paddingRight="10dp"
                 android:paddingLeft="10dp"
                 android:paddingBottom="15dp"/>

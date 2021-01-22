@@ -41,7 +41,7 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initView() {
-        shimmer = findViewById(R.id.include_comments_to_post_shimmer);
+        shimmer = findViewById(R.id.comments_to_post_shimmer);
         commentsRecyclerView = findViewById(R.id.recycler_comment_comment_to_post);
         findViewById(R.id.back_button_comment_comment_to_post).setOnClickListener(this);
         findViewById(R.id.send_button_comment_comment_to_post).setOnClickListener(this);

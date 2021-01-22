@@ -48,7 +48,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
     protected void initView() {
         nestedScrollView = findViewById(R.id.include_post_screen);
         postLayout = findViewById(R.id.post_layout);
-        shimmerLayout = findViewById(R.id.post_shimmer);
+        shimmerLayout = findViewById(R.id.include_shimmer_post);
         swipedImageView = findViewById(R.id.swiped_image_post_activity);
         partOfPostRecyclerView = findViewById(R.id.recycler_post_activity);
         categoryTextView = findViewById(R.id.category_post_activity);

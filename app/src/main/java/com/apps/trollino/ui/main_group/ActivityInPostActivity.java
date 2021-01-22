@@ -61,6 +61,7 @@
 
         isUserAuthorization = prefUtils.getIsUserAuthorization();
         if(isUserAuthorization) {
+            shimmer.setVisibility(View.VISIBLE);
             new Thread(() -> GetNewAnswersCount.getNewAnswersCount(this, prefUtils, indicatorImageView)).start();
         }
 

@@ -34,7 +34,8 @@
 
         <include
             android:id="@+id/include_favorite_shimmer"
-            layout="@layout/include_post_one_column_shimmer"/>
+            layout="@layout/include_shimmer_post_one_column"
+            android:visibility="gone"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_favorite"
