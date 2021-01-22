@@ -15,6 +15,8 @@ import com.apps.trollino.utils.SnackBarMessageCustom;
 import com.apps.trollino.utils.data.FavoritePostListFromApi;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
+import com.apps.trollino.utils.networking_helper.ShimmerHide;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
@@ -27,9 +29,19 @@ import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
 
 public class GetFavoriteList {
     private static int page;
+    private static int totalPage;
+    private static RecyclerView recyclerView;
+    private static boolean isGetNewListThis;
 
-    public static void getFavoritePosts(Context context, PrefUtils prefUtils, RecyclerView recyclerView, FavoriteAdapter adapter, ProgressBar progressBar, View noFavoriteListView) {
-        page = prefUtils.getNewPostCurrentPage();
+    public static void getFavoritePosts(Context context, PrefUtils prefUtils, RecyclerView recycler,
+                                        ShimmerFrameLayout shimmer, ProgressBar progressBar, View noFavoriteListView,
+                                        FavoriteAdapter adapter, boolean isGetNewList) {
+        recyclerView = recycler;
+        isGetNewListThis = isGetNewList;
+        page = isGetNewList ? 0 : prefUtils.getNewPostCurrentPage();
+        if(isGetNewList) {
+            FavoritePostListFromApi.getInstance().removeAllDataFromList(prefUtils);
+        }
         String cookie = prefUtils.getCookie();
 
         ApiService.getInstance(context).getFavoritePostList(cookie, page, new Callback<PostsModel>() {
@@ -42,18 +54,19 @@ public class GetFavoriteList {
                     List<PostsModel.PostDetails> favoritePostList = post.getPostDetailsList();
 
                     if (favoritePostList.isEmpty()) {
-                        noFavoriteListView.setVisibility(View.VISIBLE);
-                        recyclerView.setVisibility(View.GONE);
+                        recycler.setVisibility(View.GONE);
+                        ShimmerHide.shimmerHide(noFavoriteListView, shimmer);
                     } else {
                         noFavoriteListView.setVisibility(View.GONE);
-                        recyclerView.setVisibility(View.VISIBLE);
+                        ShimmerHide.shimmerHide(recycler, shimmer);
                     }
 
-                    saveCurrentPage(post.getPagerModel().getTotalPages(), prefUtils);
+                    totalPage = post.getPagerModel().getTotalPages() - 1;
+                    saveCurrentPage(prefUtils);
                     updatePostListAndNotifyRecyclerAdapter(favoritePostList, adapter);
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
-                    SnackBarMessageCustom.showSnackBar(progressBar, errorMessage);
+                    SnackBarMessageCustom.showSnackBar(recycler, errorMessage);
                 }
                 progressBar.setVisibility(View.GONE);
             }
@@ -69,14 +82,14 @@ public class GetFavoriteList {
                     String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
                     if (isHaveNotInternet) {
                         Snackbar
-                                .make(progressBar, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
+                                .make(recycler, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
                                 .setMaxInlineActionWidth(3)
                                 .setAction(R.string.refresh_button, v -> {
                                     call.clone().enqueue(this);
                                 })
                                 .show();
                     } else {
-                        SnackBarMessageCustom.showSnackBar(progressBar, t.getLocalizedMessage());
+                        SnackBarMessageCustom.showSnackBar(recycler, t.getLocalizedMessage());
                     }
                     progressBar.setVisibility(View.GONE);
                     Log.d("OkHttp", "t.getLocalizedMessage() " + t.getLocalizedMessage());
@@ -85,16 +98,23 @@ public class GetFavoriteList {
         });
     }
 
-    private static void saveCurrentPage(int totalPage, PrefUtils prefUtils) {
-        if(page < totalPage - 1) {
+    private static void saveCurrentPage(PrefUtils prefUtils) {
+        if(page < totalPage) {
             prefUtils.saveNewPostCurrentPage(page + 1);
         } else {
-            prefUtils.saveNewPostCurrentPage(totalPage - 1);
+            prefUtils.saveNewPostCurrentPage(totalPage);
         }
     }
 
     private static void updatePostListAndNotifyRecyclerAdapter(List<PostsModel.PostDetails> favoritePostList, FavoriteAdapter adapter) {
+        int currentListSize = FavoritePostListFromApi.getInstance().getFavoritePostLis().size();
         FavoritePostListFromApi.getInstance().saveFavoritePostInList(favoritePostList);
+        int newListSize = FavoritePostListFromApi.getInstance().getFavoritePostLis().size();
+
+        if(newListSize == currentListSize && page == totalPage && ! isGetNewListThis) {
+            SnackBarMessageCustom.showSnackBar(recyclerView, "Уже показаны все посты, которые добавлены в Избранное");
+        }
+
         adapter.notifyDataSetChanged();
     }
 }

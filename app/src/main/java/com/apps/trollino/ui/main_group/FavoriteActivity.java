@@ -20,8 +20,10 @@ import com.apps.trollino.utils.OpenActivityHelper;
 import com.apps.trollino.utils.data.FavoritePostListFromApi;
 import com.apps.trollino.utils.networking.user_action.GetNewAnswersCount;
 import com.apps.trollino.utils.recycler.MakeLinerRecyclerViewForFavoriteActivity;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 public class FavoriteActivity extends BaseActivity implements View.OnClickListener{
+    private ShimmerFrameLayout shimmer;
     private RecyclerView favoriteRecyclerView;
     private View noFavoriteListView;
     private View userAuthorizationView;
@@ -38,6 +40,7 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void initView() {
+        shimmer = findViewById(R.id.include_favorite_shimmer);
         favoriteRecyclerView = findViewById(R.id.recycler_favorite);
         noFavoriteListView = findViewById(R.id.include_no_favorite);
         userAuthorizationView = findViewById(R.id.include_user_not_authorization_favorite);
@@ -67,7 +70,7 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
     private void checkFavoriteListAndUserAuthorization() {
         if(isUserAuthorization) {
             userAuthorizationView.setVisibility(View.GONE);
-            MakeLinerRecyclerViewForFavoriteActivity.makeLinerRecyclerViewForFavoriteActivity(this, favoriteRecyclerView, progressBar ,prefUtils, noFavoriteListView);
+            MakeLinerRecyclerViewForFavoriteActivity.makeLinerRecyclerViewForFavoriteActivity(this, prefUtils, favoriteRecyclerView, shimmer, progressBar, noFavoriteListView);
         } else {
             userAuthorizationView.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.GONE);

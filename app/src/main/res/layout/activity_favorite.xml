@@ -32,10 +32,15 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
+        <include
+            android:id="@+id/include_favorite_shimmer"
+            layout="@layout/include_tape_one_column_shimmer"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_favorite"
             android:overScrollMode="never"
             android:layout_width="match_parent"
+            android:layout_below="@+id/include_favorite_shimmer"
             android:layout_height="wrap_content" />
 
         <ProgressBar
