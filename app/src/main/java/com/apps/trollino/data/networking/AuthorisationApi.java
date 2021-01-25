@@ -1,5 +1,6 @@
 package com.apps.trollino.data.networking;
 
+import com.apps.trollino.data.model.login.FacebookRequestModel;
 import com.apps.trollino.data.model.login.RegistrationRequestModel;
 import com.apps.trollino.data.model.login.RegistrationResponseModel;
 import com.apps.trollino.data.model.login.RequestLoginModel;
@@ -48,4 +49,7 @@ public interface AuthorisationApi {
 
     @POST("/user/lost-password?_format=json")
     Call<Void> postLostPassword(@Body RequestLoginModel email);
+
+    @POST("/user/facebook/login?_format=json")
+    Call<ResponseLoginModel> loginWithFacebook(@Body FacebookRequestModel facebookRequestModel);
 }

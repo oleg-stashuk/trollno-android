@@ -6,6 +6,7 @@ import com.apps.trollino.data.model.CategoryModel;
 import com.apps.trollino.data.model.PostsModel;
 import com.apps.trollino.data.model.SettingsModel;
 import com.apps.trollino.data.model.comment.CommentModel;
+import com.apps.trollino.data.model.login.FacebookRequestModel;
 import com.apps.trollino.data.model.user_action.CountNewAnswersModel;
 import com.apps.trollino.data.model.comment.CreateCommentBody;
 import com.apps.trollino.data.model.comment.CreateNewCommentRequest;
@@ -129,6 +130,10 @@ public class ApiService {
     // GET and POST request for work with Authorisation block
     public void postLogin(String login, String password, Callback<ResponseLoginModel> callback) {
         authorisationApi.postLogin(new RequestLoginModel(login, password)).enqueue(callback);
+    }
+
+    public void loginWithFacebook(String facebookToken, Callback<ResponseLoginModel> callback) {
+        authorisationApi.loginWithFacebook(new FacebookRequestModel(facebookToken)).enqueue(callback);
     }
 
     public void postRegistration(List<String> login, List<String> mail, List<String> pass, Callback<RegistrationResponseModel> callback) {
