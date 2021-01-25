@@ -22,6 +22,7 @@ import com.apps.trollino.utils.dialogs.InformationAboutAppDialog;
 import com.apps.trollino.utils.networking.authorisation.GetUserProfile;
 import com.apps.trollino.utils.networking.authorisation.PostLogout;
 import com.apps.trollino.utils.networking.user_action.GetNewAnswersCount;
+import com.facebook.login.LoginManager;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 public class ProfileActivity extends BaseActivity implements View.OnClickListener{
@@ -153,6 +154,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 finish();
                 break;
             case R.id.exit_button_profile:
+                LoginManager.getInstance().logOut();
                 new Thread(() -> PostLogout.postLogout(this, prefUtils, findViewById(R.id.activity_profile))).start();
                 break;
             case R.id.registration_button_include_profile_for_guest:
