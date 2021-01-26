@@ -46,39 +46,52 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/instagram_item_element_of_post"
+<!--    <LinearLayout-->
+<!--        android:id="@+id/instagram_item_element_of_post"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="center_vertical"-->
+<!--        android:layout_weight="1"-->
+<!--        android:background="@color/colorGreyBackgroundVideo"-->
+<!--        android:gravity="center"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:orientation="vertical">-->
+
+<!--        <ImageView-->
+<!--            android:layout_width="130dp"-->
+<!--            android:layout_height="130dp"-->
+<!--            android:padding="20dp"-->
+<!--            android:src="@drawable/ic_video_player" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/instagram_element_of_post"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"/>-->
+
+<!--    </LinearLayout>-->
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_weight="1"
-        android:background="@color/colorGreyBackgroundVideo"
-        android:gravity="center"
-        android:layout_marginTop="10dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
+
+        <com.google.android.youtube.player.YouTubeThumbnailView
+            android:id="@+id/youtube_view_1"
+            android:name="com.google.android.youtube.player.YouTubePlayerSupportFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"
+            android:layout_marginTop="10dp" />
 
         <ImageView
-            android:layout_width="130dp"
-            android:layout_height="130dp"
-            android:padding="20dp"
-            android:src="@drawable/ic_video_player" />
-
-        <TextView
-            android:id="@+id/instagram_element_of_post"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-    </LinearLayout>
-
-    <com.google.android.youtube.player.YouTubeThumbnailView
-        android:id="@+id/youtube_view_1"
-        android:name="com.google.android.youtube.player.YouTubePlayerSupportFragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:scaleType="fitXY"
-        android:adjustViewBounds="true"
-        android:layout_marginTop="10dp" />
+            android:id="@+id/image_video_element_of_post"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_video_player_image" />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/youtube_element_of_post"
@@ -87,14 +100,14 @@
         android:paddingLeft="10dp"
         android:text="@string/resourse_youtube"/>
 
-    <ImageView
-        android:id="@+id/tiktok_image_item_element_of_post"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:scaleType="fitXY"
-        android:adjustViewBounds="true"
-        android:layout_marginTop="10dp" />
+<!--    <ImageView-->
+<!--        android:id="@+id/tiktok_image_item_element_of_post"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@android:color/transparent"-->
+<!--        android:scaleType="fitXY"-->
+<!--        android:adjustViewBounds="true"-->
+<!--        android:layout_marginTop="10dp" />-->
 
     <TextView
         android:id="@+id/description_element_of_post"

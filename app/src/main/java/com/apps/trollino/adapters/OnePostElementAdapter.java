@@ -66,13 +66,14 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
                 ImageView imageView = view.findViewById(R.id.image_element_of_post);
                 TextView sourceTextView = view.findViewById(R.id.source_text_element_of_post);
                 TextView sourceLinkTextView = view.findViewById(R.id.link_source_element_of_post);
-                LinearLayout instagramLinearLayout = view.findViewById(R.id.instagram_item_element_of_post);
-                TextView instagramTextView = view.findViewById(R.id.instagram_element_of_post);
+//                LinearLayout instagramLinearLayout = view.findViewById(R.id.instagram_item_element_of_post);
+//                TextView instagramTextView = view.findViewById(R.id.instagram_element_of_post);
 
                 TextView youtubeTextView = view.findViewById(R.id.youtube_element_of_post);
                 YouTubeThumbnailView youTubeThumbnailView = view.findViewById(R.id.youtube_view_1);
+                ImageView videoImageView = view.findViewById(R.id.image_video_element_of_post);
 
-                ImageView tikTokImageView = view.findViewById(R.id.tiktok_image_item_element_of_post);
+//                ImageView tikTokImageView = view.findViewById(R.id.tiktok_image_item_element_of_post);
 
                 TextView descriptionTextView = view.findViewById(R.id.description_element_of_post);
 
@@ -87,9 +88,9 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
                 }
 
                 makeImageBlock(entityItem.getImage(), imageView, sourceTextView, sourceLinkTextView);
-                makeInstagramBlock(entityItem.getInstagram(), instagramLinearLayout, instagramTextView, view.getContext());
-                makeYoutubeBlock(entityItem.getYoutube(), youtubeTextView, youTubeThumbnailView);
-                makeTokImageBlock(entityItem.getTiktok(), tikTokImageView, view);
+//                makeInstagramBlock(entityItem.getInstagram(), instagramLinearLayout, instagramTextView, view.getContext());
+                makeYoutubeBlock(entityItem.getYoutube(), youtubeTextView, youTubeThumbnailView, videoImageView);
+//                makeTokImageBlock(entityItem.getTiktok(), tikTokImageView, view);
 
                 if (entityItem.getDesc().isEmpty()) {
                     descriptionTextView.setVisibility(View.GONE);
@@ -191,12 +192,13 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
                 }
             }
 
-            private void makeYoutubeBlock(String youtubeLink, TextView youtubeTextView, YouTubeThumbnailView youTubeThumbnailView) {
+            private void makeYoutubeBlock(String youtubeLink, TextView youtubeTextView,
+                                          YouTubeThumbnailView youTubeThumbnailView, ImageView videoImageView) {
                 if (youtubeLink.isEmpty()) {
                     youTubeThumbnailView.setVisibility(View.GONE);
                     youtubeTextView.setVisibility(View.GONE);
+                    videoImageView.setVisibility(View.GONE);
                 } else {
-
                     int length = youtubeLink.length();
                     String videoAddress = youtubeLink.substring(length-11, length);
 
@@ -218,13 +220,23 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
                     });
 
                     youtubeTextView.setVisibility(View.VISIBLE);
+                    videoImageView.setVisibility(View.VISIBLE);
                     youTubeThumbnailView.setVisibility(View.VISIBLE);
+
                     youTubeThumbnailView.setOnClickListener(v -> {
-                        Intent intent = new Intent(view.getContext(), YoutubeActivity.class);
-                        intent.putExtra(YoutubeActivity.YOUTUBE_VIDEO_LINK, videoAddress);
-                        view.getContext().startActivity(intent);
+                        openYoutubeVideo(videoAddress);
+                    });
+
+                    videoImageView.setOnClickListener(view1 -> {
+                        openYoutubeVideo(videoAddress);
                     });
                 }
+            }
+
+            private void openYoutubeVideo(String videoAddress) {
+                Intent intent = new Intent(view.getContext(), YoutubeActivity.class);
+                intent.putExtra(YoutubeActivity.YOUTUBE_VIDEO_LINK, videoAddress);
+                view.getContext().startActivity(intent);
             }
 
             private void makeTokImageBlock(String tikTokLink, ImageView tikTokImageView, View view) {
