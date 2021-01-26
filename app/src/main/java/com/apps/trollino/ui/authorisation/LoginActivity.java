@@ -42,7 +42,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     protected void initView() {
-        activityLayout = findViewById(R.id.activity_login);
+        activityLayout = findViewById(R.id.login_activity_liner_layout);
         facebookLoginButton = findViewById(R.id.facebook_button);
         facebookLoginButton.setOnClickListener(this);
         nameEditText = findViewById(R.id.edt_name_login);
@@ -93,17 +93,17 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         password = passwordEditText.getText().toString();
         if(name.isEmpty()) {
             nameEditText.requestFocus();
-            showSnackBarMessage(findViewById(R.id.activity_login), getString(R.string.name_is_empty_toast));
+            showSnackBarMessage(activityLayout, getString(R.string.name_is_empty_toast));
             return false;
         }
 
         if(password.isEmpty()) {
             passwordEditText.requestFocus();
-            showSnackBarMessage(findViewById(R.id.activity_login), getString(R.string.password_is_empty_toast));
+            showSnackBarMessage(activityLayout, getString(R.string.password_is_empty_toast));
             return false;
         } else if(!Validation.isCorrectPassword(password)) {
             passwordEditText.requestFocus();
-            showSnackBarMessage(findViewById(R.id.activity_login), getString(R.string.pasword_length_toast));
+            showSnackBarMessage(activityLayout, getString(R.string.pasword_length_toast));
             return false;
         }
         return true;
