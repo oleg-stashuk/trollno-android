@@ -88,7 +88,8 @@
             android:name=".ui.authorisation.LoginActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden"
+            android:noHistory="false"/>
         <activity
             android:name=".ui.main_group.ProfileActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
