@@ -12,6 +12,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
+import static com.apps.trollino.utils.Const.LOG_TAG;
 
 public class PostMarkPostAsRead {
 
@@ -25,10 +26,10 @@ public class PostMarkPostAsRead {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if(response.isSuccessful()) {
-                    Log.d("OkHttp", "!!!!!!!!!!!!!!!!!! POST ADD IN READ");
+                    Log.d(LOG_TAG, "!!!!!!!!!!!!!!!!!! POST ADD IN READ");
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
-                    Log.d("OkHttp", "!!!!!!!!!!!!!!!!!! " + response.code() + " "  + errorMessage);
+                    Log.d(LOG_TAG, "!!!!!!!!!!!!!!!!!! " + response.code() + " "  + errorMessage);
             }
             }
 
@@ -39,7 +40,7 @@ public class PostMarkPostAsRead {
                     call.clone().enqueue(this);
                     countTry++;
                 }
-                Log.d("OkHttp", "!!!!!! t.getLocalizedMessage() " + t.getLocalizedMessage());
+                Log.d(LOG_TAG, "!!!!!! t.getLocalizedMessage() " + t.getLocalizedMessage());
             }
         });
     }

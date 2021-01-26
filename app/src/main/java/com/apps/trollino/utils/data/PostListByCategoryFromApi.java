@@ -7,6 +7,8 @@ import com.apps.trollino.data.model.PostsModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.apps.trollino.utils.Const.LOG_TAG;
+
 public class PostListByCategoryFromApi {
     private List<PostsModel.PostDetails> postListByCategory;
 
@@ -44,7 +46,7 @@ public class PostListByCategoryFromApi {
             prefUtils.saveCurrentPage(0);
         } catch (Exception e) {
             e.printStackTrace();
-            Log.d("OkHttp", "!!!!!!!!!!!!!! " + e.getLocalizedMessage());
+            Log.d(LOG_TAG, "!!!!!!!!!!!!!! " + e.getLocalizedMessage());
         }
     }
 }

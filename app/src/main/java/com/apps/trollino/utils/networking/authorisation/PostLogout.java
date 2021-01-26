@@ -20,6 +20,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
+import static com.apps.trollino.utils.Const.LOG_TAG;
 
 public class PostLogout {
 
@@ -35,7 +36,7 @@ public class PostLogout {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if(response.isSuccessful()) {
                     if(response.code() == 204) {
-                        Log.d("OkHttp", "response.code() == 204");
+                        Log.d(LOG_TAG, "postLogout isSuccessful");
                     }
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
@@ -67,7 +68,7 @@ public class PostLogout {
                     } else {
                         SnackBarMessageCustom.showSnackBar(view, t.getLocalizedMessage());
                     }
-                    Log.d("OkHttp", "t.getLocalizedMessage() " + t.getLocalizedMessage());
+                    Log.d(LOG_TAG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
                 }
             }
         });

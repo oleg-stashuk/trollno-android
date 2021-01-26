@@ -19,6 +19,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
+import static com.apps.trollino.utils.Const.LOG_TAG;
 
 public class PostUserLogin {
 
@@ -67,7 +68,7 @@ public class PostUserLogin {
                     } else {
                         SnackBarMessageCustom.showSnackBar(view, t.getLocalizedMessage());
                     }
-                    Log.d("OkHttp", "t.getLocalizedMessage() " + t.getLocalizedMessage());
+                    Log.d(LOG_TAG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
                 }
             }
         });

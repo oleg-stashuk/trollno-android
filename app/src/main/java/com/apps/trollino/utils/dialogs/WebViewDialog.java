@@ -21,6 +21,8 @@ import android.widget.Toast;
 
 import com.apps.trollino.R;
 
+import static com.apps.trollino.utils.Const.LOG_TAG;
+
 public class WebViewDialog{
 
     public void showWebDialog(Context context, String url) {
@@ -40,7 +42,7 @@ public class WebViewDialog{
         WebView webView = dialog.findViewById(R.id.dialog_web_view);
 
 
-        Log.d("OkHttp_1", "tiktok video in dialog " + url);
+        Log.d(LOG_TAG, "tiktok video in dialog " + url);
 
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setSaveFormData(true);
@@ -52,12 +54,12 @@ public class WebViewDialog{
         WebViewClient webViewClient = new WebViewClient() {
             @SuppressWarnings("deprecation") @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                Log.d("OkHttp_1", "shouldOverrideUrlLoading " + url);
+                Log.d(LOG_TAG, "shouldOverrideUrlLoading " + url);
 
 //                webView.loadData(url, "text/html; charset=UTF-8", null);
 //                webView.loadData(url, "text/html; charset=UTF-8", "UTF-8");
                 webView.loadUrl(url);
-                Log.d("OkHttp_1", "1 - !!!!!!!!!!!!!!!!!!!!!!!!! " + url);
+                Log.d(LOG_TAG, "1 - !!!!!!!!!!!!!!!!!!!!!!!!! " + url);
                 return true;
             }
 
@@ -69,21 +71,21 @@ public class WebViewDialog{
 
 //                webView.loadData(url, "text/html; charset=UTF-8", null);
                 webView.loadUrl(url);
-                Log.d("OkHttp_1", "2 -!!!!!!!!!!!!!!!!!!!!!!!!! " + url);
+                Log.d(LOG_TAG, "2 -!!!!!!!!!!!!!!!!!!!!!!!!! " + url);
                 return true;
             }
 
             @Override public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
                 progressBar.setVisibility(View.GONE);
-                Log.d("OkHttp_1", "4 -!!!!!!!!!!!!!!!!!!!!!!!!! " + url);
+                Log.d(LOG_TAG, "4 -!!!!!!!!!!!!!!!!!!!!!!!!! " + url);
                 Toast.makeText(context, "Страница загружена!", Toast.LENGTH_SHORT).show();
             }
 
             @Override public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
                 progressBar.setVisibility(View.VISIBLE);
-                Log.d("OkHttp_1", "3 -!!!!!!!!!!!!!!!!!!!!!!!!! " + url);
+                Log.d(LOG_TAG, "3 -!!!!!!!!!!!!!!!!!!!!!!!!! " + url);
                 Toast.makeText(context, "Начата загрузка страницы", Toast.LENGTH_SHORT)
                         .show();
             }

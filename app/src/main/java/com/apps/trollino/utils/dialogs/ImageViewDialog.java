@@ -17,6 +17,8 @@ import com.apps.trollino.R;
 import com.apps.trollino.utils.OnSwipeTouchListener;
 import com.squareup.picasso.Picasso;
 
+import static com.apps.trollino.utils.Const.LOG_TAG;
+
 public class ImageViewDialog {
 
     public void showDialog(Context context, String msg, String imageUrl, String imageResource){
@@ -48,12 +50,11 @@ public class ImageViewDialog {
                 shareIntent.putExtra(Intent.EXTRA_TEXT, imageResource);
                 dialog.getContext().startActivity(Intent.createChooser(shareIntent, ""));
             } catch(Exception e) {
-                Log.d("OkHttp", "!!!!!!!!!!!! " + e.getLocalizedMessage());
+                Log.d(LOG_TAG, "!!!!!!!!!!!! " + e.getLocalizedMessage());
             }
 
         });
 
-//        TouchImageView image = dialog.findViewById(R.id.image_dialog_view);
         ImageView image = dialog.findViewById(R.id.image_dialog_view);
         try {
             Picasso.get()

@@ -27,6 +27,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
+import static com.apps.trollino.utils.Const.LOG_TAG;
 
 public class GetCommentListToUserActivity {
     private static int page;
@@ -90,7 +91,7 @@ public class GetCommentListToUserActivity {
                         SnackBarMessageCustom.showSnackBar(recycler, t.getLocalizedMessage());
                     }
                     progressBar.setVisibility(View.GONE);
-                    Log.d("OkHttp", "t.getLocalizedMessage() " + t.getLocalizedMessage());
+                    Log.d(LOG_TAG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
                 }
             }
         });
@@ -114,80 +115,3 @@ public class GetCommentListToUserActivity {
         adapter.notifyDataSetChanged();
     }
 }
-
-
-
-/*
-public class GetCommentListToUserActivity {
-    private static int page;
-
-    public static void getCommentListToUserActivity(Context context, PrefUtils prefUtils, UserCommentAdapter adapter,
-                                                    View includeNoDataForUser, TextView noDataTextView, View view) {
-        String cookie = prefUtils.getCookie();
-        String userId = prefUtils.getUserUid();
-        page = prefUtils.getCurrentPage();
-
-        ApiService.getInstance(context).getCommentListToUserActivity(cookie, userId, new Callback<CommentModel>() {
-            int countTry = 0;
-
-            @Override
-            public void onResponse(Call<CommentModel> call, Response<CommentModel> response) {
-                if(response.isSuccessful()) {
-                    CommentModel commentModel = response.body();
-                    List<CommentModel.Comments> commentList = commentModel.getCommentsList();
-
-                    if (commentList.size() == 0 || commentList.isEmpty()) {
-                        includeNoDataForUser.setVisibility(View.VISIBLE);
-                        noDataTextView.setText(context.getResources().getString(R.string.txt_have_no_comments));
-                    } else {
-                        includeNoDataForUser.setVisibility(View.GONE);
-                        updatePostListAndNotifyRecyclerAdapter(commentList, adapter);
-                        saveCurrentPage(commentModel.getPagerModel().getTotalPages(), prefUtils);
-                    }
-                } else {
-                    String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
-                    SnackBarMessageCustom.showSnackBar(view, errorMessage);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<CommentModel> call, Throwable t) {
-                t.getStackTrace();
-                if (countTry <= COUNT_TRY_REQUEST) {
-                    call.clone().enqueue(this);
-                    countTry++;
-                } else {
-                    boolean isHaveNotInternet = t.getLocalizedMessage().contains(context.getString(R.string.internet_error_from_api));
-                    String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
-                    if (isHaveNotInternet) {
-                        Snackbar
-                                .make(view, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
-                                .setMaxInlineActionWidth(3)
-                                .setAction(R.string.refresh_button, v -> {
-                                    call.clone().enqueue(this);
-                                })
-                                .show();
-                    } else {
-                        SnackBarMessageCustom.showSnackBar(view, t.getLocalizedMessage());
-                    }
-                    Log.d("OkHttp", "t.getLocalizedMessage() " + t.getLocalizedMessage());
-                }
-            }
-        });
-    }
-
-    private static void saveCurrentPage(int totalPage, PrefUtils prefUtils) {
-        if(page < totalPage - 1) {
-            prefUtils.saveNewPostCurrentPage(page + 1);
-        } else {
-            prefUtils.saveNewPostCurrentPage(totalPage - 1);
-        }
-    }
-
-    private static void updatePostListAndNotifyRecyclerAdapter(List<CommentModel.Comments> comments, UserCommentAdapter adapter) {
-        CommentListToUserActivityFromApi.getInstance().saveCommentInList(comments);
-        adapter.notifyDataSetChanged();
-    }
-}
-
- */

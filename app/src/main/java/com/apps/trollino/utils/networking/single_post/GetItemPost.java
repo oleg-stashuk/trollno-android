@@ -36,6 +36,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
+import static com.apps.trollino.utils.Const.LOG_TAG;
 
 public class GetItemPost {
     private static Context cont;
@@ -102,7 +103,7 @@ public class GetItemPost {
                     } else {
                         SnackBarMessageCustom.showSnackBar(view, t.getLocalizedMessage());
                     }
-                    Log.d("OkHttp", "t.getLocalizedMessage() " + t.getLocalizedMessage());
+                    Log.d(LOG_TAG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
                 }
             }
         });
@@ -163,26 +164,22 @@ public class GetItemPost {
             List<ItemPostModel.IdNeighboringPost> nextPostList = model.getNextPost().getCategory();
             for(ItemPostModel.IdNeighboringPost post : nextPostList) {
                 prefUt.saveNextPostId(String.valueOf(post.getIdPost()));
-                Log.d("OkHttp", "next in category: " + post.getIdPost());
             }
 
             List<ItemPostModel.IdNeighboringPost> prevPostList = model.getPrevPost().getCategory();
             for(ItemPostModel.IdNeighboringPost post : prevPostList) {
                 prefUt.savePrevPostId(String.valueOf(post.getIdPost()));
-                Log.d("OkHttp", "prev in category: " + post.getIdPost());
             }
 
         } else {
             List<ItemPostModel.IdNeighboringPost> nextPostList = model.getNextPost().getPubl();
             for(ItemPostModel.IdNeighboringPost post : nextPostList) {
                 prefUt.saveNextPostId(String.valueOf(post.getIdPost()));
-                Log.d("OkHttp", "next in other: " + post.getIdPost());
             }
 
             List<ItemPostModel.IdNeighboringPost> prevPostList = model.getPrevPost().getPubl();
             for(ItemPostModel.IdNeighboringPost post : prevPostList) {
                 prefUt.savePrevPostId(String.valueOf(post.getIdPost()));
-                Log.d("OkHttp", "prev in other: " + post.getIdPost());
             }
         }
     }
@@ -203,7 +200,7 @@ public class GetItemPost {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Log.d("OkHttp_1", e.getLocalizedMessage());
+            Log.d(LOG_TAG, e.getLocalizedMessage());
         }
     }
 }

@@ -6,8 +6,8 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.apps.trollino.R;
-import com.apps.trollino.data.model.profile.AvatarImageModel;
 import com.apps.trollino.data.model.SettingsModel;
+import com.apps.trollino.data.model.profile.AvatarImageModel;
 import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.utils.SnackBarMessageCustom;
 import com.apps.trollino.utils.data.PrefUtils;
@@ -22,6 +22,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
+import static com.apps.trollino.utils.Const.LOG_TAG;
 
 public class GetSettings {
 
@@ -45,8 +46,8 @@ public class GetSettings {
                     for(SettingsModel.KeyModel adBanner : adBannerList) {
                         prefUtils.saveBannerId(adBanner.getValue());
                     }
-                    Log.d("OkHttp_1", "!!!!!!!!!!!!!!! adMobId: " + prefUtils.getAdMobId());
-                    Log.d("OkHttp_1", "!!!!!!!!!!!!!!! bannerId: "  + prefUtils.getBannerId());
+                    Log.d(LOG_TAG, "!!!!!!!!!!!!!!! adMobId: " + prefUtils.getAdMobId());
+                    Log.d(LOG_TAG, "!!!!!!!!!!!!!!! bannerId: "  + prefUtils.getBannerId());
 
 
                     if (prefUtils.getCurrentActivity().equals("")) {
@@ -86,7 +87,7 @@ public class GetSettings {
                     } else {
                         SnackBarMessageCustom.showSnackBar(view, t.getLocalizedMessage());
                     }
-                    Log.d("OkHttp", "t.getLocalizedMessage() " + t.getLocalizedMessage());
+                    Log.d(LOG_TAG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
                 }
             }
         });

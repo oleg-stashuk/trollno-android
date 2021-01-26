@@ -12,6 +12,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
+import static com.apps.trollino.utils.Const.LOG_TAG;
 
 public class PostMarkReadAllAnswersToComment {
     public static void PostMarkReadAllAnswersToComment(Context context, PrefUtils prefUtils, String commentId) {
@@ -24,10 +25,10 @@ public class PostMarkReadAllAnswersToComment {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if(response.isSuccessful()) {
-                    Log.d("OkHttp_1", "isSuccessful ");
+                    Log.d(LOG_TAG, "PostMarkReadAllAnswersToComment isSuccessful ");
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
-                    Log.d("OkHttp_1", "errorMessage " + errorMessage);
+                    Log.d(LOG_TAG, "errorMessage " + errorMessage);
                 }
 
             }
@@ -39,7 +40,7 @@ public class PostMarkReadAllAnswersToComment {
                     call.clone().enqueue(this);
                     countTry++;
                 } else {
-                    Log.d("OkHttp_1", "t.getLocalizedMessage() " + t.getLocalizedMessage());
+                    Log.d(LOG_TAG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
                 }
             }
         });
