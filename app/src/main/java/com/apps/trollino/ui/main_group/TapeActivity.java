@@ -31,6 +31,7 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
     private TabLayout tabs;
     private ProgressBar progressBarBottom;
     private ImageButton searchImageButton;
+    private ImageView indicatorImageView;
 
     private ShimmerFrameLayout twoColumnShimmer;
     private ShimmerFrameLayout oneColumnShimmer;
@@ -50,7 +51,7 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
         newsRecyclerView = findViewById(R.id.news_recycler_tape);
         progressBarBottom = findViewById(R.id.progress_bar_bottom_tape);
         TextView tapeBottomNavigationTextView = findViewById(R.id.tape_button);
-        ImageView indicatorImageView = findViewById(R.id.indicator_image);
+        indicatorImageView = findViewById(R.id.indicator_image);
         searchImageButton = findViewById(R.id.search_button_tape);
         searchImageButton.setOnClickListener(this);
         findViewById(R.id.activity_button).setOnClickListener(this);
@@ -60,14 +61,19 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
         createTabLayout();
         tapeBottomNavigationTextView.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_tape_green, 0, 0);
         tapeBottomNavigationTextView.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        if(prefUtils.getIsUserAuthorization()) {
-            new Thread(() -> GetNewAnswersCount.getNewAnswersCount(this, prefUtils, indicatorImageView)).start();
-        }
+        updateNewAnswersToComment();
 
         prefUtils.saveCurrentActivity("");
         makeTabSelectedListener();
         showCorrectShimmer(false);
         MakeGridRecyclerViewForTapeActivity.makeNewPostsRecyclerView(this, prefUtils, newsRecyclerView, progressBarBottom, twoColumnShimmer);
+    }
+
+    // Request to Api for authorization user is he have not read answers to his comment
+    private void updateNewAnswersToComment() {
+        if(prefUtils.getIsUserAuthorization()) {
+            new Thread(() -> GetNewAnswersCount.getNewAnswersCount(this, prefUtils, indicatorImageView)).start();
+        }
     }
 
     // Add category list from Api to TabLayout
@@ -85,6 +91,7 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                updateNewAnswersToComment();
                 if(tabs.getSelectedTabPosition() == 0) {
                     showCorrectShimmer(false);
                     MakeGridRecyclerViewForTapeActivity.makeNewPostsRecyclerView(TapeActivity.this, prefUtils, newsRecyclerView, progressBarBottom, twoColumnShimmer);
