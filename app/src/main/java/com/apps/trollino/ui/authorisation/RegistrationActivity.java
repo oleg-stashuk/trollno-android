@@ -35,8 +35,6 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
 
         findViewById(R.id.registration_button_registration).setOnClickListener(this);
         findViewById(R.id.login_registration).setOnClickListener(this);
-        findViewById(R.id.facebook_button_layout).setOnClickListener(this);
-        findViewById(R.id.google_button_layout).setOnClickListener(this);
 
         initToolbar();
     }
@@ -106,12 +104,6 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
             case R.id.login_registration:
                 startActivity(new Intent(this, LoginActivity.class));
                 finish();
-                break;
-            case R.id.facebook_button_layout:
-                showSnackBarMessage(findViewById(R.id.activity_registration), "Зарегистрироваться через Facebook");
-                break;
-            case R.id.google_button_layout:
-                showSnackBarMessage(findViewById(R.id.activity_registration), "Зарегистрироваться через Google");
                 break;
         }
     }

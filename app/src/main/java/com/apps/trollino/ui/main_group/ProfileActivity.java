@@ -5,10 +5,8 @@ import android.net.Uri;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
@@ -33,7 +31,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private ImageView userImageView;
     private TextView emailTextView;
     private TextView nameTextView;
-    private Switch darkThemeSwitch;
+//    private Switch darkThemeSwitch;
     private Button exitButton;
     private TextView profileBottomNavigationTextView;
     private ImageView indicatorImageView;
@@ -55,7 +53,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         userImageView = findViewById(R.id.image_account_profile_include);
         nameTextView = findViewById(R.id.name_account_profile_include);
         emailTextView = findViewById(R.id.email_account_profile_include);
-        darkThemeSwitch = findViewById(R.id.switch_theme_profile);
+//        darkThemeSwitch = findViewById(R.id.switch_theme_profile);
         exitButton = findViewById(R.id.exit_button_profile);
         profileBottomNavigationTextView = findViewById(R.id.profile_button);
         indicatorImageView = findViewById(R.id.indicator_image);
@@ -80,7 +78,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         }
         prefUtils.saveCurrentActivity(OpenActivityHelper.PROFILE_ACTIVITY);
 
-        makeDarkThemeOnCheckedListener();
+//        makeDarkThemeOnCheckedListener();
         makeIsUserAuthorizationCorrectData();
     }
 
@@ -104,21 +102,22 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     }
 
     // setOnCheckedChangeListener for darkThemeSwitch. If isChecked = true -> dark theme on
-    private void makeDarkThemeOnCheckedListener() {
-        darkThemeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                showSnackBarMessage(findViewById(R.id.activity_profile), isChecked ? "Dark theme" : "Light theme");
-            }
-        });
-    }
+//    private void makeDarkThemeOnCheckedListener() {
+//        darkThemeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                showSnackBarMessage(findViewById(R.id.activity_profile), isChecked ? "Dark theme" : "Light theme");
+//            }
+//        });
+//    }
 
     private void openPlayMarketForRateTheApp() {
         final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
         try {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
-        } catch (android.content.ActivityNotFoundException anfe) {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+        } catch (android.content.ActivityNotFoundException exc) {
+            startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
         }
     }
 
@@ -155,7 +154,9 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.exit_button_profile:
                 LoginManager.getInstance().logOut();
-                new Thread(() -> PostLogout.postLogout(this, prefUtils, findViewById(R.id.activity_profile))).start();
+                new Thread(
+                        () -> PostLogout.postLogout(this, prefUtils, findViewById(R.id.activity_profile))
+                ).start();
                 break;
             case R.id.registration_button_include_profile_for_guest:
                 startActivity(new Intent(this, RegistrationActivity.class));
