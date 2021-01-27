@@ -52,6 +52,26 @@
     <string name="enter_data_to_search">Пожалуйста, введите данные для поиска</string>
     <string name="read_the_comment">Читать комментарии</string>
     <string name="write_the_comment">Написать комментарий</string>
+    <string name="txt_edit_profile">Редактировать профиль</string>
+    <string name="title_autorisation">Авторизация</string>
+    <string name="title_registration">Регистрация</string>
+    <string name="txt_have_no_comments">Вы еще не добавили ни одного комментария</string>
+    <string name="do_you_really_want_to_delete_post_from_favorite">Вы действительно хотите удалить пост из Избранного?</string>
+    <string name="refresh_button">Обновить</string>
+    <string name="internet_error_from_api">No address associated with hostname</string>
+    <string name="internet_error_message">ОШИБКА \nПроблемы с подключением к Интернету.</string>
+    <string name="txt_comment_sent_succesful">Ваш комментарий отправлен успешно</string>
+    <string name="txt_new_answers">Новые комментарии: </string>
+    <string name="txt_change_avatar_image">Аватарка изменена</string>
+    <string name="name_is_empty_toast">Поле Имя не должно быть пустым</string>
+    <string name="mail_is_empty_toast">Поле email не должно быть пустым</string>
+    <string name="password_is_empty_toast">Поле пароль не должно быть пустым</string>
+    <string name="uncorrect_email_toast">Некоректный email</string>
+    <string name="pasword_length_toast">Поле пароль долджно содержать больше 3 символов</string>
+    <string name="password_was_send">"Новый пароль отправлен на почту "</string>
+    <string name="do_you_really_want_to_delete_your_account">Вы действительно хотите удалить свой аккаунт?</string>
+    <string name="remove_account_confirm_button">Удалить</string>
+    <string name="no_button_for_dialog">Нет</string>
 
     <string-array name="sort_comment_value">
         <item>по рейтингу</item>
@@ -64,46 +84,10 @@
     <string name="seek_to_hint">Seconds</string>
     <string name="resourse_youtube">Источник: youtube.com</string>
 
-    // For Instagram
-    <string name="instagram_id">eaa…</string>
-    <string name="instagram_secret">04e13fba37b67282b3b7579ddf12ecfd</string>
-    <string name="APP_ID">214851550206757</string>
-    <string name="callbackurl">http:// …</string>
-    <string name="name_is_empty_toast">Поле Имя не должно быть пустым</string>
-    <string name="mail_is_empty_toast">Поле email не должно быть пустым</string>
-    <string name="password_is_empty_toast">Поле пароль не должно быть пустым</string>
-    <string name="uncorrect_email_toast">Некоректный email</string>
-    <string name="pasword_length_toast">Поле пароль долджно содержать больше 3 символов</string>
-    <string name="password_was_send">"Новый пароль отправлен на почту "</string>
-    <string name="do_you_really_want_to_delete_your_account">Вы действительно хотите удалить свой аккаунт?</string>
-    <string name="remove_account_confirm_button">Удалить</string>
-    <string name="no_button_for_dialog">Нет</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
     // For ads
-    <string name="banner_admob_id">ca-app-pub-3729162410044084~6144363065</string>
-    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
-<!--    <string name="banner_admob_id">ca-app-pub-3729162410044084~6144363222</string>-->
-<!--    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978777</string>-->
+    <string name="banner_admob_id">ca-app-pub-3729162410044084~6144363222</string>
 
     // For FaceBook
     <string name="facebook_app_id">316582089429479</string>
     <string name="fb_login_protocol_scheme">fb316582089429479</string>
-
-
-
-
-    <string name="txt_edit_profile">Редактировать профиль</string>
-    <string name="title_autorisation">Авторизация</string>
-    <string name="title_registration">Регистрация</string>
-    <string name="txt_have_no_comments">Вы еще не добавили ни одного комментария</string>
-    <string name="do_you_really_want_to_delete_post_from_favorite">Вы действительно хотите удалить пост из Избранного?</string>
-    <string name="refresh_button">Обновить</string>
-    <string name="internet_error_from_api">No address associated with hostname</string>
-    <string name="internet_error_message">ОШИБКА \nПроблемы с подключением к Интернету.</string>
-    <string name="txt_comment_sent_succesful">Ваш комментарий отправлен успешно</string>
-    <string name="txt_new_answers">Новые комментарии: </string>
-    <string name="txt_change_avatar_image">Аватарка изменена</string>
-    <!--    <string name="banner_ad_unit_id">ca-app-pub-3729162410044084/9720645991</string>-->
 </resources>
