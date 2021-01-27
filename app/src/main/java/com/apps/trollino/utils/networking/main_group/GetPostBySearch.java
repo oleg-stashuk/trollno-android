@@ -42,7 +42,7 @@ public class GetPostBySearch {
 
         recyclerView = recycler;
         isGetNewListThis = isGetNewList;
-        page = isGetNewList ? 0 : prefUtils.getNewPostCurrentPage();
+        page = isGetNewList ? 0 : prefUtils.getCurrentPage();
         if(isGetNewList) {
             PostListBySearchFromApi.getInstance().removeAllDataFromList(prefUtils);
         }
@@ -107,9 +107,9 @@ public class GetPostBySearch {
 
     private static void saveCurrentPage(PrefUtils prefUtils) {
         if(page < totalPage) {
-            prefUtils.saveNewPostCurrentPage(totalPage++);
+            prefUtils.saveCurrentPage(totalPage++);
         } else {
-            prefUtils.saveNewPostCurrentPage(totalPage);
+            prefUtils.saveCurrentPage(totalPage);
         }
     }
 

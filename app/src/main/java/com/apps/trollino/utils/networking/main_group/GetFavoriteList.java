@@ -40,7 +40,7 @@ public class GetFavoriteList {
                                         FavoriteAdapter adapter, boolean isGetNewList) {
         recyclerView = recycler;
         isGetNewListThis = isGetNewList;
-        page = isGetNewList ? 0 : prefUtils.getNewPostCurrentPage();
+        page = isGetNewList ? 0 : prefUtils.getCurrentPage();
         if(isGetNewList) {
             FavoritePostListFromApi.getInstance().removeAllDataFromList(prefUtils);
         }
@@ -107,9 +107,9 @@ public class GetFavoriteList {
 
     private static void saveCurrentPage(PrefUtils prefUtils) {
         if(page < totalPage) {
-            prefUtils.saveNewPostCurrentPage(page + 1);
+            prefUtils.saveCurrentPage(page + 1);
         } else {
-            prefUtils.saveNewPostCurrentPage(totalPage);
+            prefUtils.saveCurrentPage(totalPage);
         }
     }
 

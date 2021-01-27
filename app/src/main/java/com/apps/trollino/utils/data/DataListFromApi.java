@@ -55,7 +55,7 @@ public class DataListFromApi {
         newPostList.clear();
         discussPostList.clear();
         try {
-            prefUtils.saveNewPostCurrentPage(0);
+            prefUtils.saveCurrentPage(0);
         } catch (Exception e) {
             e.printStackTrace();
             Log.d(LOG_TAG, "!!!!!!!!!!!!!! " + e.getLocalizedMessage());

@@ -41,7 +41,7 @@ public class GetCommentListToUserActivity {
                                                     ProgressBar progressBar, View includeNoDataForUser, TextView noDataTextView) {
         String cookie = prefUtils.getCookie();
         String userId = prefUtils.getUserUid();
-        page = isGetNewList ? 0 : prefUtils.getNewPostCurrentPage();
+        page = isGetNewList ? 0 : prefUtils.getCurrentPage();
         isGetNewListThis = isGetNewList;
         recyclerView = recycler;
 
@@ -103,9 +103,9 @@ public class GetCommentListToUserActivity {
 
     private static void saveCurrentPage(PrefUtils prefUtils) {
         if(page < totalPage) {
-            prefUtils.saveNewPostCurrentPage(page + 1);
+            prefUtils.saveCurrentPage(page + 1);
         } else {
-            prefUtils.saveNewPostCurrentPage(totalPage);
+            prefUtils.saveCurrentPage(totalPage);
         }
     }
 

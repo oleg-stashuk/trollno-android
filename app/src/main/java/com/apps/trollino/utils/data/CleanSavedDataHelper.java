@@ -10,7 +10,6 @@ public class CleanSavedDataHelper {
         PostListByCategoryFromApi.getInstance().removeAllDataFromList(prefUtils);
         PostListBySearchFromApi.getInstance().removeAllDataFromList(prefUtils);
 
-        prefUtils.saveNewPostCurrentPage(0);
         prefUtils.saveCurrentPage(0);
     }
 

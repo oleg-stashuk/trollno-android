@@ -93,9 +93,9 @@ public class GetPostsByCategory {
 
     private static void saveCurrentPage(PrefUtils prefUtils) {
         if(page < totalPage) {
-            prefUtils.saveNewPostCurrentPage(page + 1);
+            prefUtils.saveCurrentPage(page + 1);
         } else {
-            prefUtils.saveNewPostCurrentPage(totalPage);
+            prefUtils.saveCurrentPage(totalPage);
         }
     }
 

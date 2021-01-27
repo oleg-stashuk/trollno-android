@@ -38,6 +38,6 @@ public class FavoritePostListFromApi {
 
     public void removeAllDataFromList(PrefUtils prefUtils) {
         favoritePostList.clear();
-        prefUtils.saveNewPostCurrentPage(0);
+        prefUtils.saveCurrentPage(0);
     }
 }
