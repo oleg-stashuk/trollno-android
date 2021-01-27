@@ -58,7 +58,7 @@ public class GetSettings {
                     } else {
                         List<AvatarImageModel> avatarImageList = settingsModel.getAvatarImageList();
                         AvatarsDialog dialog = new AvatarsDialog();
-                        dialog.showDialog(context, prefUtils, avatarImageList, imageView);
+                        dialog.showDialog(context, prefUtils, avatarImageList, imageView, view);
                     }
 
                 } else {

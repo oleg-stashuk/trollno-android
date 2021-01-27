@@ -7,6 +7,7 @@
  import android.util.TypedValue;
  import android.view.Display;
  import android.view.KeyEvent;
+ import android.view.View;
  import android.view.ViewGroup;
  import android.view.Window;
  import android.view.WindowManager;
@@ -28,7 +29,7 @@
 
  public class AvatarsDialog {
 
-     public void showDialog(Context context, PrefUtils prefUtils, List<AvatarImageModel> avatarList, ImageView imageView){
+     public void showDialog(Context context, PrefUtils prefUtils, List<AvatarImageModel> avatarList, ImageView imageView, View view){
         int width = ViewGroup.LayoutParams.MATCH_PARENT;
         int height = ViewGroup.LayoutParams.MATCH_PARENT;
 
@@ -46,7 +47,7 @@
              avatarUidList.add(new AvatarImageModel(item.getAvatarId()));
              RequestUpdateAvatarModel uidAvatar = new RequestUpdateAvatarModel(avatarUidList);
 
-             new Thread(() -> UpdateAvatar.updateAvatar(context, prefUtils, uidAvatar, dialog, imageView, dialog.findViewById(R.id.custom_dialog_avatar_list))).start();
+             new Thread(() -> UpdateAvatar.updateAvatar(context, prefUtils, uidAvatar, dialog, imageView, view)).start();
          };
 
         AvatarsAdapter adapter = new AvatarsAdapter((BaseActivity) context, avatarList, avatarItemListener);

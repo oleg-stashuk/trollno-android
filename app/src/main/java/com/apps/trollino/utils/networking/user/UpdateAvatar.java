@@ -40,7 +40,7 @@ public class UpdateAvatar {
             public void onResponse(Call<UserProfileModel> call, Response<UserProfileModel> response) {
                 if(response.isSuccessful()) {
                     UserProfileModel userModel = response.body();
-                    SnackBarMessageCustom.showSnackBar(view, "Аватарка изменена");
+                    SnackBarMessageCustom.showSnackBar(view, context.getResources().getString(R.string.txt_change_avatar_image));
 
                     List<UserProfileModel.UserImage> userImageList = userModel.getUserImageList();
                     for(UserProfileModel.UserImage userImage: userImageList) {
@@ -50,7 +50,6 @@ public class UpdateAvatar {
                              .into(imageView);
                          dialog.cancel();
                     }
-
 
                 } else if(response.code() == 403) {
                     GuestDialog dialog = new GuestDialog();
