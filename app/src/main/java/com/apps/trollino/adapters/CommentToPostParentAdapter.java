@@ -25,7 +25,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import static com.apps.trollino.utils.Const.BASE_URL;
+import static com.apps.trollino.utils.data.Const.BASE_URL;
 
 public class CommentToPostParentAdapter extends BaseRecyclerAdapter<CommentModel.Comments> {
     private EditText commentEditText;

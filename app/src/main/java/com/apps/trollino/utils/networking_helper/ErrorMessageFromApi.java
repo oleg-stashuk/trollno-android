@@ -9,7 +9,7 @@ import java.io.IOException;
 
 import okhttp3.ResponseBody;
 
-import static com.apps.trollino.utils.Const.LOG_TAG;
+import static com.apps.trollino.utils.data.Const.LOG_TAG;
 
 public class ErrorMessageFromApi {
 

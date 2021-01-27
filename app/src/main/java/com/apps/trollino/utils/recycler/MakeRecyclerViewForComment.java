@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apps.trollino.adapters.CommentToPostParentAdapter;
 import com.apps.trollino.ui.base.BaseActivity;
-import com.apps.trollino.utils.Const;
+import com.apps.trollino.utils.data.Const;
 import com.apps.trollino.utils.RecyclerScrollListener;
 import com.apps.trollino.utils.data.CommentListFromApi;
 import com.apps.trollino.utils.data.PrefUtils;

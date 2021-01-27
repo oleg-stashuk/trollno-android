@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import static com.apps.trollino.utils.Const.LOG_TAG;
+import static com.apps.trollino.utils.data.Const.LOG_TAG;
 
 public class ShowTimeAgoHelper {
 
@@ -68,7 +68,7 @@ public class ShowTimeAgoHelper {
     private static String monthString(int postMonth) {
         return postMonth + (postMonth % 10 == 1 ?
                 " месяц назад" :
-                (postMonth % 10 > 4 ? " месяца назад" : " месяцев назад"));
+                (postMonth % 10 <= 4 ? " месяца назад" : " месяцев назад"));
     }
 
     private static String weekString(int postDay) {

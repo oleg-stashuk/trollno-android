@@ -24,7 +24,7 @@ import com.facebook.login.widget.LoginButton;
 
 import java.util.Arrays;
 
-import static com.apps.trollino.utils.Const.LOG_TAG;
+import static com.apps.trollino.utils.data.Const.LOG_TAG;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
     private EditText nameEditText;

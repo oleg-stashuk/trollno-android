@@ -17,7 +17,7 @@ import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
 import com.apps.trollino.data.model.single_post.ItemPostModel;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.ui.main_group.YoutubeActivity;
-import com.apps.trollino.utils.Const;
+import com.apps.trollino.utils.data.Const;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.dialogs.ImageViewDialog;
 import com.google.android.gms.ads.AdRequest;

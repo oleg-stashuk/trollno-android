@@ -17,7 +17,7 @@ import com.apps.trollino.R;
 import com.apps.trollino.utils.OnSwipeTouchListener;
 import com.squareup.picasso.Picasso;
 
-import static com.apps.trollino.utils.Const.LOG_TAG;
+import static com.apps.trollino.utils.data.Const.LOG_TAG;
 
 public class ImageViewDialog {
 

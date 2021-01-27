@@ -27,8 +27,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
-import static com.apps.trollino.utils.Const.LOG_TAG;
+import static com.apps.trollino.utils.data.Const.COUNT_TRY_REQUEST;
+import static com.apps.trollino.utils.data.Const.LOG_TAG;
 
 public class GetCommentListToUserActivity {
     private static int page;

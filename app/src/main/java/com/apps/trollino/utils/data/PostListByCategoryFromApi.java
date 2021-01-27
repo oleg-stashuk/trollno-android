@@ -7,7 +7,7 @@ import com.apps.trollino.data.model.PostsModel;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.apps.trollino.utils.Const.LOG_TAG;
+import static com.apps.trollino.utils.data.Const.LOG_TAG;
 
 public class PostListByCategoryFromApi {
     private List<PostsModel.PostDetails> postListByCategory;

@@ -21,7 +21,7 @@ import android.widget.Toast;
 
 import com.apps.trollino.R;
 
-import static com.apps.trollino.utils.Const.LOG_TAG;
+import static com.apps.trollino.utils.data.Const.LOG_TAG;
 
 public class WebViewDialog{
 
