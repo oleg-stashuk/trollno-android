@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat;
 import com.apps.trollino.R;
 import com.apps.trollino.data.model.profile.RequestBlockUserModel;
 import com.apps.trollino.ui.base.BaseActivity;
+import com.apps.trollino.utils.OpenActivityHelper;
 import com.apps.trollino.utils.Validation;
 import com.apps.trollino.utils.networking.GetSettings;
 import com.apps.trollino.utils.networking.authorisation.GetUserProfile;
@@ -56,6 +57,7 @@ public class EditUserProfileActivity extends BaseActivity implements View.OnClic
 
         password = prefUtils.getPassword();
         passwordEditText.setText(password);
+        prefUtils.saveCurrentActivity(OpenActivityHelper.EDIT_PROFILE_ACTIVITY);
 
         new Thread(() -> GetUserProfile.getUserProfile(this, prefUtils, imageView, nameTextView, emailTextView,
                 findViewById(R.id.activity_edit_user_profile), editUserLayout, editUserShimmer)).start();

@@ -36,15 +36,6 @@
         android:adjustViewBounds="true"
         android:layout_centerInParent="true"/>
 
-<!--    <com.apps.trollino.utils.TouchImageView-->
-<!--        android:id="@+id/image_dialog_view"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:background="@android:color/transparent"-->
-<!--        android:scaleType="fitXY"-->
-<!--        android:adjustViewBounds="true"-->
-<!--        android:layout_centerInParent="true"/>-->
-
     <ImageButton
         android:id="@+id/share_button_dialog_view"
         android:layout_width="wrap_content"
