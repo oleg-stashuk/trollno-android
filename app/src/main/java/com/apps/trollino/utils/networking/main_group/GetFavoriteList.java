@@ -14,6 +14,7 @@ import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.utils.SnackBarMessageCustom;
 import com.apps.trollino.utils.data.FavoritePostListFromApi;
 import com.apps.trollino.utils.data.PrefUtils;
+import com.apps.trollino.utils.dialogs.GuestDialog;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
 import com.apps.trollino.utils.networking_helper.ShimmerHide;
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -65,6 +66,11 @@ public class GetFavoriteList {
                     totalPage = post.getPagerModel().getTotalPages() - 1;
                     saveCurrentPage(prefUtils);
                     updatePostListAndNotifyRecyclerAdapter(favoritePostList, adapter);
+                } else if(response.code() == 403) {
+                    recycler.setVisibility(View.GONE);
+                    noFavoriteListView.setVisibility(View.GONE);
+                    GuestDialog dialog = new GuestDialog();
+                    dialog.showDialog(context);
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
                     SnackBarMessageCustom.showSnackBar(recycler, errorMessage);

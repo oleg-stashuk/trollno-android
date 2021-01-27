@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.utils.data.PrefUtils;
+import com.apps.trollino.utils.dialogs.GuestDialog;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
 
 import retrofit2.Call;
@@ -26,6 +27,9 @@ public class PostMarkReadAllAnswersToComment {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if(response.isSuccessful()) {
                     Log.d(LOG_TAG, "PostMarkReadAllAnswersToComment isSuccessful ");
+                } else if(response.code() == 403) {
+                    GuestDialog dialog = new GuestDialog();
+                    dialog.showDialog(context);
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
                     Log.d(LOG_TAG, "errorMessage " + errorMessage);

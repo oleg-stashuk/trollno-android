@@ -34,7 +34,6 @@ public class GetNewAnswersCount {
                     Log.d(LOG_TAG, "!!!!!!!!!!!!!!!!!!! isSuccessful " + countNewAnswers);
                     boolean isShowIndicator = countNewAnswers > 0 ? true : false;
                     imageView.setVisibility(isShowIndicator ? View.VISIBLE : View.GONE);
-
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
                     Log.d(LOG_TAG, "errorMessage " + errorMessage);

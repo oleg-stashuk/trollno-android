@@ -15,6 +15,7 @@ import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.utils.SnackBarMessageCustom;
 import com.apps.trollino.utils.data.CommentListToUserActivityFromApi;
 import com.apps.trollino.utils.data.PrefUtils;
+import com.apps.trollino.utils.dialogs.GuestDialog;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
 import com.apps.trollino.utils.networking_helper.ShimmerHide;
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -63,6 +64,9 @@ public class GetCommentListToUserActivity {
                         saveCurrentPage(prefUtils);
                         ShimmerHide.shimmerHide(recycler, shimmer);
                     }
+                } else if(response.code() == 403) {
+                    GuestDialog dialog = new GuestDialog();
+                    dialog.showDialog(context);
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
                     SnackBarMessageCustom.showSnackBar(recycler, errorMessage);

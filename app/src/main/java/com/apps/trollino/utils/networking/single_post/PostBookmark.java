@@ -12,6 +12,7 @@ import com.apps.trollino.data.model.single_post.ResponseBookmarkModel;
 import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.utils.SnackBarMessageCustom;
 import com.apps.trollino.utils.data.PrefUtils;
+import com.apps.trollino.utils.dialogs.GuestDialog;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -36,6 +37,9 @@ public class PostBookmark {
                 if(response.isSuccessful()) {
                     menu.getItem(1).setIcon(ContextCompat.getDrawable(context, R.drawable.ic_favorite_button));
                     prefUtils.saveIsFavorite(true);
+                } else if(response.code() == 403) {
+                    GuestDialog dialog = new GuestDialog();
+                    dialog.showDialog(context);
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
                     SnackBarMessageCustom.showSnackBar(view,errorMessage);
