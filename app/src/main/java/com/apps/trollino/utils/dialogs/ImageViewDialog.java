@@ -21,7 +21,7 @@ import static com.apps.trollino.utils.data.Const.LOG_TAG;
 
 public class ImageViewDialog {
 
-    public void showDialog(Context context, String msg, String imageUrl, String imageResource){
+    public void showDialog(Context context, String msg, String imageUrl){
         int width = ViewGroup.LayoutParams.MATCH_PARENT;
         int height = ViewGroup.LayoutParams.MATCH_PARENT;
 
@@ -47,7 +47,7 @@ public class ImageViewDialog {
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
                 shareIntent.setType("text/plain");
                 shareIntent.putExtra(Intent.EXTRA_SUBJECT, dialog.getContext().getResources().getString(R.string.app_name));
-                shareIntent.putExtra(Intent.EXTRA_TEXT, imageResource);
+                shareIntent.putExtra(Intent.EXTRA_TEXT, imageUrl);
                 dialog.getContext().startActivity(Intent.createChooser(shareIntent, ""));
             } catch(Exception e) {
                 Log.d(LOG_TAG, "!!!!!!!!!!!! " + e.getLocalizedMessage());

@@ -55,7 +55,7 @@
                 android:drawableLeft="@drawable/ic_person"
                 android:drawableStart="@drawable/ic_person"
                 android:drawablePadding="12dp"
-                android:hint="@string/edt_name"/>/>
+                android:hint="@string/login_or_email"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
