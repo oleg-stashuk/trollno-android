@@ -1,9 +1,11 @@
 package com.apps.trollino.ui.authorisation;
 
 import android.content.Intent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 
@@ -81,10 +83,20 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         actionBar.setTitle(R.string.title_registration);
 
         if(actionBar != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false); // отображать кнопку BackPress
-            getSupportActionBar().setHomeButtonEnabled(false);; // вернуться на предыдущую активность
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true); // отображать кнопку BackPress
+            getSupportActionBar().setHomeButtonEnabled(true);; // вернуться на предыдущую активность
             getSupportActionBar().setDisplayShowTitleEnabled(true); // отображать Заголовок
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+        }
+        return true;
     }
 
     @Override
