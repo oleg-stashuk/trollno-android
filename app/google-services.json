@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "464154282894",
+    "project_id": "trollno-84a0e",
+    "storage_bucket": "trollno-84a0e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:464154282894:android:b36e890c4dafd4dbbcf2df",
+        "android_client_info": {
+          "package_name": "com.app.trollino"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "464154282894-n62o1du30em0fpancfcmhnfp8am6ddh0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAItNzxJRY6IC7jypSrElBr7F2AQBd59lA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "464154282894-n62o1du30em0fpancfcmhnfp8am6ddh0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:464154282894:android:90a25cb97bc7bd50bcf2df",
+        "android_client_info": {
+          "package_name": "com.apps.trollino"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "464154282894-n62o1du30em0fpancfcmhnfp8am6ddh0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAItNzxJRY6IC7jypSrElBr7F2AQBd59lA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "464154282894-n62o1du30em0fpancfcmhnfp8am6ddh0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-3729162410044084~6144363065"
+    }
+  ],
+  "configuration_version": "1"
+}
