@@ -1,6 +1,5 @@
 package com.apps.trollino.adapters;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;

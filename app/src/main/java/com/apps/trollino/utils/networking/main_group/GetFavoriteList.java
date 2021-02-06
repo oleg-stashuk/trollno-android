@@ -14,6 +14,7 @@ import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.utils.SnackBarMessageCustom;
 import com.apps.trollino.utils.data.FavoritePostListFromApi;
 import com.apps.trollino.utils.data.PrefUtils;
+import com.apps.trollino.utils.dialogs.GuestDialog;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
 import com.apps.trollino.utils.networking_helper.ShimmerHide;
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -25,8 +26,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
-import static com.apps.trollino.utils.Const.LOG_TAG;
+import static com.apps.trollino.utils.data.Const.COUNT_TRY_REQUEST;
+import static com.apps.trollino.utils.data.Const.LOG_TAG;
 
 public class GetFavoriteList {
     private static int page;
@@ -39,7 +40,7 @@ public class GetFavoriteList {
                                         FavoriteAdapter adapter, boolean isGetNewList) {
         recyclerView = recycler;
         isGetNewListThis = isGetNewList;
-        page = isGetNewList ? 0 : prefUtils.getNewPostCurrentPage();
+        page = isGetNewList ? 0 : prefUtils.getCurrentPage();
         if(isGetNewList) {
             FavoritePostListFromApi.getInstance().removeAllDataFromList(prefUtils);
         }
@@ -65,6 +66,11 @@ public class GetFavoriteList {
                     totalPage = post.getPagerModel().getTotalPages() - 1;
                     saveCurrentPage(prefUtils);
                     updatePostListAndNotifyRecyclerAdapter(favoritePostList, adapter);
+                } else if(response.code() == 403) {
+                    recycler.setVisibility(View.GONE);
+                    noFavoriteListView.setVisibility(View.GONE);
+                    GuestDialog dialog = new GuestDialog();
+                    dialog.showDialog(context);
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
                     SnackBarMessageCustom.showSnackBar(recycler, errorMessage);
@@ -101,9 +107,9 @@ public class GetFavoriteList {
 
     private static void saveCurrentPage(PrefUtils prefUtils) {
         if(page < totalPage) {
-            prefUtils.saveNewPostCurrentPage(page + 1);
+            prefUtils.saveCurrentPage(page + 1);
         } else {
-            prefUtils.saveNewPostCurrentPage(totalPage);
+            prefUtils.saveCurrentPage(totalPage);
         }
     }
 

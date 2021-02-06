@@ -7,7 +7,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-
     tools:context=".ui.main_group.EditUserProfileActivity">
 
     <LinearLayout
@@ -46,137 +45,150 @@
 
     <include layout="@layout/include_appbar_shadow" />
 
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/edit_user_profile_shimmer"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="15dp"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:background="@color/shimmer_item_color" />
-
-            <ImageView
-                android:layout_width="180dp"
-                android:layout_height="24dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:background="@color/shimmer_item_color" />
-
-            <ImageView
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/edit_user_profile_shimmer"
                 android:layout_width="match_parent"
-                android:layout_height="24dp"
-                android:drawablePadding="12dp"
-                android:layout_marginTop="10dp"
-                android:background="@color/shimmer_item_color" />
+                android:layout_height="wrap_content" >
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="24dp"
-                android:drawablePadding="12dp"
-                android:layout_marginTop="10dp"
-                android:background="@color/shimmer_item_color" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="15dp"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:background="@color/shimmer_item_color" />
+
+                    <ImageView
+                        android:layout_width="180dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/shimmer_item_color" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="24dp"
+                        android:drawablePadding="12dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/shimmer_item_color" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="24dp"
+                        android:drawablePadding="12dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/shimmer_item_color" />
 
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="24dp"
-                android:drawablePadding="12dp"
-                android:layout_marginTop="10dp"
-                android:background="@color/shimmer_item_color" />
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="24dp"
+                        android:drawablePadding="12dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/shimmer_item_color" />
 
-        </LinearLayout>
+                </LinearLayout>
 
 
-    </com.facebook.shimmer.ShimmerFrameLayout>
+            </com.facebook.shimmer.ShimmerFrameLayout>
 
-    <LinearLayout
-        android:id="@+id/edit_user_profile_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="15dp"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <ImageView
-            android:id="@+id/image_edit_user_profile"
-            android:layout_width="150dp"
-            android:layout_height="150dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="5dp"
-            android:padding="10dp"
-            android:text="@string/change_profile_image" />
-
-        <TextView
-            android:id="@+id/name_edit_user_profile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_person"
-            android:drawablePadding="12dp"
-            android:layout_marginTop="10dp"
-            android:hint="@string/edt_name"/>
-
-        <TextView
-            android:id="@+id/email_edit_user_profile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_email"
-            android:drawablePadding="12dp"
-            android:layout_marginTop="10dp"
-            android:hint="@string/edt_email" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:boxBackgroundColor="@android:color/transparent"
-            app:passwordToggleEnabled="true">
-
-            <EditText
-                android:id="@+id/password_edit_user_profile"
+            <LinearLayout
+                android:id="@+id/edit_user_profile_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_key"
-                android:drawableLeft="@drawable/ic_key"
-                android:drawablePadding="12dp"
-                android:gravity="center_vertical"
-                android:inputType="textPassword"
-                android:hint="@string/edt_password"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:gravity="center"
+                android:padding="15dp"
+                android:orientation="vertical"
+                android:visibility="gone">
 
-    </LinearLayout>
+                <ImageView
+                    android:id="@+id/image_edit_user_profile"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp" />
 
-    <com.balysv.materialripple.MaterialRippleLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:mrl_rippleAlpha="0.2"
-        app:mrl_rippleColor="@color/colorRipple"
-        android:layout_marginTop="10dp"
-        android:padding="15dp"
-        app:mrl_rippleHover="true"
-        app:mrl_rippleOverlay="true">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:padding="10dp"
+                    android:text="@string/change_profile_image" />
 
-        <Button
-            android:id="@+id/update_button_edit_user_profile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_background"
-            android:layout_gravity="center"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:enabled="false"
-            android:text="@string/update" />
-    </com.balysv.materialripple.MaterialRippleLayout>
+                <TextView
+                    android:id="@+id/name_edit_user_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_person"
+                    android:drawablePadding="12dp"
+                    android:layout_marginTop="10dp"
+                    android:hint="@string/edt_name"/>
+
+                <TextView
+                    android:id="@+id/email_edit_user_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_email"
+                    android:drawablePadding="12dp"
+                    android:layout_marginTop="10dp"
+                    android:hint="@string/edt_email" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:boxBackgroundColor="@android:color/transparent"
+                    app:passwordToggleEnabled="true">
+
+                    <EditText
+                        android:id="@+id/password_edit_user_profile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_key"
+                        android:drawableLeft="@drawable/ic_key"
+                        android:drawablePadding="12dp"
+                        android:gravity="center_vertical"
+                        android:inputType="textPassword"
+                        android:hint="@string/edt_password"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:mrl_rippleAlpha="0.2"
+                app:mrl_rippleColor="@color/colorRipple"
+                android:layout_marginTop="10dp"
+                android:padding="15dp"
+                app:mrl_rippleHover="true"
+                app:mrl_rippleOverlay="true">
+
+                <Button
+                    android:id="@+id/update_button_edit_user_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_background"
+                    android:layout_gravity="center"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:enabled="false"
+                    android:text="@string/update" />
+            </com.balysv.materialripple.MaterialRippleLayout>
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>

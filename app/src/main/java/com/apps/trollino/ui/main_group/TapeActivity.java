@@ -79,8 +79,8 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
     // Add category list from Api to TabLayout
     private void createTabLayout() {
         List<CategoryModel> categoryList = prefUtils.getCategoryList();
-        tabs.addTab(tabs.newTab().setText("Свежее"));
-        tabs.addTab(tabs.newTab().setText("Обсуждаемое"));
+        tabs.addTab(tabs.newTab().setText(getResources().getString(R.string.fresh_txt)));
+        tabs.addTab(tabs.newTab().setText(getResources().getString(R.string.discuss_post)));
         for (CategoryModel category : categoryList) {
             tabs.addTab(tabs.newTab().setText(category.getNameCategory()).setTag(category.getIdCategory()));
         }

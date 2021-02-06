@@ -13,6 +13,7 @@ import com.apps.trollino.data.model.profile.UserProfileModel;
 import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.utils.SnackBarMessageCustom;
 import com.apps.trollino.utils.data.PrefUtils;
+import com.apps.trollino.utils.dialogs.GuestDialog;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.snackbar.Snackbar;
@@ -24,8 +25,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
-import static com.apps.trollino.utils.Const.LOG_TAG;
+import static com.apps.trollino.utils.data.Const.COUNT_TRY_REQUEST;
+import static com.apps.trollino.utils.data.Const.LOG_TAG;
 
 public class GetUserProfile {
 
@@ -77,6 +78,9 @@ public class GetUserProfile {
                     linearLayout.setVisibility(View.VISIBLE);
                     shimmer.setVisibility(View.GONE);
 
+                } else if(response.code() == 403) {
+                    GuestDialog dialog = new GuestDialog();
+                    dialog.showDialog(context);
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
                     SnackBarMessageCustom.showSnackBar(view, errorMessage);

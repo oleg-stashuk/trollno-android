@@ -25,8 +25,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
-import static com.apps.trollino.utils.Const.LOG_TAG;
+import static com.apps.trollino.utils.data.Const.COUNT_TRY_REQUEST;
+import static com.apps.trollino.utils.data.Const.LOG_TAG;
 
 public class GetNewPosts {
     private static int page;
@@ -38,7 +38,7 @@ public class GetNewPosts {
                                        RecyclerView recycler, ShimmerFrameLayout shimmer, boolean isGetNewList) {
         recyclerView = recycler;
         isGetNewListThis = isGetNewList;
-        page = isGetNewList ? 0 : prefUtils.getNewPostCurrentPage();
+        page = isGetNewList ? 0 : prefUtils.getCurrentPage();
         if(isGetNewList) {
             DataListFromApi.getInstance().removeAllDataFromList(prefUtils);
         }
@@ -95,9 +95,9 @@ public class GetNewPosts {
 
     private static void saveCurrentPage(PrefUtils prefUtils) {
         if(page < totalPage) {
-            prefUtils.saveNewPostCurrentPage(page + 1);
+            prefUtils.saveCurrentPage(page + 1);
         } else {
-            prefUtils.saveNewPostCurrentPage(totalPage);
+            prefUtils.saveCurrentPage(totalPage);
         }
     }
 

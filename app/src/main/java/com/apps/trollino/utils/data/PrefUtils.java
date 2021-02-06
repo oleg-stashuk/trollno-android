@@ -24,8 +24,7 @@ public class PrefUtils {
     private final String AD_MOB_ID = "AD_MOB_ID";
     private final String BANNER_ID = "BANNER_ID";
 
-    private final String NEW_POST_CURRENT_PAGE = "NEW_POST_CURRENT_PAGE"; // запоминание текущей страницы данных с Api для постов из категории "Свежее"
-    private final String POST_BY_CATEGORY_CURRENT_PAGE = "POST_BY_CATEGORY_CURRENT_PAGE"; // запоминание текущей страницы данных с Api для постов из категорий, загружаемых с Api
+    private final String CURRENT_PAGE = "NEW_POST_CURRENT_PAGE"; // запоминание текущей страницы данных с Api для постов из категории "Свежее"
     private final String SELECTED_CATEGORY_ID = "SELECTED_CATEGORY_ID"; // запоминание ID выбранной категории
     private final String NEXT_POST_ID = "NEXT_POST_ID"; // запоминание ID следующего поста
     private final String PREV_POST_ID = "PREV_POST_ID"; // запоминание ID предыдущего поста
@@ -151,20 +150,12 @@ public class PrefUtils {
         getEditor().putBoolean(USER_AUTHORIZATION_KEY, isUserAuthorization).apply();
     }
 
-    public int getNewPostCurrentPage() {
-        return sharedPreferences.getInt(NEW_POST_CURRENT_PAGE, 0);
-    }
-
-    public void saveNewPostCurrentPage(int currentPage) {
-        getEditor().putInt(NEW_POST_CURRENT_PAGE, currentPage).apply();
-    }
-
     public int getCurrentPage() {
-        return sharedPreferences.getInt(POST_BY_CATEGORY_CURRENT_PAGE, 0);
+        return sharedPreferences.getInt(CURRENT_PAGE, 0);
     }
 
     public void saveCurrentPage(int currentPage) {
-        getEditor().putInt(POST_BY_CATEGORY_CURRENT_PAGE, currentPage).apply();
+        getEditor().putInt(CURRENT_PAGE, currentPage).apply();
     }
 
     public String getSelectedCategoryId() {

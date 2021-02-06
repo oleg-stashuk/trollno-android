@@ -1,7 +1,6 @@
 package com.apps.trollino.utils.networking.single_post;
 
 import android.content.Context;
-import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -10,7 +9,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
-import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,21 +20,19 @@ import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.SnackBarMessageCustom;
 import com.apps.trollino.utils.data.PrefUtils;
-import com.apps.trollino.utils.networking.user_action.GetCommentListToUserActivity;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
 import com.apps.trollino.utils.networking_helper.ShimmerHide;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
-import java.util.logging.LogRecord;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.apps.trollino.utils.Const.COUNT_TRY_REQUEST;
-import static com.apps.trollino.utils.Const.LOG_TAG;
+import static com.apps.trollino.utils.data.Const.COUNT_TRY_REQUEST;
+import static com.apps.trollino.utils.data.Const.LOG_TAG;
 
 public class GetItemPost {
     private static Context cont;
@@ -186,7 +182,7 @@ public class GetItemPost {
 
     private static void makePartOfPostRecyclerView(RecyclerView recyclerView, List<ItemPostModel.MediaBlock> mediaBlock) {
         recyclerView.setLayoutManager(new LinearLayoutManager(cont));
-        recyclerView.setAdapter(new OnePostElementAdapter((BaseActivity) cont, prefUt.getCountBetweenAds(), mediaBlock, prefUt));
+        recyclerView.setAdapter(new OnePostElementAdapter((BaseActivity) cont, mediaBlock, prefUt));
         recyclerView.setFocusable(false);
     }
 

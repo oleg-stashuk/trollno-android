@@ -2,10 +2,12 @@ package com.apps.trollino.ui.authorisation;
 
 import android.content.Intent;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 
@@ -24,7 +26,7 @@ import com.facebook.login.widget.LoginButton;
 
 import java.util.Arrays;
 
-import static com.apps.trollino.utils.Const.LOG_TAG;
+import static com.apps.trollino.utils.data.Const.LOG_TAG;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
     private EditText nameEditText;
@@ -118,10 +120,20 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         actionBar.setTitle(R.string.title_autorisation);
 
         if(actionBar != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false); // отображать кнопку BackPress
-            getSupportActionBar().setHomeButtonEnabled(false);; // вернуться на предыдущую активность
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true); // отображать кнопку BackPress
+            getSupportActionBar().setHomeButtonEnabled(true);; // вернуться на предыдущую активность
             getSupportActionBar().setDisplayShowTitleEnabled(true); // отображать Заголовок
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+        }
+        return true;
     }
 
     @Override

@@ -25,7 +25,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import static com.apps.trollino.utils.Const.BASE_URL;
+import static com.apps.trollino.utils.data.Const.BASE_URL;
+import static com.apps.trollino.utils.data.Const.COUNT_SYMBOL_TO_HIDE_PAR_OF_COMMENT;
 
 public class CommentToPostParentAdapter extends BaseRecyclerAdapter<CommentModel.Comments> {
     private EditText commentEditText;
@@ -122,7 +123,7 @@ public class CommentToPostParentAdapter extends BaseRecyclerAdapter<CommentModel
             }
 
             private void checkCommentLength(final TextView commentTextView, final String comment, Context context) {
-                if (comment.length() > 100) {
+                if (comment.length() > COUNT_SYMBOL_TO_HIDE_PAR_OF_COMMENT) {
                     ClickableSpanText.makeClickableSpanText(commentTextView, comment, context); // Добавить кликабельную часть текста + обработка нажатия
                 } else {
                     commentTextView.setText(comment);

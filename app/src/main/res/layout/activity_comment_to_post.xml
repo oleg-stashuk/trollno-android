@@ -66,16 +66,8 @@
         android:paddingLeft="10dp"
         android:paddingTop="5dp"
         android:paddingRight="10dp"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/text_post_without_comment_comment_to_post"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:visibility="gone"
-            android:text="@string/post_without_comment"/>
+        android:orientation="vertical"
+        android:background="@color/white">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -84,6 +76,16 @@
             <include
                 android:id="@+id/comments_to_post_shimmer"
                 layout="@layout/include_shimmer_comments_to_post"/>
+
+            <TextView
+                android:id="@+id/text_post_without_comment_comment_to_post"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:visibility="gone"
+                android:layout_below="@+id/comments_to_post_shimmer"
+                android:text="@string/post_without_comment"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_comment_comment_to_post"
