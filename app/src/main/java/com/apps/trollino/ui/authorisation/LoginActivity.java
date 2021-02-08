@@ -20,6 +20,7 @@ import com.apps.trollino.utils.networking.authorisation.PostUserLogin;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.login.LoginBehavior;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -55,15 +56,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
         initToolbar();
 
+//        AppEventsLogger.activateApp(this);
+//        setContentView(R.layout.activity_login);
         callbackManager = CallbackManager.Factory.create();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     private void facebookLogin() {
+        facebookLoginButton.setLoginBehavior(LoginBehavior.WEB_ONLY);
         facebookLoginButton.setPermissions(Arrays.asList("public_profile", "email"));
         facebookLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
