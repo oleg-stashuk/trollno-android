@@ -83,8 +83,8 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         actionBar.setTitle(R.string.title_registration);
 
         if(actionBar != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true); // отображать кнопку BackPress
-            getSupportActionBar().setHomeButtonEnabled(true);; // вернуться на предыдущую активность
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false); // отображать кнопку BackPress
+            getSupportActionBar().setHomeButtonEnabled(false);; // вернуться на предыдущую активность
             getSupportActionBar().setDisplayShowTitleEnabled(true); // отображать Заголовок
         }
     }

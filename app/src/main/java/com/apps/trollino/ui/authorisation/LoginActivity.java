@@ -61,7 +61,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         callbackManager.onActivityResult(requestCode, resultCode, data);
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void facebookLogin() {
@@ -120,8 +119,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         actionBar.setTitle(R.string.title_autorisation);
 
         if(actionBar != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true); // отображать кнопку BackPress
-            getSupportActionBar().setHomeButtonEnabled(true);; // вернуться на предыдущую активность
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false); // отображать кнопку BackPress
+            getSupportActionBar().setHomeButtonEnabled(false); // вернуться на предыдущую активность
             getSupportActionBar().setDisplayShowTitleEnabled(true); // отображать Заголовок
         }
     }
