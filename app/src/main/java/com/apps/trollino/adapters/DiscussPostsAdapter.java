@@ -13,7 +13,7 @@ import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
 import com.apps.trollino.data.model.PostsModel;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.data.PrefUtils;
-import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -59,12 +59,9 @@ public class DiscussPostsAdapter extends BaseRecyclerAdapter<PostsModel.PostDeta
                 }
 
                 String imageUrl = BASE_URL.concat(item.getImageUrl());
-                Glide
-                        .with(view.getContext())
+                Picasso
+                        .get()
                         .load(imageUrl)
-                        .centerCrop()
-                        .placeholder(R.color.colorGreyBackgroundVideo)
-                        .fallback(R.color.colorGreyBackgroundVideo)
                         .into(postImageView);
 
                 titleVideoTextView.setText(item.getTitle());
