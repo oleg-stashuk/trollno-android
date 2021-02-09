@@ -40,11 +40,17 @@ public class PostUserLogin {
                     prefUtils.saveIsUserAuthorization(true);
                     prefUtils.savePassword(password);
 
+                    SnackBarMessageCustom.showSnackBar(view, context.getResources().getString(R.string.msg_login));
                     context.startActivity(OpenActivityHelper.openActivity(context,prefUtils));
                     ((Activity) context).finish();
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
-                    SnackBarMessageCustom.showSnackBar(view, errorMessage);
+                    String messageFromApi = context.getResources().getString(R.string.msg_wrong_login_or_password_from_api);
+                    if (response.code() == 400 && errorMessage.equals(messageFromApi)) {
+                        SnackBarMessageCustom.showSnackBar(view, context.getResources().getString(R.string.msg_wrong_login_or_password));
+                    } else {
+                        SnackBarMessageCustom.showSnackBar(view, errorMessage);
+                    }
                 }
             }
 

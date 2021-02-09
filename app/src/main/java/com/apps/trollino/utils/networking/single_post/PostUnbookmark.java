@@ -43,6 +43,7 @@ public class PostUnbookmark {
                         context.startActivity(new Intent(context, FavoriteActivity.class));
                         ((Activity) context).finish();
                     }
+                    SnackBarMessageCustom.showSnackBar(view , context.getResources().getString(R.string.msg_post_remove_from_favorite));
                     prefUtils.saveIsFavorite(false);
                 } else if(response.code() == 403) {
                     GuestDialog dialog = new GuestDialog();

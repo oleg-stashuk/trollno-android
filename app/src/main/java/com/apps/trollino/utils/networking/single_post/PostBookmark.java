@@ -37,6 +37,7 @@ public class PostBookmark {
                 if(response.isSuccessful()) {
                     menu.getItem(1).setIcon(ContextCompat.getDrawable(context, R.drawable.ic_favorite_button));
                     prefUtils.saveIsFavorite(true);
+                    SnackBarMessageCustom.showSnackBar(view , context.getResources().getString(R.string.msg_post_add_to_favorite));
                 } else if(response.code() == 403) {
                     GuestDialog dialog = new GuestDialog();
                     dialog.showDialog(context);

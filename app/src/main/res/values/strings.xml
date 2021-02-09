@@ -61,8 +61,8 @@
     <string name="do_you_really_want_to_delete_post_from_favorite">Вы действительно хотите удалить пост из Избранного?</string>
     <string name="refresh_button">Обновить</string>
     <string name="internet_error_from_api">No address associated with hostname</string>
-    <string name="internet_error_message">ОШИБКА \nПроблемы с подключением к Интернету.</string>
-    <string name="txt_comment_sent_succesful">Ваш комментарий отправлен успешно</string>
+    <string name="internet_error_message">Соединение с интернетом потеряно.</string>
+    <string name="txt_comment_sent_succesful">Ваш комментарий опубликован.</string>
     <string name="txt_new_answers">Новые комментарии: </string>
     <string name="txt_change_avatar_image">Аватарка изменена</string>
     <string name="name_is_empty_toast">Поле Имя не должно быть пустым</string>
@@ -74,6 +74,18 @@
     <string name="do_you_really_want_to_delete_your_account">Вы действительно хотите удалить свой аккаунт?</string>
     <string name="remove_account_confirm_button">Удалить</string>
     <string name="no_button_for_dialog">Нет</string>
+    <string name="msg_post_remove_from_favorite">Пост удален из избранного.</string>
+    <string name="msg_post_add_to_favorite">Пост добавлен в избранное.</string>
+    <string name="msg_account_remove">Ваш аккаунт удален.</string>
+    <string name="msg_password_change">Пароль успешно изменен.</string>
+    <string name="msg_logout">Вы вышли из аккаунта.</string>
+    <string name="msg_login">Приветствуем! Вы вошли в свой аккаунт.</string>
+    <string name="msg_wrong_login_or_password">Неправильный логин или пароль.</string>
+    <string name="msg_wrong_login_or_password_from_api">Sorry, unrecognized username or password.</string>
+    <string name="msg_register_to_existing_email_from_api">\Unprocessable Entity: validation failed.</string>
+    <string name="msg_register_to_existing_email">Этот адрес электронной почты или логин уже используется.</string>
+    <string name="msg_wrong_email_from_api">This User was not found or invalid</string>
+    <string name="msg_wrong_email">Пользователь с таким адресом электронной почты не зарегистрирован.</string>
 
     <string-array name="sort_comment_value">
         <item>по рейтингу</item>

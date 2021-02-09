@@ -51,7 +51,8 @@ public class UpdatePassword {
                         userName = name.getValue();
                     }
 
-                    showSuccessDialog(newPassword, userName, prefUtils, view);
+                    SnackBarMessageCustom.showSnackBar(view, context.getResources().getString(R.string.msg_password_change));
+//                    showSuccessDialog(newPassword, userName, prefUtils, view);
                 } else if(response.code() == 403) {
                     GuestDialog dialog = new GuestDialog();
                     dialog.showDialog(context);

@@ -124,8 +124,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         actionBar.setTitle(R.string.title_autorisation);
 
         if(actionBar != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false); // отображать кнопку BackPress
-            getSupportActionBar().setHomeButtonEnabled(false); // вернуться на предыдущую активность
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true); // отображать кнопку BackPress
+            getSupportActionBar().setHomeButtonEnabled(true); // вернуться на предыдущую активность
             getSupportActionBar().setDisplayShowTitleEnabled(true); // отображать Заголовок
         }
     }

@@ -50,7 +50,12 @@ public class PostLostPassword {
 
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
-                    SnackBarMessageCustom.showSnackBar(view, errorMessage);
+                    String messageFromApi = context.getResources().getString(R.string.msg_wrong_email_from_api);
+                    if (response.code() == 400 && errorMessage.contains(messageFromApi)) {
+                        SnackBarMessageCustom.showSnackBar(view, context.getResources().getString(R.string.msg_wrong_email));
+                    } else {
+                        SnackBarMessageCustom.showSnackBar(view, errorMessage);
+                    }
                 }
             }
 

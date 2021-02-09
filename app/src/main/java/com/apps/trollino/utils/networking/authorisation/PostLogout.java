@@ -42,6 +42,7 @@ public class PostLogout {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
                     SnackBarMessageCustom.showSnackBar(view, errorMessage);
                 }
+                SnackBarMessageCustom.showSnackBar(view, context.getResources().getString(R.string.msg_logout));
                 CleanSavedDataHelper.cleanAllDataIfUserRemoveOrLogout(prefUtils);
                 context.startActivity(new Intent(context, LoginActivity.class));
                 ((Activity) context).finish();

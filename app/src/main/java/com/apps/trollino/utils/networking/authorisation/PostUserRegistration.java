@@ -43,7 +43,12 @@ public class PostUserRegistration {
                     PostUserLogin.postUserLogin(context, login, pass, prefUtils, view);
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
-                    SnackBarMessageCustom.showSnackBar(view, errorMessage);
+                    String messageFromApi = context.getResources().getString(R.string.msg_register_to_existing_email_from_api);
+                    if (response.code() == 422 && errorMessage.contains(messageFromApi)) {
+                        SnackBarMessageCustom.showSnackBar(view, context.getResources().getString(R.string.msg_register_to_existing_email));
+                    } else {
+                        SnackBarMessageCustom.showSnackBar(view, errorMessage);
+                    }
                 }
             }
 

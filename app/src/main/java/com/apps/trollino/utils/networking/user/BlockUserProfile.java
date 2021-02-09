@@ -37,6 +37,7 @@ public class BlockUserProfile {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if(response.isSuccessful()) {
                     CleanSavedDataHelper.cleanAllDataIfUserRemoveOrLogout(prefUtils);
+                    SnackBarMessageCustom.showSnackBar(view, context.getResources().getString(R.string.msg_account_remove));
                     context.startActivity(new Intent(context, LoginActivity.class));
                     ((Activity) context).finish();
                 } else if(response.code() == 403) {
