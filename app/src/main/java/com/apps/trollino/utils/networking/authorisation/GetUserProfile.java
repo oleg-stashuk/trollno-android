@@ -31,7 +31,7 @@ import static com.apps.trollino.utils.data.Const.LOG_TAG;
 public class GetUserProfile {
 
     public static void getUserProfile(Context context, PrefUtils prefUtils, ImageView imageView,
-                                      View nameView, View emailView, View view,
+                                      View nameView, View emailView, View bottomNavigation,
                                       LinearLayout linearLayout, ShimmerFrameLayout shimmer) {
         String cookie = prefUtils.getCookie();
         String userUid = prefUtils.getUserUid();
@@ -83,7 +83,7 @@ public class GetUserProfile {
                     dialog.showDialog(context);
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
-                    SnackBarMessageCustom.showSnackBar(view, errorMessage);
+                    SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, errorMessage);
                 }
             }
 
@@ -97,15 +97,16 @@ public class GetUserProfile {
                     boolean isHaveNotInternet = t.getLocalizedMessage().contains(context.getString(R.string.internet_error_from_api));
                     String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
                     if (isHaveNotInternet) {
-                        Snackbar
-                                .make(view, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
+                        Snackbar snackbar  = Snackbar
+                                .make(bottomNavigation, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
                                 .setMaxInlineActionWidth(3)
                                 .setAction(R.string.refresh_button, v -> {
                                     call.clone().enqueue(this);
-                                })
-                                .show();
+                                });
+                        snackbar.setAnchorView(bottomNavigation);
+                        snackbar.show();
                     } else {
-                        SnackBarMessageCustom.showSnackBar(view, t.getLocalizedMessage());
+                        SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, t.getLocalizedMessage());
                     }
                     Log.d(LOG_TAG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
                 }

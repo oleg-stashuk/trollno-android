@@ -26,7 +26,7 @@ public class MakeRecyclerViewForCommentToUserActivity extends RecyclerView.OnScr
 
     public static void makeRecyclerViewForCommentToUserActivity(Context context, PrefUtils prefUtils, ProgressBar progressBar,
                                                                 RecyclerView recyclerView, ShimmerFrameLayout shimmer,
-                                                                View includeNoDataForUser, TextView noDataTextView) {
+                                                                View includeNoDataForUser, TextView noDataTextView, View bottomNavigation) {
         cont = context;
         prefUt = prefUtils;
 
@@ -38,18 +38,18 @@ public class MakeRecyclerViewForCommentToUserActivity extends RecyclerView.OnScr
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         if(CommentListToUserActivityFromApi.getInstance().getCommentList().isEmpty()) {
-            infiniteScroll(progressBar, recyclerView, shimmer, adapter, includeNoDataForUser, noDataTextView, true);
+            infiniteScroll(progressBar, recyclerView, shimmer, adapter, bottomNavigation, includeNoDataForUser, noDataTextView, true);
         }
 
         recyclerView.addOnScrollListener(new RecyclerScrollListener() {
             @Override
             public void onScrolledToEnd() {
-                infiniteScroll(progressBar, recyclerView, shimmer, adapter, includeNoDataForUser, noDataTextView, false);
+                infiniteScroll(progressBar, recyclerView, shimmer, adapter, bottomNavigation, includeNoDataForUser, noDataTextView, false);
             }
 
             @Override
             public void onScrolledToTop() {
-                infiniteScroll(progressBar, recyclerView, shimmer, adapter, includeNoDataForUser, noDataTextView, true);
+                infiniteScroll(progressBar, recyclerView, shimmer, adapter, bottomNavigation, includeNoDataForUser, noDataTextView, true);
             }
         });
     }
@@ -67,21 +67,21 @@ public class MakeRecyclerViewForCommentToUserActivity extends RecyclerView.OnScr
     private static void updateDataFromApi(ProgressBar progressBar,
                                           RecyclerView recyclerView, ShimmerFrameLayout shimmer,
                                           UserCommentAdapter adapter,
-                                          View includeNoDataForUser, TextView noDataTextView, boolean isGetNewList) {
+                                          View includeNoDataForUser, TextView noDataTextView, View bottomNavigation, boolean isGetNewList) {
         new Thread(() -> {
             GetCommentListToUserActivity.getCommentListToUserActivity(cont, prefUt, adapter, recyclerView, shimmer, isGetNewList, progressBar,
-                    includeNoDataForUser, noDataTextView);
+                    includeNoDataForUser, noDataTextView, bottomNavigation);
         }).start();
     }
 
     // Загрузить/обновить данные с API при скролах ресайклера вверх или вниз, если достигнут конец списка
     private static void infiniteScroll(ProgressBar progressBar,
                                        RecyclerView recyclerView, ShimmerFrameLayout shimmer,
-                                       UserCommentAdapter adapter,
+                                       UserCommentAdapter adapter, View bottomNavigation,
                                        View includeNoDataForUser, TextView noDataTextView, boolean isGetNewList) {
         progressBar.setVisibility(isGetNewList ? View.GONE : View.VISIBLE);
         shimmer.setVisibility(isGetNewList ? View.VISIBLE : View.GONE);
         Handler handler = new Handler();
-        handler.postDelayed(() -> updateDataFromApi(progressBar, recyclerView, shimmer, adapter, includeNoDataForUser, noDataTextView, isGetNewList), 1000);
+        handler.postDelayed(() -> updateDataFromApi(progressBar, recyclerView, shimmer, adapter, includeNoDataForUser, noDataTextView, bottomNavigation, isGetNewList), 1000);
     }
 }

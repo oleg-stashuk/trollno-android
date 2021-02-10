@@ -4,6 +4,7 @@
  import android.os.Handler;
  import android.view.View;
  import android.widget.ImageView;
+ import android.widget.LinearLayout;
  import android.widget.ProgressBar;
  import android.widget.TextView;
 
@@ -22,15 +23,17 @@
  import com.apps.trollino.utils.recycler.MakeRecyclerViewForCommentToUserActivity;
  import com.facebook.shimmer.ShimmerFrameLayout;
 
+ import static com.apps.trollino.utils.SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation;
+
  public class ActivityInPostActivity extends BaseActivity implements View.OnClickListener{
     private RecyclerView postWithActivityRecyclerView;
     private ShimmerFrameLayout shimmer;
+     private LinearLayout bottomNavigation;
 
     private View includeNoDataForUser;
     private TextView noDataTextView;
     private View userAuthorizationView;
-    private TextView activityBottomNavigationTextView;
-    private ImageView indicatorImageView;
+     private ImageView indicatorImageView;
     private ProgressBar progressBar;
     private boolean isUserAuthorization; // Пользователь авторизирован или нет
     private boolean doubleBackToExitPressedOnce = false;  // для обработки нажатия onBackPressed
@@ -43,11 +46,12 @@
     @Override
     protected void initView() {
         shimmer = findViewById(R.id.include_user_comments_shimmer);
+        bottomNavigation = findViewById(R.id.bottom_navigation_activity);
         userAuthorizationView = findViewById(R.id.include_user_not_authorization_activity_in_post);
         includeNoDataForUser = findViewById(R.id.include_no_data_for_user_activity_in_post);
         noDataTextView = findViewById(R.id.txt_include_no_data);
         postWithActivityRecyclerView = findViewById(R.id.recycler_activity_in_post);
-        activityBottomNavigationTextView = findViewById(R.id.activity_button);
+        TextView activityBottomNavigationTextView = findViewById(R.id.activity_button);
         indicatorImageView = findViewById(R.id.indicator_image);
         progressBar = findViewById(R.id.progress_bar_activity_in_post);
         findViewById(R.id.tape_button).setOnClickListener(this);
@@ -77,12 +81,9 @@
             userAuthorizationView.setVisibility(View.GONE);
             postWithActivityRecyclerView.setVisibility(View.VISIBLE);
 
-
             MakeRecyclerViewForCommentToUserActivity
                     .makeRecyclerViewForCommentToUserActivity(this, prefUtils, progressBar, postWithActivityRecyclerView,
-                            shimmer, includeNoDataForUser , noDataTextView);
-//            MakeRecyclerViewForCommentToUserActivity
-//                    .makeRecyclerViewForCommentToUserActivity(this, prefUtils, postWithActivityRecyclerView, includeNoDataForUser , noDataTextView, findViewById(R.id.activity_in_post));
+                            shimmer, includeNoDataForUser , noDataTextView, bottomNavigation);
         } else {
             userAuthorizationView.setVisibility(View.VISIBLE);
             postWithActivityRecyclerView.setVisibility(View.GONE);
@@ -119,7 +120,7 @@
 //    @Override
 //    public boolean onOptionsItemSelected(MenuItem item) {
 //        if(item.getItemId() == R.id.mark_all_as_read_menu) {
-//            showSnackBarMessage(findViewById(R.id.activity_in_post), getString(R.string.mark_all_as_read));
+//            showSnackBarOnTheTopByBottomNavigation(bottomNavigation, getString(R.string.mark_all_as_read));
 //        }
 //        return true;
 //    }
@@ -134,7 +135,7 @@
         }
 
         this.doubleBackToExitPressedOnce = true;
-        showSnackBarMessage(findViewById(R.id.activity_in_post), getString(R.string.press_twice_to_exit));
+        showSnackBarOnTheTopByBottomNavigation(bottomNavigation, getString(R.string.press_twice_to_exit));
         new Handler().postDelayed(() -> doubleBackToExitPressedOnce=false, 2000);
     }
 

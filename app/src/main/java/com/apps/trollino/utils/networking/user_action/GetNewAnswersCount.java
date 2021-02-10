@@ -31,7 +31,6 @@ public class GetNewAnswersCount {
             public void onResponse(Call<CountNewAnswersModel> call, Response<CountNewAnswersModel> response) {
                 if(response.isSuccessful()) {
                     int countNewAnswers = Integer.parseInt(response.body().getCountNewAnswer());
-                    Log.d(LOG_TAG, "!!!!!!!!!!!!!!!!!!! isSuccessful " + countNewAnswers);
                     boolean isShowIndicator = countNewAnswers > 0 ? true : false;
                     imageView.setVisibility(isShowIndicator ? View.VISIBLE : View.GONE);
                 } else {

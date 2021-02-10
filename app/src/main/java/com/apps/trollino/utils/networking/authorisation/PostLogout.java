@@ -24,7 +24,7 @@ import static com.apps.trollino.utils.data.Const.LOG_TAG;
 
 public class PostLogout {
 
-    public static void postLogout(Context context, PrefUtils prefUtils, View view) {
+    public static void postLogout(Context context, PrefUtils prefUtils, View bottomNavigation) {
         String cookie = prefUtils.getCookie();
         String token = prefUtils.getToken();
         String logoutToken = prefUtils.getLogoutToken();
@@ -40,9 +40,9 @@ public class PostLogout {
                     }
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
-                    SnackBarMessageCustom.showSnackBar(view, errorMessage);
+                    SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, errorMessage);
                 }
-                SnackBarMessageCustom.showSnackBar(view, context.getResources().getString(R.string.msg_logout));
+                SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, context.getResources().getString(R.string.msg_logout));
                 CleanSavedDataHelper.cleanAllDataIfUserRemoveOrLogout(prefUtils);
                 context.startActivity(new Intent(context, LoginActivity.class));
                 ((Activity) context).finish();
@@ -59,15 +59,16 @@ public class PostLogout {
                     boolean isHaveNotInternet = t.getLocalizedMessage().contains(context.getString(R.string.internet_error_from_api));
                     String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
                     if (isHaveNotInternet) {
-                        Snackbar
-                                .make(view, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
+                        Snackbar snackbar  = Snackbar
+                                .make(bottomNavigation, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
                                 .setMaxInlineActionWidth(3)
                                 .setAction(R.string.refresh_button, v -> {
                                     call.clone().enqueue(this);
-                                })
-                                .show();
+                                });
+                        snackbar.setAnchorView(bottomNavigation);
+                        snackbar.show();
                     } else {
-                        SnackBarMessageCustom.showSnackBar(view, t.getLocalizedMessage());
+                        SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, t.getLocalizedMessage());
                     }
                     Log.d(LOG_TAG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
                 }

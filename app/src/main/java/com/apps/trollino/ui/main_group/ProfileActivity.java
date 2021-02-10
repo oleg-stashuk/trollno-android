@@ -23,10 +23,13 @@ import com.apps.trollino.utils.networking.user_action.GetNewAnswersCount;
 import com.facebook.login.LoginManager;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
+import static com.apps.trollino.utils.SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation;
+
 public class ProfileActivity extends BaseActivity implements View.OnClickListener{
     private LinearLayout userIncludeLinearLayout;
     private ShimmerFrameLayout userIncludeShimmer;
     private LinearLayout guestIncludeLinearLayout;
+    private LinearLayout bottomNavigation;
 
     private ImageView userImageView;
     private TextView emailTextView;
@@ -50,6 +53,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         userIncludeLinearLayout = findViewById(R.id.include_user_profile);
         userIncludeShimmer = findViewById(R.id.include_user_profile_shimmer);
         guestIncludeLinearLayout = findViewById(R.id.include_user_not_authorization_profile);
+        bottomNavigation = findViewById(R.id.bottom_navigation_profile);
         userImageView = findViewById(R.id.image_account_profile_include);
         nameTextView = findViewById(R.id.name_account_profile_include);
         emailTextView = findViewById(R.id.email_account_profile_include);
@@ -91,7 +95,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
             new Thread(() -> {
                 GetUserProfile.getUserProfile(this, prefUtils, userImageView, nameTextView, emailTextView,
-                        findViewById(R.id.activity_profile), userIncludeLinearLayout, userIncludeShimmer);
+                        bottomNavigation, userIncludeLinearLayout, userIncludeShimmer);
             }).start();
         } else {
             userIncludeLinearLayout.setVisibility(View.GONE);
@@ -130,10 +134,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         }
 
         this.doubleBackToExitPressedOnce = true;
-        showSnackBarMessage(findViewById(R.id.activity_profile), getString(R.string.press_twice_to_exit));
-
+        showSnackBarOnTheTopByBottomNavigation(findViewById(R.id.activity_profile), getString(R.string.press_twice_to_exit));
         new Handler().postDelayed(new Runnable() {
-
             @Override
             public void run() {
                 doubleBackToExitPressedOnce=false;
@@ -155,7 +157,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             case R.id.exit_button_profile:
                 LoginManager.getInstance().logOut();
                 new Thread(
-                        () -> PostLogout.postLogout(this, prefUtils, findViewById(R.id.activity_profile))
+                        () -> PostLogout.postLogout(this, prefUtils, bottomNavigation)
                 ).start();
                 break;
             case R.id.registration_button_include_profile_for_guest:

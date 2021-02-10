@@ -24,7 +24,7 @@ public class MakePostsByCategoryGridRecyclerViewForTapeActivity extends Recycler
     private static PrefUtils prefUt;
 
     public static void makePostsByCategoryGridRecyclerViewForTapeActivity(Context context, PrefUtils prefUtils, RecyclerView recyclerView,
-                                                                          ShimmerFrameLayout shimmer, ProgressBar progressBar) {
+                                                                          ShimmerFrameLayout shimmer, ProgressBar progressBar, View bottomNavigation) {
         cont = context;
         prefUt = prefUtils;
 
@@ -33,18 +33,18 @@ public class MakePostsByCategoryGridRecyclerViewForTapeActivity extends Recycler
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         if(PostListByCategoryFromApi.getInstance().getPostListByCategory().isEmpty()) {
-            infiniteScroll(adapter, recyclerView, shimmer, progressBar, true);
+            infiniteScroll(adapter, recyclerView, shimmer, progressBar, bottomNavigation,true);
         }
 
         recyclerView.addOnScrollListener(new RecyclerScrollListener() {
             @Override
             public void onScrolledToEnd() {
-                infiniteScroll(adapter, recyclerView, shimmer, progressBar,false);
+                infiniteScroll(adapter, recyclerView, shimmer, progressBar, bottomNavigation, false);
             }
 
             @Override
             public void onScrolledToTop() {
-                infiniteScroll(adapter, recyclerView, shimmer, progressBar, true);
+                infiniteScroll(adapter, recyclerView, shimmer, progressBar, bottomNavigation, true);
             }
         });
     }
@@ -56,18 +56,20 @@ public class MakePostsByCategoryGridRecyclerViewForTapeActivity extends Recycler
 
     // Загрузить/обновить данные с API
     private static void updateDataFromApi(PostListAdapter adapter, RecyclerView recyclerView,
-                                          ShimmerFrameLayout shimmer, ProgressBar progressBar, boolean isScrollOnTop) {
+                                          ShimmerFrameLayout shimmer, ProgressBar progressBar,
+                                          View bottomNavigation, boolean isScrollOnTop) {
         new Thread(() -> {
-            GetPostsByCategory.getPostsByCategory(cont, prefUt, adapter, recyclerView, shimmer, progressBar, isScrollOnTop);
+            GetPostsByCategory.getPostsByCategory(cont, prefUt, adapter, recyclerView, shimmer, progressBar, bottomNavigation, isScrollOnTop);
         }).start();
     }
 
     // Загрузить/обновить данные с API при скролах ресайклера вверх или вниз, если достигнут конец списка
     private static void infiniteScroll(PostListAdapter adapter, RecyclerView recyclerView,
-                                       ShimmerFrameLayout shimmer, ProgressBar progressBar, boolean isScrollOnTop) {
+                                       ShimmerFrameLayout shimmer, ProgressBar progressBar,
+                                       View bottomNavigation, boolean isScrollOnTop) {
         progressBar.setVisibility(isScrollOnTop? View.GONE : View.VISIBLE);
         shimmer.setVisibility(isScrollOnTop ? View.VISIBLE : View.GONE);
         Handler handler = new Handler();
-        handler.postDelayed(() -> updateDataFromApi(adapter, recyclerView, shimmer, progressBar, isScrollOnTop), 1000);
+        handler.postDelayed(() -> updateDataFromApi(adapter, recyclerView, shimmer, progressBar, bottomNavigation, isScrollOnTop), 1000);
     }
 }

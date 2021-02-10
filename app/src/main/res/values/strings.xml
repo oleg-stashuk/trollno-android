@@ -104,4 +104,8 @@
     // For FaceBook
     <string name="facebook_app_id">316582089429479</string>
     <string name="fb_login_protocol_scheme">fb316582089429479</string>
+    <string name="msg_show_all_favorite">Уже показаны все посты, которые добавлены в Избранное</string>
+    <string name="msg_user_have_not_any_answer">Ответов больше нет</string>
+    <string name="msg_nothing_in_category">В этой категории пока ничего нет</string>
+    <string name="msg_have_not_new_post">Новых постов пока нет</string>
 </resources>

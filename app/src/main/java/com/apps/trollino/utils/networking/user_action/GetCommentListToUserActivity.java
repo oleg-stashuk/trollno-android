@@ -34,16 +34,17 @@ public class GetCommentListToUserActivity {
     private static int page;
     private static int totalPage;
     private static boolean isGetNewListThis;
-    private static RecyclerView recyclerView;
+    private static Context cont;
 
     public static void getCommentListToUserActivity(Context context, PrefUtils prefUtils, UserCommentAdapter adapter,
                                                     RecyclerView recycler, ShimmerFrameLayout shimmer, boolean isGetNewList,
-                                                    ProgressBar progressBar, View includeNoDataForUser, TextView noDataTextView) {
+                                                    ProgressBar progressBar, View includeNoDataForUser,
+                                                    TextView noDataTextView,  View bottomNavigation) {
         String cookie = prefUtils.getCookie();
         String userId = prefUtils.getUserUid();
         page = isGetNewList ? 0 : prefUtils.getCurrentPage();
         isGetNewListThis = isGetNewList;
-        recyclerView = recycler;
+        cont = context;
 
         ApiService.getInstance(context).getCommentListToUserActivity(cookie, userId, page, new Callback<CommentModel>() {
             int countTry = 0;
@@ -60,7 +61,7 @@ public class GetCommentListToUserActivity {
                         noDataTextView.setText(context.getResources().getString(R.string.txt_have_no_comments));
                     } else {
                         includeNoDataForUser.setVisibility(View.GONE);
-                        updatePostListAndNotifyRecyclerAdapter(commentList, adapter);
+                        updatePostListAndNotifyRecyclerAdapter(commentList, adapter, bottomNavigation);
                         saveCurrentPage(prefUtils);
                         ShimmerHide.shimmerHide(recycler, shimmer);
                     }
@@ -69,7 +70,7 @@ public class GetCommentListToUserActivity {
                     dialog.showDialog(context);
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
-                    SnackBarMessageCustom.showSnackBar(recycler, errorMessage);
+                    SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, errorMessage);
                 }
                 progressBar.setVisibility(View.GONE);
             }
@@ -84,15 +85,16 @@ public class GetCommentListToUserActivity {
                     boolean isHaveNotInternet = t.getLocalizedMessage().contains(context.getString(R.string.internet_error_from_api));
                     String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
                     if (isHaveNotInternet) {
-                        Snackbar
-                                .make(recycler, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
+                        Snackbar snackbar  = Snackbar
+                                .make(bottomNavigation, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
                                 .setMaxInlineActionWidth(3)
                                 .setAction(R.string.refresh_button, v -> {
                                     call.clone().enqueue(this);
-                                })
-                                .show();
+                                });
+                        snackbar.setAnchorView(bottomNavigation);
+                        snackbar.show();
                     } else {
-                        SnackBarMessageCustom.showSnackBar(recycler, t.getLocalizedMessage());
+                        SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(recycler, t.getLocalizedMessage());
                     }
                     progressBar.setVisibility(View.GONE);
                     Log.d(LOG_TAG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
@@ -109,12 +111,12 @@ public class GetCommentListToUserActivity {
         }
     }
 
-    private static void updatePostListAndNotifyRecyclerAdapter(List<CommentModel.Comments> comments, UserCommentAdapter adapter) {
+    private static void updatePostListAndNotifyRecyclerAdapter(List<CommentModel.Comments> comments, UserCommentAdapter adapter, View bottomNavigation) {
         int currentListSize = CommentListToUserActivityFromApi.getInstance().getCommentList().size();
         CommentListToUserActivityFromApi.getInstance().saveCommentInList(comments);
         int newListSize = CommentListToUserActivityFromApi.getInstance().getCommentList().size();
         if(newListSize == currentListSize && page == totalPage && ! isGetNewListThis) {
-            SnackBarMessageCustom.showSnackBar(recyclerView, "Ответов больше нет");
+            SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, cont.getResources().getString(R.string.msg_user_have_not_any_answer));
         }
         adapter.notifyDataSetChanged();
     }

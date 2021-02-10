@@ -34,10 +34,12 @@ public class GetFavoriteList {
     private static int totalPage;
     private static RecyclerView recyclerView;
     private static boolean isGetNewListThis;
+    private static Context cont;
 
     public static void getFavoritePosts(Context context, PrefUtils prefUtils, RecyclerView recycler,
-                                        ShimmerFrameLayout shimmer, ProgressBar progressBar, View noFavoriteListView,
+                                        ShimmerFrameLayout shimmer, ProgressBar progressBar, View noFavoriteListView, View bottomNavigation,
                                         FavoriteAdapter adapter, boolean isGetNewList) {
+        cont = context;
         recyclerView = recycler;
         isGetNewListThis = isGetNewList;
         page = isGetNewList ? 0 : prefUtils.getCurrentPage();
@@ -73,7 +75,7 @@ public class GetFavoriteList {
                     dialog.showDialog(context);
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
-                    SnackBarMessageCustom.showSnackBar(recycler, errorMessage);
+                    SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(recycler, errorMessage);
                 }
                 progressBar.setVisibility(View.GONE);
             }
@@ -88,15 +90,16 @@ public class GetFavoriteList {
                     boolean isHaveNotInternet = t.getLocalizedMessage().contains(context.getString(R.string.internet_error_from_api));
                     String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
                     if (isHaveNotInternet) {
-                        Snackbar
-                                .make(recycler, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
+                        Snackbar snackbar  = Snackbar
+                                .make(bottomNavigation, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
                                 .setMaxInlineActionWidth(3)
                                 .setAction(R.string.refresh_button, v -> {
                                     call.clone().enqueue(this);
-                                })
-                                .show();
+                                });
+                        snackbar.setAnchorView(bottomNavigation);
+                        snackbar.show();
                     } else {
-                        SnackBarMessageCustom.showSnackBar(recycler, t.getLocalizedMessage());
+                        SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, t.getLocalizedMessage());
                     }
                     progressBar.setVisibility(View.GONE);
                     Log.d(LOG_TAG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
@@ -119,7 +122,7 @@ public class GetFavoriteList {
         int newListSize = FavoritePostListFromApi.getInstance().getFavoritePostLis().size();
 
         if(newListSize == currentListSize && page == totalPage && ! isGetNewListThis) {
-            SnackBarMessageCustom.showSnackBar(recyclerView, "Уже показаны все посты, которые добавлены в Избранное");
+            SnackBarMessageCustom.showSnackBar(recyclerView, cont.getResources().getString(R.string.msg_show_all_favorite));
         }
 
         adapter.notifyDataSetChanged();

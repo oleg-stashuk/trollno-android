@@ -31,17 +31,17 @@ import static com.apps.trollino.utils.data.Const.LOG_TAG;
 public class GetPostsByCategory {
     private static int page;
     private static int totalPage;
-    private static RecyclerView recyclerView;
     private static boolean isGetNewListThis;
+    private static Context cont;
 
     public static void getPostsByCategory(Context context, PrefUtils prefUtils, PostListAdapter adapter,
                                           RecyclerView recycler, ShimmerFrameLayout shimmer,
-                                          ProgressBar progressBar, boolean isGetNewList) {
+                                          ProgressBar progressBar, View bottomNavigation, boolean isGetNewList) {
         page = isGetNewList ? 0 : prefUtils.getCurrentPage();
         isGetNewListThis = isGetNewList;
+        cont = context;
         String cookie = prefUtils.getCookie();
         String categoryId = prefUtils.getSelectedCategoryId();
-        recyclerView = recycler;
 
         ApiService.getInstance(context).getPostsByCategory(cookie, categoryId, page, new Callback<PostsModel>() {
             int countTry = 0;
@@ -54,11 +54,11 @@ public class GetPostsByCategory {
 
                     totalPage = post.getPagerModel().getTotalPages() - 1;
                     saveCurrentPage(prefUtils);
-                    updatePostListAndNotifyRecyclerAdapter(newPostList, adapter);
+                    updatePostListAndNotifyRecyclerAdapter(newPostList, adapter, bottomNavigation);
 
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
-                    SnackBarMessageCustom.showSnackBar(recycler, errorMessage);
+                    SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, errorMessage);
                 }
                 progressBar.setVisibility(View.GONE);
                 ShimmerHide.shimmerHide(recycler, shimmer);
@@ -74,15 +74,16 @@ public class GetPostsByCategory {
                     boolean isHaveNotInternet = t.getLocalizedMessage().contains(context.getString(R.string.internet_error_from_api));
                     String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
                     if (isHaveNotInternet) {
-                        Snackbar
-                                .make(recycler, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
+                        Snackbar snackbar  = Snackbar
+                                .make(bottomNavigation, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
                                 .setMaxInlineActionWidth(3)
                                 .setAction(R.string.refresh_button, v -> {
                                     call.clone().enqueue(this);
-                                })
-                                .show();
+                                });
+                        snackbar.setAnchorView(bottomNavigation);
+                        snackbar.show();
                     } else {
-                        SnackBarMessageCustom.showSnackBar(recycler, t.getLocalizedMessage());
+                        SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, t.getLocalizedMessage());
                     }
                     progressBar.setVisibility(View.GONE);
                     Log.d(LOG_TAG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
@@ -99,15 +100,15 @@ public class GetPostsByCategory {
         }
     }
 
-    private static void updatePostListAndNotifyRecyclerAdapter(List<PostsModel.PostDetails> newPostList, PostListAdapter adapter) {
+    private static void updatePostListAndNotifyRecyclerAdapter(List<PostsModel.PostDetails> newPostList, PostListAdapter adapter, View bottomNavigation) {
         int currentListSize = PostListByCategoryFromApi.getInstance().getPostListByCategory().size();
         PostListByCategoryFromApi.getInstance().savePostByCategoryInList(newPostList);
         int newListSize = PostListByCategoryFromApi.getInstance().getPostListByCategory().size();
 
         if (newListSize == 0 && isGetNewListThis) {
-            SnackBarMessageCustom.showSnackBar(recyclerView, "В этой категории пока ничего нет");
+            SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, cont.getResources().getString(R.string.msg_nothing_in_category));
         } else if(newListSize == currentListSize && page == totalPage && ! isGetNewListThis) {
-            SnackBarMessageCustom.showSnackBar(recyclerView, "Новых постов пока нет");
+            SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, cont.getResources().getString(R.string.msg_have_not_new_post));
         }
 
         adapter.notifyDataSetChanged();

@@ -25,7 +25,7 @@ public class MakeLinerRecyclerViewForFavoriteActivity extends RecyclerView.OnScr
 
     public static void makeLinerRecyclerViewForFavoriteActivity(Context context, PrefUtils prefUtils,
                                                                 RecyclerView recyclerView, ShimmerFrameLayout shimmer,
-                                                                ProgressBar progressBar, View noFavoriteListView) {
+                                                                ProgressBar progressBar, View noFavoriteListView, View bottomNavigation) {
         cont = context;
         prefUt = prefUtils;
 
@@ -35,18 +35,18 @@ public class MakeLinerRecyclerViewForFavoriteActivity extends RecyclerView.OnScr
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         if (FavoritePostListFromApi.getInstance().getFavoritePostLis().isEmpty()) {
-            infiniteScroll(progressBar, recyclerView, shimmer, adapter, noFavoriteListView,true);
+            infiniteScroll(progressBar, recyclerView, shimmer, adapter, noFavoriteListView, bottomNavigation, true);
         }
 
         recyclerView.addOnScrollListener(new RecyclerScrollListener() {
             @Override
             public void onScrolledToEnd() {
-                infiniteScroll(progressBar, recyclerView, shimmer, adapter, noFavoriteListView,false);
+                infiniteScroll(progressBar, recyclerView, shimmer, adapter, noFavoriteListView, bottomNavigation, false);
             }
 
             @Override
             public void onScrolledToTop() {
-                infiniteScroll(progressBar, recyclerView, shimmer, adapter, noFavoriteListView,true);
+                infiniteScroll(progressBar, recyclerView, shimmer, adapter, noFavoriteListView, bottomNavigation, true);
             }
         });
     }
@@ -59,18 +59,22 @@ public class MakeLinerRecyclerViewForFavoriteActivity extends RecyclerView.OnScr
 
 
     // Загрузить/обновить данные с API
-    private static void updateDataFromApi(ProgressBar progressBar, RecyclerView recyclerView, ShimmerFrameLayout shimmer, FavoriteAdapter adapter, View noFavoriteListView, boolean isGetNewList) {
+    private static void updateDataFromApi(ProgressBar progressBar, RecyclerView recyclerView,
+                                          ShimmerFrameLayout shimmer, FavoriteAdapter adapter,
+                                          View noFavoriteListView, View bottomNavigation, boolean isGetNewList) {
         new Thread(() -> {
-            GetFavoriteList.getFavoritePosts(cont, prefUt, recyclerView, shimmer, progressBar, noFavoriteListView, adapter, isGetNewList);
+            GetFavoriteList.getFavoritePosts(cont, prefUt, recyclerView, shimmer, progressBar, noFavoriteListView, bottomNavigation, adapter, isGetNewList);
         }).start();
     }
 
     // Загрузить/обновить данные с API при скролах ресайклера вверх или вниз, если достигнут конец списка
-    private static void infiniteScroll(ProgressBar progressBar, RecyclerView recyclerView, ShimmerFrameLayout shimmer, FavoriteAdapter adapter, View noFavoriteListView, boolean isGetNewList) {
+    private static void infiniteScroll(ProgressBar progressBar, RecyclerView recyclerView,
+                                       ShimmerFrameLayout shimmer, FavoriteAdapter adapter, View noFavoriteListView,
+                                       View bottomNavigation, boolean isGetNewList) {
         progressBar.setVisibility(isGetNewList ? View.GONE : View.VISIBLE);
         shimmer.setVisibility(isGetNewList ? View.VISIBLE : View.GONE);
         Handler handler = new Handler();
-        handler.postDelayed(() -> updateDataFromApi(progressBar, recyclerView, shimmer, adapter, noFavoriteListView, isGetNewList), 1000);
+        handler.postDelayed(() -> updateDataFromApi(progressBar, recyclerView, shimmer, adapter, noFavoriteListView, bottomNavigation, isGetNewList), 1000);
     }
 
 }

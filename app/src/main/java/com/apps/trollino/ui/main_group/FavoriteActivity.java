@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -22,13 +23,15 @@ import com.apps.trollino.utils.networking.user_action.GetNewAnswersCount;
 import com.apps.trollino.utils.recycler.MakeLinerRecyclerViewForFavoriteActivity;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
+import static com.apps.trollino.utils.SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation;
+
 public class FavoriteActivity extends BaseActivity implements View.OnClickListener{
     private ShimmerFrameLayout shimmer;
+    private LinearLayout bottomNavigation;
     private RecyclerView favoriteRecyclerView;
     private View noFavoriteListView;
     private View userAuthorizationView;
     private ProgressBar progressBar;
-    private TextView favoriteBottomNavigationTextView;
     private ImageView indicatorImageView;
     private boolean isUserAuthorization; // Пользователь авторизирован или нет
     private boolean doubleBackToExitPressedOnce = false;  // для обработки нажатия onBackPressed
@@ -41,11 +44,12 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void initView() {
         shimmer = findViewById(R.id.include_favorite_shimmer);
+        bottomNavigation = findViewById(R.id.bottom_navigation_favorite);
         favoriteRecyclerView = findViewById(R.id.recycler_favorite);
         noFavoriteListView = findViewById(R.id.include_no_favorite);
         userAuthorizationView = findViewById(R.id.include_user_not_authorization_favorite);
         progressBar = findViewById(R.id.progress_bar_favorite);
-        favoriteBottomNavigationTextView = findViewById(R.id.favorites_button);
+        TextView favoriteBottomNavigationTextView = findViewById(R.id.favorites_button);
         indicatorImageView = findViewById(R.id.indicator_image);
         findViewById(R.id.tape_button).setOnClickListener(this);
         findViewById(R.id.activity_button).setOnClickListener(this);
@@ -71,7 +75,7 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
     private void checkFavoriteListAndUserAuthorization() {
         if(isUserAuthorization) {
             userAuthorizationView.setVisibility(View.GONE);
-            MakeLinerRecyclerViewForFavoriteActivity.makeLinerRecyclerViewForFavoriteActivity(this, prefUtils, favoriteRecyclerView, shimmer, progressBar, noFavoriteListView);
+            MakeLinerRecyclerViewForFavoriteActivity.makeLinerRecyclerViewForFavoriteActivity(this, prefUtils, favoriteRecyclerView, shimmer, progressBar, noFavoriteListView, bottomNavigation);
         } else {
             userAuthorizationView.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.GONE);
@@ -122,7 +126,7 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
         }
 
         this.doubleBackToExitPressedOnce = true;
-        showSnackBarMessage(findViewById(R.id.activity_favorite), getString(R.string.press_twice_to_exit));
+        showSnackBarOnTheTopByBottomNavigation(bottomNavigation, getString(R.string.press_twice_to_exit));
         new Handler().postDelayed(() -> doubleBackToExitPressedOnce=false, 2000);
     }
 
