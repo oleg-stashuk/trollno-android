@@ -61,18 +61,6 @@
             android:layout_margin="10dp"
             android:background="@color/shimmer_item_color"/>
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_margin="10dp"
-            android:background="@color/shimmer_item_color"/>
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:layout_margin="10dp"
-            android:background="@color/shimmer_item_color"/>
-
     </LinearLayout>
 
 </com.facebook.shimmer.ShimmerFrameLayout>

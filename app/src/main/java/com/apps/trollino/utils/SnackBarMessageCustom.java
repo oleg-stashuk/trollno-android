@@ -12,7 +12,7 @@ public class SnackBarMessageCustom {
 
     public static void showSnackBarOnTheTopByBottomNavigation(View view, String message) {
         Snackbar snackbar  = Snackbar
-                .make(view, message, Snackbar.LENGTH_INDEFINITE);
+                .make(view, message, Snackbar.LENGTH_SHORT);
         snackbar.setAnchorView(view);
         snackbar.show();
     }

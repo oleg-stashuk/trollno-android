@@ -45,8 +45,6 @@ public class GetNewPosts {
         String cookie = prefUtils.getCookie();
 
         ApiService.getInstance(context).getNewPosts(cookie, page, new Callback<PostsModel>() {
-            int countTry = 0;
-
             @Override
             public void onResponse(Call<PostsModel> call, Response<PostsModel> response) {
                 if (response.isSuccessful()) {
@@ -68,28 +66,23 @@ public class GetNewPosts {
             @Override
             public void onFailure(Call<PostsModel> call, Throwable t) {
                 t.getStackTrace();
-                if (countTry <= COUNT_TRY_REQUEST) {
-                    call.clone().enqueue(this);
-                    countTry++;
+                boolean isHaveNotInternet = t.getLocalizedMessage().contains(context.getString(R.string.internet_error_from_api));
+                String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
+                if (isHaveNotInternet) {
+                    Snackbar snackbar  = Snackbar
+                            .make(bottomNavigation, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
+                            .setMaxInlineActionWidth(3)
+                            .setAction(R.string.refresh_button, v -> {
+                                call.clone().enqueue(this);
+                            });
+                    snackbar.setAnchorView(bottomNavigation);
+                    snackbar.show();
                 } else {
-                    boolean isHaveNotInternet = t.getLocalizedMessage().contains(context.getString(R.string.internet_error_from_api));
-                    String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
-                    if (isHaveNotInternet) {
-                        Snackbar snackbar  = Snackbar
-                                .make(bottomNavigation, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
-                                .setMaxInlineActionWidth(3)
-                                .setAction(R.string.refresh_button, v -> {
-                                    call.clone().enqueue(this);
-                                });
-                        snackbar.setAnchorView(bottomNavigation);
-                        snackbar.show();
-                    } else {
-                        SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, t.getLocalizedMessage());
-                    }
-
-                    progressBar.setVisibility(View.GONE);
-                    Log.d(LOG_TAG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
+                    SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, t.getLocalizedMessage());
                 }
+
+                progressBar.setVisibility(View.GONE);
+                Log.d(LOG_TAG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
             }
         });
     }
