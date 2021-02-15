@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import static com.apps.trollino.utils.data.Const.LOG_TAG;
+import static com.apps.trollino.utils.data.Const.TAG_LOG;
 
 public class ShowTimeAgoHelper {
 
@@ -28,7 +28,7 @@ public class ShowTimeAgoHelper {
 
             return choiceCorrectDataMessage(dataFromApi.getTimeInMillis());
         } catch (ParseException e) {
-            Log.d(LOG_TAG, "!!!!!!!!!!!! ParseException " + e.getLocalizedMessage());
+            Log.d(TAG_LOG, "!!!!!!!!!!!! ParseException " + e.getLocalizedMessage());
             e.printStackTrace();
             return postTime;
         }

@@ -35,8 +35,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import static com.apps.trollino.utils.data.Const.LOG_TAG;
-import static com.apps.trollino.utils.networking.GetTikTok.getTikTok;
+import static com.apps.trollino.utils.data.Const.TAG_LOG;
 
 public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.MediaBlock> {
     private final int RECOVERY_REQUEST = 1;
@@ -133,15 +132,15 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
                     ApplicationInfo ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
                     Bundle bundle = ai.metaData;
                     String myApiKey = bundle.getString("com.google.android.gms.ads.APPLICATION_ID");
-                    Log.d(LOG_TAG, "Name Found: " + myApiKey);
+                    Log.d(TAG_LOG, "Name Found: " + myApiKey);
                     ai.metaData.putString("com.google.android.gms.ads.APPLICATION_ID", adMobId);//you can replace your key APPLICATION_ID here
                     String ApiKey = bundle.getString("com.google.android.gms.ads.APPLICATION_ID");
-                    Log.d(LOG_TAG, "ReNamed Found: " + ApiKey);
+                    Log.d(TAG_LOG, "ReNamed Found: " + ApiKey);
                     adLinearLayout.setVisibility(View.VISIBLE);
                 } catch (PackageManager.NameNotFoundException e) {
-                    Log.e(LOG_TAG, "Failed to load meta-data, NameNotFound: " + e.getMessage());
+                    Log.e(TAG_LOG, "Failed to load meta-data, NameNotFound: " + e.getMessage());
                 } catch (NullPointerException e) {
-                    Log.e(LOG_TAG, "Failed to load meta-data, NullPointer: " + e.getMessage());
+                    Log.e(TAG_LOG, "Failed to load meta-data, NullPointer: " + e.getMessage());
                 }
 
                 AdView mAdView = new AdView(context);

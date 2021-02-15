@@ -17,7 +17,7 @@ import com.apps.trollino.R;
 import com.apps.trollino.utils.OnSwipeTouchListener;
 import com.squareup.picasso.Picasso;
 
-import static com.apps.trollino.utils.data.Const.LOG_TAG;
+import static com.apps.trollino.utils.data.Const.TAG_LOG;
 
 public class ImageViewDialog {
 
@@ -50,7 +50,7 @@ public class ImageViewDialog {
                 shareIntent.putExtra(Intent.EXTRA_TEXT, imageUrl);
                 dialog.getContext().startActivity(Intent.createChooser(shareIntent, ""));
             } catch(Exception e) {
-                Log.d(LOG_TAG, "!!!!!!!!!!!! " + e.getLocalizedMessage());
+                Log.d(TAG_LOG, "!!!!!!!!!!!! " + e.getLocalizedMessage());
             }
 
         });

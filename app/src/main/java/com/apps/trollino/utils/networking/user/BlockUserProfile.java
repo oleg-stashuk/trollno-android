@@ -22,7 +22,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.apps.trollino.utils.data.Const.COUNT_TRY_REQUEST;
-import static com.apps.trollino.utils.data.Const.LOG_TAG;
+import static com.apps.trollino.utils.data.Const.TAG_LOG;
 
 public class BlockUserProfile {
     public static void blockUserProfile(Context context, PrefUtils prefUtils, RequestBlockUserModel blockUserModel, View view) {
@@ -69,7 +69,7 @@ public class BlockUserProfile {
                     } else {
                         SnackBarMessageCustom.showSnackBar(view, t.getLocalizedMessage());
                     }
-                    Log.d(LOG_TAG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
+                    Log.d(TAG_LOG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
                 }
             }
         });

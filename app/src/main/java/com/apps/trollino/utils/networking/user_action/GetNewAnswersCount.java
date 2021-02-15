@@ -15,7 +15,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.apps.trollino.utils.data.Const.COUNT_TRY_REQUEST;
-import static com.apps.trollino.utils.data.Const.LOG_TAG;
+import static com.apps.trollino.utils.data.Const.TAG_LOG;
 
 public class GetNewAnswersCount {
 
@@ -35,7 +35,7 @@ public class GetNewAnswersCount {
                     imageView.setVisibility(isShowIndicator ? View.VISIBLE : View.GONE);
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
-                    Log.d(LOG_TAG, "errorMessage " + errorMessage);
+                    Log.d(TAG_LOG, "errorMessage " + errorMessage);
                 }
             }
 
@@ -45,7 +45,7 @@ public class GetNewAnswersCount {
                     call.clone().enqueue(this);
                     countTry++;
                 } else {
-                    Log.d(LOG_TAG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
+                    Log.d(TAG_LOG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
                 }
             }
         });
