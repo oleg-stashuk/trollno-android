@@ -1,6 +1,7 @@
 package com.apps.trollino.data.networking;
 
 import com.apps.trollino.data.model.profile.RequestBlockUserModel;
+import com.apps.trollino.data.model.profile.RequestPushNotificationToken;
 import com.apps.trollino.data.model.profile.RequestUpdateAvatarModel;
 import com.apps.trollino.data.model.profile.RequestUpdateUserPassword;
 import com.apps.trollino.data.model.profile.UserProfileModel;
@@ -34,4 +35,12 @@ public interface UserApi {
     })
     @PATCH("/user/{uid}?_format=json")
     Call<UserProfileModel> updatePassword(@Header("Cookie") String cookie, @Header("X-CSRF-Token") String token, @Path("uid") int userUid, @Body RequestUpdateUserPassword updateUserPassword);
+
+    @Headers({
+            "Content-Type: application/json",
+            "Accepts: application/json"
+    })
+    @PATCH("/user/{uid}?_format=json")
+    Call<Void> updatePushNotificationToken(@Header("Cookie") String cookie, @Header("X-CSRF-Token") String token, @Path("uid") int userUid,
+                                                       @Body RequestPushNotificationToken updatePushNotificationToken);
 }

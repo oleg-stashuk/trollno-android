@@ -12,6 +12,11 @@ import androidx.core.app.NotificationCompat;
 
 import com.apps.trollino.R;
 import com.apps.trollino.ui.main_group.ActivityInPostActivity;
+import com.apps.trollino.utils.data.Const;
+import com.apps.trollino.utils.data.PrefUtils;
+import com.apps.trollino.utils.networking.user.UpdatePushToken;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.installations.FirebaseInstallations;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -72,7 +77,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
 
-    public void getFireBaseToken() {
+    public void getFireBaseToken(Context context, PrefUtils prefUtils) {
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(task -> {
                     if(!task.isSuccessful()) {
@@ -80,12 +85,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         return;
                     }
                     String token = task.getResult();
+                    new Thread(() -> UpdatePushToken.sendRegistrationToServer(context, prefUtils, token)).start();
                     Log.d(TAG_LOG, "!!!!!!!!!!!!!!!!!!!!! token " + token);
                 });
     }
 
-    public void onDeletedFireBaseToken() {
+    public void onDeletedFireBaseToken(Context context, PrefUtils prefUtils) {
         // TODO: Implement this method to remove firebase token
+        UpdatePushToken.sendRegistrationToServer(context, prefUtils, "");
+//        FirebaseInstanceId.getInstance().deleteInstanceId();
     }
 }
 

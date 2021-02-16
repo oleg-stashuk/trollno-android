@@ -7,6 +7,7 @@ import com.apps.trollino.data.model.PostsModel;
 import com.apps.trollino.data.model.SettingsModel;
 import com.apps.trollino.data.model.comment.CommentModel;
 import com.apps.trollino.data.model.login.FacebookRequestModel;
+import com.apps.trollino.data.model.profile.RequestPushNotificationToken;
 import com.apps.trollino.data.model.user_action.CountNewAnswersModel;
 import com.apps.trollino.data.model.comment.CreateCommentBody;
 import com.apps.trollino.data.model.comment.CreateNewCommentRequest;
@@ -169,6 +170,11 @@ public class ApiService {
     public void updatePassword(String cookie, String token, int userUid, RequestUpdateUserPassword updatePasswordModel, Callback<UserProfileModel> callback) {
         userApi.updatePassword(cookie, token, userUid, updatePasswordModel).enqueue(callback);
     }
+
+    public void updatePushNotificationToken(String cookie, String token, int userUid, RequestPushNotificationToken updatePushToken, Callback<Void> callback) {
+        userApi.updatePushNotificationToken(cookie, token, userUid, updatePushToken).enqueue(callback);
+    }
+
 
     // request for Comments block
     public void getCommentToPost(String cookie, String postId, String sortBy, String sortOrder, Callback<CommentModel> callback) {

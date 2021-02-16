@@ -46,7 +46,7 @@ public class SplashActivity extends BaseActivity {
         new Thread(() -> GetSettings.getSettings(this, prefUtils, null, findViewById(R.id.splash_activity))).start();
 
         MyFirebaseMessagingService firebaseMessagingService = new MyFirebaseMessagingService();
-        firebaseMessagingService.getFireBaseToken();
+        firebaseMessagingService.getFireBaseToken(this, prefUtils);
     }
 
     Runnable openNextActivity = new Runnable() {
