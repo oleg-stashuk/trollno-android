@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 
 import com.apps.trollino.R;
+import com.apps.trollino.service.MyFirebaseMessagingService;
 import com.apps.trollino.ui.authorisation.LoginActivity;
 import com.apps.trollino.ui.authorisation.RegistrationActivity;
 import com.apps.trollino.ui.base.BaseActivity;
@@ -159,6 +160,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 new Thread(
                         () -> PostLogout.postLogout(this, prefUtils, bottomNavigation)
                 ).start();
+                MyFirebaseMessagingService fireBaseService = new MyFirebaseMessagingService();
+                fireBaseService.onDeletedFireBaseToken(this, prefUtils);
                 break;
             case R.id.registration_button_include_profile_for_guest:
                 startActivity(new Intent(this, RegistrationActivity.class));
