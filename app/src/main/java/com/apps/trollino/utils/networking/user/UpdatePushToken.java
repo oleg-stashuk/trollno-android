@@ -3,7 +3,6 @@ package com.apps.trollino.utils.networking.user;
 import android.content.Context;
 import android.util.Log;
 
-import com.apps.trollino.R;
 import com.apps.trollino.data.model.profile.RequestPushNotificationToken;
 import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.utils.data.PrefUtils;

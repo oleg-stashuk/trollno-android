@@ -45,8 +45,10 @@ public class SplashActivity extends BaseActivity {
         new Thread(() -> GetCategoryList.getCategoryList(this, prefUtils, findViewById(R.id.splash_activity))).start();
         new Thread(() -> GetSettings.getSettings(this, prefUtils, null, findViewById(R.id.splash_activity))).start();
 
-        MyFirebaseMessagingService firebaseMessagingService = new MyFirebaseMessagingService();
-        firebaseMessagingService.getFireBaseToken(this, prefUtils);
+        if (prefUtils.getIsUserAuthorization()) {
+            MyFirebaseMessagingService firebaseMessagingService = new MyFirebaseMessagingService();
+            firebaseMessagingService.getFireBaseToken(this, prefUtils);
+        }
     }
 
     Runnable openNextActivity = new Runnable() {
