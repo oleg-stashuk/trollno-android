@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -15,9 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apps.trollino.R;
 import com.apps.trollino.ui.base.BaseActivity;
-import com.apps.trollino.utils.data.Const;
 import com.apps.trollino.utils.OpenActivityHelper;
 import com.apps.trollino.utils.data.CommentListFromApi;
+import com.apps.trollino.utils.data.Const;
 import com.apps.trollino.utils.dialogs.GuestDialog;
 import com.apps.trollino.utils.networking.comment.PostNewComment;
 import com.apps.trollino.utils.recycler.MakeRecyclerViewForComment;
@@ -30,6 +31,7 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
     private EditText commentEditText;
     private Spinner sortCommentSpinner;
     private TextView countTextView;
+    private ImageButton sendCommentImageButton;
     private ProgressBar progressBar;
 
     private String currentPostId;
@@ -44,7 +46,8 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
         shimmer = findViewById(R.id.comments_to_post_shimmer);
         commentsRecyclerView = findViewById(R.id.recycler_comment_comment_to_post);
         findViewById(R.id.back_button_comment_comment_to_post).setOnClickListener(this);
-        findViewById(R.id.send_button_comment_comment_to_post).setOnClickListener(this);
+        sendCommentImageButton = findViewById(R.id.send_button_comment_comment_to_post);
+        sendCommentImageButton.setOnClickListener(this);
         commentEditText = findViewById(R.id.comment_message_comment_comment_to_post);
         countTextView = findViewById(R.id.count_comment_to_post);
         sortCommentSpinner = findViewById(R.id.spinner_comment_to_post);
@@ -115,9 +118,10 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
                         commentId = "";
                     }
 
+                    sendCommentImageButton.setClickable(false);
                     new Thread(() ->
                             PostNewComment.postNewComment(this, prefUtils,
-                            commentEditText.getText().toString(), commentId, commentEditText, findViewById(R.id.activity_comment_to_post))
+                            commentEditText.getText().toString(), commentId, commentEditText, sendCommentImageButton, findViewById(R.id.activity_comment_to_post))
                     ).start();
 
                 } else {

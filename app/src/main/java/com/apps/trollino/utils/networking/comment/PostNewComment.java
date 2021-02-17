@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.apps.trollino.R;
 import com.apps.trollino.data.model.comment.CreateCommentBody;
@@ -31,7 +32,7 @@ import static com.apps.trollino.utils.data.Const.TAG_LOG;
 public class PostNewComment {
 
     public static void postNewComment(Context context, PrefUtils prefUtils, String comment, String parentId,
-                                      EditText commentEditText, View view) {
+                                      EditText commentEditText, ImageButton sendCommentImageButton, View view) {
 
         if(parentId.isEmpty()) {
             parentId = null;
@@ -64,6 +65,8 @@ public class PostNewComment {
                     commentEditText.setText("");
                     prefUtils.saveAnswerToUserName("");
                     prefUtils.saveCommentIdToAnswer("");
+
+                    commentEditText.setText("");
                 } else if(response.code() == 403) {
                     GuestDialog dialog = new GuestDialog();
                     dialog.showDialog(context);
@@ -71,6 +74,8 @@ public class PostNewComment {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
                     SnackBarMessageCustom.showSnackBar(view, errorMessage);
                 }
+
+                sendCommentImageButton.setClickable(true);
             }
 
             @Override
@@ -89,6 +94,7 @@ public class PostNewComment {
                 } else {
                     SnackBarMessageCustom.showSnackBar(view, t.getLocalizedMessage());
                 }
+                sendCommentImageButton.setClickable(true);
                 Log.d(TAG_LOG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
             }
         });

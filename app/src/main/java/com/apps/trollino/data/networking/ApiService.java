@@ -61,6 +61,7 @@ public class ApiService {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(ItemPostModel.class, new CustomConverterForItemPost())
 //                .registerTypeAdapter(ItemPostModel.class, new CustomConverterForItemPost())
+                .setLenient()
                 .create();
 
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
