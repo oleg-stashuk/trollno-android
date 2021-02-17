@@ -12,7 +12,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.apps.trollino.utils.data.Const.COUNT_TRY_REQUEST;
 import static com.apps.trollino.utils.data.Const.TAG_LOG;
 
 public class PostMarkReadAllAnswersToComment {
@@ -21,8 +20,6 @@ public class PostMarkReadAllAnswersToComment {
         String token = prefUtils.getToken();
 
         ApiService.getInstance(context).markReadAllAnswersToComment(cooke, token, commentId, new Callback<Void>() {
-            int countTry = 0;
-
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if(response.isSuccessful()) {
@@ -40,12 +37,7 @@ public class PostMarkReadAllAnswersToComment {
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 t.getStackTrace();
-                if (countTry <= COUNT_TRY_REQUEST) {
-                    call.clone().enqueue(this);
-                    countTry++;
-                } else {
-                    Log.d(TAG_LOG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
-                }
+                Log.d(TAG_LOG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
             }
         });
 

@@ -26,7 +26,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.apps.trollino.utils.data.Const.COUNT_TRY_REQUEST;
 import static com.apps.trollino.utils.data.Const.TAG_LOG;
 
 public class GetPostBySearch {
@@ -49,8 +48,6 @@ public class GetPostBySearch {
         String cookie = prefUtils.getCookie();
 
         ApiService.getInstance(context).getSearchPosts(cookie, searchText, page, new Callback<PostsModel>() {
-            int countTry = 0;
-
             @Override
             public void onResponse(Call<PostsModel> call, Response<PostsModel> response) {
                 if(response.isSuccessful()) {
@@ -81,25 +78,20 @@ public class GetPostBySearch {
             public void onFailure(Call<PostsModel> call, Throwable t) {
                 t.getStackTrace();
                 progressBar.setVisibility(View.GONE);
-                if (countTry <= COUNT_TRY_REQUEST) {
-                    call.clone().enqueue(this);
-                    countTry++;
+                boolean isHaveNotInternet = t.getLocalizedMessage().contains(context.getString(R.string.internet_error_from_api));
+                String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
+                if (isHaveNotInternet) {
+                    Snackbar
+                            .make(progressBar, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
+                            .setMaxInlineActionWidth(3)
+                            .setAction(R.string.refresh_button, v -> {
+                                call.clone().enqueue(this);
+                            })
+                            .show();
                 } else {
-                    boolean isHaveNotInternet = t.getLocalizedMessage().contains(context.getString(R.string.internet_error_from_api));
-                    String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
-                    if (isHaveNotInternet) {
-                        Snackbar
-                                .make(progressBar, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
-                                .setMaxInlineActionWidth(3)
-                                .setAction(R.string.refresh_button, v -> {
-                                    call.clone().enqueue(this);
-                                })
-                                .show();
-                    } else {
-                        SnackBarMessageCustom.showSnackBar(progressBar, t.getLocalizedMessage());
-                    }
-                    Log.d(TAG_LOG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
+                    SnackBarMessageCustom.showSnackBar(progressBar, t.getLocalizedMessage());
                 }
+                Log.d(TAG_LOG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
             }
         });
 

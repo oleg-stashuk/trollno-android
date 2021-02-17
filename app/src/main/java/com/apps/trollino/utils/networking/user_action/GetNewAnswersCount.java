@@ -14,7 +14,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.apps.trollino.utils.data.Const.COUNT_TRY_REQUEST;
 import static com.apps.trollino.utils.data.Const.TAG_LOG;
 
 public class GetNewAnswersCount {
@@ -25,8 +24,6 @@ public class GetNewAnswersCount {
         String userId = prefUtils.getUserUid();
 
         ApiService.getInstance(context).getNewAnswerToUserComment(cookie, token, userId, new Callback<CountNewAnswersModel>() {
-            int countTry = 0;
-
             @Override
             public void onResponse(Call<CountNewAnswersModel> call, Response<CountNewAnswersModel> response) {
                 if(response.isSuccessful()) {
@@ -41,12 +38,7 @@ public class GetNewAnswersCount {
 
             @Override
             public void onFailure(Call<CountNewAnswersModel> call, Throwable t) {
-                if (countTry <= COUNT_TRY_REQUEST) {
-                    call.clone().enqueue(this);
-                    countTry++;
-                } else {
-                    Log.d(TAG_LOG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
-                }
+                Log.d(TAG_LOG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
             }
         });
     }

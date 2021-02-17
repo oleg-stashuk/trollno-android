@@ -27,7 +27,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.apps.trollino.utils.data.Const.COUNT_TRY_REQUEST;
 import static com.apps.trollino.utils.data.Const.TAG_LOG;
 
 public class GetCommentListToUserActivity {
@@ -47,8 +46,6 @@ public class GetCommentListToUserActivity {
         cont = context;
 
         ApiService.getInstance(context).getCommentListToUserActivity(cookie, userId, page, new Callback<CommentModel>() {
-            int countTry = 0;
-
             @Override
             public void onResponse(Call<CommentModel> call, Response<CommentModel> response) {
                 if(response.isSuccessful()) {
@@ -78,27 +75,22 @@ public class GetCommentListToUserActivity {
             @Override
             public void onFailure(Call<CommentModel> call, Throwable t) {
                 t.getStackTrace();
-                if (countTry <= COUNT_TRY_REQUEST) {
-                    call.clone().enqueue(this);
-                    countTry++;
+                boolean isHaveNotInternet = t.getLocalizedMessage().contains(context.getString(R.string.internet_error_from_api));
+                String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
+                if (isHaveNotInternet) {
+                    Snackbar snackbar  = Snackbar
+                            .make(bottomNavigation, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
+                            .setMaxInlineActionWidth(3)
+                            .setAction(R.string.refresh_button, v -> {
+                                call.clone().enqueue(this);
+                            });
+                    snackbar.setAnchorView(bottomNavigation);
+                    snackbar.show();
                 } else {
-                    boolean isHaveNotInternet = t.getLocalizedMessage().contains(context.getString(R.string.internet_error_from_api));
-                    String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
-                    if (isHaveNotInternet) {
-                        Snackbar snackbar  = Snackbar
-                                .make(bottomNavigation, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
-                                .setMaxInlineActionWidth(3)
-                                .setAction(R.string.refresh_button, v -> {
-                                    call.clone().enqueue(this);
-                                });
-                        snackbar.setAnchorView(bottomNavigation);
-                        snackbar.show();
-                    } else {
-                        SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(recycler, t.getLocalizedMessage());
-                    }
-                    progressBar.setVisibility(View.GONE);
-                    Log.d(TAG_LOG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
+                    SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(recycler, t.getLocalizedMessage());
                 }
+                progressBar.setVisibility(View.GONE);
+                Log.d(TAG_LOG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
             }
         });
     }
