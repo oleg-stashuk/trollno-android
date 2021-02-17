@@ -108,4 +108,5 @@
     <string name="msg_user_have_not_any_answer">Ответов больше нет</string>
     <string name="msg_nothing_in_category">В этой категории пока ничего нет</string>
     <string name="msg_have_not_new_post">Новых постов пока нет</string>
+    <string name="msg_wait_login_with_facebook">\"Подождите, осуществляется вход через Facebook  \"</string>
 </resources>
