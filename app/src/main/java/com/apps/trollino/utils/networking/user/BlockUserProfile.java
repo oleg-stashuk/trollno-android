@@ -9,6 +9,7 @@ import android.view.View;
 import com.apps.trollino.R;
 import com.apps.trollino.data.model.profile.RequestBlockUserModel;
 import com.apps.trollino.data.networking.ApiService;
+import com.apps.trollino.service.MyFirebaseMessagingService;
 import com.apps.trollino.ui.authorisation.LoginActivity;
 import com.apps.trollino.utils.SnackBarMessageCustom;
 import com.apps.trollino.utils.data.CleanSavedDataHelper;
@@ -37,6 +38,9 @@ public class BlockUserProfile {
                     SnackBarMessageCustom.showSnackBar(view, context.getResources().getString(R.string.msg_account_remove));
                     context.startActivity(new Intent(context, LoginActivity.class));
                     ((Activity) context).finish();
+
+                    MyFirebaseMessagingService fireBaseService = new MyFirebaseMessagingService();
+                    fireBaseService.onDeletedFireBaseToken(context, prefUtils);
                 } else if(response.code() == 403) {
                     GuestDialog dialog = new GuestDialog();
                     dialog.showDialog(context);
