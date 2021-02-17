@@ -11,7 +11,6 @@ import android.widget.ImageButton;
 import com.apps.trollino.R;
 import com.apps.trollino.data.model.comment.CreateCommentBody;
 import com.apps.trollino.data.model.comment.CreateNewCommentRequest;
-import com.apps.trollino.data.model.comment.CreateNewCommentResponse;
 import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.ui.main_group.CommentToPostActivity;
 import com.apps.trollino.utils.SnackBarMessageCustom;
@@ -50,11 +49,9 @@ public class PostNewComment {
         List<CreateNewCommentRequest.ParentIdComment> parentIdList = new ArrayList<>();
         parentIdList.add(new CreateNewCommentRequest.ParentIdComment(parentId));
 
-        ApiService.getInstance(context).postNewCommentToPost(cookie, token, postIdList, commentList, parentIdList,
-            new Callback<CreateNewCommentResponse>() {
-
+        ApiService.getInstance(context).postNewCommentToPost(cookie, token, postIdList, commentList, parentIdList, new Callback<Void>() {
             @Override
-            public void onResponse(Call<CreateNewCommentResponse> call, Response<CreateNewCommentResponse> response) {
+            public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     SnackBarMessageCustom.showSnackBar(view, context.getResources().getString(R.string.txt_comment_sent_succesful));
 
@@ -75,11 +72,11 @@ public class PostNewComment {
                     SnackBarMessageCustom.showSnackBar(view, errorMessage);
                 }
 
-                sendCommentImageButton.setClickable(true);
+                makeButtonClickable(sendCommentImageButton);
             }
 
             @Override
-            public void onFailure(Call<CreateNewCommentResponse> call, Throwable t) {
+            public void onFailure(Call<Void> call, Throwable t) {
                 t.getStackTrace();
                 boolean isHaveNotInternet = t.getLocalizedMessage().contains(context.getString(R.string.internet_error_from_api));
                 String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
@@ -94,10 +91,14 @@ public class PostNewComment {
                 } else {
                     SnackBarMessageCustom.showSnackBar(view, t.getLocalizedMessage());
                 }
-                sendCommentImageButton.setClickable(true);
+                makeButtonClickable(sendCommentImageButton);
                 Log.d(TAG_LOG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
             }
         });
+    }
 
+    private static void makeButtonClickable(ImageButton imageButton) {
+        imageButton.setClickable(true);
+        imageButton.setEnabled(true);
     }
 }

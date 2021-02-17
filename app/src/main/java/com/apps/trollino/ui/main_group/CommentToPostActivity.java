@@ -119,6 +119,7 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
                     }
 
                     sendCommentImageButton.setClickable(false);
+                    sendCommentImageButton.setEnabled(false);
                     new Thread(() ->
                             PostNewComment.postNewComment(this, prefUtils,
                             commentEditText.getText().toString(), commentId, commentEditText, sendCommentImageButton, findViewById(R.id.activity_comment_to_post))

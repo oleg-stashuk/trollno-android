@@ -6,18 +6,16 @@ import com.apps.trollino.data.model.CategoryModel;
 import com.apps.trollino.data.model.PostsModel;
 import com.apps.trollino.data.model.SettingsModel;
 import com.apps.trollino.data.model.comment.CommentModel;
-import com.apps.trollino.data.model.login.FacebookRequestModel;
-import com.apps.trollino.data.model.profile.RequestPushNotificationToken;
-import com.apps.trollino.data.model.user_action.CountNewAnswersModel;
 import com.apps.trollino.data.model.comment.CreateCommentBody;
 import com.apps.trollino.data.model.comment.CreateNewCommentRequest;
-import com.apps.trollino.data.model.comment.CreateNewCommentResponse;
 import com.apps.trollino.data.model.comment.LikeCommentModelRequest;
+import com.apps.trollino.data.model.login.FacebookRequestModel;
 import com.apps.trollino.data.model.login.RegistrationRequestModel;
 import com.apps.trollino.data.model.login.RegistrationResponseModel;
 import com.apps.trollino.data.model.login.RequestLoginModel;
 import com.apps.trollino.data.model.login.ResponseLoginModel;
 import com.apps.trollino.data.model.profile.RequestBlockUserModel;
+import com.apps.trollino.data.model.profile.RequestPushNotificationToken;
 import com.apps.trollino.data.model.profile.RequestUpdateAvatarModel;
 import com.apps.trollino.data.model.profile.RequestUpdateUserPassword;
 import com.apps.trollino.data.model.profile.UserProfileModel;
@@ -25,6 +23,7 @@ import com.apps.trollino.data.model.single_post.ItemPostModel;
 import com.apps.trollino.data.model.single_post.MarkPostAsReadModel;
 import com.apps.trollino.data.model.single_post.RequestBookmarkPostModel;
 import com.apps.trollino.data.model.single_post.ResponseBookmarkModel;
+import com.apps.trollino.data.model.user_action.CountNewAnswersModel;
 import com.apps.trollino.data.model.user_action.ReadAnswerRequest;
 import com.apps.trollino.utils.networking_helper.CustomConverterForItemPost;
 import com.apps.trollino.utils.networking_helper.ReceivedCookiesInterceptor;
@@ -188,7 +187,7 @@ public class ApiService {
 
     public void postNewCommentToPost(String cookie, String token, List<CreateNewCommentRequest.PostId> entityIdList,
                                      List<CreateCommentBody> commentBodyList, List<CreateNewCommentRequest.ParentIdComment> parentCidList,
-                                     Callback<CreateNewCommentResponse> callback) {
+                                     Callback<Void> callback) {
         commentApi.postNewCommentToPost(cookie, token,
                 new CreateNewCommentRequest(entityIdList, commentBodyList, parentCidList)
         ).enqueue(callback);
