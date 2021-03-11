@@ -62,7 +62,7 @@
     <string name="internet_error_from_api">No address associated with hostname</string>
     <string name="internet_error_message">Соединение с интернетом потеряно.</string>
     <string name="txt_comment_sent_succesful">Ваш комментарий опубликован.</string>
-    <string name="txt_new_answers">Новые комментарии: </string>
+    <string name="txt_new_answers">Есть новый ответ</string>
     <string name="txt_change_avatar_image">Аватарка изменена</string>
     <string name="name_is_empty_toast">Поле Имя не должно быть пустым</string>
     <string name="mail_is_empty_toast">Поле email не должно быть пустым</string>

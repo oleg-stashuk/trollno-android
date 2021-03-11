@@ -34,9 +34,7 @@ public class UserCommentAdapter extends BaseRecyclerAdapter<CommentModel.Comment
         return new BaseItem(view) {
             @Override
             public void bind(CommentModel.Comments item) {
-                LinearLayout linearLayout = view.findViewById(R.id.background_liner_layout_user_comment);
                 TextView titleTextView = view.findViewById(R.id.title_item_user_comment);
-//                ImageView menuImageView = view.findViewById(R.id.menu_item_user_comment);
                 TextView commentTextView = view.findViewById(R.id.comment_item_user_comment);
                 TextView countLikeTextView = view.findViewById(R.id.count_like_item_user_comment);
                 ImageView indicatorImageView = view.findViewById(R.id.new_comment_indicator_item_user_comment);
@@ -51,17 +49,13 @@ public class UserCommentAdapter extends BaseRecyclerAdapter<CommentModel.Comment
                 if(countNewAnswer > 0) {
                     indicatorImageView.setVisibility(View.VISIBLE);
                     newCommentTextView.setVisibility(View.VISIBLE);
-                    newCommentTextView.setText(view.getContext().getString(R.string.txt_new_answers) + countNewAnswer);
+//                    newCommentTextView.setText(view.getContext().getString(R.string.txt_new_answers) + countNewAnswer);
                 } else {
                     indicatorImageView.setVisibility(View.GONE);
                     newCommentTextView.setVisibility(View.GONE);
                 }
 
                 timeTextView.setText(ShowTimeAgoHelper.showTimeAgo(item.getCreated()));
-
-//                menuImageView.setOnClickListener(v ->
-//                        Toast.makeText(view.getContext(), "Кнопка меню", Toast.LENGTH_SHORT).show()
-//                );
             }
         };
     }

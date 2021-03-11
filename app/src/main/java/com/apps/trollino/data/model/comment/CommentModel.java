@@ -41,7 +41,7 @@ public class CommentModel {
         @SerializedName("flagged")
         @Expose
         private String favoriteFlag;
-        @SerializedName("newsappm_comment_like_count")
+        @SerializedName("count")
         @Expose
         private String countLike;
         @SerializedName("name")
