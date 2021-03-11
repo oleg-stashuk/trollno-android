@@ -60,7 +60,6 @@ public class GetCommentListToUserActivity {
                         includeNoDataForUser.setVisibility(View.GONE);
                         updatePostListAndNotifyRecyclerAdapter(commentList, adapter, bottomNavigation);
                         saveCurrentPage(prefUtils);
-                        ShimmerHide.shimmerHide(recycler, shimmer);
                     }
                 } else if(response.code() == 403) {
                     GuestDialog dialog = new GuestDialog();
@@ -69,6 +68,7 @@ public class GetCommentListToUserActivity {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
                     SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, errorMessage);
                 }
+                ShimmerHide.shimmerHide(recycler, shimmer);
                 progressBar.setVisibility(View.GONE);
             }
 
@@ -90,6 +90,7 @@ public class GetCommentListToUserActivity {
                     SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(recycler, t.getLocalizedMessage());
                 }
                 progressBar.setVisibility(View.GONE);
+                ShimmerHide.shimmerHide(recycler, shimmer);
                 Log.d(TAG_LOG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
             }
         });
