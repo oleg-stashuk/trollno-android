@@ -56,6 +56,32 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@android:color/transparent"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/colorGrey"
+                    android:text="@string/advertising"/>
+
+                <RelativeLayout
+                    android:id="@+id/ad_mob_in_post"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:layout_alignParentBottom="true"/>
+
+            </LinearLayout>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_post_activity"
                 android:layout_width="match_parent"
@@ -63,7 +89,6 @@
                 android:layout_weight="1"
                 android:overScrollMode="never"
                 android:layout_marginTop="10dp"/>
-
 
             <LinearLayout
                 android:id="@+id/video_new_image_item"

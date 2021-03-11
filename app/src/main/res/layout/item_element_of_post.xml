@@ -98,7 +98,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:textColor="@color/colorGrey"
-            android:text="РЕКЛАМА"/>
+            android:text="@string/advertising"/>
 
         <RelativeLayout
             android:id="@+id/ad_mob_view_element_of_post"

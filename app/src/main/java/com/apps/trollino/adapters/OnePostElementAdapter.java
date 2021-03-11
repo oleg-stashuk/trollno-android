@@ -3,13 +3,9 @@ package com.apps.trollino.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,12 +18,10 @@ import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
 import com.apps.trollino.data.model.single_post.ItemPostModel;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.ui.main_group.YoutubeActivity;
+import com.apps.trollino.utils.ShowAdvertising;
 import com.apps.trollino.utils.data.Const;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.dialogs.ImageViewDialog;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubeThumbnailLoader;
 import com.google.android.youtube.player.YouTubeThumbnailView;
@@ -35,22 +29,18 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import static com.apps.trollino.utils.data.Const.TAG_LOG;
-
 public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.MediaBlock> {
     private final int RECOVERY_REQUEST = 1;
-    private final String adMobId;
-    private final String bannerId;
     private final int blockCountFromApi;
     private int blockCount = 1;
     private final int itemsSize;
+    private final PrefUtils prefUtils;
 
     public OnePostElementAdapter(BaseActivity baseActivity, List<ItemPostModel.MediaBlock> items, PrefUtils prefUtils) {
         super(baseActivity, items);
         this.blockCountFromApi = prefUtils.getCountBetweenAds();
         this.itemsSize = items.size();
-        this.adMobId = prefUtils.getAdMobId();
-        this.bannerId = prefUtils.getBannerId();
+        this.prefUtils = prefUtils;
     }
 
     @Override
@@ -121,27 +111,8 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
             }
 
             private void getAdBlock(RelativeLayout adViewRelativeLayout, LinearLayout adLinearLayout, Context context) {
-                try {
-                    ApplicationInfo ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
-                    Bundle bundle = ai.metaData;
-                    String myApiKey = bundle.getString("com.google.android.gms.ads.APPLICATION_ID");
-                    Log.d(TAG_LOG, "Name Found: " + myApiKey);
-                    ai.metaData.putString("com.google.android.gms.ads.APPLICATION_ID", adMobId);//you can replace your key APPLICATION_ID here
-                    String ApiKey = bundle.getString("com.google.android.gms.ads.APPLICATION_ID");
-                    Log.d(TAG_LOG, "ReNamed Found: " + ApiKey);
-                    adLinearLayout.setVisibility(View.VISIBLE);
-                } catch (PackageManager.NameNotFoundException e) {
-                    Log.d(TAG_LOG, "Failed to load meta-data, NameNotFound: " + e.getMessage());
-                } catch (NullPointerException e) {
-                    Log.d(TAG_LOG, "Failed to load meta-data, NullPointer: " + e.getMessage());
-                }
-
-                AdView mAdView = new AdView(context);
-                mAdView.setAdSize(AdSize.SMART_BANNER);
-                mAdView.setAdUnitId(bannerId);
-                adViewRelativeLayout.addView(mAdView);
-                AdRequest adRequest = new AdRequest.Builder().build();
-                mAdView.loadAd(adRequest);
+                adLinearLayout.setVisibility(View.VISIBLE);
+                ShowAdvertising.showAdvertising(adViewRelativeLayout, prefUtils, context);
             }
 
             private void makeImageBlock(ItemPostModel.ImageBlock image, ImageView imageView, TextView sourceTextView, TextView sourceLinkTextView) {
