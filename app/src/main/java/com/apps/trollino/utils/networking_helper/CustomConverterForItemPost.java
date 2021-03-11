@@ -158,7 +158,7 @@ public class CustomConverterForItemPost implements JsonDeserializer<ItemPostMode
         } catch (Exception e) {
             ItemPostModel.ImageBlock imageBlock = new ItemPostModel.ImageBlock("", "", "");
 
-            ItemPostModel.EntityMediaBlock entity = new ItemPostModel.EntityMediaBlock(imageBlock,"", "", "", "", "");
+            ItemPostModel.EntityMediaBlock entity = new ItemPostModel.EntityMediaBlock(imageBlock,"", "", "" );
             ItemPostModel.MediaBlock mediaBlockNull = new ItemPostModel.MediaBlock(0, entity);
             mediaBlock.add(mediaBlockNull);
         }
@@ -176,14 +176,12 @@ public class CustomConverterForItemPost implements JsonDeserializer<ItemPostMode
             ItemPostModel.ImageBlock imageBlock = checkedImageBlock(mediaBlockItem);
 
             String titleMediaBlock = checkedString(mediaBlockItem.getEntity().getTitle());
-            String instagramMediaBlock = checkedString(mediaBlockItem.getEntity().getInstagram());
             String youtubeMediaBlock = checkedString(mediaBlockItem.getEntity().getYoutube());
-            String tiktokMediaBlock = checkedString(mediaBlockItem.getEntity().getTiktok());
             String descriprionMediaBlock = checkedString(mediaBlockItem.getEntity().getDesc());
 
             ItemPostModel.EntityMediaBlock entity = new ItemPostModel.EntityMediaBlock(
-                    imageBlock, titleMediaBlock, instagramMediaBlock, youtubeMediaBlock,
-                    tiktokMediaBlock, descriprionMediaBlock);
+                    imageBlock, titleMediaBlock, youtubeMediaBlock,
+                    descriprionMediaBlock);
             checkedMediaBlockList.add(new ItemPostModel.MediaBlock(idMediaBlock, entity));
         }
 
