@@ -6,6 +6,15 @@
     android:background="@color/colorDialogBackground"
     tools:context=".ui.main_group.YoutubeActivity">
 
+    <ImageButton
+        android:id="@+id/close_button_youtube"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="24dp"
+        android:background="@color/transparent"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_close_button"/>
+
     <com.google.android.youtube.player.YouTubePlayerView
         android:id="@+id/youtube_view"
         android:layout_width="match_parent"

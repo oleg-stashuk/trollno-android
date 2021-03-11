@@ -2,6 +2,7 @@ package com.apps.trollino.ui.main_group;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.apps.trollino.R;
@@ -25,8 +26,13 @@ public class YoutubeActivity extends YouTubeBaseActivity implements YouTubePlaye
 
         videoAddress = this.getIntent().getStringExtra(YOUTUBE_VIDEO_LINK);
 
-        youTubeView = (YouTubePlayerView) findViewById(R.id.youtube_view);
+        youTubeView = findViewById(R.id.youtube_view);
         youTubeView.initialize(Const.YOUTUBE_API_KEY, this);
+
+        ImageView closeImageView = findViewById(R.id.close_button_youtube);
+        closeImageView.setOnClickListener(v -> {
+            onBackPressed();
+        });
     }
 
     @Override
