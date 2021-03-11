@@ -29,8 +29,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
     private NestedScrollView nestedScrollView;
     private LinearLayout postLayout;
     private ShimmerFrameLayout shimmerLayout;
-    private LinearLayout swipedImageView;
-    private RelativeLayout advRelativeLayout;
+    private LinearLayout swipedLinearLayout;
     private TextView categoryTextView;
     private TextView titleTextView;
     private TextView countCommentTextView;
@@ -52,8 +51,8 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
         nestedScrollView = findViewById(R.id.include_post_screen);
         postLayout = findViewById(R.id.post_layout);
         shimmerLayout = findViewById(R.id.include_shimmer_post);
-        swipedImageView = findViewById(R.id.swiped_image_post_activity);
-        advRelativeLayout = findViewById(R.id.ad_mob_in_post);
+        swipedLinearLayout = findViewById(R.id.swiped_image_post_activity);
+        RelativeLayout advRelativeLayout = findViewById(R.id.ad_mob_in_post);
         partOfPostRecyclerView = findViewById(R.id.recycler_post_activity);
         categoryTextView = findViewById(R.id.category_post_activity);
         titleTextView = findViewById(R.id.title_post_activity);
@@ -98,8 +97,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
 
     // Действия при свайпах в разные стороны
     private void makeTouchListener() {
-        swipedImageView.setOnTouchListener(new OnSwipeTouchListener(this) {
-//        layout.setOnTouchListener(new OnSwipeTouchListener(this) {
+        swipedLinearLayout.setOnTouchListener(new OnSwipeTouchListener(this) {
             public void onSwipeRight() {
                 String nextPostId = prefUtils.getNextPostId();
                 if(!nextPostId.isEmpty() && nextPostId.length() > 0 && !nextPostId.equals("0")) {
