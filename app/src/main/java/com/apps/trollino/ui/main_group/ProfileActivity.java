@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -21,10 +20,10 @@ import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.OpenActivityHelper;
 import com.apps.trollino.utils.networking.authorisation.GetUserProfile;
 import com.apps.trollino.utils.networking.authorisation.PostLogout;
+import com.apps.trollino.utils.networking.user.UpdateUserProfileSettings;
 import com.apps.trollino.utils.networking.user_action.GetNewAnswersCount;
 import com.facebook.login.LoginManager;
 import com.facebook.shimmer.ShimmerFrameLayout;
-import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import static com.apps.trollino.utils.SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation;
 
@@ -103,14 +102,14 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         binding.markReadPostSwitch.setChecked(prefUtils.isShowReadPost());
         binding.markReadPostSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             prefUtils.saveIsShowReadPost(isChecked);
-            //@TODO add PUT to update this data in API
+            UpdateUserProfileSettings.updateShowReadPosts(this, prefUtils, isChecked);
         });
 
 
         binding.answerToCommentSwitch.setChecked(prefUtils.isSendPushAboutAnswerToComment());
         binding.answerToCommentSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             prefUtils.saveIsSendPushAboutAnswerToComment(isChecked);
-            //@TODO add PUT to update this data in API and add or removeFireBaseToken()
+            UpdateUserProfileSettings.updateSendPushNewAnswers(this, prefUtils, isChecked);
         });
     }
 
@@ -164,10 +163,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-//            case R.id.include_user_profile:
-//                startActivity(new Intent(this, EditUserProfileActivity.class));
-//                finish();
-//                break;
             case R.id.login_button_include_profile_for_guest:
                 startActivity(new Intent(this, LoginActivity.class));
                 finish();
