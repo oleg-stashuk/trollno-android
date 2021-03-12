@@ -20,10 +20,26 @@ public class CleanSavedDataHelper {
         prefUtils.saveCookie("");
         prefUtils.saveUserUid("");
         prefUtils.savePassword("");
-        prefUtils.saveIsUserAuthorization(false);
         prefUtils.saveLogoutToken("");
+        prefUtils.saveIsUserAuthorization(false);
+        prefUtils.saveIsShowReadPost(false);
+        prefUtils.saveIsSendPushAboutAnswerToComment(false);
 
         prefUtils.saveCommentIdForActivity("");
         prefUtils.saveCurrentActivity("");
+
+        prefUtils.saveBannerId("");
+        prefUtils.saveAdMobId("");
+        prefUtils.saveCountBetweenAds(0);
+
+        prefUtils.saveCommentIdForActivity("");
+        prefUtils.saveCommentIdToAnswer("");
+        prefUtils.saveAnswerToUserName("");
+
+        prefUtils.saveSelectedCategoryId("");
+        prefUtils.saveNextPostId("");
+        prefUtils.savePrevPostId("");
+        prefUtils.saveIsFavorite(false);
+        prefUtils.saveCurrentPostId("");
     }
 }
