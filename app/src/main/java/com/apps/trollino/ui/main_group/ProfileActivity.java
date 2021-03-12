@@ -77,11 +77,16 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
         makeIsUserAuthorizationCorrectData();
 
+        markReadPostSwitch.setChecked(prefUtils.isShowReadPost());
         markReadPostSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            showSnackBarMessage(findViewById(R.id.activity_profile), isChecked ? "Отмечать прочитанные посты" : "Не отмечать прочитанные посты");
+            prefUtils.saveIsShowReadPost(isChecked);
+            //@TODO add PUT to update this data in API
         });
+
+        answerToCommentSwitch.setChecked(prefUtils.isSendPushAboutAnswerToComment());
         answerToCommentSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            showSnackBarMessage(findViewById(R.id.activity_profile), isChecked ? "Получать уведомления" : "Не получать уведомления");
+            prefUtils.saveIsSendPushAboutAnswerToComment(isChecked);
+            //@TODO add PUT to update this data in API and add or removeFireBaseToken()
         });
     }
 
@@ -116,6 +121,11 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
+    private void removeFireBaseToken() {
+        MyFirebaseMessagingService fireBaseService = new MyFirebaseMessagingService();
+        fireBaseService.onDeletedFireBaseToken(this, prefUtils);
+    }
+
     @Override
     public void onBackPressed() {
         prefUtils.saveCurrentActivity("");
@@ -145,8 +155,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 new Thread(
                         () -> PostLogout.postLogout(this, prefUtils, bottomNavigation)
                 ).start();
-                MyFirebaseMessagingService fireBaseService = new MyFirebaseMessagingService();
-                fireBaseService.onDeletedFireBaseToken(this, prefUtils);
+                removeFireBaseToken();
                 break;
             case R.id.registration_button_include_profile_for_guest:
                 startActivity(new Intent(this, RegistrationActivity.class));
