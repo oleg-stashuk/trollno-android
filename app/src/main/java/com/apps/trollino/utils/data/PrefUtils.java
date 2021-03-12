@@ -16,9 +16,11 @@ public class PrefUtils {
     private final String TOKEN_KEY = "TOKEN_KEY";
     private final String LOGOUT_TOKEN_KEY = "LOGOUT_TOKEN_KEY";
     private final String USER_UID = "USER_UID";
-    private final String USER_AUTHORIZATION_KEY = "USER_AUTHORIZATION_KEY";
     private final String COOKIE_KEY = "COOKIE_KEY";
     private final String USER_PASSWORD = "USER_PASSWORD";
+    private final String USER_AUTHORIZATION_KEY = "USER_AUTHORIZATION_KEY";
+    private final String SWITCH_SHOW_READ_POST_KEY = "SWITCH_SHOW_READ_POST_KEY";
+    private final String SWITCH_PUSH_ANSWER_TO_COMMENT = "SWITCH_PUSH_ANSWER_TO_COMMENT";
 
     private final String COUNT_BETWEEN_ADS = "COUNT_BETWEEN_ADS";
     private final String AD_MOB_ID = "AD_MOB_ID";
@@ -148,6 +150,22 @@ public class PrefUtils {
 
     public void saveIsUserAuthorization(boolean isUserAuthorization) {
         getEditor().putBoolean(USER_AUTHORIZATION_KEY, isUserAuthorization).apply();
+    }
+
+    public boolean isShowReadPost() {
+        return sharedPreferences.getBoolean(SWITCH_SHOW_READ_POST_KEY, true);
+    }
+
+    public void saveIsShowReadPost(boolean showReadPost) {
+        getEditor().putBoolean(SWITCH_SHOW_READ_POST_KEY, showReadPost).apply();
+    }
+
+    public boolean isSendPushAboutAnswerToComment() {
+        return sharedPreferences.getBoolean(SWITCH_PUSH_ANSWER_TO_COMMENT, true);
+    }
+
+    public void saveIsSendPushAboutAnswerToComment(boolean sendPushAboutAnswerToComment) {
+        getEditor().putBoolean(SWITCH_PUSH_ANSWER_TO_COMMENT, sendPushAboutAnswerToComment).apply();
     }
 
     public int getCurrentPage() {
