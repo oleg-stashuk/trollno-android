@@ -17,6 +17,8 @@ import com.apps.trollino.data.model.login.ResponseLoginModel;
 import com.apps.trollino.data.model.profile.RequestBlockUserModel;
 import com.apps.trollino.data.model.profile.RequestPushNotificationToken;
 import com.apps.trollino.data.model.profile.RequestUpdateAvatarModel;
+import com.apps.trollino.data.model.profile.RequestUpdateSentPushNewAnswers;
+import com.apps.trollino.data.model.profile.RequestUpdateShowReadPosts;
 import com.apps.trollino.data.model.profile.RequestUpdateUserPassword;
 import com.apps.trollino.data.model.profile.UserProfileModel;
 import com.apps.trollino.data.model.single_post.ItemPostModel;
@@ -173,6 +175,14 @@ public class ApiService {
 
     public void updatePushNotificationToken(String cookie, String token, int userUid, RequestPushNotificationToken updatePushToken, Callback<Void> callback) {
         userApi.updatePushNotificationToken(cookie, token, userUid, updatePushToken).enqueue(callback);
+    }
+
+    public void updateSendPushNewAnswers(String cookie, String token, int userUid, RequestUpdateSentPushNewAnswers updatePushNewAnswer, Callback<Void> callback) {
+        userApi.updateSentPushNewAnswers(cookie, token, userUid, updatePushNewAnswer).enqueue(callback);
+    }
+
+    public void updateShowReadPosts(String cookie, String token, int userUid, RequestUpdateShowReadPosts updateShowReadPosts, Callback<Void> callback) {
+        userApi.updateShowReadPosts(cookie, token, userUid, updateShowReadPosts).enqueue(callback);
     }
 
 
