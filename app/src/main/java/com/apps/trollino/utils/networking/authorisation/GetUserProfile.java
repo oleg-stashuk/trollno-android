@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.apps.trollino.R;
 import com.apps.trollino.data.model.profile.UserProfileModel;
 import com.apps.trollino.data.networking.ApiService;
+import com.apps.trollino.service.MyFirebaseMessagingService;
 import com.apps.trollino.utils.SnackBarMessageCustom;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.dialogs.GuestDialog;
@@ -101,6 +102,45 @@ public class GetUserProfile {
                 } else {
                     SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, t.getLocalizedMessage());
                 }
+                Log.d(TAG_LOG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
+            }
+        });
+    }
+
+    public static void getUserProfileSettings(Context context, PrefUtils prefUtils) {
+        String cookie = prefUtils.getCookie();
+        String userUid = prefUtils.getUserUid();
+
+        ApiService.getInstance(context).getUserProfileData(cookie, userUid, new Callback<UserProfileModel>() {
+            @Override
+            public void onResponse(Call<UserProfileModel> call, Response<UserProfileModel> response) {
+                if(response.isSuccessful()) {
+                    UserProfileModel user = response.body();
+
+                    List<UserProfileModel.UserBooleanData> showReadPostList = user.getUserShowReadPostList();
+                    UserProfileModel.UserBooleanData dataReadPost = showReadPostList.get(0);
+                    prefUtils.saveIsShowReadPost(dataReadPost.isValue());
+                    Log.d(TAG_LOG, "!!!!!!!!!!!! dataReadPost " + dataReadPost);
+
+                    List<UserProfileModel.UserBooleanData> sendPushNewAnswerList = user.getUserSendPushNewAnswerList();
+                    UserProfileModel.UserBooleanData dataSendPush = sendPushNewAnswerList.get(0);
+                    prefUtils.saveIsSendPushAboutAnswerToComment(dataSendPush.isValue());
+                    Log.d(TAG_LOG, "!!!!!!!!!!!! dataSendPush " + dataSendPush);
+
+                    if(dataSendPush.isValue()) {
+                        // Get and save firebase token to Api in user account
+                        MyFirebaseMessagingService firebaseService = new MyFirebaseMessagingService();
+                        firebaseService.getFireBaseToken(context, prefUtils);
+                    } else {
+                        MyFirebaseMessagingService fireBaseService = new MyFirebaseMessagingService();
+                        fireBaseService.onDeletedFireBaseToken(context, prefUtils);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserProfileModel> call, Throwable t) {
+                t.getStackTrace();
                 Log.d(TAG_LOG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
             }
         });

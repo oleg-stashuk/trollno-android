@@ -38,13 +38,12 @@ public class PostUserLogin {
                     prefUtils.saveIsUserAuthorization(true);
                     prefUtils.savePassword(password);
 
+                    new Thread(() -> GetUserProfile.getUserProfileSettings(context, prefUtils)).start();
+
                     SnackBarMessageCustom.showSnackBar(view, context.getResources().getString(R.string.msg_login));
                     context.startActivity(OpenActivityHelper.openActivity(context,prefUtils));
                     ((Activity) context).finish();
 
-                    // Get and save firebase token to Api in user account
-                    MyFirebaseMessagingService firebaseService = new MyFirebaseMessagingService();
-                    firebaseService.getFireBaseToken(context, prefUtils);
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
                     String messageFromApi = context.getResources().getString(R.string.msg_wrong_login_or_password_from_api);

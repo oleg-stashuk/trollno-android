@@ -44,6 +44,8 @@ public class LoginWithFacebook {
                     prefUtils.saveIsUserAuthorization(true);
                     prefUtils.savePassword("");
 
+                    new Thread(() -> GetUserProfile.getUserProfileSettings(context, prefUtils)).start();
+
                     context.startActivity(OpenActivityHelper.openActivity(context,prefUtils));
                     ((Activity) context).finish();
                 } else {
