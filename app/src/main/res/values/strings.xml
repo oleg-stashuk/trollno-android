@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Тролльно</string>
     <string name="app_version">Версия 1.0.0</string>
-    <string name="copyright">© 2020 Тролльно Медиа.</string>
+    <string name="app_info">\u00A9 2016-2021 Тролльно. Все права защищены. Версия прилодения 1.0</string>
 
     <string name="edt_email">example@gmail.com</string>
     <string name="edt_password">Пароль</string>
@@ -22,7 +22,6 @@
     <string name="create_account">Создать аккаунт</string>
     <string name="dark_theme">Темная тема</string>
     <string name="rate_app">Оцените приложение</string>
-    <string name="app_info">О приложении</string>
     <string name="tape">Лента</string>
     <string name="favorites">Избранное</string>
     <string name="fresh_post">Свежее</string>
@@ -109,4 +108,6 @@
     <string name="msg_have_not_new_post">Новых постов пока нет</string>
     <string name="msg_wait_login_with_facebook">\"Подождите, осуществляется вход через Facebook  \"</string>
     <string name="advertising">РЕКЛАМА</string>
+    <string name="txt_switch_get_push_notification">Получать уведомления об ответах на Ваши комментарии</string>
+    <string name="txt_switch_mark_read_posts">Отмечать прочитанные посты</string>
 </resources>

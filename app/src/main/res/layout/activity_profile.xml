@@ -60,110 +60,71 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-    <!--            <LinearLayout-->
-    <!--                android:layout_width="match_parent"-->
-    <!--                android:layout_height="wrap_content"-->
-    <!--                android:gravity="center_vertical"-->
-    <!--                android:orientation="horizontal"-->
-    <!--                android:padding="15dp">-->
-
-    <!--                <ImageView-->
-    <!--                    android:layout_width="wrap_content"-->
-    <!--                    android:layout_height="wrap_content"-->
-    <!--                    android:background="@android:color/transparent"-->
-    <!--                    android:padding="5dp"-->
-    <!--                    android:src="@drawable/ic_dark_theme" />-->
-
-    <!--                <TextView-->
-    <!--                    android:layout_width="0dp"-->
-    <!--                    android:layout_height="wrap_content"-->
-    <!--                    android:layout_weight="1"-->
-    <!--                    android:layout_marginLeft="10dp"-->
-    <!--                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"-->
-    <!--                    android:textSize="16dp"-->
-    <!--                    android:text="@string/dark_theme"/>-->
-
-    <!--                <Switch-->
-    <!--                    android:id="@+id/switch_theme_profile"-->
-    <!--                    android:layout_width="wrap_content"-->
-    <!--                    android:layout_height="wrap_content"-->
-    <!--                    android:padding="10dp" />-->
-    <!--            </LinearLayout>-->
-
-                <LinearLayout
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/mark_read_post_switch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="15dp">
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="20dp"
+                    app:switchPadding="15dp"
+                    android:checked="true"
+                    android:textSize="16sp"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                    android:text="@string/txt_switch_mark_read_posts"/>
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:padding="5dp"
-                        android:src="@drawable/ic_rate_image" />
-
-                    <TextView
-                        android:id="@+id/rate_profile"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginLeft="10dp"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
-                        android:textSize="16dp"
-                        android:text="@string/rate_app"/>
-                </LinearLayout>
-
-                <LinearLayout
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/answer_to_comment_switch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="20dp"
+                    app:switchPadding="15dp"
+                    android:checked="true"
+                    android:textSize="16sp"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                    android:text="@string/txt_switch_get_push_notification"/>
+
+                <TextView
+                    android:id="@+id/rate_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="20dp"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                    android:textSize="16sp"
+                    android:text="@string/rate_app"/>
+
+                <TextView
+                    android:id="@+id/info_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="20dp"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="15dp">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:padding="5dp"
-                        android:src="@drawable/ic_info" />
-
-                    <TextView
-                        android:id="@+id/info_profile"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginLeft="10dp"
-                        android:gravity="center_vertical"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
-                        android:textSize="16dp"
-                        android:text="@string/app_info"/>
-                </LinearLayout>
+                    android:textSize="14sp"
+                    android:text="@string/app_info"/>
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:orientation="horizontal">
 
             <com.balysv.materialripple.MaterialRippleLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:mrl_rippleAlpha="0.2"
+                app:mrl_rippleColor="@color/colorRipple"
+                app:mrl_rippleHover="true"
+                app:mrl_rippleOverlay="true"
+                android:layout_margin="20dp">
+
+                <Button
+                    android:id="@+id/exit_button_profile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:mrl_rippleAlpha="0.2"
-                    app:mrl_rippleColor="@color/colorRipple"
-                    app:mrl_rippleHover="true"
-                    app:mrl_rippleOverlay="true">
-
-                    <Button
-                        android:id="@+id/exit_button_profile"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        style="@style/ButtonStyle"
-                        android:text="@string/exit" />
-                </com.balysv.materialripple.MaterialRippleLayout>
-            </LinearLayout>
+                    style="@style/ButtonStyle"
+                    android:text="@string/exit" />
+            </com.balysv.materialripple.MaterialRippleLayout>
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

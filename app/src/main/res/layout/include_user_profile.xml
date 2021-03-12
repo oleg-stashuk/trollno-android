@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:textSize="16dp"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/colorPrimary"
             android:text="@string/txt_edit_profile" />
     </LinearLayout>
 

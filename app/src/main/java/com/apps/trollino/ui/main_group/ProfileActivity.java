@@ -17,12 +17,12 @@ import com.apps.trollino.ui.authorisation.LoginActivity;
 import com.apps.trollino.ui.authorisation.RegistrationActivity;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.OpenActivityHelper;
-import com.apps.trollino.utils.dialogs.InformationAboutAppDialog;
 import com.apps.trollino.utils.networking.authorisation.GetUserProfile;
 import com.apps.trollino.utils.networking.authorisation.PostLogout;
 import com.apps.trollino.utils.networking.user_action.GetNewAnswersCount;
 import com.facebook.login.LoginManager;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import static com.apps.trollino.utils.SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation;
 
@@ -31,18 +31,13 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private ShimmerFrameLayout userIncludeShimmer;
     private LinearLayout guestIncludeLinearLayout;
     private LinearLayout bottomNavigation;
-
     private ImageView userImageView;
     private TextView emailTextView;
     private TextView nameTextView;
-//    private Switch darkThemeSwitch;
     private Button exitButton;
-    private TextView profileBottomNavigationTextView;
     private ImageView indicatorImageView;
 
-    private boolean isUserAuthorization; // Пользователь авторизирован или нет
     private boolean doubleBackToExitPressedOnce = false; // для обработки нажатия onBackPressed
-
 
     @Override
     protected int getLayoutID() {
@@ -58,17 +53,18 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         userImageView = findViewById(R.id.image_account_profile_include);
         nameTextView = findViewById(R.id.name_account_profile_include);
         emailTextView = findViewById(R.id.email_account_profile_include);
-//        darkThemeSwitch = findViewById(R.id.switch_theme_profile);
         exitButton = findViewById(R.id.exit_button_profile);
-        profileBottomNavigationTextView = findViewById(R.id.profile_button);
+        TextView profileBottomNavigationTextView = findViewById(R.id.profile_button);
         indicatorImageView = findViewById(R.id.indicator_image);
+
+        SwitchMaterial markReadPostSwitch = findViewById(R.id.mark_read_post_switch);
+        SwitchMaterial answerToCommentSwitch = findViewById(R.id.answer_to_comment_switch);
 
         findViewById(R.id.login_button_include_profile_for_guest).setOnClickListener(this);
         findViewById(R.id.registration_button_include_profile_for_guest).setOnClickListener(this);
         exitButton.setOnClickListener(this);
         userIncludeLinearLayout.setOnClickListener(this);
         findViewById(R.id.rate_profile).setOnClickListener(this);
-        findViewById(R.id.info_profile).setOnClickListener(this);
         findViewById(R.id.tape_button).setOnClickListener(this);
         findViewById(R.id.activity_button).setOnClickListener(this);
         findViewById(R.id.favorites_button).setOnClickListener(this);
@@ -77,18 +73,20 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         profileBottomNavigationTextView.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_profile_green, 0, 0);
         profileBottomNavigationTextView.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
 
-        isUserAuthorization = prefUtils.getIsUserAuthorization();
-        if(isUserAuthorization) {
-            new Thread(() -> GetNewAnswersCount.getNewAnswersCount(this, prefUtils, indicatorImageView)).start();
-        }
         prefUtils.saveCurrentActivity(OpenActivityHelper.PROFILE_ACTIVITY);
 
-//        makeDarkThemeOnCheckedListener();
         makeIsUserAuthorizationCorrectData();
+
+        markReadPostSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            showSnackBarMessage(findViewById(R.id.activity_profile), isChecked ? "Отмечать прочитанные посты" : "Не отмечать прочитанные посты");
+        });
+        answerToCommentSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            showSnackBarMessage(findViewById(R.id.activity_profile), isChecked ? "Получать уведомления" : "Не получать уведомления");
+        });
     }
 
     private void makeIsUserAuthorizationCorrectData() {
-        if(isUserAuthorization) {
+        if(prefUtils.getIsUserAuthorization()) {
             userIncludeLinearLayout.setVisibility(View.GONE);
             userIncludeShimmer.setVisibility(View.VISIBLE);
             guestIncludeLinearLayout.setVisibility(View.GONE);
@@ -98,6 +96,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 GetUserProfile.getUserProfile(this, prefUtils, userImageView, nameTextView, emailTextView,
                         bottomNavigation, userIncludeLinearLayout, userIncludeShimmer);
             }).start();
+
+            new Thread(() -> GetNewAnswersCount.getNewAnswersCount(this, prefUtils, indicatorImageView)).start();
         } else {
             userIncludeLinearLayout.setVisibility(View.GONE);
             userIncludeShimmer.setVisibility(View.GONE);
@@ -106,18 +106,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
-    // setOnCheckedChangeListener for darkThemeSwitch. If isChecked = true -> dark theme on
-//    private void makeDarkThemeOnCheckedListener() {
-//        darkThemeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                showSnackBarMessage(findViewById(R.id.activity_profile), isChecked ? "Dark theme" : "Light theme");
-//            }
-//        });
-//    }
-
     private void openPlayMarketForRateTheApp() {
-        final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+        final String appPackageName = getPackageName();
         try {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
         } catch (android.content.ActivityNotFoundException exc) {
@@ -136,12 +126,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
         this.doubleBackToExitPressedOnce = true;
         showSnackBarOnTheTopByBottomNavigation(findViewById(R.id.activity_profile), getString(R.string.press_twice_to_exit));
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce=false;
-            }
-        }, 2000);
+        new Handler().postDelayed(() -> doubleBackToExitPressedOnce=false, 2000);
     }
 
     @Override
@@ -169,9 +154,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.rate_profile:
                 openPlayMarketForRateTheApp();
-                break;
-            case R.id.info_profile:
-                InformationAboutAppDialog.aboutDialog(this);
                 break;
             case R.id.tape_button: // "Перейти на экран Лента"
                 startActivity(new Intent(this, TapeActivity.class));
