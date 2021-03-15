@@ -2,7 +2,6 @@ package com.apps.trollino.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -76,7 +75,7 @@ public class CommentToPostParentAdapter extends BaseRecyclerAdapter<CommentModel
                 showMoreTextView.setOnClickListener(v -> {
                     // Загрузить дочерние комментарии
                     GetCommentListByComment.getCommentListByComment(view.getContext(), prefUtils, item.getCommentId(),
-                            childCommentRecyclerView, showMoreTextView, commentEditText, view);
+                            childCommentRecyclerView, commentEditText, view);
 
                     showMoreTextView.setVisibility(View.GONE);
                     hideCommentTextView.setVisibility(View.VISIBLE);

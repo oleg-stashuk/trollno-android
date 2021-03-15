@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,7 +18,6 @@ import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -33,7 +31,7 @@ public class GetCommentListByComment {
     private static PrefUtils prefUt;
 
     public static void getCommentListByComment(Context context, PrefUtils prefUtils, String parentId,
-                                               RecyclerView childCommentRecyclerView, TextView showMoreTextView,
+                                               RecyclerView childCommentRecyclerView,
                                                EditText commentEditText, View view) {
         cont = context;
         prefUt = prefUtils;
@@ -43,7 +41,8 @@ public class GetCommentListByComment {
             @Override
             public void onResponse(Call<CommentModel> call, Response<CommentModel> response) {
                 if (response.isSuccessful()) {
-                    checkAnswerToThisComment(response.body().getCommentsList(), childCommentRecyclerView, showMoreTextView, commentEditText);
+                    makeChildCommentRecyclerView(childCommentRecyclerView, response.body().getCommentsList(), commentEditText);
+                    childCommentRecyclerView.setVisibility(View.VISIBLE);
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
                     SnackBarMessageCustom.showSnackBar(view, errorMessage);
@@ -70,34 +69,6 @@ public class GetCommentListByComment {
             }
 
         });
-    }
-
-    private static void checkAnswerToThisComment(List<CommentModel.Comments> commentsListToPost, final RecyclerView childCommentRecyclerView, final TextView showMoreTextView, EditText commentEditText) {
-        if(commentsListToPost.size() > 0)  {
-            childCommentRecyclerView.setVisibility(View.VISIBLE);
-
-            // Если в дочернем списке ответов к коментарию больше 3 элементов, отображать кнопку "Показать все ответы"
-            if(commentsListToPost.size() > 3) {
-                showMoreTextView.setVisibility(View.VISIBLE);
-
-                final List<CommentModel.Comments> commentsListSize2 = new ArrayList<>();
-                commentsListSize2.add(commentsListToPost.get(0));
-                commentsListSize2.add(commentsListToPost.get(1));
-                makeChildCommentRecyclerView(childCommentRecyclerView, commentsListSize2, commentEditText);
-
-                showMoreTextView.setOnClickListener(v -> {
-                    makeChildCommentRecyclerView(childCommentRecyclerView, commentsListToPost, commentEditText);
-                    showMoreTextView.setVisibility(View.GONE);
-                });
-            } else {
-                makeChildCommentRecyclerView(childCommentRecyclerView, commentsListToPost, commentEditText);
-                showMoreTextView.setVisibility(View.GONE);
-            }
-
-        } else {
-            childCommentRecyclerView.setVisibility(View.GONE);
-            showMoreTextView.setVisibility(View.GONE);
-        }
     }
 
     // Создание childCommentRecyclerView
