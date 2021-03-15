@@ -15,7 +15,7 @@
     </style>
 
     <style name="PressedTextStyle" parent="@android:style/TextAppearance">
-        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
     <style name="BoldHeaderTextStyle_h1" parent="@android:style/TextAppearance">
