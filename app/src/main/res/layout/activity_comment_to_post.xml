@@ -86,22 +86,30 @@
                 android:layout_below="@+id/comments_to_post_shimmer"
                 android:text="@string/post_without_comment"/>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_comment_comment_to_post"
+            <com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
+                android:id="@+id/refresh_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:overScrollMode="never"
-                android:layout_below="@+id/comments_to_post_shimmer"/>
+                android:layout_height="wrap_content"
+                app:srl_direction="both"
+                android:layout_below="@+id/comments_to_post_shimmer">
 
-            <ProgressBar
-                android:id="@+id/progress_bar_comment_to_post"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:visibility="gone"
-                android:progressDrawable="@color/colorPrimary"
-                android:background="@drawable/progress_bar_circle_shape" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_comment_comment_to_post"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:overScrollMode="never"/>
+
+            </com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout>
+
+<!--            <ProgressBar-->
+<!--                android:id="@+id/progress_bar_comment_to_post"-->
+<!--                android:layout_width="50dp"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:layout_alignParentBottom="true"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:visibility="gone"-->
+<!--                android:progressDrawable="@color/colorPrimary"-->
+<!--                android:background="@drawable/progress_bar_circle_shape" />-->
 
         </RelativeLayout>
     </LinearLayout>
@@ -159,7 +167,6 @@
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_send_message_button"
                     android:background="@android:color/transparent"/>
-
             </com.balysv.materialripple.MaterialRippleLayout>
 
 
