@@ -4,13 +4,13 @@
     android:id="@+id/splash_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorLightTheme"
+    android:background="@color/white"
     android:gravity="center"
     tools:context=".ui.SplashActivity">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/icon_for_splash"/>
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/ic_troll_logo_splash"/>
 
 </LinearLayout>
