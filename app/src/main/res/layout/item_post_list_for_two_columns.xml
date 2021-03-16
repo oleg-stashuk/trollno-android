@@ -49,15 +49,18 @@
             android:id="@+id/discuss_image_post_two_columns"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_discuss_arrow"/>
+            android:src="@drawable/ic_trend_icon"/>
 
         <TextView
             android:id="@+id/discuss_text_post_two_columns"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
             android:textColor="@color/colorOrange"
             android:textStyle="bold"
+            android:textAllCaps="true"
+            android:textSize="14sp"
             android:text="@string/discuss_post" />
 
     </LinearLayout>
