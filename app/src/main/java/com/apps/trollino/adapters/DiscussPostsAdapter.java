@@ -48,7 +48,7 @@ public class DiscussPostsAdapter extends BaseRecyclerAdapter<PostsModel.PostDeta
                 TextView commentCountTextView = itemView.findViewById(R.id.comment_count_discuss_post);
                 TextView titleVideoTextView = itemView.findViewById(R.id.title_discuss_post);
 
-                if(!prefUtils.getIsUserAuthorization() || (item.getRead() == 0 && prefUtils.getIsUserAuthorization())) {
+                if(!prefUtils.getIsUserAuthorization() || (item.getRead() == 0 && prefUtils.getIsUserAuthorization()) || !prefUtils.isShowReadPost()) {
                     linearLayout.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.white));
                     titleVideoTextView.setTextColor(ContextCompat.getColor(view.getContext(), R.color.colorText));
                     frameLayout.setVisibility(View.GONE);
