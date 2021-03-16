@@ -17,8 +17,6 @@ import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.data.DataListFromApi;
 import com.apps.trollino.utils.data.PostListByCategoryFromApi;
 import com.apps.trollino.utils.networking.user_action.GetNewAnswersCount;
-import com.apps.trollino.utils.recycler.MakeGridRecyclerViewForTapeActivity;
-import com.apps.trollino.utils.recycler.MakeLinerRecyclerViewForTapeActivity;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.tabs.TabLayout;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
@@ -27,6 +25,9 @@ import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutD
 import java.util.List;
 
 import static com.apps.trollino.utils.SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation;
+import static com.apps.trollino.utils.recycler.MakeGridRecyclerViewForTapeActivity.makeNewPostsRecyclerView;
+import static com.apps.trollino.utils.recycler.MakeLinerRecyclerViewForTapeActivity.makeLinerRecyclerViewForTapeActivity;
+import static com.apps.trollino.utils.recycler.MakePostsByCategoryGridRecyclerViewForTapeActivity.makePostsByCategoryGridRecyclerViewForTapeActivity;
 
 public class TapeActivity extends BaseActivity implements View.OnClickListener{
     private RecyclerView newsRecyclerView;
@@ -128,20 +129,19 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
 
     private void updateDataFromApiFresh(ShimmerFrameLayout shimmerToApi, SwipyRefreshLayout refreshLayoutToApi, boolean isNewData, boolean IsUpdateData) {
         showCorrectShimmer(false, IsUpdateData);
-        MakeGridRecyclerViewForTapeActivity
-                .makeNewPostsRecyclerView(this, prefUtils, newsRecyclerView, shimmerToApi, refreshLayoutToApi, isNewData, bottomNavigation);
+        makeNewPostsRecyclerView(this, prefUtils, newsRecyclerView, shimmerToApi, refreshLayoutToApi, isNewData, bottomNavigation);
     }
 
     private void updateDataFromApiDiscuss(ShimmerFrameLayout shimmerToApi, SwipyRefreshLayout refreshLayoutToApi, boolean isNewData, boolean IsUpdateData) {
         showCorrectShimmer(true, IsUpdateData);
-        MakeLinerRecyclerViewForTapeActivity.makeLinerRecyclerViewForTapeActivity(this, prefUtils, newsRecyclerView,
+        makeLinerRecyclerViewForTapeActivity(this, prefUtils, newsRecyclerView,
                 shimmerToApi, refreshLayoutToApi, bottomNavigation, isNewData);
     }
 
     private void updateDataFromApiOther(ShimmerFrameLayout shimmerToApi, SwipyRefreshLayout refreshLayoutToApi, boolean isNewData, boolean IsUpdateData) {
         showCorrectShimmer(false, IsUpdateData);
-//                Log.d("OkHttp", "!!!!!!!!!!!!!!!!! currentListSize in Activity" + currentListSize);
-//        makePostsByCategoryGridRecyclerViewForTapeActivity(TapeActivity.this, prefUtils, newsRecyclerView, twoColumnShimmer, progressBarBottom, bottomNavigation);
+        makePostsByCategoryGridRecyclerViewForTapeActivity(this, prefUtils, newsRecyclerView,
+                        shimmerToApi, refreshLayoutToApi, bottomNavigation, isNewData);
     }
 
     private void updateDataBySwipe() {
@@ -201,146 +201,3 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
         }
     }
 }
-
-/*
-public class TapeActivity extends BaseActivity implements View.OnClickListener{
-    private RecyclerView newsRecyclerView;
-    private TabLayout tabs;
-    private ProgressBar progressBarBottom;
-    private ImageView indicatorImageView;
-
-    private LinearLayout bottomNavigation;
-    private ShimmerFrameLayout twoColumnShimmer;
-    private ShimmerFrameLayout oneColumnShimmer;
-    private boolean doubleBackToExitPressedOnce = false;  // для обработки нажатия onBackPressed
-
-    @Override
-    protected int getLayoutID() {
-        return R.layout.activity_tape;
-    }
-
-    @Override
-    protected void initView() {
-        bottomNavigation = findViewById(R.id.bottom_navigation_tape);
-        twoColumnShimmer = findViewById(R.id.include_shimmer_post_two_column);
-        oneColumnShimmer = findViewById(R.id.include_shimmer_post_one_column);
-
-        tabs = findViewById(R.id.tab_layout_tape);
-        newsRecyclerView = findViewById(R.id.news_recycler_tape);
-        progressBarBottom = findViewById(R.id.progress_bar_bottom_tape);
-        TextView tapeBottomNavigationTextView = findViewById(R.id.tape_button);
-        indicatorImageView = findViewById(R.id.indicator_image);
-        ImageButton searchImageButton = findViewById(R.id.search_button_tape);
-        searchImageButton.setOnClickListener(this);
-        findViewById(R.id.activity_button).setOnClickListener(this);
-        findViewById(R.id.favorites_button).setOnClickListener(this);
-        findViewById(R.id.profile_button).setOnClickListener(this);
-
-        createTabLayout();
-        tapeBottomNavigationTextView.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_tape_green, 0, 0);
-        tapeBottomNavigationTextView.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        updateNewAnswersToComment();
-
-        prefUtils.saveCurrentActivity("");
-        makeTabSelectedListener();
-        showCorrectShimmer(false);
-        MakeGridRecyclerViewForTapeActivity.makeNewPostsRecyclerView(this, prefUtils, newsRecyclerView, progressBarBottom, twoColumnShimmer, bottomNavigation);
-    }
-
-    // Request to Api for authorization user is he have not read answers to his comment
-    private void updateNewAnswersToComment() {
-        if(prefUtils.getIsUserAuthorization()) {
-            new Thread(() -> GetNewAnswersCount.getNewAnswersCount(this, prefUtils, indicatorImageView)).start();
-        }
-    }
-
-    // Add category list from Api to TabLayout
-    private void createTabLayout() {
-        List<CategoryModel> categoryList = prefUtils.getCategoryList();
-        tabs.addTab(tabs.newTab().setText(getResources().getString(R.string.fresh_txt)));
-        tabs.addTab(tabs.newTab().setText(getResources().getString(R.string.discuss_post)));
-        for (CategoryModel category : categoryList) {
-            tabs.addTab(tabs.newTab().setText(category.getNameCategory()).setTag(category.getIdCategory()));
-        }
-    }
-
-    // Обработка нажатия на элементы горизонтального ScrollBar
-    private void makeTabSelectedListener() {
-        tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                updateNewAnswersToComment();
-                if(tabs.getSelectedTabPosition() == 0) {
-                    showCorrectShimmer(false);
-                    MakeGridRecyclerViewForTapeActivity.makeNewPostsRecyclerView(TapeActivity.this, prefUtils, newsRecyclerView, progressBarBottom, twoColumnShimmer, bottomNavigation);
-                } else if(tabs.getSelectedTabPosition() == 1) {
-                    showCorrectShimmer(true);
-                    MakeLinerRecyclerViewForTapeActivity.makeLinerRecyclerViewForTapeActivity(TapeActivity.this, prefUtils, newsRecyclerView, oneColumnShimmer, progressBarBottom, bottomNavigation);
-                } else {
-                    showCorrectShimmer(false);
-                    prefUtils.saveSelectedCategoryId(tab.getTag().toString());
-                    makePostsByCategoryGridRecyclerViewForTapeActivity(TapeActivity.this, prefUtils, newsRecyclerView, twoColumnShimmer, progressBarBottom, bottomNavigation);
-                }
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {}
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {}
-        });
-    }
-
-    private void showCorrectShimmer(boolean isOneColumn) {
-        progressBarBottom.setVisibility(View.GONE);
-        twoColumnShimmer.setVisibility(isOneColumn ? View.GONE : View.VISIBLE);
-        oneColumnShimmer.setVisibility(isOneColumn ? View.VISIBLE : View.GONE);
-
-        removeAllDataFromPostList();
-    }
-
-    @Override
-    public void onBackPressed() {
-        removeAllDataFromPostList();
-        if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
-            return;
-        }
-
-        this.doubleBackToExitPressedOnce = true;
-        showSnackBarOnTheTopByBottomNavigation(bottomNavigation, getString(R.string.press_twice_to_exit));
-        new Handler().postDelayed(() -> doubleBackToExitPressedOnce=false, 2000);
-    }
-
-    private void removeAllDataFromPostList() {
-        DataListFromApi.getInstance().removeAllDataFromList(prefUtils);
-        PostListByCategoryFromApi.getInstance().removeAllDataFromList(prefUtils);
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch(view.getId()) {
-            case R.id.search_button_tape: // "Перейти на экран Поиска"
-                removeAllDataFromPostList();
-                startActivity(new Intent(this, SearchActivity.class));
-                finish();
-                break;
-            case R.id.activity_button: // "Перейти на экран Активность"
-                removeAllDataFromPostList();
-                startActivity(new Intent(this, ActivityInPostActivity.class));
-                finish();
-                break;
-            case R.id.favorites_button: // "Перейти на экран Избранное"
-                removeAllDataFromPostList();
-                startActivity(new Intent(this, FavoriteActivity.class));
-                finish();
-                break;
-            case R.id.profile_button: // "Перейти на экран Профиль"
-                removeAllDataFromPostList();
-                startActivity(new Intent(this, ProfileActivity.class));
-                finish();
-                break;
-        }
-    }
-}
- */
