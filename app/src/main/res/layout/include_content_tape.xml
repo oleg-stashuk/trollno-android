@@ -22,23 +22,31 @@
         <include
             layout="@layout/include_shimmer_post_one_column"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/news_recycler_tape"
-            android:overScrollMode="never"
+        <com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
+            android:id="@+id/refresh_layout_tape"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            app:srl_direction="both">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/news_recycler_tape"
+                android:overScrollMode="never"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout>
 
     </LinearLayout>
 
-    <ProgressBar
-        android:id="@+id/progress_bar_bottom_tape"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:visibility="gone"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="120dp"
-        android:progressDrawable="@color/colorPrimary"
-        android:background="@drawable/progress_bar_circle_shape" />
+<!--    <ProgressBar-->
+<!--        android:id="@+id/progress_bar_bottom_tape"-->
+<!--        android:layout_width="50dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:visibility="gone"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_marginBottom="120dp"-->
+<!--        android:progressDrawable="@color/colorPrimary"-->
+<!--        android:background="@drawable/progress_bar_circle_shape" />-->
 
 </RelativeLayout>
