@@ -38,14 +38,8 @@ public class MakeRecyclerViewForComment {
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
 
-        if(CommentListFromApi.getInstance().getCommentList().isEmpty()) {
-            infiniteScroll(recyclerView, shimmer, refreshLayout, adapter, postId, noCommentTextView,
-                    countTextView, sortBy, isNewData);
-        } else if(refreshLayout != null) {
-            infiniteScroll(recyclerView, shimmer, refreshLayout, adapter, postId, noCommentTextView,
-                    countTextView, sortBy, isNewData);
-        }
-
+        infiniteScroll(recyclerView, shimmer, refreshLayout, adapter, postId, noCommentTextView,
+                countTextView, sortBy, isNewData);
     }
 
     // Загрузить/обновить данные с API
