@@ -70,9 +70,7 @@ public class GetCommentListByPost {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
                     SnackBarMessageCustom.showSnackBar(recycler, errorMessage);
                 }
-                if(refreshLayout != null) {
-                    refreshLayout.setRefreshing(false);
-                }
+                hideUpdateProgressView(shimmer, refreshLayout);
             }
 
             @Override
@@ -91,11 +89,21 @@ public class GetCommentListByPost {
                 } else {
                     SnackBarMessageCustom.showSnackBar(recycler, t.getLocalizedMessage());
                 }
+                hideUpdateProgressView(shimmer, refreshLayout);
                 Log.d(TAG_LOG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
             }
 
         });
 
+    }
+
+    private static void hideUpdateProgressView(ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout) {
+        if(shimmer != null) {
+            shimmer.setVisibility(View.GONE);
+        }
+        if(refreshLayout != null) {
+            refreshLayout.setRefreshing(false);
+        }
     }
 
     // Если для Поста нет комментариев, то выводится на экран сообщение что комментариев нет

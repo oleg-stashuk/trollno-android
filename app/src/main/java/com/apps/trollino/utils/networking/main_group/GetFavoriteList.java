@@ -79,7 +79,7 @@ public class GetFavoriteList {
                     SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(recycler, errorMessage);
                 }
 
-                hideRefreshLayout(shimmer, refreshLayout);
+                hideUpdateProgressView(shimmer, refreshLayout);
             }
 
             @Override
@@ -100,12 +100,12 @@ public class GetFavoriteList {
                     SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, t.getLocalizedMessage());
                 }
                 Log.d(TAG_LOG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
-                hideRefreshLayout(shimmer, refreshLayout);
+                hideUpdateProgressView(shimmer, refreshLayout);
             }
         });
     }
 
-    private static void hideRefreshLayout(ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout) {
+    private static void hideUpdateProgressView(ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout) {
         if(shimmer != null) {
             shimmer.setVisibility(View.GONE);
         }
