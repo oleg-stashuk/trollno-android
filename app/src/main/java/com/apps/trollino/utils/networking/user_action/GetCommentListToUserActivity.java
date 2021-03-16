@@ -3,7 +3,6 @@ package com.apps.trollino.utils.networking.user_action;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +19,7 @@ import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
 import com.apps.trollino.utils.networking_helper.ShimmerHide;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.snackbar.Snackbar;
+import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 
 import java.util.List;
 
@@ -36,8 +36,8 @@ public class GetCommentListToUserActivity {
     private static Context cont;
 
     public static void getCommentListToUserActivity(Context context, PrefUtils prefUtils, UserCommentAdapter adapter,
-                                                    RecyclerView recycler, ShimmerFrameLayout shimmer, boolean isGetNewList,
-                                                    ProgressBar progressBar, View includeNoDataForUser,
+                                                    RecyclerView recycler, ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout,
+                                                    boolean isGetNewList, View includeNoDataForUser,
                                                     TextView noDataTextView,  View bottomNavigation) {
         String cookie = prefUtils.getCookie();
         String userId = prefUtils.getUserUid();
@@ -68,8 +68,8 @@ public class GetCommentListToUserActivity {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
                     SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, errorMessage);
                 }
-                ShimmerHide.shimmerHide(recycler, shimmer);
-                progressBar.setVisibility(View.GONE);
+
+                hideUpdateDataProgressView(recycler, shimmer, refreshLayout);
             }
 
             @Override
@@ -89,11 +89,19 @@ public class GetCommentListToUserActivity {
                 } else {
                     SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(recycler, t.getLocalizedMessage());
                 }
-                progressBar.setVisibility(View.GONE);
-                ShimmerHide.shimmerHide(recycler, shimmer);
+                hideUpdateDataProgressView(recycler, shimmer, refreshLayout);
                 Log.d(TAG_LOG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
             }
         });
+    }
+
+    private static void hideUpdateDataProgressView(RecyclerView recycler, ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout) {
+        if(shimmer != null) {
+            ShimmerHide.shimmerHide(recycler, shimmer);
+        }
+        if (refreshLayout != null) {
+            refreshLayout.setRefreshing(false);
+        }
     }
 
     private static void saveCurrentPage(PrefUtils prefUtils) {

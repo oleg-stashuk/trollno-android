@@ -5,7 +5,6 @@
  import android.view.View;
  import android.widget.ImageView;
  import android.widget.LinearLayout;
- import android.widget.ProgressBar;
  import android.widget.TextView;
 
  import androidx.appcompat.app.ActionBar;
@@ -22,19 +21,21 @@
  import com.apps.trollino.utils.networking.user_action.GetNewAnswersCount;
  import com.apps.trollino.utils.recycler.MakeRecyclerViewForCommentToUserActivity;
  import com.facebook.shimmer.ShimmerFrameLayout;
+ import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
+ import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 
  import static com.apps.trollino.utils.SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation;
 
  public class ActivityInPostActivity extends BaseActivity implements View.OnClickListener{
     private RecyclerView postWithActivityRecyclerView;
     private ShimmerFrameLayout shimmer;
+    private SwipyRefreshLayout refreshLayout;
      private LinearLayout bottomNavigation;
 
     private View includeNoDataForUser;
     private TextView noDataTextView;
     private View userAuthorizationView;
      private ImageView indicatorImageView;
-    private ProgressBar progressBar;
     private boolean isUserAuthorization; // Пользователь авторизирован или нет
     private boolean doubleBackToExitPressedOnce = false;  // для обработки нажатия onBackPressed
 
@@ -46,6 +47,7 @@
     @Override
     protected void initView() {
         shimmer = findViewById(R.id.include_user_comments_shimmer);
+        refreshLayout = findViewById(R.id.refresh_layout_activity_in_post);
         bottomNavigation = findViewById(R.id.bottom_navigation_activity);
         userAuthorizationView = findViewById(R.id.include_user_not_authorization_activity_in_post);
         includeNoDataForUser = findViewById(R.id.include_no_data_for_user_activity_in_post);
@@ -53,7 +55,6 @@
         postWithActivityRecyclerView = findViewById(R.id.recycler_activity_in_post);
         TextView activityBottomNavigationTextView = findViewById(R.id.activity_button);
         indicatorImageView = findViewById(R.id.indicator_image);
-        progressBar = findViewById(R.id.progress_bar_activity_in_post);
         findViewById(R.id.tape_button).setOnClickListener(this);
         findViewById(R.id.favorites_button).setOnClickListener(this);
         findViewById(R.id.profile_button).setOnClickListener(this);
@@ -73,6 +74,7 @@
 
         CommentListToUserActivityFromApi.getInstance().removeAllDataFromList(prefUtils); // при загрузке активити почистить сохраненные данные для инфинитискрол и текущую страницу для загрузки с АПИ
         checkUserAuthorization(); // проверить пользователь авторизирован или нет, если да - то проверить есть посты добаленные в избранное или нет
+        updateCommentBySwipe();
         initToolbar();
     }
 
@@ -81,14 +83,27 @@
             userAuthorizationView.setVisibility(View.GONE);
             postWithActivityRecyclerView.setVisibility(View.VISIBLE);
 
-            MakeRecyclerViewForCommentToUserActivity
-                    .makeRecyclerViewForCommentToUserActivity(this, prefUtils, progressBar, postWithActivityRecyclerView,
-                            shimmer, includeNoDataForUser , noDataTextView, bottomNavigation);
+            getDataFromApi(shimmer, null, true);
         } else {
             userAuthorizationView.setVisibility(View.VISIBLE);
             postWithActivityRecyclerView.setVisibility(View.GONE);
         }
     }
+
+     private void updateCommentBySwipe() {
+         refreshLayout.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorPrimary));
+         refreshLayout.setOnRefreshListener(direction -> {
+             getDataFromApi(null, refreshLayout, (direction == SwipyRefreshLayoutDirection.TOP));
+         });
+     }
+
+    private void getDataFromApi(ShimmerFrameLayout shimmerToApi, SwipyRefreshLayout refreshLayoutToApi, boolean isNewData) {
+        MakeRecyclerViewForCommentToUserActivity
+                .makeRecyclerViewForCommentToUserActivity(this, prefUtils, postWithActivityRecyclerView,
+                        shimmerToApi, refreshLayoutToApi, includeNoDataForUser , noDataTextView, bottomNavigation, isNewData);
+    }
+
+
 
     // Иницировать Toolbar
     private void initToolbar() {

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,19 +13,19 @@ import com.apps.trollino.adapters.UserCommentAdapter;
 import com.apps.trollino.data.model.comment.CommentModel;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.ui.main_group.CommentToPostActivity;
-import com.apps.trollino.utils.RecyclerScrollListener;
 import com.apps.trollino.utils.data.CommentListToUserActivityFromApi;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.networking.user_action.GetCommentListToUserActivity;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 
-public class MakeRecyclerViewForCommentToUserActivity extends RecyclerView.OnScrollListener{
+public class MakeRecyclerViewForCommentToUserActivity{
     private static Context cont;
     private static PrefUtils prefUt;
 
-    public static void makeRecyclerViewForCommentToUserActivity(Context context, PrefUtils prefUtils, ProgressBar progressBar,
-                                                                RecyclerView recyclerView, ShimmerFrameLayout shimmer,
-                                                                View includeNoDataForUser, TextView noDataTextView, View bottomNavigation) {
+    public static void makeRecyclerViewForCommentToUserActivity(Context context, PrefUtils prefUtils, RecyclerView recyclerView,
+                                                                ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout,
+                                                                View includeNoDataForUser, TextView noDataTextView, View bottomNavigation, boolean isNewData) {
         cont = context;
         prefUt = prefUtils;
 
@@ -37,21 +36,8 @@ public class MakeRecyclerViewForCommentToUserActivity extends RecyclerView.OnScr
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
-        if(CommentListToUserActivityFromApi.getInstance().getCommentList().isEmpty()) {
-            infiniteScroll(progressBar, recyclerView, shimmer, adapter, bottomNavigation, includeNoDataForUser, noDataTextView, true);
-        }
 
-        recyclerView.addOnScrollListener(new RecyclerScrollListener() {
-            @Override
-            public void onScrolledToEnd() {
-                infiniteScroll(progressBar, recyclerView, shimmer, adapter, bottomNavigation, includeNoDataForUser, noDataTextView, false);
-            }
-
-            @Override
-            public void onScrolledToTop() {
-                infiniteScroll(progressBar, recyclerView, shimmer, adapter, bottomNavigation, includeNoDataForUser, noDataTextView, true);
-            }
-        });
+        infiniteScroll(recyclerView, shimmer, refreshLayout, adapter, bottomNavigation, includeNoDataForUser, noDataTextView, isNewData);
     }
 
     // Обработка нажатия на элемент списка
@@ -64,24 +50,23 @@ public class MakeRecyclerViewForCommentToUserActivity extends RecyclerView.OnScr
 
 
     // Загрузить/обновить данные с API
-    private static void updateDataFromApi(ProgressBar progressBar,
-                                          RecyclerView recyclerView, ShimmerFrameLayout shimmer,
-                                          UserCommentAdapter adapter,
+    private static void updateDataFromApi(RecyclerView recyclerView, ShimmerFrameLayout shimmer,
+                                          SwipyRefreshLayout refreshLayout, UserCommentAdapter adapter,
                                           View includeNoDataForUser, TextView noDataTextView, View bottomNavigation, boolean isGetNewList) {
         new Thread(() -> {
-            GetCommentListToUserActivity.getCommentListToUserActivity(cont, prefUt, adapter, recyclerView, shimmer, isGetNewList, progressBar,
+            GetCommentListToUserActivity.getCommentListToUserActivity(cont, prefUt, adapter, recyclerView, shimmer, refreshLayout, isGetNewList,
                     includeNoDataForUser, noDataTextView, bottomNavigation);
         }).start();
     }
 
     // Загрузить/обновить данные с API при скролах ресайклера вверх или вниз, если достигнут конец списка
-    private static void infiniteScroll(ProgressBar progressBar,
-                                       RecyclerView recyclerView, ShimmerFrameLayout shimmer,
+    private static void infiniteScroll(RecyclerView recyclerView, ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout,
                                        UserCommentAdapter adapter, View bottomNavigation,
                                        View includeNoDataForUser, TextView noDataTextView, boolean isGetNewList) {
-        progressBar.setVisibility(isGetNewList ? View.GONE : View.VISIBLE);
-        shimmer.setVisibility(isGetNewList ? View.VISIBLE : View.GONE);
+        if (shimmer != null) {
+            shimmer.setVisibility(isGetNewList ? View.VISIBLE : View.GONE);
+        }
         Handler handler = new Handler();
-        handler.postDelayed(() -> updateDataFromApi(progressBar, recyclerView, shimmer, adapter, includeNoDataForUser, noDataTextView, bottomNavigation, isGetNewList), 1000);
+        handler.postDelayed(() -> updateDataFromApi(recyclerView, shimmer, refreshLayout, adapter, includeNoDataForUser, noDataTextView, bottomNavigation, isGetNewList), 1000);
     }
 }
