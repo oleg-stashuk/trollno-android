@@ -3,7 +3,6 @@ package com.apps.trollino.utils.networking.main_group;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
-import android.widget.ProgressBar;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +18,7 @@ import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
 import com.apps.trollino.utils.networking_helper.ShimmerHide;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.snackbar.Snackbar;
+import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 
 import java.util.List;
 
@@ -36,7 +36,7 @@ public class GetFavoriteList {
     private static Context cont;
 
     public static void getFavoritePosts(Context context, PrefUtils prefUtils, RecyclerView recycler,
-                                        ShimmerFrameLayout shimmer, ProgressBar progressBar, View noFavoriteListView, View bottomNavigation,
+                                        ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout, View noFavoriteListView, View bottomNavigation,
                                         FavoriteAdapter adapter, boolean isGetNewList) {
         cont = context;
         recyclerView = recycler;
@@ -56,10 +56,14 @@ public class GetFavoriteList {
 
                     if (favoritePostList.isEmpty()) {
                         recycler.setVisibility(View.GONE);
-                        ShimmerHide.shimmerHide(noFavoriteListView, shimmer);
+                        if (shimmer != null) {
+                            ShimmerHide.shimmerHide(noFavoriteListView, shimmer);
+                        }
                     } else {
                         noFavoriteListView.setVisibility(View.GONE);
-                        ShimmerHide.shimmerHide(recycler, shimmer);
+                        if (shimmer != null) {
+                            ShimmerHide.shimmerHide(recycler, shimmer);
+                        }
                     }
 
                     totalPage = post.getPagerModel().getTotalPages() - 1;
@@ -74,7 +78,8 @@ public class GetFavoriteList {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
                     SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(recycler, errorMessage);
                 }
-                progressBar.setVisibility(View.GONE);
+
+                hideRefreshLayout(shimmer, refreshLayout);
             }
 
             @Override
@@ -94,10 +99,19 @@ public class GetFavoriteList {
                 } else {
                     SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, t.getLocalizedMessage());
                 }
-                progressBar.setVisibility(View.GONE);
                 Log.d(TAG_LOG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
+                hideRefreshLayout(shimmer, refreshLayout);
             }
         });
+    }
+
+    private static void hideRefreshLayout(ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout) {
+        if(shimmer != null) {
+            shimmer.setVisibility(View.GONE);
+        }
+        if(refreshLayout != null) {
+            refreshLayout.setRefreshing(false);
+        }
     }
 
     private static void saveCurrentPage(PrefUtils prefUtils) {

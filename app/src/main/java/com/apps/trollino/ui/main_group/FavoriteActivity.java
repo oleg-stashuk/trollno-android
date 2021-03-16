@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
@@ -22,16 +21,18 @@ import com.apps.trollino.utils.data.FavoritePostListFromApi;
 import com.apps.trollino.utils.networking.user_action.GetNewAnswersCount;
 import com.apps.trollino.utils.recycler.MakeLinerRecyclerViewForFavoriteActivity;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
+import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 
 import static com.apps.trollino.utils.SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation;
 
 public class FavoriteActivity extends BaseActivity implements View.OnClickListener{
     private ShimmerFrameLayout shimmer;
+    private SwipyRefreshLayout refreshLayout;
     private LinearLayout bottomNavigation;
     private RecyclerView favoriteRecyclerView;
     private View noFavoriteListView;
     private View userAuthorizationView;
-    private ProgressBar progressBar;
     private ImageView indicatorImageView;
     private boolean isUserAuthorization; // Пользователь авторизирован или нет
     private boolean doubleBackToExitPressedOnce = false;  // для обработки нажатия onBackPressed
@@ -44,11 +45,11 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void initView() {
         shimmer = findViewById(R.id.include_favorite_shimmer);
+        refreshLayout = findViewById(R.id.refresh_layout_favorite);
         bottomNavigation = findViewById(R.id.bottom_navigation_favorite);
         favoriteRecyclerView = findViewById(R.id.recycler_favorite);
         noFavoriteListView = findViewById(R.id.include_no_favorite);
         userAuthorizationView = findViewById(R.id.include_user_not_authorization_favorite);
-        progressBar = findViewById(R.id.progress_bar_favorite);
         TextView favoriteBottomNavigationTextView = findViewById(R.id.favorites_button);
         indicatorImageView = findViewById(R.id.indicator_image);
         findViewById(R.id.tape_button).setOnClickListener(this);
@@ -69,17 +70,29 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
         }
 
         checkFavoriteListAndUserAuthorization(); // проверить пользователь авторизирован или нет, если да - то проверить есть посты добаленные в избранное или нет
+        updateDataBySwipe();
         initToolbar();
     }
 
     private void checkFavoriteListAndUserAuthorization() {
         if(isUserAuthorization) {
             userAuthorizationView.setVisibility(View.GONE);
-            MakeLinerRecyclerViewForFavoriteActivity.makeLinerRecyclerViewForFavoriteActivity(this, prefUtils, favoriteRecyclerView, shimmer, progressBar, noFavoriteListView, bottomNavigation);
+            getDataFromApi(shimmer, null, true);
         } else {
             userAuthorizationView.setVisibility(View.VISIBLE);
-            progressBar.setVisibility(View.GONE);
         }
+    }
+
+    private void updateDataBySwipe() {
+        refreshLayout.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorPrimary));
+        refreshLayout.setOnRefreshListener(direction -> {
+            getDataFromApi(null, refreshLayout, (direction == SwipyRefreshLayoutDirection.TOP));
+        });
+    }
+
+    private void getDataFromApi(ShimmerFrameLayout shimmerToShow, SwipyRefreshLayout refreshTopLayoutToShow, boolean isNewData) {
+        MakeLinerRecyclerViewForFavoriteActivity.makeLinerRecyclerViewForFavoriteActivity(this, prefUtils, favoriteRecyclerView,
+                shimmerToShow, refreshTopLayoutToShow,  noFavoriteListView, bottomNavigation, isNewData);
     }
 
     // Иницировать Toolbar
@@ -96,26 +109,6 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
             getSupportActionBar().setDisplayShowTitleEnabled(true); // отображать Заголовок
         }
     }
-
-//    // Добавить Menu
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        if(isUserAuthorization) {
-//            getMenuInflater().inflate(R.menu.favorite_menu, menu);
-//            return true;
-//        } else {
-//            return false;
-//        }
-//    }
-//
-//    // Обрабтка нажантия на выпадающий список из Menu
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        if(item.getItemId() == R.id.to_do_something) {
-//            showSnackBarMessage(findViewById(R.id.activity_favorite), "Удалить все из избранного");
-//        }
-//        return true;
-//    }
 
     @Override
     public void onBackPressed() {

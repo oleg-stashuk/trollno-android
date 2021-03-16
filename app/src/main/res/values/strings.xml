@@ -93,6 +93,7 @@
     <string name="advertising">РЕКЛАМА</string>
     <string name="txt_switch_get_push_notification">Получать уведомления об ответах на Ваши комментарии</string>
     <string name="txt_switch_mark_read_posts">Отмечать прочитанные посты</string>
+    <string name="msg_all_comments_showed">Показаны все комментарии к этому посту</string>
 
     <string-array name="sort_comment_value">
         <item>по рейтингу</item>
@@ -111,5 +112,5 @@
     // For FaceBook
     <string name="facebook_app_id">316582089429479</string>
     <string name="fb_login_protocol_scheme">fb316582089429479</string>
-    <string name="msg_all_comments_showed">Показаны все комментарии к этому посту</string>
+    <string name="comments_with_spinner">Комментарии:</string>
 </resources>
