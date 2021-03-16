@@ -18,6 +18,7 @@ import com.apps.trollino.utils.data.DataListFromApi;
 import com.apps.trollino.utils.data.PostListByCategoryFromApi;
 import com.apps.trollino.utils.networking.user_action.GetNewAnswersCount;
 import com.apps.trollino.utils.recycler.MakeGridRecyclerViewForTapeActivity;
+import com.apps.trollino.utils.recycler.MakeLinerRecyclerViewForTapeActivity;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.tabs.TabLayout;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
@@ -133,8 +134,8 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
 
     private void updateDataFromApiDiscuss(ShimmerFrameLayout shimmerToApi, SwipyRefreshLayout refreshLayoutToApi, boolean isNewData, boolean IsUpdateData) {
         showCorrectShimmer(true, IsUpdateData);
-//        MakeLinerRecyclerViewForTapeActivity.makeLinerRecyclerViewForTapeActivity(TapeActivity.this, prefUtils, newsRecyclerView,
-//                oneColumnShimmer, progressBarBottom, bottomNavigation);
+        MakeLinerRecyclerViewForTapeActivity.makeLinerRecyclerViewForTapeActivity(this, prefUtils, newsRecyclerView,
+                shimmerToApi, refreshLayoutToApi, bottomNavigation, isNewData);
     }
 
     private void updateDataFromApiOther(ShimmerFrameLayout shimmerToApi, SwipyRefreshLayout refreshLayoutToApi, boolean isNewData, boolean IsUpdateData) {
