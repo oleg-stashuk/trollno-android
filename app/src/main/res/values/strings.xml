@@ -111,4 +111,5 @@
     // For FaceBook
     <string name="facebook_app_id">316582089429479</string>
     <string name="fb_login_protocol_scheme">fb316582089429479</string>
+    <string name="msg_all_comments_showed">Показаны все комментарии к этому посту</string>
 </resources>
