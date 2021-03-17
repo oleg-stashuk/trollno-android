@@ -16,11 +16,12 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/image_user_single_comment_child"
         android:layout_toEndOf="@+id/image_user_single_comment_child"
-        android:textColor="@color/colorText"
         android:layout_marginLeft="5dp"
         android:layout_marginStart="5dp"
-        android:textStyle="bold"
-        android:hint="Name"/>
+        android:letterSpacing="0.018"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/roboto_bold"/>
 
     <TextView
         android:id="@+id/time_user_single_comment_child"
@@ -31,7 +32,9 @@
         android:layout_below="@+id/name_user_single_comment_child"
         android:layout_toRightOf="@+id/image_user_single_comment_child"
         android:layout_toEndOf="@+id/image_user_single_comment_child"
-        android:hint="time" />
+        android:letterSpacing="0.018"
+        android:textSize="14sp"
+        android:textColor="@color/colorText"/>
 
     <TextView
         android:id="@+id/comment_user_single_comment_child"
@@ -39,8 +42,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_below="@+id/image_user_single_comment_child"
-        android:textColor="@color/colorText"
-        android:hint="comment" />
+        android:lineSpacingExtra="6dp"
+        android:letterSpacing="0.016"
+        android:textSize="16sp"
+        android:textColor="@color/black" />
 
 
     <ImageView
@@ -61,7 +66,9 @@
         android:layout_toRightOf="@+id/like_single_comment_child"
         android:layout_toEndOf="@+id/like_single_comment_child"
         android:layout_below="@+id/comment_user_single_comment_child"
-        android:hint="50" />
+        android:letterSpacing="0.016"
+        android:textSize="16sp"
+        android:textColor="@color/colorText"/>
 
     <TextView
         android:id="@+id/answer_single_comment_child"
@@ -73,6 +80,9 @@
         android:layout_toRightOf="@+id/count_like_single_comment_child"
         android:layout_toEndOf="@+id/count_like_single_comment_child"
         android:layout_below="@+id/comment_user_single_comment_child"
+        android:letterSpacing="0.016"
+        android:textSize="16sp"
+        android:textColor="@color/colorText"
         android:text="@string/answer" />
 
 </RelativeLayout>

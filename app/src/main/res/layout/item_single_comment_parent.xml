@@ -20,10 +20,12 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/image_user_single_comment_parent"
             android:layout_toEndOf="@+id/image_user_single_comment_parent"
-            android:textColor="@color/colorText"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
-            android:textStyle="bold"/>
+            android:letterSpacing="0.018"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/roboto_bold"/>
 
         <TextView
             android:id="@+id/time_user_single_comment_parent"
@@ -33,7 +35,10 @@
             android:layout_marginStart="5dp"
             android:layout_below="@+id/name_user_single_comment_parent"
             android:layout_toRightOf="@+id/image_user_single_comment_parent"
-            android:layout_toEndOf="@+id/image_user_single_comment_parent"/>
+            android:layout_toEndOf="@+id/image_user_single_comment_parent"
+            android:letterSpacing="0.018"
+            android:textSize="14sp"
+            android:textColor="@color/colorText"/>
 
         <TextView
             android:id="@+id/comment_user_single_comment_parent"
@@ -41,7 +46,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_below="@+id/image_user_single_comment_parent"
-            android:textColor="@color/colorText" />
+            android:lineSpacingExtra="6dp"
+            android:letterSpacing="0.016"
+            android:textSize="16sp"
+            android:textColor="@color/black"/>
 
         <ImageView
             android:id="@+id/like_single_comment_parent"
@@ -60,7 +68,10 @@
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/like_single_comment_parent"
             android:layout_toEndOf="@+id/like_single_comment_parent"
-            android:layout_below="@+id/comment_user_single_comment_parent"/>
+            android:layout_below="@+id/comment_user_single_comment_parent"
+            android:letterSpacing="0.016"
+            android:textSize="16sp"
+            android:textColor="@color/colorText"/>
 
         <TextView
             android:id="@+id/answer_single_comment_parent"
@@ -72,6 +83,9 @@
             android:layout_toRightOf="@+id/count_like_single_comment_parent"
             android:layout_toEndOf="@+id/count_like_single_comment_parent"
             android:layout_below="@+id/comment_user_single_comment_parent"
+            android:letterSpacing="0.016"
+            android:textSize="16sp"
+            android:textColor="@color/colorText"
             android:text="@string/answer"/>
 
     </RelativeLayout>
@@ -86,6 +100,10 @@
         app:drawableLeftCompat="@drawable/ic_drop_down_arrow"
         style="@style/PressedTextStyle"
         android:visibility="gone"
+        android:lineSpacingExtra="4dp"
+        android:letterSpacing="0.016"
+        android:textSize="16sp"
+        android:textColor="@color/colorPrimary"
         android:text="@string/show_comments" />
 
     <TextView
@@ -98,6 +116,10 @@
         app:drawableLeftCompat="@drawable/ic_drop_down_arrow"
         style="@style/PressedTextStyle"
         android:visibility="gone"
+        android:lineSpacingExtra="4dp"
+        android:letterSpacing="0.016"
+        android:textSize="16sp"
+        android:textColor="@color/colorPrimary"
         android:text="@string/hide_comments" />
 
     <androidx.recyclerview.widget.RecyclerView

@@ -16,7 +16,6 @@
             android:padding="5dp"
             android:orientation="horizontal" >
 
-
             <ImageView
                 android:id="@+id/image_favorite_item"
                 android:layout_width="180dp"
@@ -30,9 +29,11 @@
                 android:layout_weight="4"
                 android:layout_marginLeft="7dp"
                 android:layout_marginStart="7dp"
-                android:textSize="14sp"
-                android:textColor="@color/colorText"
-                android:textStyle="bold" />
+                android:lineSpacingExtra="4dp"
+                android:letterSpacing="0.009"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/roboto_bold"/>
 
             <ImageButton
                 android:id="@+id/delete_button_favorite_item"

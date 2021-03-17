@@ -57,6 +57,8 @@
                 app:tabIndicatorColor="@color/white"
                 app:tabTextAppearance="@style/TabItemStyle"
                 android:elevation="5dp"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
                 app:tabContentStart="20dp" />
 
         </com.google.android.material.appbar.AppBarLayout>

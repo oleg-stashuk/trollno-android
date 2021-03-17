@@ -36,23 +36,36 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginTop="5dp"
                     android:padding="10dp"
                     android:background="@color/colorGreyBackgroundVideo"
-                    android:textColor="@color/colorText"/>
+                    android:textAllCaps="true"
+                    android:letterSpacing="-0.071"
+                    android:textSize="14sp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/roboto_bold" />
 
                 <TextView
                     android:id="@+id/title_post_activity"
-                    style="@style/BoldHeaderTextStyle_h1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp" />
+                    android:padding="10dp"
+                    android:lineSpacingExtra="6dp"
+                    android:letterSpacing="0.017"
+                    android:textSize="30sp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/roboto_bold" />
 
                 <TextView
                     android:id="@+id/body_post_activity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp" />
+                    android:padding="10dp"
+                    android:lineSpacingExtra="8dp"
+                    android:letterSpacing="0.009"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"/>
 
             </LinearLayout>
 

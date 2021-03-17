@@ -34,9 +34,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:textColor="@color/colorText"
-        android:textStyle="bold"
-        android:hint="Описание видео"/>
+        android:lineSpacingExtra="4dp"
+        android:letterSpacing="0.009"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/roboto_bold"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -57,10 +59,11 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
-            android:textColor="@color/colorOrange"
-            android:textStyle="bold"
             android:textAllCaps="true"
+            android:letterSpacing="0.011"
             android:textSize="14sp"
+            android:textColor="@color/colorOrange"
+            android:fontFamily="@font/roboto_bold"
             android:text="@string/discuss_post" />
 
     </LinearLayout>

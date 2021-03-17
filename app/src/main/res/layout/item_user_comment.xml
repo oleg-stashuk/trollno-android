@@ -21,17 +21,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
-                android:textColor="@color/colorGrey"
-                android:hint="Title"/>
+                android:lineSpacingExtra="4dp"
+                android:letterSpacing="0.016"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/roboto_medium"/>
 
             <TextView
                 android:id="@+id/comment_item_user_comment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
-                android:textColor="@color/colorText"
-                android:textStyle="bold"
-                android:hint="Comment"/>
+                android:lineSpacingExtra="6dp"
+                android:letterSpacing="0.016"
+                android:textSize="16sp"
+                android:textColor="@color/black"/>
 
 
             <LinearLayout
@@ -39,9 +43,6 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
-
-
-
 
             </LinearLayout>
 
@@ -55,24 +56,34 @@
                     android:id="@+id/time_item_user_comment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="11dp"/>
+                    android:lineSpacingExtra="16dp"
+                    android:letterSpacing="0.016"
+                    android:textColor="@color/colorText"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/roboto_regular"/>
 
                 <ImageView
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:src="@drawable/ic_favorite_border_color" />
 
                 <TextView
                     android:id="@+id/count_like_item_user_comment"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="16dp"
+                    android:letterSpacing="0.016"
+                    android:textColor="@color/colorText"
+                    android:textSize="16sp" />
 
                 <ImageView
                     android:id="@+id/new_comment_indicator_item_user_comment"
                     android:layout_width="10dp"
                     android:layout_height="10dp"
                     android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/ic_red_comment_indicator"/>
 
@@ -81,7 +92,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="3dp"
-                    android:textSize="11dp"
+                    android:layout_marginStart="3dp"
+                    android:lineSpacingExtra="16dp"
+                    android:letterSpacing="0.016"
+                    android:textColor="@color/colorText"
+                    android:textSize="16sp"
                     android:text="@string/txt_new_answers"/>
 
             </LinearLayout>

@@ -18,7 +18,7 @@
     <!--others-->
     <color name="colorLightTheme">#CAE4F5</color>
     <color name="colorLightTransparent">#80FFFFFF</color>
-    <color name="black">#FF000000</color>
+    <color name="black">#000000</color>
     <color name="blackTransparent">#80000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="colorLightGrey">#DCDDE0</color>
@@ -27,7 +27,8 @@
     <color name="colorRipple">#BCBEC1</color>
     <color name="colorLightGreen">#7ECC61</color>
     <color name="colorOrange">#F2994A</color>
-    <color name="colorText">#202020</color>
+    <color name="colorText">#7C7C7C</color>
+    <color name="colorSourceText">#AAAAAA</color>
     <color name="colorDialogBackground">#313131</color>
     <color name="shimmer_item_color">#808080</color>
 </resources>
