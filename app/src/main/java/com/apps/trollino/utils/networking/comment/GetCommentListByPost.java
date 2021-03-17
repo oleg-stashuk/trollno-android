@@ -43,6 +43,7 @@ public class GetCommentListByPost {
                                             CommentToPostParentAdapter adapter, TextView noCommentTextView,
                                             TextView countTextView, boolean isGetNewList) {
 
+        Log.d("OkHttp_1", "-------------------------------------!!!");
          String sortOrder = Const.SORT_ORDER_BY_DESC;
 
         recyclerView = recycler;
@@ -65,6 +66,11 @@ public class GetCommentListByPost {
                     saveCurrentPage(prefUtils);
 
                     List<CommentModel.Comments> commentList = commentModel.getCommentsList();
+
+                    for(CommentModel.Comments comment : commentList) {
+                        Log.d("OkHttp_1", comment.getCommentId() + " " + comment.getCommentBody());
+                    }
+
                     showCorrectVariant(commentList, adapter, shimmer, noCommentTextView, countTextView);
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());

@@ -5,6 +5,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -29,7 +30,8 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
     private NestedScrollView nestedScrollView;
     private LinearLayout postLayout;
     private ShimmerFrameLayout shimmerLayout;
-    private LinearLayout swipedLinearLayout;
+//    private LinearLayout swipedLinearLayout;
+    private ImageView swipedLinearLayout;
     private TextView categoryTextView;
     private TextView titleTextView;
     private TextView countCommentTextView;
@@ -98,6 +100,10 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
     // Действия при свайпах в разные стороны
     private void makeTouchListener() {
         swipedLinearLayout.setOnTouchListener(new OnSwipeTouchListener(this) {
+            public void onSwipeTop() {}
+
+            public void onSwipeBottom() {}
+
             public void onSwipeRight() {
                 String nextPostId = prefUtils.getNextPostId();
                 if(!nextPostId.isEmpty() && nextPostId.length() > 0 && !nextPostId.equals("0")) {

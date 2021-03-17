@@ -30,7 +30,7 @@
     private RecyclerView postWithActivityRecyclerView;
     private ShimmerFrameLayout shimmer;
     private SwipyRefreshLayout refreshLayout;
-     private LinearLayout bottomNavigation;
+    private LinearLayout bottomNavigation;
 
     private View includeNoDataForUser;
     private TextView noDataTextView;
