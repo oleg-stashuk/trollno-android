@@ -8,7 +8,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 
 import com.apps.trollino.R;
@@ -54,9 +53,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         findViewById(R.id.register_login).setOnClickListener(this);
 
         initToolbar();
-
-//        AppEventsLogger.activateApp(this);
-//        setContentView(R.layout.activity_login);
         callbackManager = CallbackManager.Factory.create();
     }
 
@@ -119,10 +115,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         final Toolbar toolbar = findViewById(R.id.toolbar_login);
         setSupportActionBar(toolbar);
 
-        final ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(R.string.title_autorisation);
-
-        if(actionBar != null) {
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(R.string.title_autorisation);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true); // отображать кнопку BackPress
             getSupportActionBar().setHomeButtonEnabled(true); // вернуться на предыдущую активность
             getSupportActionBar().setDisplayShowTitleEnabled(true); // отображать Заголовок

@@ -7,7 +7,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
@@ -100,10 +99,8 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
         final Toolbar toolbar = findViewById(R.id.toolbar_favorite);
         setSupportActionBar(toolbar);
 
-        final ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(getString(R.string.favorites));
-
-        if (actionBar != null) {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(getString(R.string.favorites));
             getSupportActionBar().setDisplayHomeAsUpEnabled(false); // отображать кнопку BackPress
             getSupportActionBar().setHomeButtonEnabled(false); // вернуться на предыдущую активность
             getSupportActionBar().setDisplayShowTitleEnabled(true); // отображать Заголовок

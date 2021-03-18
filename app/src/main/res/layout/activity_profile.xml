@@ -15,21 +15,20 @@
         android:orientation="vertical"
         tools:context=".ui.main_group.ProfileActivity">
 
-            <LinearLayout
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:background="@color/colorPrimary"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <include
+                android:id="@+id/toolbar_profile"
+                layout="@layout/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:background="@color/colorPrimary"
-                android:orientation="horizontal">
+                android:layout_height="match_parent" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    style="@style/WhiteHeaderTextStyle"
-                    android:text="@string/title_profile"/>
-
-            </LinearLayout>
-
-        <include layout="@layout/include_appbar_shadow" />
+        </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"

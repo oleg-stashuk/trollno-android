@@ -24,6 +24,7 @@ import com.apps.trollino.utils.networking.user.UpdateUserProfileSettings;
 import com.apps.trollino.utils.networking.user_action.GetNewAnswersCount;
 import com.facebook.login.LoginManager;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.android.material.appbar.MaterialToolbar;
 
 import static com.apps.trollino.utils.SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation;
 
@@ -75,6 +76,20 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         makeIsUserAuthorizationCorrectData();
         initSwitch();
         initClickListeners();
+        initToolbar();
+    }
+
+    // Иницировать Toolbar
+    private void initToolbar() {
+        final MaterialToolbar toolbar = findViewById(R.id.toolbar_profile);
+        setSupportActionBar(toolbar);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(getString(R.string.title_profile));
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false); // отображать кнопку BackPress
+            getSupportActionBar().setHomeButtonEnabled(false); // вернуться на предыдущую активность
+            getSupportActionBar().setDisplayShowTitleEnabled(true); // отображать Заголовок
+        }
     }
 
     private void makeIsUserAuthorizationCorrectData() {
@@ -83,6 +98,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             userIncludeShimmer.setVisibility(View.VISIBLE);
             guestIncludeLinearLayout.setVisibility(View.GONE);
             binding.exitButtonProfile.setVisibility(View.VISIBLE);
+            binding.markReadPostSwitch.setVisibility(View.VISIBLE);
+            binding.answerToCommentSwitch.setVisibility(View.VISIBLE);
 
             new Thread(() -> {
                 GetUserProfile.getUserProfile(this, prefUtils, userImageView, nameTextView, emailTextView,
@@ -95,6 +112,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             userIncludeShimmer.setVisibility(View.GONE);
             guestIncludeLinearLayout.setVisibility(View.VISIBLE);
             binding.exitButtonProfile.setVisibility(View.GONE);
+            binding.markReadPostSwitch.setVisibility(View.GONE);
+            binding.answerToCommentSwitch.setVisibility(View.GONE);
         }
     }
 

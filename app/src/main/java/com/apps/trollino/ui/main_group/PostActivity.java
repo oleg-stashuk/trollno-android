@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,7 +29,6 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
     private NestedScrollView nestedScrollView;
     private LinearLayout postLayout;
     private ShimmerFrameLayout shimmerLayout;
-//    private LinearLayout swipedLinearLayout;
     private ImageView swipedLinearLayout;
     private TextView categoryTextView;
     private TextView titleTextView;
@@ -79,9 +77,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
         final Toolbar toolbar = findViewById(R.id.toolbar_post);
         setSupportActionBar(toolbar);
 
-        final ActionBar actionBar = getSupportActionBar();
-
-        if (actionBar != null) {
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true); // отображать кнопку BackPress
             getSupportActionBar().setHomeButtonEnabled(true); // вернуться на предыдущую активность
             getSupportActionBar().setDisplayShowTitleEnabled(false); // отображать Заголовок

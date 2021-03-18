@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 
 import com.apps.trollino.R;
@@ -79,10 +78,8 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
         final Toolbar toolbar = findViewById(R.id.toolbar_registration);
         setSupportActionBar(toolbar);
 
-        final ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(R.string.title_registration);
-
-        if(actionBar != null) {
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(R.string.title_registration);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true); // отображать кнопку BackPress
             getSupportActionBar().setHomeButtonEnabled(true);; // вернуться на предыдущую активность
             getSupportActionBar().setDisplayShowTitleEnabled(true); // отображать Заголовок

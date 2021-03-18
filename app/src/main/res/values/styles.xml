@@ -7,6 +7,19 @@
         <item name="colorAccent">@color/colorPrimary</item>
         <item name="android:windowBackground">@color/colorBackgroundLight</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="toolbarStyle">@style/Widget.App.Toolbar</item>
+    </style>
+
+    <style name="Widget.App.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Toolbar</item>
+        <item name="titleTextAppearance">@style/WhiteHeaderTextStyle</item>
+        <item name="subtitleTextAppearance">@style/WhiteHeaderTextStyle</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Toolbar" parent="">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/colorPrimaryDark</item>
+        <item name="colorOnPrimary">@color/colorPrimary</item>
     </style>
 
     <style name="Base.TextAppearance.AppCompat.Body2">

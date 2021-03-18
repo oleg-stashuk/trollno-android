@@ -7,7 +7,6 @@
  import android.widget.LinearLayout;
  import android.widget.TextView;
 
- import androidx.appcompat.app.ActionBar;
  import androidx.appcompat.widget.Toolbar;
  import androidx.core.content.ContextCompat;
  import androidx.recyclerview.widget.RecyclerView;
@@ -110,10 +109,8 @@
         final Toolbar toolbar = findViewById(R.id.toolbar_in_post);
         setSupportActionBar(toolbar);
 
-        final ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(getString(R.string.activity));
-
-        if (actionBar != null) {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(getString(R.string.activity));
             getSupportActionBar().setDisplayHomeAsUpEnabled(false); // отображать кнопку BackPress
             getSupportActionBar().setHomeButtonEnabled(false); // вернуться на предыдущую активность
             getSupportActionBar().setDisplayShowTitleEnabled(true); // отображать Заголовок
