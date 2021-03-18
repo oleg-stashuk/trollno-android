@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
 import com.apps.trollino.R;
@@ -42,6 +45,8 @@ public class EditUserProfileActivity extends BaseActivity implements View.OnClic
 
     @Override
     protected void initView() {
+        initToolbar();
+
         editUserLayout = findViewById(R.id.edit_user_profile_layout);
         editUserShimmer = findViewById(R.id.edit_user_profile_shimmer);
         nameTextView = findViewById(R.id.name_edit_user_profile);
@@ -49,8 +54,6 @@ public class EditUserProfileActivity extends BaseActivity implements View.OnClic
         passwordEditText = findViewById(R.id.password_edit_user_profile);
         imageView = findViewById(R.id.image_edit_user_profile);
         imageView.setOnClickListener(this);
-        findViewById(R.id.back_button_edit_user_profile).setOnClickListener(this);
-        findViewById(R.id.delete_button_edit_user_profile).setOnClickListener(this);
         updateButton = findViewById(R.id.update_button_edit_user_profile);
         updateButton.setOnClickListener(this);
         updateButton.setBackgroundColor(ContextCompat.getColor(this, R.color.colorGreyBackgroundVideo));
@@ -62,6 +65,40 @@ public class EditUserProfileActivity extends BaseActivity implements View.OnClic
         new Thread(() -> GetUserProfile.getUserProfile(this, prefUtils, imageView, nameTextView, emailTextView,
                 findViewById(R.id.activity_edit_user_profile), editUserLayout, editUserShimmer)).start();
         passwordTextChangedListener();
+    }
+
+    // Иницировать Toolbar
+    private void initToolbar() {
+        final Toolbar toolbar = findViewById(R.id.toolbar_edit_profile);
+        setSupportActionBar(toolbar);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(getString(R.string.edit_profile));
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true); // отображать кнопку BackPress
+            getSupportActionBar().setHomeButtonEnabled(true); // вернуться на предыдущую активность
+            getSupportActionBar().setDisplayShowTitleEnabled(true); // отображать Заголовок
+        }
+    }
+
+    // Добавить Menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.edit_user_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    // Обрабтка нажантия на выпадающий список из Menu
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+            case R.id.delete_button:
+                showDeleteConfirmationDialog();
+                break;
+        }
+        return true;
     }
 
     private void passwordTextChangedListener() {
@@ -110,12 +147,6 @@ public class EditUserProfileActivity extends BaseActivity implements View.OnClic
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.back_button_edit_user_profile:
-                onBackPressed();
-                break;
-            case R.id.delete_button_edit_user_profile:
-                showDeleteConfirmationDialog();
-                break;
             case R.id.image_edit_user_profile:
                 new Thread(() -> GetSettings.getSettings(this, prefUtils, imageView, findViewById(R.id.activity_edit_user_profile))).start();
                 break;
