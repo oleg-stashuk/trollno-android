@@ -51,7 +51,7 @@ public class PostListAdapter extends BaseRecyclerAdapter<PostsModel.PostDetails>
 
                 if(!prefUtils.getIsUserAuthorization() || (item.getRead() == 0 && prefUtils.getIsUserAuthorization()) || !prefUtils.isShowReadPost()) {
                     linearLayout.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.white));
-                    titleVideoTextView.setTextColor(ContextCompat.getColor(view.getContext(), R.color.colorText));
+                    titleVideoTextView.setTextColor(ContextCompat.getColor(view.getContext(), R.color.black));
                     frameLayout.setVisibility(View.GONE);
                 } else {
                     linearLayout.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.colorLightTransparent));

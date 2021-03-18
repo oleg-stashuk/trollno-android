@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Тролльно</string>
     <string name="app_version">Версия 1.0.0</string>
-    <string name="app_info">\u00A9 2016-2021 Тролльно. Все права защищены. Версия прилодения 1.0</string>
+    <string name="app_info">\u00A9 2016-2021 Тролльно. Все права защищены. Версия приложения 1.0</string>
 
     <string name="edt_email">example@gmail.com</string>
     <string name="edt_password">Пароль</string>
