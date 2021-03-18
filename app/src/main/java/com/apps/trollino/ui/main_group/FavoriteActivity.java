@@ -43,6 +43,8 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void initView() {
+        initToolbar();
+
         shimmer = findViewById(R.id.include_favorite_shimmer);
         refreshLayout = findViewById(R.id.refresh_layout_favorite);
         bottomNavigation = findViewById(R.id.bottom_navigation_favorite);
@@ -70,7 +72,6 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
 
         checkFavoriteListAndUserAuthorization(); // проверить пользователь авторизирован или нет, если да - то проверить есть посты добаленные в избранное или нет
         updateDataBySwipe();
-        initToolbar();
     }
 
     private void checkFavoriteListAndUserAuthorization() {

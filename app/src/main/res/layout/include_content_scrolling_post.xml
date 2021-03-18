@@ -156,23 +156,23 @@
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:gravity="center"-->
+<!--            android:layout_marginTop="5dp"-->
+<!--            android:orientation="vertical" >-->
+
+        <ImageView
+            android:id="@+id/swiped_image_post_activity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="5dp"
-            android:orientation="vertical" >
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_swipe_2"/>
 
-            <ImageView
-                android:id="@+id/swiped_image_post_activity"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:scaleType="fitXY"
-                android:adjustViewBounds="true"
-                android:src="@drawable/ic_swipe_2"/>
-
-        </LinearLayout>
+<!--        </LinearLayout>-->
 
     </LinearLayout>
 

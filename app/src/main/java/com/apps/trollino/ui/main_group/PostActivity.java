@@ -48,6 +48,8 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
 
     @Override
     protected void initView() {
+        initToolbar();
+
         nestedScrollView = findViewById(R.id.include_post_screen);
         postLayout = findViewById(R.id.post_layout);
         shimmerLayout = findViewById(R.id.include_shimmer_post);
@@ -61,7 +63,6 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
         commentButton = findViewById(R.id.add_comment_button_post_activity);
         commentButton.setOnClickListener(this);
 
-        initToolbar();
         makeTouchListener();
         ShowAdvertising.showAdvertising(advRelativeLayout, prefUtils, this);
 

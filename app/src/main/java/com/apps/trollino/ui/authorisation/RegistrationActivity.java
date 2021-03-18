@@ -30,14 +30,14 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     protected void initView() {
+        initToolbar();
+
         nameEditText = findViewById(R.id.edt_name_registration);
         emailEditText = findViewById(R.id.edt_email_registration);
         passwordEditText = findViewById(R.id.edt_password_registration);
 
         findViewById(R.id.registration_button_registration).setOnClickListener(this);
         findViewById(R.id.login_registration).setOnClickListener(this);
-
-        initToolbar();
     }
 
     private boolean inputFieldIsValid(){

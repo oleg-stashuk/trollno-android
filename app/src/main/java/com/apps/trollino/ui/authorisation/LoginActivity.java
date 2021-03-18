@@ -43,6 +43,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     protected void initView() {
+        initToolbar();
+
         activityLayout = findViewById(R.id.login_activity_liner_layout);
         facebookLoginButton = findViewById(R.id.facebook_button);
         facebookLoginButton.setOnClickListener(this);
@@ -52,7 +54,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         findViewById(R.id.login_button_login).setOnClickListener(this);
         findViewById(R.id.register_login).setOnClickListener(this);
 
-        initToolbar();
         callbackManager = CallbackManager.Factory.create();
     }
 

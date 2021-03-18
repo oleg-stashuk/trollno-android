@@ -3,6 +3,7 @@ package com.apps.trollino.ui.main_group;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -49,6 +50,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initView() {
+        initToolbar();
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_profile);
         prefUtils.saveCurrentActivity(OpenActivityHelper.PROFILE_ACTIVITY);
 
@@ -76,7 +79,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         makeIsUserAuthorizationCorrectData();
         initSwitch();
         initClickListeners();
-        initToolbar();
     }
 
     // Иницировать Toolbar

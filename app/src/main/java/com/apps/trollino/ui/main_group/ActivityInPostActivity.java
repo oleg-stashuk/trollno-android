@@ -45,6 +45,8 @@
 
     @Override
     protected void initView() {
+        initToolbar();
+
         shimmer = findViewById(R.id.include_user_comments_shimmer);
         refreshLayout = findViewById(R.id.refresh_layout_activity_in_post);
         bottomNavigation = findViewById(R.id.bottom_navigation_activity);
@@ -64,26 +66,24 @@
         activityBottomNavigationTextView.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
 
         isUserAuthorization = prefUtils.getIsUserAuthorization();
-        if(isUserAuthorization) {
-            shimmer.setVisibility(View.VISIBLE);
-            new Thread(() -> GetNewAnswersCount.getNewAnswersCount(this, prefUtils, indicatorImageView)).start();
-        }
 
         prefUtils.saveCurrentActivity(OpenActivityHelper.ACTIVITY_USER_ACTIVITY);
 
         CommentListToUserActivityFromApi.getInstance().removeAllDataFromList(prefUtils); // при загрузке активити почистить сохраненные данные для инфинитискрол и текущую страницу для загрузки с АПИ
         checkUserAuthorization(); // проверить пользователь авторизирован или нет, если да - то проверить есть посты добаленные в избранное или нет
         updateCommentBySwipe();
-        initToolbar();
     }
 
     private void checkUserAuthorization() {
         if(isUserAuthorization) {
+            shimmer.setVisibility(View.VISIBLE);
+            new Thread(() -> GetNewAnswersCount.getNewAnswersCount(this, prefUtils, indicatorImageView)).start();
             userAuthorizationView.setVisibility(View.GONE);
             postWithActivityRecyclerView.setVisibility(View.VISIBLE);
 
             getDataFromApi(shimmer, null, true);
         } else {
+            shimmer.setVisibility(View.GONE);
             userAuthorizationView.setVisibility(View.VISIBLE);
             postWithActivityRecyclerView.setVisibility(View.GONE);
         }
