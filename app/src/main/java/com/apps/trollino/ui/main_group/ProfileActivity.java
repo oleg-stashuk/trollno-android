@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
@@ -50,10 +51,10 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initView() {
-        initToolbar();
-
         binding = DataBindingUtil.setContentView(this, R.layout.activity_profile);
         prefUtils.saveCurrentActivity(OpenActivityHelper.PROFILE_ACTIVITY);
+
+        initToolbar();
 
         userIncludeLinearLayout = findViewById(R.id.include_user_profile);
         userIncludeShimmer = findViewById(R.id.include_user_profile_shimmer);
@@ -83,7 +84,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
     // Иницировать Toolbar
     private void initToolbar() {
-        final MaterialToolbar toolbar = findViewById(R.id.toolbar_profile);
+        final Toolbar toolbar = findViewById(R.id.toolbar_profile);
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {

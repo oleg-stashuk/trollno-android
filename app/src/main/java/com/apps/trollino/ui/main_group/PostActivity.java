@@ -63,6 +63,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
         commentButton = findViewById(R.id.add_comment_button_post_activity);
         commentButton.setOnClickListener(this);
 
+        shimmerLayout.setVisibility(View.VISIBLE);
         makeTouchListener();
         ShowAdvertising.showAdvertising(advRelativeLayout, prefUtils, this);
 
