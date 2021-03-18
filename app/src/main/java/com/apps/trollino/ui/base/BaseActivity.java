@@ -26,6 +26,12 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected abstract void initView();
 
+//    protected abstract void saveActivityFlag();
+
+    protected void activityFlag(String activityFlag){
+        prefUtils.saveCurrentActivity(activityFlag);
+    }
+
     protected void showToast(String text){
         Toast.makeText(this,text,Toast.LENGTH_SHORT).show();
     }
