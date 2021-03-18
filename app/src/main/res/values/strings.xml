@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Тролльно</string>
     <string name="app_version">Версия 1.0.0</string>
-    <string name="copyright">© 2020 Тролльно Медиа.</string>
+    <string name="app_info">\u00A9 2016-2021 Тролльно. Все права защищены. Версия прилодения 1.0</string>
 
     <string name="edt_email">example@gmail.com</string>
     <string name="edt_password">Пароль</string>
@@ -22,14 +22,12 @@
     <string name="create_account">Создать аккаунт</string>
     <string name="dark_theme">Темная тема</string>
     <string name="rate_app">Оцените приложение</string>
-    <string name="app_info">О приложении</string>
     <string name="tape">Лента</string>
     <string name="favorites">Избранное</string>
     <string name="fresh_post">Свежее</string>
     <string name="discuss_post">Обсуждают</string>
     <string name="fresh_txt">Свежее</string>
     <string name="search">Поиск</string>
-    <string name="swipe_left_or_right_for_more_post">Проведите пальцем влево или вправо, чтобы увидеть другие посты</string>
     <string name="source_of_image">Источник:</string>
     <string name="activity">Активность</string>
     <string name="comment_hint">Ваш комментарий...</string>
@@ -44,7 +42,8 @@
     <string name="txt_have_no_favorites">Вы пока ничего не добавили в Избранное</string>
     <string name="see_all_comment">Весь комментарий</string>
     <string name="answer">Ответить</string>
-    <string name="see_more_comments">Больше комментариев</string>
+    <string name="show_comments">Показать ответы на комментарий</string>
+    <string name="hide_comments">Скрыть ответы на комментарий</string>
     <string name="mark_all_as_read">Отметить все как прочитанное</string>
     <string name="user_not_authorization">Авторизуйтесь чтобы получить доступ к этому разделу</string>
     <string name="exit">Выйти</string>
@@ -61,9 +60,9 @@
     <string name="do_you_really_want_to_delete_post_from_favorite">Вы действительно хотите удалить пост из Избранного?</string>
     <string name="refresh_button">Обновить</string>
     <string name="internet_error_from_api">No address associated with hostname</string>
-    <string name="internet_error_message">ОШИБКА \nПроблемы с подключением к Интернету.</string>
-    <string name="txt_comment_sent_succesful">Ваш комментарий отправлен успешно</string>
-    <string name="txt_new_answers">Новые комментарии: </string>
+    <string name="internet_error_message">Соединение с интернетом потеряно.</string>
+    <string name="txt_comment_sent_succesful">Ваш комментарий опубликован.</string>
+    <string name="txt_new_answers">Есть новый ответ</string>
     <string name="txt_change_avatar_image">Аватарка изменена</string>
     <string name="name_is_empty_toast">Поле Имя не должно быть пустым</string>
     <string name="mail_is_empty_toast">Поле email не должно быть пустым</string>
@@ -74,6 +73,28 @@
     <string name="do_you_really_want_to_delete_your_account">Вы действительно хотите удалить свой аккаунт?</string>
     <string name="remove_account_confirm_button">Удалить</string>
     <string name="no_button_for_dialog">Нет</string>
+    <string name="msg_post_remove_from_favorite">Пост удален из избранного.</string>
+    <string name="msg_post_add_to_favorite">Пост добавлен в избранное.</string>
+    <string name="msg_account_remove">Ваш аккаунт удален.</string>
+    <string name="msg_password_change">Пароль успешно изменен.</string>
+    <string name="msg_logout">Вы вышли из аккаунта.</string>
+    <string name="msg_login">Приветствуем! Вы вошли в свой аккаунт.</string>
+    <string name="msg_wrong_login_or_password">Неправильный логин или пароль.</string>
+    <string name="msg_wrong_login_or_password_from_api">Sorry, unrecognized username or password.</string>
+    <string name="msg_register_to_existing_email_from_api">\Unprocessable Entity: validation failed.</string>
+    <string name="msg_register_to_existing_email">Этот адрес электронной почты или логин уже используется.</string>
+    <string name="msg_wrong_email_from_api">This User was not found or invalid</string>
+    <string name="msg_wrong_email">Пользователь с таким адресом электронной почты не зарегистрирован.</string>
+    <string name="msg_show_all_favorite">Уже показаны все посты, которые добавлены в Избранное</string>
+    <string name="msg_user_have_not_any_answer">Ответов больше нет</string>
+    <string name="msg_nothing_in_category">В этой категории пока ничего нет</string>
+    <string name="msg_have_not_new_post">Новых постов пока нет</string>
+    <string name="msg_wait_login_with_facebook">\"Подождите, осуществляется вход через Facebook  \"</string>
+    <string name="advertising">РЕКЛАМА</string>
+    <string name="txt_switch_get_push_notification">Получать уведомления об ответах на Ваши комментарии</string>
+    <string name="txt_switch_mark_read_posts">Отмечать прочитанные посты</string>
+    <string name="msg_all_comments_showed">Показаны все комментарии к этому посту</string>
+    <string name="comments_with_spinner">Комментарии:</string>
 
     <string-array name="sort_comment_value">
         <item>по рейтингу</item>

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,21 +11,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apps.trollino.adapters.CommentToPostParentAdapter;
 import com.apps.trollino.ui.base.BaseActivity;
-import com.apps.trollino.utils.data.Const;
-import com.apps.trollino.utils.RecyclerScrollListener;
 import com.apps.trollino.utils.data.CommentListFromApi;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.networking.comment.GetCommentListByPost;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 
-public class MakeRecyclerViewForComment extends RecyclerView.OnScrollListener{
+public class MakeRecyclerViewForComment {
     private static Context cont;
     private static PrefUtils prefUt;
-    private static String sortOrder = Const.SORT_ORDER_BY_DESC;
 
     public static void makeRecyclerViewForComment(Context context, PrefUtils prefUtils,
                                                   RecyclerView recyclerView, ShimmerFrameLayout shimmer,
-                                                  ProgressBar progressBar, String postId, EditText commentEditText,
+                                                  SwipyRefreshLayout refreshLayout, boolean isNewData,
+                                                  String postId, EditText commentEditText,
                                                   TextView noCommentTextView, TextView countTextView, String sortBy) {
 
         cont = context;
@@ -40,49 +38,32 @@ public class MakeRecyclerViewForComment extends RecyclerView.OnScrollListener{
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
 
-        progressBar.setVisibility(View.VISIBLE);
-        if(CommentListFromApi.getInstance().getCommentList().isEmpty()) {
-            infiniteScroll(progressBar, recyclerView, shimmer, adapter, postId, noCommentTextView,
-                    countTextView, sortBy, true);
-        }
-
-        recyclerView.addOnScrollListener(new RecyclerScrollListener() {
-            @Override
-            public void onScrolledToEnd() {
-                infiniteScroll(progressBar, recyclerView, shimmer, adapter, postId, noCommentTextView,
-                        countTextView, sortBy, false);
-            }
-
-            @Override
-            public void onScrolledToTop() {
-                infiniteScroll(progressBar, recyclerView, shimmer, adapter, postId, noCommentTextView,
-                        countTextView, sortBy, true);
-            }
-        });
-
+        infiniteScroll(recyclerView, shimmer, refreshLayout, adapter, postId, noCommentTextView,
+                countTextView, sortBy, isNewData);
     }
 
     // Загрузить/обновить данные с API
-    private static void updateDataFromApi(ProgressBar progressBar, RecyclerView recyclerView, ShimmerFrameLayout shimmer,
+    private static void updateDataFromApi(RecyclerView recyclerView, ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout,
                                           CommentToPostParentAdapter adapter, String postId,
                                           TextView noCommentTextView, TextView countTextView, String sortBy,
                                           boolean isGetNewList) {
         new Thread(() -> {
-            GetCommentListByPost.getCommentListByPost(cont, prefUt, postId, sortBy, sortOrder,
-                    recyclerView, shimmer, adapter,
-                    noCommentTextView, countTextView, progressBar, isGetNewList);
+            GetCommentListByPost.getCommentListByPost(cont, prefUt, postId, sortBy,
+                    recyclerView, shimmer, refreshLayout, adapter,
+                    noCommentTextView, countTextView, isGetNewList);
         }).start();
     }
 
     // Загрузить/обновить данные с API при скролах ресайклера вверх или вниз, если достигнут конец списка
-    private static void infiniteScroll(ProgressBar progressBar, RecyclerView recyclerView, ShimmerFrameLayout shimmer,
+    private static void infiniteScroll(RecyclerView recyclerView, ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout,
                                        CommentToPostParentAdapter adapter, String postId,
                                        TextView noCommentTextView, TextView countTextView, String sortBy,
                                        boolean isGetNewList) {
-        progressBar.setVisibility(isGetNewList ? View.GONE : View.VISIBLE);
-        shimmer.setVisibility(isGetNewList ? View.VISIBLE : View.GONE);
+        if(shimmer != null) {
+            shimmer.setVisibility(isGetNewList ? View.VISIBLE : View.GONE);
+        }
         Handler handler = new Handler();
-        handler.postDelayed(() -> updateDataFromApi(progressBar, recyclerView, shimmer, adapter, postId,
+        handler.postDelayed(() -> updateDataFromApi(recyclerView, shimmer, refreshLayout, adapter, postId,
                 noCommentTextView, countTextView, sortBy, isGetNewList), 1000);
     }
 

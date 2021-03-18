@@ -13,7 +13,7 @@ import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
 import com.apps.trollino.data.model.PostsModel;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.data.PrefUtils;
-import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -48,7 +48,7 @@ public class DiscussPostsAdapter extends BaseRecyclerAdapter<PostsModel.PostDeta
                 TextView commentCountTextView = itemView.findViewById(R.id.comment_count_discuss_post);
                 TextView titleVideoTextView = itemView.findViewById(R.id.title_discuss_post);
 
-                if(!prefUtils.getIsUserAuthorization() || (item.getRead() == 0 && prefUtils.getIsUserAuthorization())) {
+                if(!prefUtils.getIsUserAuthorization() || (item.getRead() == 0 && prefUtils.getIsUserAuthorization()) || !prefUtils.isShowReadPost()) {
                     linearLayout.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.white));
                     titleVideoTextView.setTextColor(ContextCompat.getColor(view.getContext(), R.color.colorText));
                     frameLayout.setVisibility(View.GONE);
@@ -59,12 +59,9 @@ public class DiscussPostsAdapter extends BaseRecyclerAdapter<PostsModel.PostDeta
                 }
 
                 String imageUrl = BASE_URL.concat(item.getImageUrl());
-                Glide
-                        .with(view.getContext())
+                Picasso
+                        .get()
                         .load(imageUrl)
-                        .centerCrop()
-                        .placeholder(R.color.colorGreyBackgroundVideo)
-                        .fallback(R.color.colorGreyBackgroundVideo)
                         .into(postImageView);
 
                 titleVideoTextView.setText(item.getTitle());

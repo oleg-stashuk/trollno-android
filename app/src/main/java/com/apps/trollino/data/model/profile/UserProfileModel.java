@@ -19,6 +19,14 @@ public class UserProfileModel {
     @Expose
     private List<UserImage> userImageList;
 
+    @SerializedName("field_show_read_posts")
+    @Expose
+    private List<UserBooleanData> userShowReadPostList;
+    @SerializedName("field_user_comment_answers")
+    @Expose
+    private List<UserBooleanData> userSendPushNewAnswerList;
+
+
     public List<UserUidData> getUidList() {
         return uidList;
     }
@@ -33,6 +41,14 @@ public class UserProfileModel {
 
     public List<UserImage> getUserImageList() {
         return userImageList;
+    }
+
+    public List<UserBooleanData> getUserShowReadPostList() {
+        return userShowReadPostList;
+    }
+
+    public List<UserBooleanData> getUserSendPushNewAnswerList() {
+        return userSendPushNewAnswerList;
     }
 
 
@@ -71,6 +87,20 @@ public class UserProfileModel {
 
         public String getImageUrl() {
             return imageUrl;
+        }
+    }
+
+    public static class UserBooleanData {
+        @SerializedName("value")
+        @Expose
+        private boolean value;
+
+        public UserBooleanData(boolean value) {
+            this.value = value;
+        }
+
+        public boolean isValue() {
+            return value;
         }
     }
 }

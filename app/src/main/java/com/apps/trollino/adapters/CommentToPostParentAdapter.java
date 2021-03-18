@@ -56,12 +56,36 @@ public class CommentToPostParentAdapter extends BaseRecyclerAdapter<CommentModel
                 TextView countLikeTextView = view.findViewById(R.id.count_like_single_comment_parent);
                 TextView answerTextView = view.findViewById(R.id.answer_single_comment_parent); // button
                 TextView showMoreTextView = view.findViewById(R.id.show_more_comment_single_comment_parent); // button
+                TextView hideCommentTextView = view.findViewById(R.id.hide_comment_single_comment_parent); // button
                 RecyclerView childCommentRecyclerView = view.findViewById(R.id.recycler_item_single_comment_parent);
 
                 if(item.getCommentId().equals(prefUtils.getCommentIdForActivity())) {
                     commentBodyTextView.setTextColor(Color.parseColor("#DD6AA0"));
                     new Thread(() -> PostMarkReadAllAnswersToComment.PostMarkReadAllAnswersToComment(view.getContext(), prefUtils, item.getCommentId())).start();
                 }
+
+                hideCommentTextView.setVisibility(View.GONE);
+                int countAnswer = Integer.parseInt(item.getCommentAnswersCount());
+                if(countAnswer > 0) {
+                    showMoreTextView.setVisibility(View.VISIBLE);
+                } else {
+                    showMoreTextView.setVisibility(View.GONE);
+                }
+
+                showMoreTextView.setOnClickListener(v -> {
+                    // Загрузить дочерние комментарии
+                    GetCommentListByComment.getCommentListByComment(view.getContext(), prefUtils, item.getCommentId(),
+                            childCommentRecyclerView, commentEditText, view);
+
+                    showMoreTextView.setVisibility(View.GONE);
+                    hideCommentTextView.setVisibility(View.VISIBLE);
+                });
+
+                hideCommentTextView.setOnClickListener(v -> {
+                    showMoreTextView.setVisibility(View.VISIBLE);
+                    hideCommentTextView.setVisibility(View.GONE);
+                    childCommentRecyclerView.setVisibility(View.GONE);
+                });
 
                 Picasso
                         .get()
@@ -74,17 +98,13 @@ public class CommentToPostParentAdapter extends BaseRecyclerAdapter<CommentModel
                 final String comment = item.getCommentBody();
                 checkCommentLength(commentBodyTextView, comment, view.getContext()); // Проверить длинну комментария + обработка нажатия на кнопку "Весь комментарий"
 
-                boolean isLike = item.getFavoriteFlag().equals("1") ? true : false;
+                boolean isLike = item.getFavoriteFlag().equals("1");
                 changeLikeImage(isLike, likeImageView); // Проверить пользователь оценил комент или нет
 
-                countLikeTextView.setText(item.getCountLike());
+                countLikeTextView.setText(item.getCountLikeToComment());
                 likeImageClickListener(view.getContext(), likeImageView, item.getCommentId(), isLike); // обработка нажатия на кномку "оценить комент"
 
                 answerClickListener(answerTextView, item.getAuthorName(), item.getCommentId()); // обработка нажатия на кнопку "Ответить"
-
-                // Загрузить дочерние комментарии
-                GetCommentListByComment.getCommentListByComment(view.getContext(), prefUtils, item.getCommentId(),
-                        childCommentRecyclerView, showMoreTextView, commentEditText, view);
             }
 
 

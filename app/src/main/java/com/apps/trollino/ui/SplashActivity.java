@@ -1,10 +1,13 @@
 package com.apps.trollino.ui;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 
 import com.apps.trollino.R;
+import com.apps.trollino.service.MyFirebaseMessagingService;
 import com.apps.trollino.ui.base.BaseActivity;
+import com.apps.trollino.ui.main_group.ActivityInPostActivity;
 import com.apps.trollino.ui.main_group.TapeActivity;
 import com.apps.trollino.utils.data.CleanSavedDataHelper;
 import com.apps.trollino.utils.networking.GetCategoryList;
@@ -41,13 +44,23 @@ public class SplashActivity extends BaseActivity {
 
         new Thread(() -> GetCategoryList.getCategoryList(this, prefUtils, findViewById(R.id.splash_activity))).start();
         new Thread(() -> GetSettings.getSettings(this, prefUtils, null, findViewById(R.id.splash_activity))).start();
+
+        if (prefUtils.getIsUserAuthorization()) {
+            MyFirebaseMessagingService firebaseMessagingService = new MyFirebaseMessagingService();
+            firebaseMessagingService.getFireBaseToken(this, prefUtils);
+        }
     }
 
     Runnable openNextActivity = new Runnable() {
         @Override
         public void run() {
             if (startTime >= maxTime - 1) {
-                startActivity(new Intent(SplashActivity.this, TapeActivity.class));
+                Bundle extras = getIntent().getExtras();
+                if(extras != null) {
+                    startActivity(new Intent(SplashActivity.this, ActivityInPostActivity.class));
+                } else {
+                    startActivity(new Intent(SplashActivity.this, TapeActivity.class));
+                }
                 finish();
             }
         }

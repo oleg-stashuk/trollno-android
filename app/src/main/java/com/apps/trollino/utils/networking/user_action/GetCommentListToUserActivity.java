@@ -3,7 +3,6 @@ package com.apps.trollino.utils.networking.user_action;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +19,7 @@ import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
 import com.apps.trollino.utils.networking_helper.ShimmerHide;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.snackbar.Snackbar;
+import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 
 import java.util.List;
 
@@ -27,27 +27,25 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.apps.trollino.utils.data.Const.COUNT_TRY_REQUEST;
-import static com.apps.trollino.utils.data.Const.LOG_TAG;
+import static com.apps.trollino.utils.data.Const.TAG_LOG;
 
 public class GetCommentListToUserActivity {
     private static int page;
     private static int totalPage;
     private static boolean isGetNewListThis;
-    private static RecyclerView recyclerView;
+    private static Context cont;
 
     public static void getCommentListToUserActivity(Context context, PrefUtils prefUtils, UserCommentAdapter adapter,
-                                                    RecyclerView recycler, ShimmerFrameLayout shimmer, boolean isGetNewList,
-                                                    ProgressBar progressBar, View includeNoDataForUser, TextView noDataTextView) {
+                                                    RecyclerView recycler, ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout,
+                                                    boolean isGetNewList, View includeNoDataForUser,
+                                                    TextView noDataTextView,  View bottomNavigation) {
         String cookie = prefUtils.getCookie();
         String userId = prefUtils.getUserUid();
         page = isGetNewList ? 0 : prefUtils.getCurrentPage();
         isGetNewListThis = isGetNewList;
-        recyclerView = recycler;
+        cont = context;
 
         ApiService.getInstance(context).getCommentListToUserActivity(cookie, userId, page, new Callback<CommentModel>() {
-            int countTry = 0;
-
             @Override
             public void onResponse(Call<CommentModel> call, Response<CommentModel> response) {
                 if(response.isSuccessful()) {
@@ -60,45 +58,50 @@ public class GetCommentListToUserActivity {
                         noDataTextView.setText(context.getResources().getString(R.string.txt_have_no_comments));
                     } else {
                         includeNoDataForUser.setVisibility(View.GONE);
-                        updatePostListAndNotifyRecyclerAdapter(commentList, adapter);
+                        updatePostListAndNotifyRecyclerAdapter(commentList, adapter, bottomNavigation);
                         saveCurrentPage(prefUtils);
-                        ShimmerHide.shimmerHide(recycler, shimmer);
                     }
                 } else if(response.code() == 403) {
                     GuestDialog dialog = new GuestDialog();
                     dialog.showDialog(context);
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
-                    SnackBarMessageCustom.showSnackBar(recycler, errorMessage);
+                    SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, errorMessage);
                 }
-                progressBar.setVisibility(View.GONE);
+
+                hideUpdateDataProgressView(recycler, shimmer, refreshLayout);
             }
 
             @Override
             public void onFailure(Call<CommentModel> call, Throwable t) {
                 t.getStackTrace();
-                if (countTry <= COUNT_TRY_REQUEST) {
-                    call.clone().enqueue(this);
-                    countTry++;
+                boolean isHaveNotInternet = t.getLocalizedMessage().contains(context.getString(R.string.internet_error_from_api));
+                String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
+                if (isHaveNotInternet) {
+                    Snackbar snackbar  = Snackbar
+                            .make(bottomNavigation, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
+                            .setMaxInlineActionWidth(3)
+                            .setAction(R.string.refresh_button, v -> {
+                                call.clone().enqueue(this);
+                            });
+                    snackbar.setAnchorView(bottomNavigation);
+                    snackbar.show();
                 } else {
-                    boolean isHaveNotInternet = t.getLocalizedMessage().contains(context.getString(R.string.internet_error_from_api));
-                    String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
-                    if (isHaveNotInternet) {
-                        Snackbar
-                                .make(recycler, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
-                                .setMaxInlineActionWidth(3)
-                                .setAction(R.string.refresh_button, v -> {
-                                    call.clone().enqueue(this);
-                                })
-                                .show();
-                    } else {
-                        SnackBarMessageCustom.showSnackBar(recycler, t.getLocalizedMessage());
-                    }
-                    progressBar.setVisibility(View.GONE);
-                    Log.d(LOG_TAG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
+                    SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(recycler, t.getLocalizedMessage());
                 }
+                hideUpdateDataProgressView(recycler, shimmer, refreshLayout);
+                Log.d(TAG_LOG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
             }
         });
+    }
+
+    private static void hideUpdateDataProgressView(RecyclerView recycler, ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout) {
+        if(shimmer != null) {
+            ShimmerHide.shimmerHide(recycler, shimmer);
+        }
+        if (refreshLayout != null) {
+            refreshLayout.setRefreshing(false);
+        }
     }
 
     private static void saveCurrentPage(PrefUtils prefUtils) {
@@ -109,12 +112,12 @@ public class GetCommentListToUserActivity {
         }
     }
 
-    private static void updatePostListAndNotifyRecyclerAdapter(List<CommentModel.Comments> comments, UserCommentAdapter adapter) {
+    private static void updatePostListAndNotifyRecyclerAdapter(List<CommentModel.Comments> comments, UserCommentAdapter adapter, View bottomNavigation) {
         int currentListSize = CommentListToUserActivityFromApi.getInstance().getCommentList().size();
         CommentListToUserActivityFromApi.getInstance().saveCommentInList(comments);
         int newListSize = CommentListToUserActivityFromApi.getInstance().getCommentList().size();
         if(newListSize == currentListSize && page == totalPage && ! isGetNewListThis) {
-            SnackBarMessageCustom.showSnackBar(recyclerView, "Ответов больше нет");
+            SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, cont.getResources().getString(R.string.msg_user_have_not_any_answer));
         }
         adapter.notifyDataSetChanged();
     }

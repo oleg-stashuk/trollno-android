@@ -3,13 +3,9 @@ package com.apps.trollino.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,12 +18,10 @@ import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
 import com.apps.trollino.data.model.single_post.ItemPostModel;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.ui.main_group.YoutubeActivity;
+import com.apps.trollino.utils.ShowAdvertising;
 import com.apps.trollino.utils.data.Const;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.dialogs.ImageViewDialog;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubeThumbnailLoader;
 import com.google.android.youtube.player.YouTubeThumbnailView;
@@ -35,25 +29,18 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import static com.apps.trollino.utils.data.Const.LOG_TAG;
-import static com.apps.trollino.utils.networking.GetTikTok.getTikTok;
-
 public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.MediaBlock> {
     private final int RECOVERY_REQUEST = 1;
-    private String adMobId;
-    private String bannerId;
-    private int blockCountFromApi;
+    private final int blockCountFromApi;
     private int blockCount = 1;
-    private int itemsSize;
-    private PrefUtils prefUtils;
+    private final int itemsSize;
+    private final PrefUtils prefUtils;
 
     public OnePostElementAdapter(BaseActivity baseActivity, List<ItemPostModel.MediaBlock> items, PrefUtils prefUtils) {
         super(baseActivity, items);
         this.blockCountFromApi = prefUtils.getCountBetweenAds();
         this.itemsSize = items.size();
         this.prefUtils = prefUtils;
-        this.adMobId = prefUtils.getAdMobId();
-        this.bannerId = prefUtils.getBannerId();
     }
 
     @Override
@@ -66,11 +53,6 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
         return new BaseItem(view) {
             @Override
             public void bind(ItemPostModel.MediaBlock item) {
-//                LinearLayout instagramLinearLayout = view.findViewById(R.id.instagram_item_element_of_post);
-//                TextView instagramTextView = view.findViewById(R.id.instagram_element_of_post);
-//                ImageView tikTokImageView = view.findViewById(R.id.tiktok_image_item_element_of_post);
-//                makeInstagramBlock(entityItem.getInstagram(), instagramLinearLayout, instagramTextView, view.getContext());
-//                makeTokImageBlock(entityItem.getTiktok(), tikTokImageView, view);
                 RelativeLayout adMobViewRelativeLayout = view.findViewById(R.id.ad_mob_view_element_of_post);
                 LinearLayout adLinearLayout = view.findViewById(R.id.ad_block_element_of_post);
 
@@ -129,27 +111,8 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
             }
 
             private void getAdBlock(RelativeLayout adViewRelativeLayout, LinearLayout adLinearLayout, Context context) {
-                try {
-                    ApplicationInfo ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
-                    Bundle bundle = ai.metaData;
-                    String myApiKey = bundle.getString("com.google.android.gms.ads.APPLICATION_ID");
-                    Log.d(LOG_TAG, "Name Found: " + myApiKey);
-                    ai.metaData.putString("com.google.android.gms.ads.APPLICATION_ID", adMobId);//you can replace your key APPLICATION_ID here
-                    String ApiKey = bundle.getString("com.google.android.gms.ads.APPLICATION_ID");
-                    Log.d(LOG_TAG, "ReNamed Found: " + ApiKey);
-                    adLinearLayout.setVisibility(View.VISIBLE);
-                } catch (PackageManager.NameNotFoundException e) {
-                    Log.e(LOG_TAG, "Failed to load meta-data, NameNotFound: " + e.getMessage());
-                } catch (NullPointerException e) {
-                    Log.e(LOG_TAG, "Failed to load meta-data, NullPointer: " + e.getMessage());
-                }
-
-                AdView mAdView = new AdView(context);
-                mAdView.setAdSize(AdSize.SMART_BANNER);
-                mAdView.setAdUnitId(bannerId);
-                ((RelativeLayout)adViewRelativeLayout).addView(mAdView);
-                AdRequest adRequest = new AdRequest.Builder().build();
-                mAdView.loadAd(adRequest);
+                adLinearLayout.setVisibility(View.VISIBLE);
+                ShowAdvertising.showAdvertising(adViewRelativeLayout, prefUtils, context);
             }
 
             private void makeImageBlock(ItemPostModel.ImageBlock image, ImageView imageView, TextView sourceTextView, TextView sourceLinkTextView) {
@@ -230,41 +193,6 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
                 intent.putExtra(YoutubeActivity.YOUTUBE_VIDEO_LINK, videoAddress);
                 view.getContext().startActivity(intent);
             }
-
-//            private void makeInstagramBlock(String instagramLink, LinearLayout instagramLinearLayout, TextView instagramTextView, Context context) {
-//                if (instagramLink.isEmpty()) {
-//                    instagramLinearLayout.setVisibility(View.GONE);
-//                    instagramTextView.setVisibility(View.GONE);
-//                } else {
-//                    instagramLinearLayout.setVisibility(View.VISIBLE);
-//                    instagramTextView.setVisibility(View.VISIBLE);
-//
-//                    instagramTextView.setText(instagramLink);
-//                    instagramLinearLayout.setOnClickListener(v -> {
-//                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(instagramLink));
-//                        view.getContext().startActivity(browserIntent);
-////                        WebViewDialog webViewDialog = new WebViewDialog();
-////                        webViewDialog.showWebDialog(context, instagramLink);
-//                    });
-//                }
-//            }
-//
-//            private void makeTokImageBlock(String tikTokLink, ImageView tikTokImageView, View view) {
-//                if (tikTokLink.isEmpty()) {
-//                    tikTokImageView.setVisibility(View.GONE);
-//                } else {
-//                    tikTokImageView.setVisibility(View.VISIBLE);
-//                    getTikTok(view.getContext(), tikTokImageView, tikTokLink, view);
-//
-//                    tikTokImageView.setOnClickListener(v -> {
-//                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(tikTokLink));
-//                        view.getContext().startActivity(browserIntent);
-//                    });
-//                }
-//
-//
-//
-//            }
         };
 
 

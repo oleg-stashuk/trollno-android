@@ -5,7 +5,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
@@ -17,6 +19,7 @@ import com.apps.trollino.R;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.OnSwipeTouchListener;
 import com.apps.trollino.utils.OpenActivityHelper;
+import com.apps.trollino.utils.ShowAdvertising;
 import com.apps.trollino.utils.dialogs.GuestDialog;
 import com.apps.trollino.utils.networking.single_post.GetItemPost;
 import com.apps.trollino.utils.networking.single_post.PostBookmark;
@@ -27,7 +30,8 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
     private NestedScrollView nestedScrollView;
     private LinearLayout postLayout;
     private ShimmerFrameLayout shimmerLayout;
-    private LinearLayout swipedImageView;
+//    private LinearLayout swipedLinearLayout;
+    private ImageView swipedLinearLayout;
     private TextView categoryTextView;
     private TextView titleTextView;
     private TextView countCommentTextView;
@@ -49,7 +53,8 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
         nestedScrollView = findViewById(R.id.include_post_screen);
         postLayout = findViewById(R.id.post_layout);
         shimmerLayout = findViewById(R.id.include_shimmer_post);
-        swipedImageView = findViewById(R.id.swiped_image_post_activity);
+        swipedLinearLayout = findViewById(R.id.swiped_image_post_activity);
+        RelativeLayout advRelativeLayout = findViewById(R.id.ad_mob_in_post);
         partOfPostRecyclerView = findViewById(R.id.recycler_post_activity);
         categoryTextView = findViewById(R.id.category_post_activity);
         titleTextView = findViewById(R.id.title_post_activity);
@@ -60,6 +65,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
 
         initToolbar();
         makeTouchListener();
+        ShowAdvertising.showAdvertising(advRelativeLayout, prefUtils, this);
 
         prefUtils.saveCurrentActivity(OpenActivityHelper.POST_ACTIVITY);
         currentPostId = prefUtils.getCurrentPostId();
@@ -93,8 +99,11 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
 
     // Действия при свайпах в разные стороны
     private void makeTouchListener() {
-        swipedImageView.setOnTouchListener(new OnSwipeTouchListener(this) {
-//        layout.setOnTouchListener(new OnSwipeTouchListener(this) {
+        swipedLinearLayout.setOnTouchListener(new OnSwipeTouchListener(this) {
+            public void onSwipeTop() {}
+
+            public void onSwipeBottom() {}
+
             public void onSwipeRight() {
                 String nextPostId = prefUtils.getNextPostId();
                 if(!nextPostId.isEmpty() && nextPostId.length() > 0 && !nextPostId.equals("0")) {

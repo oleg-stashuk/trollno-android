@@ -8,6 +8,7 @@ import android.view.View;
 import com.apps.trollino.R;
 import com.apps.trollino.data.model.login.ResponseLoginModel;
 import com.apps.trollino.data.networking.ApiService;
+import com.apps.trollino.service.MyFirebaseMessagingService;
 import com.apps.trollino.utils.OpenActivityHelper;
 import com.apps.trollino.utils.SnackBarMessageCustom;
 import com.apps.trollino.utils.data.PrefUtils;
@@ -18,16 +19,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.apps.trollino.utils.data.Const.COUNT_TRY_REQUEST;
-import static com.apps.trollino.utils.data.Const.LOG_TAG;
+import static com.apps.trollino.utils.data.Const.TAG_LOG;
 
 public class PostUserLogin {
 
     public static void postUserLogin(Context context, String login, String password, PrefUtils prefUtils, View view) {
 
         ApiService.getInstance(context).postLogin(login, password, new Callback<ResponseLoginModel>() {
-            int countTry = 0;
-
             @Override
             public void onResponse(Call<ResponseLoginModel> call, Response<ResponseLoginModel> response) {
                 if (response.isSuccessful()) {
@@ -40,36 +38,40 @@ public class PostUserLogin {
                     prefUtils.saveIsUserAuthorization(true);
                     prefUtils.savePassword(password);
 
+                    new Thread(() -> GetUserProfile.getUserProfileSettings(context, prefUtils)).start();
+
+                    SnackBarMessageCustom.showSnackBar(view, context.getResources().getString(R.string.msg_login));
                     context.startActivity(OpenActivityHelper.openActivity(context,prefUtils));
                     ((Activity) context).finish();
+
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
-                    SnackBarMessageCustom.showSnackBar(view, errorMessage);
+                    String messageFromApi = context.getResources().getString(R.string.msg_wrong_login_or_password_from_api);
+                    if (response.code() == 400 && errorMessage.equals(messageFromApi)) {
+                        SnackBarMessageCustom.showSnackBar(view, context.getResources().getString(R.string.msg_wrong_login_or_password));
+                    } else {
+                        SnackBarMessageCustom.showSnackBar(view, errorMessage);
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseLoginModel> call, Throwable t) {
                 t.getStackTrace();
-                if (countTry <= COUNT_TRY_REQUEST) {
-                    call.clone().enqueue(this);
-                    countTry++;
+                boolean isHaveNotInternet = t.getLocalizedMessage().contains(context.getString(R.string.internet_error_from_api));
+                String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
+                if (isHaveNotInternet) {
+                    Snackbar
+                            .make(view, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
+                            .setMaxInlineActionWidth(3)
+                            .setAction(R.string.refresh_button, v -> {
+                                call.clone().enqueue(this);
+                            })
+                            .show();
                 } else {
-                    boolean isHaveNotInternet = t.getLocalizedMessage().contains(context.getString(R.string.internet_error_from_api));
-                    String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
-                    if (isHaveNotInternet) {
-                        Snackbar
-                                .make(view, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
-                                .setMaxInlineActionWidth(3)
-                                .setAction(R.string.refresh_button, v -> {
-                                    call.clone().enqueue(this);
-                                })
-                                .show();
-                    } else {
-                        SnackBarMessageCustom.showSnackBar(view, t.getLocalizedMessage());
-                    }
-                    Log.d(LOG_TAG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
+                    SnackBarMessageCustom.showSnackBar(view, t.getLocalizedMessage());
                 }
+                Log.d(TAG_LOG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
             }
         });
     }

@@ -59,7 +59,7 @@ public class CommentToPostChildAdapter extends BaseRecyclerAdapter<CommentModel.
                 }
 
                 final String comment = item.getCommentBody();
-                boolean isLike = item.getFavoriteFlag().equals("1") ? true : false;
+                boolean isLike = item.getFavoriteFlag().equals("1");
 
                 Picasso
                         .get()
@@ -68,7 +68,7 @@ public class CommentToPostChildAdapter extends BaseRecyclerAdapter<CommentModel.
 
                 nameTextView.setText(item.getAuthorName());
                 timeTextView.setText(ShowTimeAgoHelper.showTimeAgo(item.getTime()));
-                countLikeTextView.setText(item.getCountLike());
+                countLikeTextView.setText(item.getCountLikeToComment());
 
                 changeLikeImage(isLike, likeImageView); // Проверить пользователь оценил комент или нет
                 checkCommentLength(commentTextView, comment, view.getContext()); // Проверить длинну комментария

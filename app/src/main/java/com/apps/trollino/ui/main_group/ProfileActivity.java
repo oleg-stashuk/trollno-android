@@ -4,41 +4,42 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
+import androidx.databinding.DataBindingUtil;
 
 import com.apps.trollino.R;
+import com.apps.trollino.databinding.ActivityProfileBinding;
+import com.apps.trollino.service.MyFirebaseMessagingService;
 import com.apps.trollino.ui.authorisation.LoginActivity;
 import com.apps.trollino.ui.authorisation.RegistrationActivity;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.OpenActivityHelper;
-import com.apps.trollino.utils.dialogs.InformationAboutAppDialog;
 import com.apps.trollino.utils.networking.authorisation.GetUserProfile;
 import com.apps.trollino.utils.networking.authorisation.PostLogout;
+import com.apps.trollino.utils.networking.user.UpdateUserProfileSettings;
 import com.apps.trollino.utils.networking.user_action.GetNewAnswersCount;
 import com.facebook.login.LoginManager;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
+import static com.apps.trollino.utils.SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation;
+
 public class ProfileActivity extends BaseActivity implements View.OnClickListener{
+    private ActivityProfileBinding binding;
+
     private LinearLayout userIncludeLinearLayout;
     private ShimmerFrameLayout userIncludeShimmer;
     private LinearLayout guestIncludeLinearLayout;
-
+    private LinearLayout bottomNavigation;
     private ImageView userImageView;
     private TextView emailTextView;
     private TextView nameTextView;
-//    private Switch darkThemeSwitch;
-    private Button exitButton;
-    private TextView profileBottomNavigationTextView;
     private ImageView indicatorImageView;
 
-    private boolean isUserAuthorization; // Пользователь авторизирован или нет
     private boolean doubleBackToExitPressedOnce = false; // для обработки нажатия onBackPressed
-
 
     @Override
     protected int getLayoutID() {
@@ -47,23 +48,22 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initView() {
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_profile);
+        prefUtils.saveCurrentActivity(OpenActivityHelper.PROFILE_ACTIVITY);
+
         userIncludeLinearLayout = findViewById(R.id.include_user_profile);
         userIncludeShimmer = findViewById(R.id.include_user_profile_shimmer);
         guestIncludeLinearLayout = findViewById(R.id.include_user_not_authorization_profile);
+        bottomNavigation = findViewById(R.id.bottom_navigation_profile);
         userImageView = findViewById(R.id.image_account_profile_include);
         nameTextView = findViewById(R.id.name_account_profile_include);
         emailTextView = findViewById(R.id.email_account_profile_include);
-//        darkThemeSwitch = findViewById(R.id.switch_theme_profile);
-        exitButton = findViewById(R.id.exit_button_profile);
-        profileBottomNavigationTextView = findViewById(R.id.profile_button);
+        TextView profileBottomNavigationTextView = findViewById(R.id.profile_button);
         indicatorImageView = findViewById(R.id.indicator_image);
 
         findViewById(R.id.login_button_include_profile_for_guest).setOnClickListener(this);
         findViewById(R.id.registration_button_include_profile_for_guest).setOnClickListener(this);
-        exitButton.setOnClickListener(this);
         userIncludeLinearLayout.setOnClickListener(this);
-        findViewById(R.id.rate_profile).setOnClickListener(this);
-        findViewById(R.id.info_profile).setOnClickListener(this);
         findViewById(R.id.tape_button).setOnClickListener(this);
         findViewById(R.id.activity_button).setOnClickListener(this);
         findViewById(R.id.favorites_button).setOnClickListener(this);
@@ -72,53 +72,79 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         profileBottomNavigationTextView.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_profile_green, 0, 0);
         profileBottomNavigationTextView.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
 
-        isUserAuthorization = prefUtils.getIsUserAuthorization();
-        if(isUserAuthorization) {
-            new Thread(() -> GetNewAnswersCount.getNewAnswersCount(this, prefUtils, indicatorImageView)).start();
-        }
-        prefUtils.saveCurrentActivity(OpenActivityHelper.PROFILE_ACTIVITY);
-
-//        makeDarkThemeOnCheckedListener();
         makeIsUserAuthorizationCorrectData();
+        initSwitch();
+        initClickListeners();
     }
 
     private void makeIsUserAuthorizationCorrectData() {
-        if(isUserAuthorization) {
+        if(prefUtils.getIsUserAuthorization()) {
             userIncludeLinearLayout.setVisibility(View.GONE);
             userIncludeShimmer.setVisibility(View.VISIBLE);
             guestIncludeLinearLayout.setVisibility(View.GONE);
-            exitButton.setVisibility(View.VISIBLE);
+            binding.exitButtonProfile.setVisibility(View.VISIBLE);
 
             new Thread(() -> {
                 GetUserProfile.getUserProfile(this, prefUtils, userImageView, nameTextView, emailTextView,
-                        findViewById(R.id.activity_profile), userIncludeLinearLayout, userIncludeShimmer);
+                        bottomNavigation, userIncludeLinearLayout, userIncludeShimmer);
             }).start();
+
+            new Thread(() -> GetNewAnswersCount.getNewAnswersCount(this, prefUtils, indicatorImageView)).start();
         } else {
             userIncludeLinearLayout.setVisibility(View.GONE);
             userIncludeShimmer.setVisibility(View.GONE);
             guestIncludeLinearLayout.setVisibility(View.VISIBLE);
-            exitButton.setVisibility(View.GONE);
+            binding.exitButtonProfile.setVisibility(View.GONE);
         }
     }
 
-    // setOnCheckedChangeListener for darkThemeSwitch. If isChecked = true -> dark theme on
-//    private void makeDarkThemeOnCheckedListener() {
-//        darkThemeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                showSnackBarMessage(findViewById(R.id.activity_profile), isChecked ? "Dark theme" : "Light theme");
-//            }
-//        });
-//    }
+    private void initSwitch(){
+        binding.markReadPostSwitch.setChecked(prefUtils.isShowReadPost());
+        binding.markReadPostSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            prefUtils.saveIsShowReadPost(isChecked);
+            UpdateUserProfileSettings.updateShowReadPosts(this, prefUtils, isChecked);
+        });
+
+
+        binding.answerToCommentSwitch.setChecked(prefUtils.isSendPushAboutAnswerToComment());
+        binding.answerToCommentSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            prefUtils.saveIsSendPushAboutAnswerToComment(isChecked);
+            UpdateUserProfileSettings.updateSendPushNewAnswers(this, prefUtils, isChecked);
+        });
+    }
+
+    private void initClickListeners() {
+        binding.rateProfile.setOnClickListener(v -> {
+            openPlayMarketForRateTheApp();
+        });
+
+        binding.exitButtonProfile.setOnClickListener(v -> {
+            LoginManager.getInstance().logOut();
+            new Thread(
+                    () -> PostLogout.postLogout(this, prefUtils, bottomNavigation)
+            ).start();
+            removeFireBaseToken();
+        });
+
+        binding.includeUserProfile.setOnClickListener(v -> {
+            startActivity(new Intent(this, EditUserProfileActivity.class));
+            finish();
+        });
+    }
 
     private void openPlayMarketForRateTheApp() {
-        final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+        final String appPackageName = getPackageName();
         try {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
         } catch (android.content.ActivityNotFoundException exc) {
             startActivity(new Intent(Intent.ACTION_VIEW,
                     Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
         }
+    }
+
+    private void removeFireBaseToken() {
+        MyFirebaseMessagingService fireBaseService = new MyFirebaseMessagingService();
+        fireBaseService.onDeletedFireBaseToken(this, prefUtils);
     }
 
     @Override
@@ -130,43 +156,20 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         }
 
         this.doubleBackToExitPressedOnce = true;
-        showSnackBarMessage(findViewById(R.id.activity_profile), getString(R.string.press_twice_to_exit));
-
-        new Handler().postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce=false;
-            }
-        }, 2000);
+        showSnackBarOnTheTopByBottomNavigation(findViewById(R.id.activity_profile), getString(R.string.press_twice_to_exit));
+        new Handler().postDelayed(() -> doubleBackToExitPressedOnce=false, 2000);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.include_user_profile:
-                startActivity(new Intent(this, EditUserProfileActivity.class));
-                finish();
-                break;
             case R.id.login_button_include_profile_for_guest:
                 startActivity(new Intent(this, LoginActivity.class));
                 finish();
                 break;
-            case R.id.exit_button_profile:
-                LoginManager.getInstance().logOut();
-                new Thread(
-                        () -> PostLogout.postLogout(this, prefUtils, findViewById(R.id.activity_profile))
-                ).start();
-                break;
             case R.id.registration_button_include_profile_for_guest:
                 startActivity(new Intent(this, RegistrationActivity.class));
                 finish();
-                break;
-            case R.id.rate_profile:
-                openPlayMarketForRateTheApp();
-                break;
-            case R.id.info_profile:
-                InformationAboutAppDialog.aboutDialog(this);
                 break;
             case R.id.tape_button: // "Перейти на экран Лента"
                 startActivity(new Intent(this, TapeActivity.class));

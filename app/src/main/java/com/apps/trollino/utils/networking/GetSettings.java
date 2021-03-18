@@ -21,8 +21,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.apps.trollino.utils.data.Const.COUNT_TRY_REQUEST;
-import static com.apps.trollino.utils.data.Const.LOG_TAG;
+import static com.apps.trollino.utils.data.Const.TAG_LOG;
 
 public class GetSettings {
 
@@ -46,9 +45,6 @@ public class GetSettings {
                     for(SettingsModel.KeyModel adBanner : adBannerList) {
                         prefUtils.saveBannerId(adBanner.getValue());
                     }
-                    Log.d(LOG_TAG, "!!!!!!!!!!!!!!! adMobId: " + prefUtils.getAdMobId());
-                    Log.d(LOG_TAG, "!!!!!!!!!!!!!!! bannerId: "  + prefUtils.getBannerId());
-
 
                     if (prefUtils.getCurrentActivity().equals("")) {
                         List<SettingsModel.AdvertisingModel> advertisingList = settingsModel.getAdvertisingList();
@@ -70,25 +66,20 @@ public class GetSettings {
             @Override
             public void onFailure(Call<SettingsModel> call, Throwable t) {
                 t.getStackTrace();
-                if (countTry <= COUNT_TRY_REQUEST) {
-                    call.clone().enqueue(this);
-                    countTry++;
+                boolean isHaveNotInternet = t.getLocalizedMessage().contains(context.getString(R.string.internet_error_from_api));
+                String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
+                if (isHaveNotInternet) {
+                    Snackbar
+                            .make(view, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
+                            .setMaxInlineActionWidth(3)
+                            .setAction(R.string.refresh_button, v -> {
+                                call.clone().enqueue(this);
+                            })
+                            .show();
                 } else {
-                    boolean isHaveNotInternet = t.getLocalizedMessage().contains(context.getString(R.string.internet_error_from_api));
-                    String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
-                    if (isHaveNotInternet) {
-                        Snackbar
-                                .make(view, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
-                                .setMaxInlineActionWidth(3)
-                                .setAction(R.string.refresh_button, v -> {
-                                    call.clone().enqueue(this);
-                                })
-                                .show();
-                    } else {
-                        SnackBarMessageCustom.showSnackBar(view, t.getLocalizedMessage());
-                    }
-                    Log.d(LOG_TAG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
+                    SnackBarMessageCustom.showSnackBar(view, t.getLocalizedMessage());
                 }
+                Log.d(TAG_LOG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
             }
         });
     }

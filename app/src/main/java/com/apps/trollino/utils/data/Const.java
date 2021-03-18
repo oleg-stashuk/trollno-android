@@ -6,7 +6,7 @@ public class Const {
     public static final String BASE_URL = "http://newsblog.app.km.ua";
     public static final String YOUTUBE_API_KEY = "YOUR API KEY";
 
-    public static final String LOG_TAG = "OkHttp";
+    public static final String TAG_LOG = "OkHttp";
 
     public static final String SORT_BY_COUNT = "count"; // сортировать по количеству лайков
     public static final String SORT_BY_CHANGE = "changed"; // сортировать по дате создания

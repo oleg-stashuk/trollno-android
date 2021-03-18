@@ -228,25 +228,17 @@ public class ItemPostModel {
         @SerializedName("field_app_title")
         @Expose
         private String title;
-        @SerializedName("field_block_instagram")
-        @Expose
-        private String instagram;
         @SerializedName("field_block_youtube")
         @Expose
         private String youtube;
-        @SerializedName("field_block_tiktok")
-        @Expose
-        private String tiktok;
         @SerializedName("field_block_desc")
         @Expose
         private String desc;
 
-        public EntityMediaBlock(ImageBlock image, String title, String instagram, String youtube, String tiktok, String desc) {
+        public EntityMediaBlock(ImageBlock image, String title, String youtube, String desc) {
             this.image = image;
             this.title = title;
-            this.instagram = instagram;
             this.youtube = youtube;
-            this.tiktok = tiktok;
             this.desc = desc;
         }
 
@@ -259,16 +251,8 @@ public class ItemPostModel {
             return title;
         }
 
-        public String getInstagram() {
-            return instagram;
-        }
-
         public String getYoutube() {
             return youtube;
-        }
-
-        public String getTiktok() {
-            return tiktok;
         }
 
         public String getDesc() {

@@ -3,7 +3,6 @@ package com.apps.trollino.utils.networking.main_group;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
-import android.widget.ProgressBar;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,9 +15,8 @@ import com.apps.trollino.utils.SnackBarMessageCustom;
 import com.apps.trollino.utils.data.PostListBySearchFromApi;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
-import com.apps.trollino.utils.networking_helper.ShimmerHide;
-import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.snackbar.Snackbar;
+import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 
 import java.util.List;
 
@@ -26,8 +24,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.apps.trollino.utils.data.Const.COUNT_TRY_REQUEST;
-import static com.apps.trollino.utils.data.Const.LOG_TAG;
+import static com.apps.trollino.utils.data.Const.TAG_LOG;
 
 public class GetPostBySearch {
     private static int page;
@@ -36,10 +33,9 @@ public class GetPostBySearch {
     private static boolean isGetNewListThis;
 
     public static void getPostBySearch(Context context, PrefUtils prefUtils,
-                                       RecyclerView recycler, ShimmerFrameLayout shimmer,
+                                       RecyclerView recycler, SwipyRefreshLayout refreshLayout,
                                        String searchText, View nothingSearch,
-                                       ProgressBar progressBar, PostListAdapter adapter, boolean isGetNewList) {
-
+                                       PostListAdapter adapter, boolean isGetNewList) {
         recyclerView = recycler;
         isGetNewListThis = isGetNewList;
         page = isGetNewList ? 0 : prefUtils.getCurrentPage();
@@ -49,8 +45,6 @@ public class GetPostBySearch {
         String cookie = prefUtils.getCookie();
 
         ApiService.getInstance(context).getSearchPosts(cookie, searchText, page, new Callback<PostsModel>() {
-            int countTry = 0;
-
             @Override
             public void onResponse(Call<PostsModel> call, Response<PostsModel> response) {
                 if(response.isSuccessful()) {
@@ -59,50 +53,49 @@ public class GetPostBySearch {
                     PagerModel pagerModel = postsModel.getPagerModel();
                     if(pagerModel.getTotalItems() == 0) {
                         recycler.setVisibility(View.GONE);
-                        ShimmerHide.shimmerHide(nothingSearch, shimmer);
                     } else {
                         nothingSearch.setVisibility(View.GONE);
                         List<PostsModel.PostDetails> newPostList = postsModel.getPostDetailsList();
-
                         updatePostListAndNotifyRecyclerAdapter(newPostList, adapter);
-                        ShimmerHide.shimmerHide(recycler, shimmer);
                     }
                     totalPage = postsModel.getPagerModel().getTotalPages() -1;
                     saveCurrentPage(prefUtils);
 
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
-                    SnackBarMessageCustom.showSnackBar(progressBar, errorMessage);
+                    SnackBarMessageCustom.showSnackBar(recycler, errorMessage);
                 }
-                progressBar.setVisibility(View.GONE);
+
+                hideUpdateProgressView(refreshLayout);
             }
 
             @Override
             public void onFailure(Call<PostsModel> call, Throwable t) {
                 t.getStackTrace();
-                progressBar.setVisibility(View.GONE);
-                if (countTry <= COUNT_TRY_REQUEST) {
-                    call.clone().enqueue(this);
-                    countTry++;
+                boolean isHaveNotInternet = t.getLocalizedMessage().contains(context.getString(R.string.internet_error_from_api));
+                String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
+                if (isHaveNotInternet) {
+                    Snackbar
+                            .make(recycler, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
+                            .setMaxInlineActionWidth(3)
+                            .setAction(R.string.refresh_button, v -> {
+                                call.clone().enqueue(this);
+                            })
+                            .show();
                 } else {
-                    boolean isHaveNotInternet = t.getLocalizedMessage().contains(context.getString(R.string.internet_error_from_api));
-                    String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
-                    if (isHaveNotInternet) {
-                        Snackbar
-                                .make(progressBar, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
-                                .setMaxInlineActionWidth(3)
-                                .setAction(R.string.refresh_button, v -> {
-                                    call.clone().enqueue(this);
-                                })
-                                .show();
-                    } else {
-                        SnackBarMessageCustom.showSnackBar(progressBar, t.getLocalizedMessage());
-                    }
-                    Log.d(LOG_TAG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
+                    SnackBarMessageCustom.showSnackBar(recycler, t.getLocalizedMessage());
                 }
+                Log.d(TAG_LOG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
+                hideUpdateProgressView(refreshLayout);
             }
         });
 
+    }
+
+    private static void hideUpdateProgressView(SwipyRefreshLayout refreshLayout) {
+        if(refreshLayout != null) {
+            refreshLayout.setRefreshing(false);
+        }
     }
 
     private static void saveCurrentPage(PrefUtils prefUtils) {

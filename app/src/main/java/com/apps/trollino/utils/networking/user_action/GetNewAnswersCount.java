@@ -14,8 +14,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.apps.trollino.utils.data.Const.COUNT_TRY_REQUEST;
-import static com.apps.trollino.utils.data.Const.LOG_TAG;
+import static com.apps.trollino.utils.data.Const.TAG_LOG;
 
 public class GetNewAnswersCount {
 
@@ -25,29 +24,21 @@ public class GetNewAnswersCount {
         String userId = prefUtils.getUserUid();
 
         ApiService.getInstance(context).getNewAnswerToUserComment(cookie, token, userId, new Callback<CountNewAnswersModel>() {
-            int countTry = 0;
-
             @Override
             public void onResponse(Call<CountNewAnswersModel> call, Response<CountNewAnswersModel> response) {
                 if(response.isSuccessful()) {
                     int countNewAnswers = Integer.parseInt(response.body().getCountNewAnswer());
-                    Log.d(LOG_TAG, "!!!!!!!!!!!!!!!!!!! isSuccessful " + countNewAnswers);
                     boolean isShowIndicator = countNewAnswers > 0 ? true : false;
                     imageView.setVisibility(isShowIndicator ? View.VISIBLE : View.GONE);
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
-                    Log.d(LOG_TAG, "errorMessage " + errorMessage);
+                    Log.d(TAG_LOG, "errorMessage " + errorMessage);
                 }
             }
 
             @Override
             public void onFailure(Call<CountNewAnswersModel> call, Throwable t) {
-                if (countTry <= COUNT_TRY_REQUEST) {
-                    call.clone().enqueue(this);
-                    countTry++;
-                } else {
-                    Log.d(LOG_TAG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
-                }
+                Log.d(TAG_LOG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
             }
         });
     }

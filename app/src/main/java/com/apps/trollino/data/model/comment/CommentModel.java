@@ -41,7 +41,7 @@ public class CommentModel {
         @SerializedName("flagged")
         @Expose
         private String favoriteFlag;
-        @SerializedName("newsappm_comment_like_count")
+        @SerializedName("count")
         @Expose
         private String countLike;
         @SerializedName("name")
@@ -66,6 +66,9 @@ public class CommentModel {
         @SerializedName("created")
         @Expose
         private String created;
+        @SerializedName("newsappm_comment_like_count")
+        @Expose
+        private String countLikeToComment;
 
 
         public String getCommentId() {
@@ -118,6 +121,10 @@ public class CommentModel {
 
         public String getCommentNewAnswersCount() {
             return commentNewAnswersCount;
+        }
+
+        public String getCountLikeToComment() {
+            return countLikeToComment;
         }
 
         @Override

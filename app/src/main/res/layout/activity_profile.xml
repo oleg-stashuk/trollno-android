@@ -1,160 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:id="@+id/activity_profile"
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    tools:context=".ui.main_group.ProfileActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@color/colorPrimary"
-            android:orientation="horizontal">
+    <data>
+        <variable name="profile" type="String"/>
+    </data>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                style="@style/WhiteHeaderTextStyle"
-                android:text="@string/title_profile"/>
-
-        </LinearLayout>
-
-    <include layout="@layout/include_appbar_shadow" />
-
-    <androidx.core.widget.NestedScrollView
+    <LinearLayout
+        android:id="@+id/activity_profile"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        tools:context=".ui.main_group.ProfileActivity">
 
-        <LinearLayout
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@color/colorPrimary"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    style="@style/WhiteHeaderTextStyle"
+                    android:text="@string/title_profile"/>
+
+            </LinearLayout>
+
+        <include layout="@layout/include_appbar_shadow" />
+
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="vertical" >
-
-            <include
-                android:id="@+id/include_user_not_authorization_profile"
-                layout="@layout/include_guest_profile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <include
-                android:id="@+id/include_user_profile_shimmer"
-                layout="@layout/include_shimmer_user_profile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <include
-                android:id="@+id/include_user_profile"
-                layout="@layout/include_user_profile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+            android:layout_weight="1">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="vertical" >
 
-    <!--            <LinearLayout-->
-    <!--                android:layout_width="match_parent"-->
-    <!--                android:layout_height="wrap_content"-->
-    <!--                android:gravity="center_vertical"-->
-    <!--                android:orientation="horizontal"-->
-    <!--                android:padding="15dp">-->
+                <include
+                    android:id="@+id/include_user_not_authorization_profile"
+                    layout="@layout/include_guest_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-    <!--                <ImageView-->
-    <!--                    android:layout_width="wrap_content"-->
-    <!--                    android:layout_height="wrap_content"-->
-    <!--                    android:background="@android:color/transparent"-->
-    <!--                    android:padding="5dp"-->
-    <!--                    android:src="@drawable/ic_dark_theme" />-->
+                <include
+                    android:id="@+id/include_user_profile_shimmer"
+                    layout="@layout/include_shimmer_user_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-    <!--                <TextView-->
-    <!--                    android:layout_width="0dp"-->
-    <!--                    android:layout_height="wrap_content"-->
-    <!--                    android:layout_weight="1"-->
-    <!--                    android:layout_marginLeft="10dp"-->
-    <!--                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"-->
-    <!--                    android:textSize="16dp"-->
-    <!--                    android:text="@string/dark_theme"/>-->
-
-    <!--                <Switch-->
-    <!--                    android:id="@+id/switch_theme_profile"-->
-    <!--                    android:layout_width="wrap_content"-->
-    <!--                    android:layout_height="wrap_content"-->
-    <!--                    android:padding="10dp" />-->
-    <!--            </LinearLayout>-->
+                <include
+                    android:id="@+id/include_user_profile"
+                    layout="@layout/include_user_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="15dp">
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-                    <ImageView
-                        android:layout_width="wrap_content"
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/mark_read_post_switch"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:padding="5dp"
-                        android:src="@drawable/ic_rate_image" />
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="20dp"
+                        app:switchPadding="15dp"
+                        android:checked="true"
+                        android:textSize="16sp"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                        android:text="@string/txt_switch_mark_read_posts"/>
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/answer_to_comment_switch"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="20dp"
+                        app:switchPadding="15dp"
+                        android:checked="true"
+                        android:textSize="16sp"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                        android:text="@string/txt_switch_get_push_notification"/>
 
                     <TextView
                         android:id="@+id/rate_profile"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="20dp"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
-                        android:textSize="16dp"
+                        android:textSize="16sp"
                         android:text="@string/rate_app"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="15dp">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:padding="5dp"
-                        android:src="@drawable/ic_info" />
 
                     <TextView
                         android:id="@+id/info_profile"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="20dp"
                         android:gravity="center_vertical"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
-                        android:textSize="16dp"
+                        android:textSize="14sp"
                         android:text="@string/app_info"/>
                 </LinearLayout>
-            </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:orientation="horizontal">
-
-            <com.balysv.materialripple.MaterialRippleLayout
+                <com.balysv.materialripple.MaterialRippleLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:mrl_rippleAlpha="0.2"
                     app:mrl_rippleColor="@color/colorRipple"
                     app:mrl_rippleHover="true"
-                    app:mrl_rippleOverlay="true">
+                    app:mrl_rippleOverlay="true"
+                    android:layout_margin="20dp">
 
                     <Button
                         android:id="@+id/exit_button_profile"
@@ -164,13 +132,14 @@
                         android:text="@string/exit" />
                 </com.balysv.materialripple.MaterialRippleLayout>
             </LinearLayout>
-        </LinearLayout>
 
-    </androidx.core.widget.NestedScrollView>
+        </androidx.core.widget.NestedScrollView>
 
-    <include
-        android:id="@+id/bottom_navigation_profile"
-        layout="@layout/include_bottom_navigation_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-</LinearLayout>
+        <include
+            android:id="@+id/bottom_navigation_profile"
+            layout="@layout/include_bottom_navigation_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</layout>

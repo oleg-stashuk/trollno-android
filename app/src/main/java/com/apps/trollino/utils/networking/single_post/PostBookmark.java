@@ -21,7 +21,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.apps.trollino.utils.data.Const.COUNT_TRY_REQUEST;
-import static com.apps.trollino.utils.data.Const.LOG_TAG;
+import static com.apps.trollino.utils.data.Const.TAG_LOG;
 
 public class PostBookmark {
 
@@ -37,6 +37,7 @@ public class PostBookmark {
                 if(response.isSuccessful()) {
                     menu.getItem(1).setIcon(ContextCompat.getDrawable(context, R.drawable.ic_favorite_button));
                     prefUtils.saveIsFavorite(true);
+                    SnackBarMessageCustom.showSnackBar(view , context.getResources().getString(R.string.msg_post_add_to_favorite));
                 } else if(response.code() == 403) {
                     GuestDialog dialog = new GuestDialog();
                     dialog.showDialog(context);
@@ -66,7 +67,7 @@ public class PostBookmark {
                     } else {
                         SnackBarMessageCustom.showSnackBar(view, t.getLocalizedMessage());
                     }
-                    Log.d(LOG_TAG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
+                    Log.d(TAG_LOG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
                 }
             }
         });

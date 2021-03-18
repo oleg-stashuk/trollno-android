@@ -15,18 +15,18 @@ import com.apps.trollino.R;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.OpenActivityHelper;
 import com.apps.trollino.utils.Validation;
+import com.apps.trollino.utils.data.Const;
 import com.apps.trollino.utils.networking.authorisation.LoginWithFacebook;
 import com.apps.trollino.utils.networking.authorisation.PostUserLogin;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.login.LoginBehavior;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
 import java.util.Arrays;
-
-import static com.apps.trollino.utils.data.Const.LOG_TAG;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
     private EditText nameEditText;
@@ -55,35 +55,38 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
         initToolbar();
 
+//        AppEventsLogger.activateApp(this);
+//        setContentView(R.layout.activity_login);
         callbackManager = CallbackManager.Factory.create();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     private void facebookLogin() {
+        facebookLoginButton.setLoginBehavior(LoginBehavior.WEB_ONLY);
         facebookLoginButton.setPermissions(Arrays.asList("public_profile", "email"));
         facebookLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 LoginWithFacebook.loginWithFacebook(LoginActivity.this, prefUtils,
                         loginResult.getAccessToken().getToken(), activityLayout);
-                Log.d(LOG_TAG, "!!!!!!!!!!!!!!!!!!! Login with facebook is success");
+                Log.d(Const.TAG_LOG, "!!!!!!!!!!!!!!!!!!! Login with facebook is success");
             }
 
             @Override
             public void onCancel() {
-                Log.d(LOG_TAG, "!!!!!!!!!!!!!!!!!!! onCancel");
+                Log.d(Const.TAG_LOG, "!!!!!!!!!!!!!!!!!!! onCancel");
                 LoginManager.getInstance().logOut();
             }
 
             @Override
             public void onError(FacebookException error) {
                 LoginManager.getInstance().logOut();
-                Log.d(LOG_TAG, "!!!!!!!!!!!!!!!!!!! error - " + error.getLocalizedMessage());
+                Log.d(Const.TAG_LOG, "!!!!!!!!!!!!!!!!!!! error - " + error.getLocalizedMessage());
 
             }
         });
@@ -121,7 +124,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
         if(actionBar != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true); // отображать кнопку BackPress
-            getSupportActionBar().setHomeButtonEnabled(true);; // вернуться на предыдущую активность
+            getSupportActionBar().setHomeButtonEnabled(true); // вернуться на предыдущую активность
             getSupportActionBar().setDisplayShowTitleEnabled(true); // отображать Заголовок
         }
     }

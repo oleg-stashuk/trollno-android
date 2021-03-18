@@ -1,10 +1,9 @@
 package com.apps.trollino.data.networking;
 
 import com.apps.trollino.data.model.comment.CommentModel;
-import com.apps.trollino.data.model.user_action.CountNewAnswersModel;
 import com.apps.trollino.data.model.comment.CreateNewCommentRequest;
-import com.apps.trollino.data.model.comment.CreateNewCommentResponse;
 import com.apps.trollino.data.model.comment.LikeCommentModelRequest;
+import com.apps.trollino.data.model.user_action.CountNewAnswersModel;
 import com.apps.trollino.data.model.user_action.ReadAnswerRequest;
 
 import retrofit2.Call;
@@ -37,7 +36,7 @@ public interface CommentApi {
             "Accepts: application/json"
     })
     @POST("/comment/?_format=json")
-    Call<CreateNewCommentResponse> postNewCommentToPost(@Header("Cookie") String cookie, @Header("X-CSRF-Token") String token,
+    Call<Void> postNewCommentToPost(@Header("Cookie") String cookie, @Header("X-CSRF-Token") String token,
                                                         @Body CreateNewCommentRequest createNewCommentRequest);
 
     @Headers({

@@ -11,12 +11,13 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.apps.trollino.R;
+import com.apps.trollino.utils.data.Const;
 
 public class ClickableSpanText {
 
     public static void makeClickableSpanText (final TextView textViewWithClickablePart, final String comment, Context context) {
         String seeAllComment = context.getString(R.string.see_all_comment);
-        SpannableString comment100 = new SpannableString(comment.substring(0, 100).concat("... ").concat(seeAllComment));
+        SpannableString comment100 = new SpannableString(comment.substring(0, Const.COUNT_SYMBOL_TO_HIDE_PAR_OF_COMMENT).concat("... ").concat(seeAllComment));
 
         ClickableSpan clickableSpan = new ClickableSpan() {
             @Override

@@ -9,8 +9,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        style="@style/BoldHeaderTextStyle_h2"
-        android:hint="Заголовок"/>
+        android:lineSpacingExtra="4dp"
+        android:letterSpacing="0.006"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/roboto_medium"/>
 
     <ImageView
         android:id="@+id/image_element_of_post"
@@ -31,7 +34,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
-            android:textColor="@color/colorText"
+            android:letterSpacing="0.011"
+            android:textSize="14sp"
+            android:textColor="@color/colorSourceText"
             android:text="@string/source_of_image"/>
 
         <TextView
@@ -39,35 +44,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:paddingLeft="10dp"
             style="@style/UrlTextStyle"
-            android:text="Ссылка"/>
+            android:text="Ссылка" />
 
     </LinearLayout>
-
-<!--    <LinearLayout-->
-<!--        android:id="@+id/instagram_item_element_of_post"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="center_vertical"-->
-<!--        android:layout_weight="1"-->
-<!--        android:background="@color/colorGreyBackgroundVideo"-->
-<!--        android:gravity="center"-->
-<!--        android:layout_marginTop="10dp"-->
-<!--        android:orientation="vertical">-->
-
-<!--        <ImageView-->
-<!--            android:layout_width="130dp"-->
-<!--            android:layout_height="130dp"-->
-<!--            android:padding="20dp"-->
-<!--            android:src="@drawable/ic_video_player" />-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/instagram_element_of_post"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"/>-->
-
-<!--    </LinearLayout>-->
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -98,24 +80,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="10dp"
+        android:letterSpacing="0.011"
+        android:textSize="14sp"
+        android:textColor="@color/colorSourceText"
         android:text="@string/resourse_youtube"/>
-
-<!--    <ImageView-->
-<!--        android:id="@+id/tiktok_image_item_element_of_post"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:background="@android:color/transparent"-->
-<!--        android:scaleType="fitXY"-->
-<!--        android:adjustViewBounds="true"-->
-<!--        android:layout_marginTop="10dp" />-->
 
     <TextView
         android:id="@+id/description_element_of_post"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:textColor="@color/colorText"
-        android:hint="Описание"/>
+        android:lineSpacingExtra="8dp"
+        android:letterSpacing="0.009"
+        android:textSize="16sp"
+        android:textColor="@color/black"/>
 
     <LinearLayout
         android:id="@+id/ad_block_element_of_post"
@@ -131,7 +109,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:textColor="@color/colorGrey"
-            android:text="РЕКЛАМА"/>
+            android:text="@string/advertising"/>
 
         <RelativeLayout
             android:id="@+id/ad_mob_view_element_of_post"
@@ -142,6 +120,4 @@
             android:layout_alignParentBottom="true"/>
 
     </LinearLayout>
-
-
 </LinearLayout>

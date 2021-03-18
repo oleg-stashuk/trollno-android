@@ -2,14 +2,13 @@ package com.apps.trollino.ui.main_group;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,20 +16,19 @@ import com.apps.trollino.R;
 import com.apps.trollino.adapters.PostListAdapter;
 import com.apps.trollino.data.model.PostsModel;
 import com.apps.trollino.ui.base.BaseActivity;
-import com.apps.trollino.utils.RecyclerScrollListener;
 import com.apps.trollino.utils.data.DataListFromApi;
 import com.apps.trollino.utils.data.PostListBySearchFromApi;
 import com.apps.trollino.utils.networking.main_group.GetPostBySearch;
-import com.facebook.shimmer.ShimmerFrameLayout;
+import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
+import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 
 import static com.apps.trollino.utils.OpenPostActivityHelper.openPostActivity;
 
 public class SearchActivity extends BaseActivity implements View.OnClickListener {
-    private ShimmerFrameLayout shimmer;
+    private SwipyRefreshLayout refreshLayout;
     private View nothingSearch;
     private RecyclerView recyclerView;
     private EditText searchEditText;
-    private ProgressBar progressBar;
     private PostListAdapter adapter;
     private String searchString = "";
 
@@ -41,13 +39,14 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected void initView() {
-        shimmer = findViewById(R.id.search_shimmer);
+        refreshLayout = findViewById(R.id.refresh_layout_search);
         recyclerView = findViewById(R.id.recycler_search);
         nothingSearch = findViewById(R.id.include_nothing_search);
         searchEditText = findViewById(R.id.search_search);
-        progressBar = findViewById(R.id.progress_bar_search);
         searchEditText.setOnEditorActionListener(editorActionListener);
         findViewById(R.id.back_button_search).setOnClickListener(this);
+
+        updateDataBySwipe();
     }
 
 
@@ -58,9 +57,8 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                 showSnackBarMessage(findViewById(R.id.activity_search), getString(R.string.enter_data_to_search));
             } else {
                 PostListBySearchFromApi.getInstance().removeAllDataFromList(prefUtils);
-                progressBar.setVisibility(View.VISIBLE);
                 nothingSearch.setVisibility(View.GONE);
-                makeSearchPostsRecyclerView();
+                makeSearchPostsRecyclerView(true);
                 hideKeyBoard(); // Hide keyBoard if was press button "Search"
             }
             return true;
@@ -76,28 +74,14 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                 InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
-    public void makeSearchPostsRecyclerView() {
+    public void makeSearchPostsRecyclerView( boolean isNewData) {
         DataListFromApi.getInstance().removeAllDataFromList(prefUtils);
 
         adapter = new PostListAdapter(SearchActivity.this, prefUtils, PostListBySearchFromApi.getInstance().getPostListBySearch(), searchPostsItemListener);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
-        if(DataListFromApi.getInstance().getNewPostsList().isEmpty()) {
-            infiniteScroll(true);
-        }
-
-        recyclerView.addOnScrollListener(new RecyclerScrollListener() {
-            @Override
-            public void onScrolledToEnd() {
-                infiniteScroll(false);
-            }
-
-            @Override
-            public void onScrolledToTop() {
-                infiniteScroll(true);
-            }
-        });
+        getDataFromApi(isNewData);
     }
 
     // Обработка нажатия на элемент списка
@@ -105,20 +89,19 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         openPostActivity(this, item, prefUtils, false);
     };
 
-    // Загрузить/обновить данные с API
-    private void updateDataFromApi(boolean isGetNewList) {
-        new Thread(() -> {
-            GetPostBySearch.getPostBySearch(SearchActivity.this, prefUtils, recyclerView, shimmer,
-                    searchString, nothingSearch, progressBar, adapter, isGetNewList);
-        }).start();
+    private void updateDataBySwipe() {
+        refreshLayout.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorPrimary));
+        refreshLayout.setOnRefreshListener(direction -> {
+            makeSearchPostsRecyclerView((direction == SwipyRefreshLayoutDirection.TOP));
+        });
     }
 
-    // Загрузить/обновить данные с API при скролах ресайклера вверх или вниз, если достигнут конец списка
-    private void infiniteScroll(boolean isGetNewList) {
-        progressBar.setVisibility(isGetNewList ? View.GONE : View.VISIBLE);
-        shimmer.setVisibility(isGetNewList ? View.VISIBLE : View.GONE);
-        Handler handler = new Handler();
-        handler.postDelayed(() -> updateDataFromApi(isGetNewList), 1000);
+    // Загрузить/обновить данные с API
+    private void getDataFromApi(boolean isNewData) {
+        new Thread(() -> {
+            GetPostBySearch.getPostBySearch(SearchActivity.this, prefUtils, recyclerView, refreshLayout,
+                    searchString, nothingSearch, adapter, isNewData);
+        }).start();
     }
 
     @Override

@@ -36,23 +36,62 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginTop="5dp"
                     android:padding="10dp"
                     android:background="@color/colorGreyBackgroundVideo"
-                    android:textColor="@color/colorText"/>
+                    android:textAllCaps="true"
+                    android:letterSpacing="-0.071"
+                    android:textSize="14sp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/roboto_bold" />
 
                 <TextView
                     android:id="@+id/title_post_activity"
-                    style="@style/BoldHeaderTextStyle_h1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp" />
+                    android:padding="10dp"
+                    android:lineSpacingExtra="6dp"
+                    android:letterSpacing="0.017"
+                    android:textSize="30sp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/roboto_bold" />
 
                 <TextView
                     android:id="@+id/body_post_activity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp" />
+                    android:padding="10dp"
+                    android:lineSpacingExtra="8dp"
+                    android:letterSpacing="0.009"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@android:color/transparent"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/colorGrey"
+                    android:text="@string/advertising"/>
+
+                <RelativeLayout
+                    android:id="@+id/ad_mob_in_post"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:layout_alignParentBottom="true"/>
 
             </LinearLayout>
 
@@ -63,7 +102,6 @@
                 android:layout_weight="1"
                 android:overScrollMode="never"
                 android:layout_marginTop="10dp"/>
-
 
             <LinearLayout
                 android:id="@+id/video_new_image_item"
@@ -115,31 +153,27 @@
                         android:background="@color/colorPrimary"
                         android:textColor="@color/white"/>
                 </RelativeLayout>
-
-                <LinearLayout
-                    android:id="@+id/swiped_image_post_activity"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#929699"
-                    android:gravity="center"
-                    android:padding="15dp"
-                    android:layout_marginTop="5dp"
-                    android:orientation="vertical" >
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/swipe"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:textColor="@color/white"
-                        android:text="@string/swipe_left_or_right_for_more_post" />
-                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/swiped_image_post_activity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:scaleType="fitXY"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_swipe_2"/>
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

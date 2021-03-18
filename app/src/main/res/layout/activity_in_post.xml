@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:id="@+id/activity_in_post"
+<LinearLayout android:id="@+id/activity_in_post"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.main_group.ActivityInPostActivity">
+    tools:context=".ui.main_group.ActivityInPostActivity"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -25,30 +25,22 @@
 
     <include layout="@layout/include_appbar_shadow" />
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-        <ProgressBar
-            android:id="@+id/progress_bar_activity_in_post"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:visibility="gone"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:progressDrawable="@color/colorPrimary"
-            android:background="@drawable/progress_bar_circle_shape" />
+        <include
+            android:id="@+id/include_user_comments_shimmer"
+            layout="@layout/include_shimmer_user_comments"
+            android:visibility="gone"/>
 
-        <LinearLayout
+        <com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
+            android:id="@+id/refresh_layout_activity_in_post"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <include
-                android:id="@+id/include_user_comments_shimmer"
-                layout="@layout/include_shimmer_user_comments"
-                android:visibility="gone"/>
+            app:srl_direction="both">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_activity_in_post"
@@ -57,18 +49,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-            <include
-                android:id="@+id/include_user_not_authorization_activity_in_post"
-                layout="@layout/include_guest_activity"
-                android:visibility="gone" />
+        </com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout>
 
-            <include
-                android:id="@+id/include_no_data_for_user_activity_in_post"
-                layout="@layout/include_no_data_for_user"
-                android:visibility="gone"/>
+        <include
+            android:id="@+id/include_user_not_authorization_activity_in_post"
+            layout="@layout/include_guest_activity"
+            android:visibility="gone" />
 
-        </LinearLayout>
-    </RelativeLayout>
+        <include
+            android:id="@+id/include_no_data_for_user_activity_in_post"
+            layout="@layout/include_no_data_for_user"
+            android:visibility="gone"/>
+
+    </LinearLayout>
 
     <include
         android:id="@+id/bottom_navigation_activity"

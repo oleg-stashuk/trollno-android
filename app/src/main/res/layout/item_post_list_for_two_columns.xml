@@ -9,15 +9,15 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:layout_width="200dp"
-        android:layout_height="150dp"
+        android:layout_width="180dp"
+        android:layout_height="120dp"
         android:layout_gravity="center_vertical">
 
         <ImageView
             android:id="@+id/image_post_two_columns"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="fitXY"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
             android:adjustViewBounds="true"
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"/>
@@ -34,9 +34,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:textColor="@color/colorText"
-        android:textStyle="bold"
-        android:hint="Описание видео"/>
+        android:lineSpacingExtra="4dp"
+        android:letterSpacing="0.009"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/roboto_bold"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -49,15 +51,19 @@
             android:id="@+id/discuss_image_post_two_columns"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_discuss_arrow"/>
+            android:src="@drawable/ic_trend_icon"/>
 
         <TextView
             android:id="@+id/discuss_text_post_two_columns"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:textColor="@color/colorPink"
-            android:textStyle="bold"
+            android:layout_marginStart="5dp"
+            android:textAllCaps="true"
+            android:letterSpacing="0.011"
+            android:textSize="14sp"
+            android:textColor="@color/colorOrange"
+            android:fontFamily="@font/roboto_bold"
             android:text="@string/discuss_post" />
 
     </LinearLayout>

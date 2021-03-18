@@ -23,7 +23,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.apps.trollino.utils.data.Const.COUNT_TRY_REQUEST;
-import static com.apps.trollino.utils.data.Const.LOG_TAG;
+import static com.apps.trollino.utils.data.Const.TAG_LOG;
 
 public class PostUnbookmark {
 
@@ -43,6 +43,7 @@ public class PostUnbookmark {
                         context.startActivity(new Intent(context, FavoriteActivity.class));
                         ((Activity) context).finish();
                     }
+                    SnackBarMessageCustom.showSnackBar(view , context.getResources().getString(R.string.msg_post_remove_from_favorite));
                     prefUtils.saveIsFavorite(false);
                 } else if(response.code() == 403) {
                     GuestDialog dialog = new GuestDialog();
@@ -72,7 +73,7 @@ public class PostUnbookmark {
                     } else {
                         SnackBarMessageCustom.showSnackBar(view, t.getLocalizedMessage());
                     }
-                    Log.d(LOG_TAG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
+                    Log.d(TAG_LOG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
                 }
             }
         });

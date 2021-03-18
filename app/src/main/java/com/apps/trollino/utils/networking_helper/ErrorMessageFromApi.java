@@ -9,7 +9,7 @@ import java.io.IOException;
 
 import okhttp3.ResponseBody;
 
-import static com.apps.trollino.utils.data.Const.LOG_TAG;
+import static com.apps.trollino.utils.data.Const.TAG_LOG;
 
 public class ErrorMessageFromApi {
 
@@ -18,7 +18,7 @@ public class ErrorMessageFromApi {
         try {
             JSONObject jsonObject = new JSONObject(responseBody.string());
             userMessage = jsonObject.getString("message");
-            Log.d(LOG_TAG, "response.errorBody() " + userMessage);
+            Log.d(TAG_LOG, "response.errorBody() " + userMessage);
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (IOException e) {
