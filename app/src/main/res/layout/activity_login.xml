@@ -9,38 +9,22 @@
     android:orientation="vertical"
     tools:context=".ui.authorisation.LoginActivity">
 
-<!--    <com.google.android.material.appbar.AppBarLayout-->
-<!--        android:id="@+id/appBarLayout"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="?actionBarSize"-->
-<!--        android:background="@color/colorPrimary"-->
-<!--        app:elevation="0dp"-->
-<!--        android:theme="@style/AppTheme.AppBarOverlay">-->
-
-<!--        <include-->
-<!--            android:id="@+id/toolbar_login"-->
-<!--            layout="@layout/toolbar"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent" />-->
-
-<!--    </com.google.android.material.appbar.AppBarLayout>-->
-
-    <com.google.android.material.appbar.MaterialToolbar
+    <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:background="@color/colorPrimary"
-        app:elevation="5dp"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-    <include
-        android:id="@+id/toolbar_login"
-        layout="@layout/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        <include
+            android:id="@+id/toolbar_login"
+            layout="@layout/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
-    </com.google.android.material.appbar.MaterialToolbar>
-<!--    <include layout="@layout/include_appbar_shadow" />-->
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <include layout="@layout/include_appbar_shadow" />
 
     <LinearLayout
         android:layout_width="match_parent"

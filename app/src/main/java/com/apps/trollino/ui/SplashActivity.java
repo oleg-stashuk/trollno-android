@@ -57,12 +57,31 @@ public class SplashActivity extends BaseActivity {
             if (startTime >= maxTime - 1) {
                 Bundle extras = getIntent().getExtras();
                 if(extras != null) {
-                    startActivity(new Intent(SplashActivity.this, ActivityInPostActivity.class));
+                    choiceNextActivity(!isNotification(extras));
                 } else {
-                    startActivity(new Intent(SplashActivity.this, TapeActivity.class));
+                    choiceNextActivity(true);
                 }
                 finish();
             }
         }
     };
+
+    private void choiceNextActivity(boolean isTapeActivity) {
+        if(isTapeActivity) {
+            startActivity(new Intent(SplashActivity.this, TapeActivity.class));
+        } else {
+            startActivity(new Intent(SplashActivity.this, ActivityInPostActivity.class));
+        }
+    }
+
+    private boolean isNotification(Bundle extras) {
+        String from = String.valueOf(extras);
+        if(from.contains("ParcelledData")){
+            int part = Integer.parseInt(from.substring(31, from.length()-1));
+            return part > 100;
+        } else {
+            int part = extras.toString().length();
+            return part > 50;
+        }
+    }
 }
