@@ -32,7 +32,7 @@
 
         <include
             android:id="@+id/include_no_favorite"
-            layout="@layout/include_no_data_for_user"
+            layout="@layout/include_no_data_for_user_in_favorite"
             android:visibility="gone" />
 
         <include

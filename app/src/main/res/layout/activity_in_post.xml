@@ -41,7 +41,7 @@
 
         <include
             android:id="@+id/include_no_data_for_user_activity_in_post"
-            layout="@layout/include_no_data_for_user"
+            layout="@layout/include_no_data_for_user_in_answers"
             android:visibility="gone"/>
 
         <com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout

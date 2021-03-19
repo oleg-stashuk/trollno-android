@@ -18,7 +18,7 @@
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:text="@string/whops" />
+        android:text="@string/favorite_list_empty" />
 
     <TextView
         android:id="@+id/txt_include_no_data"

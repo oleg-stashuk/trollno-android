@@ -39,7 +39,9 @@
     <string name="login_using_other_account">Или войти с помощью:</string>
     <string name="registration_using_other_account">Зарегистрироваться с помощью:</string>
     <string name="whops">Упс!</string>
-    <string name="txt_have_no_favorites">Вы пока ничего не добавили в Избранное</string>
+    <string name="answers_list_empty">Здесь пока ничего нет</string>
+    <string name="favorite_list_empty">Список избранного пуст</string>
+    <string name="txt_have_no_favorites">Коллекционируйте тут посты, которые вам понравились.</string>
     <string name="see_all_comment">Весь комментарий</string>
     <string name="answer">Ответить</string>
     <string name="show_comments">Показать ответы на комментарий</string>
