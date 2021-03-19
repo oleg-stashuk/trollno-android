@@ -1,7 +1,9 @@
 package com.apps.trollino.ui.base;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -38,6 +40,13 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected void showSnackBarMessage(View view, String text) {
         SnackBarMessageCustom.showSnackBar(view, text);
+    }
+
+    protected void hideKeyBoard() {
+        InputMethodManager inputManager = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
 }
