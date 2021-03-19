@@ -8,37 +8,56 @@
     tools:context=".ui.main_group.SearchActivity"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="?actionBarSize"
         android:background="@color/colorPrimary"
-        android:orientation="horizontal">
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-        <ImageButton
-            android:id="@+id/back_button_search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_gravity="center_vertical"
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_arrow_back_white" />
-
-        <EditText
-            android:id="@+id/search_search"
-            android:layout_width="0dp"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar_in_post"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"
-            style="@style/WhiteHeaderTextStyle"
-            android:imeOptions="actionSearch"
-            android:inputType="text"
-            android:paddingLeft="3dp"
-            android:textCursorDrawable="@drawable/color_cursor"
-            android:hint="@string/search"/>
-    </LinearLayout>
+            android:layout_marginLeft="-18dp"
+            android:layout_marginStart="-18dp"
+            style="@style/Widget.App.Toolbar">
 
-    <include layout="@layout/include_appbar_shadow" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@color/colorPrimary"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/back_button_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_arrow_back_white" />
+
+                <EditText
+                    android:id="@+id/search_search"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    style="@style/WhiteHeaderTextStyle"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:paddingLeft="3dp"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:hint="@string/search"/>
+            </LinearLayout>
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+<!--    <include layout="@layout/include_appbar_shadow" />-->
 
     <include
         android:id="@+id/include_nothing_search"
@@ -61,3 +80,67 @@
     </com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout>
 
 </LinearLayout>
+
+
+<!--<LinearLayout android:id="@+id/activity_search"-->
+<!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--xmlns:tools="http://schemas.android.com/tools"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="match_parent"-->
+<!--android:orientation="vertical"-->
+<!--tools:context=".ui.main_group.SearchActivity"-->
+<!--xmlns:app="http://schemas.android.com/apk/res-auto">-->
+
+<!--<LinearLayout-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="60dp"-->
+<!--    android:background="@color/colorPrimary"-->
+<!--    android:orientation="horizontal">-->
+
+<!--    <ImageButton-->
+<!--        android:id="@+id/back_button_search"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:padding="10dp"-->
+<!--        android:layout_marginLeft="10dp"-->
+<!--        android:layout_gravity="center_vertical"-->
+<!--        android:background="@android:color/transparent"-->
+<!--        android:src="@drawable/ic_arrow_back_white" />-->
+
+<!--    <EditText-->
+<!--        android:id="@+id/search_search"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_weight="1"-->
+<!--        android:background="@android:color/transparent"-->
+<!--        style="@style/WhiteHeaderTextStyle"-->
+<!--        android:imeOptions="actionSearch"-->
+<!--        android:inputType="text"-->
+<!--        android:paddingLeft="3dp"-->
+<!--        android:textCursorDrawable="@drawable/color_cursor"-->
+<!--        android:hint="@string/search"/>-->
+<!--</LinearLayout>-->
+
+<!--<include layout="@layout/include_appbar_shadow" />-->
+
+<!--<include-->
+<!--    android:id="@+id/include_nothing_search"-->
+<!--    layout="@layout/include_nothing_search"-->
+<!--    android:visibility="gone" />-->
+
+<!--<com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout-->
+<!--    android:id="@+id/refresh_layout_search"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    app:srl_direction="both"-->
+<!--    android:layout_marginBottom="15dp">-->
+
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/recycler_search"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:overScrollMode="never"-->
+<!--        android:padding="10dp" />-->
+<!--</com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout>-->
+
+<!--</LinearLayout>-->
