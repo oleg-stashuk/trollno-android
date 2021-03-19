@@ -77,9 +77,11 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
     private void checkFavoriteListAndUserAuthorization() {
         if(isUserAuthorization) {
             userAuthorizationView.setVisibility(View.GONE);
+            refreshLayout.setVisibility(View.VISIBLE);
             getDataFromApi(shimmer, null, true);
         } else {
             userAuthorizationView.setVisibility(View.VISIBLE);
+            refreshLayout.setVisibility(View.GONE);
         }
     }
 

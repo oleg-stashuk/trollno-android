@@ -80,12 +80,14 @@
             new Thread(() -> GetNewAnswersCount.getNewAnswersCount(this, prefUtils, indicatorImageView)).start();
             userAuthorizationView.setVisibility(View.GONE);
             postWithActivityRecyclerView.setVisibility(View.VISIBLE);
+            refreshLayout.setVisibility(View.VISIBLE);
 
             getDataFromApi(shimmer, null, true);
         } else {
             shimmer.setVisibility(View.GONE);
             userAuthorizationView.setVisibility(View.VISIBLE);
             postWithActivityRecyclerView.setVisibility(View.GONE);
+            refreshLayout.setVisibility(View.GONE);
         }
     }
 
