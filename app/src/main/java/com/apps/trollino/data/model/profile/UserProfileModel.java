@@ -26,6 +26,9 @@ public class UserProfileModel {
     @Expose
     private List<UserBooleanData> userSendPushNewAnswerList;
 
+    @SerializedName("field_showname")
+    @Expose
+    List<ShowNameModel> showNameModelsList;
 
     public List<UserUidData> getUidList() {
         return uidList;
@@ -51,6 +54,9 @@ public class UserProfileModel {
         return userSendPushNewAnswerList;
     }
 
+    public List<ShowNameModel> getShowNameModelsList() {
+        return showNameModelsList;
+    }
 
     public class UserUidData {
         @SerializedName("value")
