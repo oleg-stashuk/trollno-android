@@ -47,7 +47,8 @@ public class LoginWithFacebook {
 
                     new Thread(() -> GetUserProfile.getUserProfileSettings(context, prefUtils)).start();
 
-                    context.startActivity(OpenActivityHelper.openActivity(context,prefUtils));
+                    // TODO replace startActivity to activity with change user login
+                    context.startActivity(OpenActivityHelper.openActivity(context, prefUtils));
                     ((Activity) context).finish();
                 } else {
                     LoginManager.getInstance().logOut();
