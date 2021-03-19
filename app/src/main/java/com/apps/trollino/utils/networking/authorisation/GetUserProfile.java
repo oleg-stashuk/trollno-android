@@ -42,36 +42,28 @@ public class GetUserProfile {
                 if(response.isSuccessful()) {
                     UserProfileModel user = response.body();
 
-                    List<UserProfileModel.UserData> nameList = user.getNameList();
-                    for(UserProfileModel.UserData name : nameList) {
-                        if (nameView instanceof TextView) {
-                            TextView nameTextView = (TextView) nameView;
-                            nameTextView.setText(name.getValue());
-                        } else if(nameView instanceof EditText) {
-                            EditText nameEditText = (EditText) nameView;
-                            nameEditText.setText(name.getValue());
-                        }
+                    if (nameView instanceof TextView) {
+                        TextView nameTextView = (TextView) nameView;
+                        nameTextView.setText(user.getShowNameModelsList().get(0).getValue());
+                    } else if(nameView instanceof EditText) {
+                        EditText nameEditText = (EditText) nameView;
+                        nameEditText.setText(user.getShowNameModelsList().get(0).getValue());
                     }
 
-                    List<UserProfileModel.UserData> emailList = user.getMailList();
-                    for(UserProfileModel.UserData email : emailList) {
-                        if (emailView instanceof TextView) {
-                            TextView emailTextView = (TextView) emailView;
-                            emailTextView.setText(email.getValue());
-                        } else if (emailView instanceof EditText){
-                            EditText emailEditText = (EditText) emailView;
-                            emailEditText.setText(email.getValue());
-                        }
+                    if (emailView instanceof TextView) {
+                        TextView emailTextView = (TextView) emailView;
+                        emailTextView.setText(user.getMailList().get(0).getValue());
+                    } else if (emailView instanceof EditText){
+                        EditText emailEditText = (EditText) emailView;
+                        emailEditText.setText(user.getMailList().get(0).getValue());
                     }
 
-                    List<UserProfileModel.UserImage> imageList = user.getUserImageList();
-                    for(UserProfileModel.UserImage image : imageList) {
-                        String imageUrl = image.getImageUrl();
-                        Picasso
-                                .get()
-                                .load(imageUrl)
-                                .into(imageView);
-                    }
+                    String imageUrl = user.getUserImageList().get(0).getImageUrl();
+                    Picasso
+                            .get()
+                            .load(imageUrl)
+                            .into(imageView);
+
 
                     linearLayout.setVisibility(View.VISIBLE);
                     shimmer.setVisibility(View.GONE);
