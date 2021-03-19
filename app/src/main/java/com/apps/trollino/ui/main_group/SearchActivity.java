@@ -1,10 +1,8 @@
 package com.apps.trollino.ui.main_group;
 
-import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -54,7 +52,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         if (actionId == EditorInfo.IME_ACTION_SEARCH) {
             searchString = searchEditText.getText().toString();
             if (searchString.isEmpty() || searchString.length() == 0) {
-                showSnackBarMessage(findViewById(R.id.activity_search), getString(R.string.enter_data_to_search));
+                showMessageToPutDataSearch();
             } else {
                 PostListBySearchFromApi.getInstance().removeAllDataFromList(prefUtils);
                 nothingSearch.setVisibility(View.GONE);
@@ -66,12 +64,8 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         return false;
     };
 
-    // Hide keyBoard if was press button "Search"
-    private void hideKeyBoard() {
-        InputMethodManager inputManager = (InputMethodManager)
-                getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
-                InputMethodManager.HIDE_NOT_ALWAYS);
+    private void showMessageToPutDataSearch(){
+        showSnackBarMessage(findViewById(R.id.activity_search), getString(R.string.enter_data_to_search));
     }
 
     public void makeSearchPostsRecyclerView( boolean isNewData) {
@@ -92,7 +86,12 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     private void updateDataBySwipe() {
         refreshLayout.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorPrimary));
         refreshLayout.setOnRefreshListener(direction -> {
-            makeSearchPostsRecyclerView((direction == SwipyRefreshLayoutDirection.TOP));
+            if (searchString.isEmpty() || searchString.length() == 0) {
+                showMessageToPutDataSearch();
+                refreshLayout.setRefreshing(false);
+            } else {
+                makeSearchPostsRecyclerView((direction == SwipyRefreshLayoutDirection.TOP));
+            }
         });
     }
 
