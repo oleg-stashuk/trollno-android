@@ -24,6 +24,7 @@ public class CleanSavedDataHelper {
         prefUtils.saveIsUserAuthorization(false);
         prefUtils.saveIsShowReadPost(false);
         prefUtils.saveIsSendPushAboutAnswerToComment(false);
+        prefUtils.saveIsUserLoginByFacebook(false);
 
         prefUtils.saveCommentIdForActivity("");
         prefUtils.saveCurrentActivity("");

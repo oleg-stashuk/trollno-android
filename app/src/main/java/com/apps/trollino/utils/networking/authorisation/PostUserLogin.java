@@ -37,6 +37,7 @@ public class PostUserLogin {
                     prefUtils.saveLogoutToken(loginModel.getLogoutToken());
                     prefUtils.saveIsUserAuthorization(true);
                     prefUtils.savePassword(password);
+                    prefUtils.saveIsUserLoginByFacebook(false);
 
                     new Thread(() -> GetUserProfile.getUserProfileSettings(context, prefUtils)).start();
 
