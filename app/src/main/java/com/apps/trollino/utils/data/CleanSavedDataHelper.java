@@ -38,8 +38,8 @@ public class CleanSavedDataHelper {
         prefUtils.saveAnswerToUserName("");
 
         prefUtils.saveSelectedCategoryId("");
-        prefUtils.saveNextPostId("");
         prefUtils.savePrevPostId("");
+        prefUtils.saveNextPostId("");
         prefUtils.saveIsFavorite(false);
         prefUtils.saveCurrentPostId("");
     }
