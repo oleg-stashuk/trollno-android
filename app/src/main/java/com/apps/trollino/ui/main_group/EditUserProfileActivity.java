@@ -26,6 +26,7 @@ import com.apps.trollino.utils.networking.authorisation.GetUserProfile;
 import com.apps.trollino.utils.networking.user.BlockUserProfile;
 import com.apps.trollino.utils.networking.user.UpdatePassword;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.android.material.textfield.TextInputLayout;
 
 public class EditUserProfileActivity extends BaseActivity implements View.OnClickListener {
     LinearLayout editUserLayout;
@@ -52,12 +53,20 @@ public class EditUserProfileActivity extends BaseActivity implements View.OnClic
         nameTextView = findViewById(R.id.name_edit_user_profile);
         emailTextView = findViewById(R.id.email_edit_user_profile);
         passwordEditText = findViewById(R.id.password_edit_user_profile);
+        TextInputLayout passwordBlock = findViewById(R.id.password_block_edit_user_profile);
         imageView = findViewById(R.id.image_edit_user_profile);
+        TextView loginByFacebook = findViewById(R.id.login_by_facebook);
         imageView.setOnClickListener(this);
         updateButton = findViewById(R.id.update_button_edit_user_profile);
         updateButton.setOnClickListener(this);
-        updateButton.setBackgroundColor(ContextCompat.getColor(this, R.color.colorGreyBackgroundVideo));
 
+        prefUtils.saveIsUserLoginByFacebook(true);
+
+        loginByFacebook.setVisibility(prefUtils.isUserLoginByFacebook() ? View.VISIBLE : View.GONE);
+        updateButton.setVisibility(prefUtils.isUserLoginByFacebook() ? View.GONE : View.VISIBLE);
+        passwordBlock.setVisibility(prefUtils.isUserLoginByFacebook() ? View.GONE : View.VISIBLE);
+
+        updateButton.setBackgroundColor(ContextCompat.getColor(this, R.color.colorGreyBackgroundVideo));
         password = prefUtils.getPassword();
         passwordEditText.setText(password);
         prefUtils.saveCurrentActivity(OpenActivityHelper.EDIT_PROFILE_ACTIVITY);

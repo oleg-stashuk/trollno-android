@@ -125,6 +125,7 @@
                     android:hint="@string/edt_email" />
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/password_block_edit_user_profile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -145,6 +146,14 @@
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/login_by_facebook"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:padding="15dp"
+                android:text="@string/authorisation_by_facebook"/>
+
             <com.balysv.materialripple.MaterialRippleLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -164,6 +173,7 @@
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     android:enabled="false"
+                    android:visibility="gone"
                     android:text="@string/update" />
             </com.balysv.materialripple.MaterialRippleLayout>
         </LinearLayout>

@@ -115,4 +115,5 @@
     // For FaceBook
     <string name="facebook_app_id">316582089429479</string>
     <string name="fb_login_protocol_scheme">fb316582089429479</string>
+    <string name="authorisation_by_facebook">Вы вошли через Facebook</string>
 </resources>
