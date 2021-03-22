@@ -4,6 +4,7 @@ import com.apps.trollino.data.model.profile.RequestBlockUserModel;
 import com.apps.trollino.data.model.profile.RequestPushNotificationToken;
 import com.apps.trollino.data.model.profile.RequestUpdateAvatarModel;
 import com.apps.trollino.data.model.profile.RequestUpdateSentPushNewAnswers;
+import com.apps.trollino.data.model.profile.RequestUpdateShowName;
 import com.apps.trollino.data.model.profile.RequestUpdateShowReadPosts;
 import com.apps.trollino.data.model.profile.RequestUpdateUserPassword;
 import com.apps.trollino.data.model.profile.UserProfileModel;

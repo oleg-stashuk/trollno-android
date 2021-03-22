@@ -18,6 +18,7 @@ import com.apps.trollino.data.model.profile.RequestBlockUserModel;
 import com.apps.trollino.data.model.profile.RequestPushNotificationToken;
 import com.apps.trollino.data.model.profile.RequestUpdateAvatarModel;
 import com.apps.trollino.data.model.profile.RequestUpdateSentPushNewAnswers;
+import com.apps.trollino.data.model.profile.RequestUpdateShowName;
 import com.apps.trollino.data.model.profile.RequestUpdateShowReadPosts;
 import com.apps.trollino.data.model.profile.RequestUpdateUserPassword;
 import com.apps.trollino.data.model.profile.UserProfileModel;
@@ -139,10 +140,7 @@ public class ApiService {
         authorisationApi.loginWithFacebook(new FacebookRequestModel(facebookToken)).enqueue(callback);
     }
 
-//    public void postRegistration(List<String> login, List<String> mail, List<String> pass, Callback<RegistrationResponseModel> callback) {
-//        authorisationApi.postRegistration(new RegistrationRequestModel(login, mail, pass)).enqueue(callback);
-//    }
-    public void postRegistration(List<String> login, List<String> mail, List<String> pass, String showName, Callback<RegistrationResponseModel> callback) {
+    public void postRegistration(String login, String mail,String pass, String showName, Callback<RegistrationResponseModel> callback) {
         authorisationApi.postRegistration(new RegistrationRequestModel(login, mail, pass, showName)).enqueue(callback);
     }
 
