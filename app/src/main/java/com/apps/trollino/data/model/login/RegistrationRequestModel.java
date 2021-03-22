@@ -24,17 +24,17 @@ public class RegistrationRequestModel {
     @Expose
     List<ShowNameModel> showNameModelsList = new ArrayList<>();
 
-    public RegistrationRequestModel(List<String> login, List<String> mail, List<String> password) {
-        this.login = login;
-        this.mail = mail;
-        this.password = password;
-    }
-
-
-//    public RegistrationRequestModel(List<String> login, List<String> mail, List<String> password, String showName) {
+//    public RegistrationRequestModel(List<String> login, List<String> mail, List<String> password) {
 //        this.login = login;
 //        this.mail = mail;
 //        this.password = password;
-//        showNameModelsList.add(new ShowNameModel(showName));
 //    }
+
+
+    public RegistrationRequestModel(List<String> login, List<String> mail, List<String> password, String showName) {
+        this.login = login;
+        this.mail = mail;
+        this.password = password;
+        showNameModelsList.add(new ShowNameModel(showName));
+    }
 }
