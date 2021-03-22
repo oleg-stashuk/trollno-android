@@ -175,6 +175,10 @@ public class ApiService {
         userApi.updatePassword(cookie, token, userUid, updatePasswordModel).enqueue(callback);
     }
 
+    public void updateShowName(String cookie, String token, int userUid, String showName, Callback<Void> callback) {
+        userApi.updateShowName(cookie, token, userUid, new RequestUpdateShowName(showName)).enqueue(callback);
+    }
+
     public void updatePushNotificationToken(String cookie, String token, int userUid, RequestPushNotificationToken updatePushToken, Callback<Void> callback) {
         userApi.updatePushNotificationToken(cookie, token, userUid, updatePushToken).enqueue(callback);
     }

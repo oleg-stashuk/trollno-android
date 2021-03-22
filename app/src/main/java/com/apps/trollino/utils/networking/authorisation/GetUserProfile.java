@@ -112,12 +112,10 @@ public class GetUserProfile {
                     List<UserProfileModel.UserBooleanData> showReadPostList = user.getUserShowReadPostList();
                     UserProfileModel.UserBooleanData dataReadPost = showReadPostList.get(0);
                     prefUtils.saveIsShowReadPost(dataReadPost.isValue());
-                    Log.d(TAG_LOG, "!!!!!!!!!!!! dataReadPost " + dataReadPost);
 
                     List<UserProfileModel.UserBooleanData> sendPushNewAnswerList = user.getUserSendPushNewAnswerList();
                     UserProfileModel.UserBooleanData dataSendPush = sendPushNewAnswerList.get(0);
                     prefUtils.saveIsSendPushAboutAnswerToComment(dataSendPush.isValue());
-                    Log.d(TAG_LOG, "!!!!!!!!!!!! dataSendPush " + dataSendPush);
 
                     if(dataSendPush.isValue()) {
                         // Get and save firebase token to Api in user account

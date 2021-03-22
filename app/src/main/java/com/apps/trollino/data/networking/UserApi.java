@@ -44,6 +44,13 @@ public interface UserApi {
             "Accepts: application/json"
     })
     @PATCH("/user/{uid}?_format=json")
+    Call<Void> updateShowName(@Header("Cookie") String cookie, @Header("X-CSRF-Token") String token, @Path("uid") int userUid, @Body RequestUpdateShowName updateShowName);
+
+    @Headers({
+            "Content-Type: application/json",
+            "Accepts: application/json"
+    })
+    @PATCH("/user/{uid}?_format=json")
     Call<Void> updatePushNotificationToken(@Header("Cookie") String cookie, @Header("X-CSRF-Token") String token, @Path("uid") int userUid,
                                                        @Body RequestPushNotificationToken updatePushNotificationToken);
 

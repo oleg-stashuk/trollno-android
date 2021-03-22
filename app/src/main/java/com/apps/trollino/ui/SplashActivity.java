@@ -30,7 +30,7 @@ public class SplashActivity extends BaseActivity {
         prefUtils.saveCommentIdForActivity("");
         prefUtils.saveCurrentActivity("");
 
-        Thread thread = new Thread(() -> {
+        new Thread(() -> {
             try {
                 for (startTime = 0; startTime < maxTime; startTime++) {
                     Thread.sleep(15);
@@ -39,8 +39,7 @@ public class SplashActivity extends BaseActivity {
             } catch (InterruptedException exc) {
                 exc.printStackTrace();
             }
-        });
-        thread.start();
+        }).start();
 
         new Thread(() -> GetCategoryList.getCategoryList(this, prefUtils, findViewById(R.id.splash_activity))).start();
         new Thread(() -> GetSettings.getSettings(this, prefUtils, null, findViewById(R.id.splash_activity))).start();
