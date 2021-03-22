@@ -119,4 +119,6 @@
     <string name="facebook_app_id">316582089429479</string>
     <string name="fb_login_protocol_scheme">fb316582089429479</string>
     <string name="msg_enter_name">Введите имя</string>
+    <string name="prev_post">Предыдущий пост</string>
+    <string name="next_post">Следующий пост</string>
 </resources>
