@@ -1,5 +1,7 @@
 package com.apps.trollino.utils.data;
 
+import com.google.gson.internal.$Gson$Preconditions;
+
 public class CleanSavedDataHelper {
 
     public static void cleanAllDataFromApi(PrefUtils prefUtils) {
@@ -11,6 +13,7 @@ public class CleanSavedDataHelper {
         PostListBySearchFromApi.getInstance().removeAllDataFromList(prefUtils);
 
         prefUtils.saveCurrentPage(0);
+        cleanAdapterPosition(prefUtils);
     }
 
     public static void cleanAllDataIfUserRemoveOrLogout(PrefUtils prefUtils) {
@@ -42,5 +45,9 @@ public class CleanSavedDataHelper {
         prefUtils.saveNextPostId("");
         prefUtils.saveIsFavorite(false);
         prefUtils.saveCurrentPostId("");
+    }
+
+    public static void cleanAdapterPosition(PrefUtils prefUtils) {
+        prefUtils.saveCurrentAdapterPositionComment(0);
     }
 }
