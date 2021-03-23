@@ -4,152 +4,26 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
-import androidx.databinding.DataBindingUtil;
+import androidx.core.widget.NestedScrollView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.apps.trollino.R;
-import com.apps.trollino.databinding.IncludeContentScrollingPostBinding;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.OpenActivityHelper;
 import com.apps.trollino.utils.ShowAdvertising;
+import com.apps.trollino.utils.SnackBarMessageCustom;
 import com.apps.trollino.utils.dialogs.GuestDialog;
 import com.apps.trollino.utils.networking.single_post.GetItemPost;
 import com.apps.trollino.utils.networking.single_post.PostBookmark;
 import com.apps.trollino.utils.networking.single_post.PostUnbookmark;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
-public class PostActivity extends BaseActivity{
-    private IncludeContentScrollingPostBinding binding;
-
-    private Menu menu;
-    private String currentPostId;
-
-    @Override
-    protected int getLayoutID() {
-        return R.layout.activity_post;
-    }
-
-    @Override
-    protected void initView() {
-        binding = DataBindingUtil.setContentView(this, getLayoutID());
-
-        initToolbar();
-        makeClickListener();
-        RelativeLayout advRelativeLayout = findViewById(R.id.ad_mob_in_post);
-
-        binding.includeShimmerPost.setVisibility(View.VISIBLE);
-        ShowAdvertising.showAdvertising(advRelativeLayout, prefUtils, this);
-
-        prefUtils.saveCurrentActivity(OpenActivityHelper.POST_ACTIVITY);
-        currentPostId = prefUtils.getCurrentPostId();
-
-        binding.categoryPostActivity.setFocusable(true);
-    }
-
-    // Иницировать Toolbar
-    private void initToolbar() {
-        final Toolbar toolbar = findViewById(R.id.toolbar_post);
-        setSupportActionBar(toolbar);
-
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true); // отображать кнопку BackPress
-            getSupportActionBar().setHomeButtonEnabled(true); // вернуться на предыдущую активность
-            getSupportActionBar().setDisplayShowTitleEnabled(false); // отображать Заголовок
-        }
-    }
-
-    // Добавить Menu
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.post_menu, menu);
-        this.menu = menu;
-        getPostFromAPi(currentPostId);
-        return true;
-    }
-
-    // Get post data by Id from API
-    private void getPostFromAPi(String postId) {
-        binding.nestedScrollInPost.smoothScrollTo(0, binding.nestedScrollInPost.getTop());
-        binding.postLayout.setVisibility(View.GONE);
-        binding.includeShimmerPost.setVisibility(View.VISIBLE);
-        new Thread(() -> {
-            GetItemPost.getItemPost(this, prefUtils, menu, binding, postId);
-        }).start();
-    }
-
-    // Open activity with category
-    private void commentToPostActivity() {
-        prefUtils.saveCommentIdForActivity("");
-        prefUtils.saveCurrentPostId(currentPostId);
-        prefUtils.saveValuePostFromCategoryList(prefUtils.IsPostFromCategoryList());
-        prefUtils.saveCurrentActivity("");
-        startActivity(new Intent( this, CommentToPostActivity.class));
-        finish();
-    }
-
-    // Press "favorite" button
-    private void pressFavoriteButton() {
-        if (!prefUtils.getCookie().isEmpty()) {
-            if (prefUtils.getIsFavorite()) {
-                new Thread(() -> PostUnbookmark.removePostFromFavorite(this, prefUtils, currentPostId, menu, findViewById(R.id.activity_post))).start();
-            } else {
-                new Thread(() -> PostBookmark.addPostToFavorite(this, prefUtils, currentPostId, menu, findViewById(R.id.activity_post))).start();
-            }
-        } else {
-            GuestDialog dialog = new GuestDialog();
-            dialog.showDialog(this);
-        }
-    }
-
-    // Обрабтка нажантия на выпадающий список из Menu
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
-            case R.id.comment_button:
-                commentToPostActivity();
-                break;
-            case R.id.favorite_button:
-                pressFavoriteButton();
-                break;
-            }
-        return true;
-    }
-
-    @Override
-    public void onBackPressed() {
-        prefUtils.saveCurrentActivity("");
-        startActivity(new Intent(this, TapeActivity.class));
-        finish();
-    }
-
-    private void makeClickListener() {
-        binding.addCommentButtonPostActivity.setOnClickListener(v -> {
-            commentToPostActivity();
-        });
-
-        binding.prevPost.setOnClickListener(v -> {
-            String prevPostId = prefUtils.getPrevPostId();
-            if(!prevPostId.isEmpty() && prevPostId.length() > 0 && !prevPostId.equals("0")) {
-                getPostFromAPi(prevPostId);
-                currentPostId = prevPostId;
-            }
-        });
-
-        binding.nextPost.setOnClickListener(v -> {
-            String nextPostId = prefUtils.getNextPostId();
-            if(!nextPostId.isEmpty() && nextPostId.length() > 0 && !nextPostId.equals("0")) {
-                getPostFromAPi(nextPostId);
-                currentPostId = nextPostId;
-            }
-        });
-    }
-}
-
-/*
 public class PostActivity extends BaseActivity implements View.OnClickListener{
     private NestedScrollView nestedScrollView;
     private LinearLayout postLayout;
@@ -174,7 +48,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
     protected void initView() {
         initToolbar();
 
-        nestedScrollView = findViewById(R.id.include_post_screen);
+        nestedScrollView = findViewById(R.id.nested_scroll_in_post);
         postLayout = findViewById(R.id.post_layout);
         shimmerLayout = findViewById(R.id.include_shimmer_post);
         findViewById(R.id.prev_post).setOnClickListener(this);
@@ -291,7 +165,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
                     getPostFromAPi(prevPostId);
                     currentPostId = prevPostId;
                 } else {
-
+                    SnackBarMessageCustom.showSnackBar(postLayout, getString(R.string.first_post_in_category));
                 }
                 break;
             case R.id.next_post:
@@ -299,9 +173,143 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
                 if(!nextPostId.isEmpty() && nextPostId.length() > 0 && !nextPostId.equals("0")) {
                     getPostFromAPi(nextPostId);
                     currentPostId = nextPostId;
+                } else {
+                    SnackBarMessageCustom.showSnackBar(postLayout, getString(R.string.last_post_in_category));
                 }
                 break;
         }
     }
 }
- */
+
+/*
+public class PostActivity extends BaseActivity{
+    private IncludeContentScrollingPostBinding binding;
+
+    private Menu menu;
+    private String currentPostId;
+
+    @Override
+    protected int getLayoutID() {
+        return R.layout.activity_post;
+    }
+
+    @Override
+    protected void initView() {
+        binding = DataBindingUtil.setContentView(this, getLayoutID());
+        shimmer = findViewById(R.id.include_shimmer_post);
+
+        initToolbar();
+        makeClickListener();
+        RelativeLayout advRelativeLayout = findViewById(R.id.ad_mob_in_post);
+
+        binding.includeShimmerPost.setVisibility(View.VISIBLE);
+        ShowAdvertising.showAdvertising(advRelativeLayout, prefUtils, this);
+
+        prefUtils.saveCurrentActivity(OpenActivityHelper.POST_ACTIVITY);
+        currentPostId = prefUtils.getCurrentPostId();
+
+        binding.categoryPostActivity.setFocusable(true);
+    }
+
+    // Иницировать Toolbar
+    private void initToolbar() {
+        final Toolbar toolbar = findViewById(R.id.toolbar_post);
+        setSupportActionBar(toolbar);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true); // отображать кнопку BackPress
+            getSupportActionBar().setHomeButtonEnabled(true); // вернуться на предыдущую активность
+            getSupportActionBar().setDisplayShowTitleEnabled(false); // отображать Заголовок
+        }
+    }
+
+    // Добавить Menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.post_menu, menu);
+        this.menu = menu;
+        getPostFromAPi(currentPostId);
+        return true;
+    }
+
+    // Get post data by Id from API
+    private void getPostFromAPi(String postId) {
+        binding.nestedScrollInPost.smoothScrollTo(0, binding.nestedScrollInPost.getTop());
+        binding.postLayout.setVisibility(View.GONE);
+        binding.includeShimmerPost.setVisibility(View.VISIBLE);
+        new Thread(() -> {
+            GetItemPost.getItemPost(this, prefUtils, menu, binding, postId);
+        }).start();
+    }
+
+    // Open activity with category
+    private void commentToPostActivity() {
+        prefUtils.saveCommentIdForActivity("");
+        prefUtils.saveCurrentPostId(currentPostId);
+        prefUtils.saveValuePostFromCategoryList(prefUtils.IsPostFromCategoryList());
+        prefUtils.saveCurrentActivity("");
+        startActivity(new Intent( this, CommentToPostActivity.class));
+        finish();
+    }
+
+    // Press "favorite" button
+    private void pressFavoriteButton() {
+        if (!prefUtils.getCookie().isEmpty()) {
+            if (prefUtils.getIsFavorite()) {
+                new Thread(() -> PostUnbookmark.removePostFromFavorite(this, prefUtils, currentPostId, menu, findViewById(R.id.activity_post))).start();
+            } else {
+                new Thread(() -> PostBookmark.addPostToFavorite(this, prefUtils, currentPostId, menu, findViewById(R.id.activity_post))).start();
+            }
+        } else {
+            GuestDialog dialog = new GuestDialog();
+            dialog.showDialog(this);
+        }
+    }
+
+    // Обрабтка нажантия на выпадающий список из Menu
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+            case R.id.comment_button:
+                commentToPostActivity();
+                break;
+            case R.id.favorite_button:
+                pressFavoriteButton();
+                break;
+            }
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        prefUtils.saveCurrentActivity("");
+        startActivity(new Intent(this, TapeActivity.class));
+        finish();
+    }
+
+    private void makeClickListener() {
+        binding.addCommentButtonPostActivity.setOnClickListener(v -> {
+            commentToPostActivity();
+        });
+
+        binding.prevPost.setOnClickListener(v -> {
+            String prevPostId = prefUtils.getPrevPostId();
+            if(!prevPostId.isEmpty() && prevPostId.length() > 0 && !prevPostId.equals("0")) {
+                getPostFromAPi(prevPostId);
+                currentPostId = prevPostId;
+            }
+        });
+
+        binding.nextPost.setOnClickListener(v -> {
+            String nextPostId = prefUtils.getNextPostId();
+            if(!nextPostId.isEmpty() && nextPostId.length() > 0 && !nextPostId.equals("0")) {
+                getPostFromAPi(nextPostId);
+                currentPostId = nextPostId;
+            }
+        });
+    }
+}
+*/
