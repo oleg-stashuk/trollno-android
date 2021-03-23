@@ -59,9 +59,12 @@ public class CommentToPostParentAdapter extends BaseRecyclerAdapter<CommentModel
                 TextView hideCommentTextView = view.findViewById(R.id.hide_comment_single_comment_parent); // button
                 RecyclerView childCommentRecyclerView = view.findViewById(R.id.recycler_item_single_comment_parent);
 
+                prefUtils.saveCurrentAdapterPositionComment(getAdapterPosition());
                 if(item.getCommentId().equals(prefUtils.getCommentIdForActivity())) {
                     commentBodyTextView.setTextColor(Color.parseColor("#DD6AA0"));
                     new Thread(() -> PostMarkReadAllAnswersToComment.PostMarkReadAllAnswersToComment(view.getContext(), prefUtils, item.getCommentId())).start();
+                } else {
+                    commentBodyTextView.setTextColor(Color.parseColor("#000000"));
                 }
 
                 hideCommentTextView.setVisibility(View.GONE);

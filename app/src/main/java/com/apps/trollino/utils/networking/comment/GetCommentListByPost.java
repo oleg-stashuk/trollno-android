@@ -33,25 +33,27 @@ import static com.apps.trollino.utils.data.Const.TAG_LOG;
 public class GetCommentListByPost {
     private static int page;
     private static int totalPage;
+    private static int totalCountComment;
     private static RecyclerView recyclerView;
     private static boolean isGetNewListThis;
     private static Context cont;
+    private static PrefUtils prefUt;
 
     public static void getCommentListByPost(Context context, PrefUtils prefUtils,
                                             String postId, String sortBy,
                                             RecyclerView recycler, ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout,
                                             CommentToPostParentAdapter adapter, TextView noCommentTextView,
                                             TextView countTextView, boolean isGetNewList) {
-
-        Log.d("OkHttp_1", "-------------------------------------!!!");
          String sortOrder = Const.SORT_ORDER_BY_DESC;
 
         recyclerView = recycler;
         cont = context;
+        prefUt = prefUtils;
         isGetNewListThis = isGetNewList;
         page = isGetNewList ? 0 : prefUtils.getCurrentPage();
         if(isGetNewList) {
             CommentListFromApi.getInstance().removeAllDataFromList(prefUtils);
+            prefUtils.saveCurrentAdapterPositionComment(0);
         }
         String cookie = prefUtils.getCookie();
 
@@ -63,14 +65,10 @@ public class GetCommentListByPost {
 
                     PagerModel pagerModel = commentModel.getPagerModel();
                     totalPage = pagerModel.getTotalPages() - 1;
-                    saveCurrentPage(prefUtils);
+                    saveCurrentPage();
+                    totalCountComment = pagerModel.getTotalItems();
 
                     List<CommentModel.Comments> commentList = commentModel.getCommentsList();
-
-                    for(CommentModel.Comments comment : commentList) {
-                        Log.d("OkHttp_1", comment.getCommentId() + " " + comment.getCommentBody());
-                    }
-
                     showCorrectVariant(commentList, adapter, shimmer, noCommentTextView, countTextView);
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
@@ -139,11 +137,11 @@ public class GetCommentListByPost {
         countTextView.setText(String.valueOf(commentCount));
     }
 
-    private static void saveCurrentPage(PrefUtils prefUtils) {
+    private static void saveCurrentPage() {
         if(page < totalPage) {
-            prefUtils.saveCurrentPage(page + 1);
+            prefUt.saveCurrentPage(page + 1);
         } else {
-            prefUtils.saveCurrentPage(totalPage);
+            prefUt.saveCurrentPage(totalPage);
         }
     }
 
@@ -154,8 +152,12 @@ public class GetCommentListByPost {
 
         if(newListSize == currentListSize && page == totalPage && ! isGetNewListThis) {
             SnackBarMessageCustom.showSnackBar(recyclerView, cont.getString(R.string.msg_all_comments_showed));
+        } else {
+            adapter.notifyDataSetChanged();
         }
 
-        adapter.notifyDataSetChanged();
+        if(totalCountComment - 1 > prefUt.getCurrentAdapterPositionComment()){
+            prefUt.saveCurrentAdapterPositionComment(prefUt.getCurrentAdapterPositionComment() + 1);
+        }
     }
 }

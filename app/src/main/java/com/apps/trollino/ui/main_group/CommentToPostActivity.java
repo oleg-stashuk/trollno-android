@@ -106,6 +106,7 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
         }
         prefUtils.saveCommentIdForActivity("");
         prefUtils.saveCurrentActivity("");
+        prefUtils.saveCurrentAdapterPositionComment(0);
         startActivity(intent);
         finish();
     }

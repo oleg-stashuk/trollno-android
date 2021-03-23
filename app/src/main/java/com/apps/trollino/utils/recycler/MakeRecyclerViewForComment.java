@@ -37,6 +37,7 @@ public class MakeRecyclerViewForComment {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
+        recyclerView.getLayoutManager().scrollToPosition(prefUtils.getCurrentAdapterPositionComment());
 
         infiniteScroll(recyclerView, shimmer, refreshLayout, adapter, postId, noCommentTextView,
                 countTextView, sortBy, isNewData);
