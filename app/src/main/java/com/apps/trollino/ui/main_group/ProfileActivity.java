@@ -3,7 +3,6 @@ package com.apps.trollino.ui.main_group;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,7 +25,6 @@ import com.apps.trollino.utils.networking.user.UpdateUserProfileSettings;
 import com.apps.trollino.utils.networking.user_action.GetNewAnswersCount;
 import com.facebook.login.LoginManager;
 import com.facebook.shimmer.ShimmerFrameLayout;
-import com.google.android.material.appbar.MaterialToolbar;
 
 import static com.apps.trollino.utils.SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation;
 
@@ -126,7 +124,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             prefUtils.saveIsShowReadPost(isChecked);
             UpdateUserProfileSettings.updateShowReadPosts(this, prefUtils, isChecked);
         });
-
 
         binding.answerToCommentSwitch.setChecked(prefUtils.isSendPushAboutAnswerToComment());
         binding.answerToCommentSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {

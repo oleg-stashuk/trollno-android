@@ -22,71 +22,74 @@
             android:orientation="vertical"
             app:layout_scrollFlags="scroll|enterAlways">
 
-            <com.facebook.shimmer.ShimmerFrameLayout
-                android:id="@+id/include_shimmer_post"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="visible"
-                android:padding="20dp">
+            <include
+                layout="@layout/include_shimmer_post"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+<!--            <com.facebook.shimmer.ShimmerFrameLayout-->
+<!--                android:id="@+id/include_shimmer_post"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:visibility="visible"-->
+<!--                android:padding="20dp">-->
 
-                    <ImageView
-                        android:layout_width="100dp"
-                        android:layout_height="50dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="5dp"
-                        android:padding="10dp"
-                        android:background="@color/shimmer_item_color"/>
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="vertical">-->
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:layout_margin="10dp"
-                        android:background="@color/shimmer_item_color"/>
+<!--                    <ImageView-->
+<!--                        android:layout_width="100dp"-->
+<!--                        android:layout_height="50dp"-->
+<!--                        android:layout_marginLeft="10dp"-->
+<!--                        android:layout_marginTop="5dp"-->
+<!--                        android:padding="10dp"-->
+<!--                        android:background="@color/shimmer_item_color"/>-->
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:layout_margin="10dp"
-                        android:background="@color/shimmer_item_color"/>
+<!--                    <ImageView-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="30dp"-->
+<!--                        android:layout_margin="10dp"-->
+<!--                        android:background="@color/shimmer_item_color"/>-->
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="250dp"
-                        android:layout_margin="10dp"
-                        android:background="@color/shimmer_item_color"/>
+<!--                    <ImageView-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="30dp"-->
+<!--                        android:layout_margin="10dp"-->
+<!--                        android:background="@color/shimmer_item_color"/>-->
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:layout_margin="10dp"
-                        android:background="@color/shimmer_item_color"/>
+<!--                    <ImageView-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="250dp"-->
+<!--                        android:layout_margin="10dp"-->
+<!--                        android:background="@color/shimmer_item_color"/>-->
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:layout_margin="10dp"
-                        android:background="@color/shimmer_item_color"/>
+<!--                    <ImageView-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="30dp"-->
+<!--                        android:layout_margin="10dp"-->
+<!--                        android:background="@color/shimmer_item_color"/>-->
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="250dp"
-                        android:layout_margin="10dp"
-                        android:background="@color/shimmer_item_color"/>
+<!--                    <ImageView-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="30dp"-->
+<!--                        android:layout_margin="10dp"-->
+<!--                        android:background="@color/shimmer_item_color"/>-->
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:layout_margin="10dp"
-                        android:background="@color/shimmer_item_color"/>
+<!--                    <ImageView-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="250dp"-->
+<!--                        android:layout_margin="10dp"-->
+<!--                        android:background="@color/shimmer_item_color"/>-->
 
-                </LinearLayout>
+<!--                    <ImageView-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="30dp"-->
+<!--                        android:layout_margin="10dp"-->
+<!--                        android:background="@color/shimmer_item_color"/>-->
 
-            </com.facebook.shimmer.ShimmerFrameLayout>
+<!--                </LinearLayout>-->
+
+<!--            </com.facebook.shimmer.ShimmerFrameLayout>-->
 
             <LinearLayout
                 android:id="@+id/post_layout"
@@ -104,7 +107,6 @@
                     android:padding="10dp"
                     android:background="@color/colorGreyBackgroundVideo"
                     android:textAllCaps="true"
-                    android:letterSpacing="-0.071"
                     android:textSize="14sp"
                     android:textColor="@color/black"
                     android:fontFamily="@font/roboto_bold" />
@@ -115,7 +117,6 @@
                     android:layout_height="wrap_content"
                     android:padding="10dp"
                     android:lineSpacingExtra="6dp"
-                    android:letterSpacing="0.017"
                     android:textSize="30sp"
                     android:textColor="@color/black"
                     android:fontFamily="@font/roboto_bold" />
@@ -126,7 +127,6 @@
                     android:layout_height="wrap_content"
                     android:padding="10dp"
                     android:lineSpacingExtra="8dp"
-                    android:letterSpacing="0.009"
                     android:textSize="16sp"
                     android:textColor="@color/black"/>
 

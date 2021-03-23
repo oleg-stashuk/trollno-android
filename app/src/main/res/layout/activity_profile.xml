@@ -75,7 +75,9 @@
                         app:switchPadding="15dp"
                         android:checked="true"
                         android:textSize="16sp"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                        android:textColor="@color/black"
+                        android:lineSpacingExtra="4dp"
+                        android:fontFamily="@font/roboto_medium"
                         android:text="@string/txt_switch_mark_read_posts"/>
 
                     <com.google.android.material.switchmaterial.SwitchMaterial
@@ -88,7 +90,9 @@
                         app:switchPadding="15dp"
                         android:checked="true"
                         android:textSize="16sp"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                        android:textColor="@color/black"
+                        android:lineSpacingExtra="4dp"
+                        android:fontFamily="@font/roboto_medium"
                         android:text="@string/txt_switch_get_push_notification"/>
 
                     <TextView
@@ -98,8 +102,10 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:layout_marginTop="20dp"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
                         android:textSize="16sp"
+                        android:textColor="@color/black"
+                        android:lineSpacingExtra="4dp"
+                        android:fontFamily="@font/roboto_medium"
                         android:text="@string/rate_app"/>
 
                     <TextView
@@ -110,7 +116,9 @@
                         android:layout_marginRight="20dp"
                         android:layout_marginTop="20dp"
                         android:gravity="center_vertical"
-                        android:textSize="14sp"
+                        android:textSize="16sp"
+                        android:lineSpacingExtra="4dp"
+                        android:fontFamily="@font/roboto_medium"
                         android:text="@string/app_info"/>
                 </LinearLayout>
 

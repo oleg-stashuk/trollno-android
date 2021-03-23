@@ -48,7 +48,6 @@
         android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"
         android:lineSpacingExtra="4dp"
-        android:letterSpacing="0.009"
         android:textSize="16sp"
         android:textColor="@color/black"
         android:fontFamily="@font/roboto_bold"/>

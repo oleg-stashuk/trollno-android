@@ -22,7 +22,6 @@
             android:layout_toEndOf="@+id/image_user_single_comment_parent"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
-            android:letterSpacing="0.018"
             android:textSize="14sp"
             android:textColor="@color/black"
             android:fontFamily="@font/roboto_bold"/>
@@ -36,7 +35,6 @@
             android:layout_below="@+id/name_user_single_comment_parent"
             android:layout_toRightOf="@+id/image_user_single_comment_parent"
             android:layout_toEndOf="@+id/image_user_single_comment_parent"
-            android:letterSpacing="0.018"
             android:textSize="14sp"
             android:textColor="@color/colorText"/>
 
@@ -47,7 +45,6 @@
             android:layout_marginTop="10dp"
             android:layout_below="@+id/image_user_single_comment_parent"
             android:lineSpacingExtra="6dp"
-            android:letterSpacing="0.016"
             android:textSize="16sp"
             android:textColor="@color/black"/>
 
@@ -69,7 +66,6 @@
             android:layout_toRightOf="@+id/like_single_comment_parent"
             android:layout_toEndOf="@+id/like_single_comment_parent"
             android:layout_below="@+id/comment_user_single_comment_parent"
-            android:letterSpacing="0.016"
             android:textSize="16sp"
             android:textColor="@color/colorText"/>
 
@@ -83,7 +79,6 @@
             android:layout_toRightOf="@+id/count_like_single_comment_parent"
             android:layout_toEndOf="@+id/count_like_single_comment_parent"
             android:layout_below="@+id/comment_user_single_comment_parent"
-            android:letterSpacing="0.016"
             android:textSize="16sp"
             android:textColor="@color/colorText"
             android:text="@string/answer"/>
@@ -101,7 +96,6 @@
         style="@style/PressedTextStyle"
         android:visibility="gone"
         android:lineSpacingExtra="4dp"
-        android:letterSpacing="0.016"
         android:textSize="16sp"
         android:textColor="@color/colorPrimary"
         android:text="@string/show_comments" />
@@ -117,7 +111,6 @@
         style="@style/PressedTextStyle"
         android:visibility="gone"
         android:lineSpacingExtra="4dp"
-        android:letterSpacing="0.016"
         android:textSize="16sp"
         android:textColor="@color/colorPrimary"
         android:text="@string/hide_comments" />

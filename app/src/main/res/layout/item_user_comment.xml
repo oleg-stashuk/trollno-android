@@ -22,7 +22,6 @@
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:lineSpacingExtra="4dp"
-                android:letterSpacing="0.016"
                 android:textSize="16sp"
                 android:textColor="@color/black"
                 android:fontFamily="@font/roboto_medium"/>
@@ -33,7 +32,6 @@
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:lineSpacingExtra="6dp"
-                android:letterSpacing="0.016"
                 android:textSize="16sp"
                 android:textColor="@color/black"/>
 
@@ -56,8 +54,6 @@
                     android:id="@+id/time_item_user_comment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:lineSpacingExtra="16dp"
-                    android:letterSpacing="0.016"
                     android:textColor="@color/colorText"
                     android:textSize="16sp"
                     android:fontFamily="@font/roboto_regular"/>
@@ -73,8 +69,6 @@
                     android:id="@+id/count_like_item_user_comment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:lineSpacingExtra="16dp"
-                    android:letterSpacing="0.016"
                     android:textColor="@color/colorText"
                     android:textSize="16sp" />
 
@@ -93,8 +87,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="3dp"
                     android:layout_marginStart="3dp"
-                    android:lineSpacingExtra="16dp"
-                    android:letterSpacing="0.016"
                     android:textColor="@color/colorText"
                     android:textSize="16sp"
                     android:text="@string/txt_new_answers"/>

@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:lineSpacingExtra="4dp"
-        android:letterSpacing="0.006"
         android:textSize="24sp"
         android:textColor="@color/black"
         android:fontFamily="@font/roboto_medium"/>
@@ -34,7 +33,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
-            android:letterSpacing="0.011"
             android:textSize="14sp"
             android:textColor="@color/colorSourceText"
             android:text="@string/source_of_image"/>
@@ -80,7 +78,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="10dp"
-        android:letterSpacing="0.011"
         android:textSize="14sp"
         android:textColor="@color/colorSourceText"
         android:text="@string/resourse_youtube"/>
@@ -91,7 +88,6 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:lineSpacingExtra="8dp"
-        android:letterSpacing="0.009"
         android:textSize="16sp"
         android:textColor="@color/black"/>
 
