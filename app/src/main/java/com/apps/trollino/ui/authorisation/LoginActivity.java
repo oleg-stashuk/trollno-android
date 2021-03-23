@@ -149,6 +149,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 break;
             case R.id.login_button_login:
                 if (inputFieldIsValid()) {
+                    hideKeyBoard();
                     new Thread(
                             () -> PostUserLogin.postUserLogin(this, name, password, prefUtils, activityLayout)
                     ).start();

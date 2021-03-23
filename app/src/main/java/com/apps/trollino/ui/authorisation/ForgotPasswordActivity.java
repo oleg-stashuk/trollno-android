@@ -54,6 +54,7 @@ public class ForgotPasswordActivity extends BaseActivity implements View.OnClick
                 if (inputFieldIsValid()) {
                     new Thread(() -> PostLostPassword.postLostPassword(this, prefUtils, email, findViewById(R.id.activity_forgot_password))).start();
                 }
+                hideKeyBoard();
                 break;
             case R.id.back_button_forgot_password:
                 onBackPressed();
