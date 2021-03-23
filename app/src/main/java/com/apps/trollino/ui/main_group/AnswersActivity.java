@@ -16,7 +16,7 @@
  import com.apps.trollino.ui.authorisation.RegistrationActivity;
  import com.apps.trollino.ui.base.BaseActivity;
  import com.apps.trollino.utils.OpenActivityHelper;
- import com.apps.trollino.utils.data.CommentListToUserActivityFromApi;
+ import com.apps.trollino.utils.data.AnswersFromApi;
  import com.apps.trollino.utils.networking.user_action.GetNewAnswersCount;
  import com.apps.trollino.utils.recycler.MakeRecyclerViewForCommentToUserActivity;
  import com.facebook.shimmer.ShimmerFrameLayout;
@@ -25,7 +25,7 @@
 
  import static com.apps.trollino.utils.SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation;
 
- public class ActivityInPostActivity extends BaseActivity implements View.OnClickListener{
+ public class AnswersActivity extends BaseActivity implements View.OnClickListener{
     private RecyclerView postWithActivityRecyclerView;
     private ShimmerFrameLayout shimmer;
     private SwipyRefreshLayout refreshLayout;
@@ -67,22 +67,22 @@
 
         isUserAuthorization = prefUtils.getIsUserAuthorization();
 
-        prefUtils.saveCurrentActivity(OpenActivityHelper.ACTIVITY_USER_ACTIVITY);
+        prefUtils.saveCurrentActivity(OpenActivityHelper.ANSWERS_ACTIVITY);
 
-        CommentListToUserActivityFromApi.getInstance().removeAllDataFromList(prefUtils); // при загрузке активити почистить сохраненные данные для инфинитискрол и текущую страницу для загрузки с АПИ
         checkUserAuthorization(); // проверить пользователь авторизирован или нет, если да - то проверить есть посты добаленные в избранное или нет
         updateCommentBySwipe();
     }
 
     private void checkUserAuthorization() {
         if(isUserAuthorization) {
-            shimmer.setVisibility(View.VISIBLE);
             new Thread(() -> GetNewAnswersCount.getNewAnswersCount(this, prefUtils, indicatorImageView)).start();
             userAuthorizationView.setVisibility(View.GONE);
             postWithActivityRecyclerView.setVisibility(View.VISIBLE);
             refreshLayout.setVisibility(View.VISIBLE);
 
-            getDataFromApi(shimmer, null, true);
+            int AnswerListSize = AnswersFromApi.getInstance().getListSize();
+            shimmer.setVisibility(AnswerListSize < 1 ? View.VISIBLE : View.GONE);
+            getDataFromApi(shimmer, null, AnswerListSize < 1);
         } else {
             shimmer.setVisibility(View.GONE);
             userAuthorizationView.setVisibility(View.VISIBLE);
@@ -103,8 +103,6 @@
                 .makeRecyclerViewForCommentToUserActivity(this, prefUtils, postWithActivityRecyclerView,
                         shimmerToApi, refreshLayoutToApi, includeNoDataForUser , noDataTextView, bottomNavigation, isNewData);
     }
-
-
 
     // Иницировать Toolbar
     private void initToolbar() {

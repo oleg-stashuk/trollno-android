@@ -12,7 +12,7 @@ import com.apps.trollino.adapters.UserCommentAdapter;
 import com.apps.trollino.data.model.comment.CommentModel;
 import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.utils.SnackBarMessageCustom;
-import com.apps.trollino.utils.data.CommentListToUserActivityFromApi;
+import com.apps.trollino.utils.data.AnswersFromApi;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.dialogs.GuestDialog;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
@@ -29,29 +29,36 @@ import retrofit2.Response;
 
 import static com.apps.trollino.utils.data.Const.TAG_LOG;
 
-public class GetCommentListToUserActivity {
+public class GetAnswersActivity {
     private static int page;
     private static int totalPage;
+    private static int totalAnswers;
     private static boolean isGetNewListThis;
     private static Context cont;
+    private static PrefUtils prefUt;
 
-    public static void getCommentListToUserActivity(Context context, PrefUtils prefUtils, UserCommentAdapter adapter,
-                                                    RecyclerView recycler, ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout,
-                                                    boolean isGetNewList, View includeNoDataForUser,
-                                                    TextView noDataTextView,  View bottomNavigation) {
+    public static void getAnswersActivity(Context context, PrefUtils prefUtils, UserCommentAdapter adapter,
+                                          RecyclerView recycler, ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout,
+                                          boolean isGetNewList, View includeNoDataForUser,
+                                          TextView noDataTextView, View bottomNavigation) {
         String cookie = prefUtils.getCookie();
         String userId = prefUtils.getUserUid();
+        prefUt = prefUtils;
         page = isGetNewList ? 0 : prefUtils.getCurrentPage();
+        if(isGetNewList) {
+            prefUtils.saveCurrentAdapterPositionAnswers(0);
+        }
         isGetNewListThis = isGetNewList;
         cont = context;
 
-        ApiService.getInstance(context).getCommentListToUserActivity(cookie, userId, page, new Callback<CommentModel>() {
+        ApiService.getInstance(context).getAnswersActivity(cookie, userId, page, new Callback<CommentModel>() {
             @Override
             public void onResponse(Call<CommentModel> call, Response<CommentModel> response) {
                 if(response.isSuccessful()) {
                     CommentModel commentModel = response.body();
                     List<CommentModel.Comments> commentList = commentModel.getCommentsList();
                     totalPage = commentModel.getPagerModel().getTotalPages() - 1;
+                    totalAnswers = commentModel.getPagerModel().getTotalItems();
 
                     if (commentList.size() == 0 || commentList.isEmpty()) {
                         includeNoDataForUser.setVisibility(View.VISIBLE);
@@ -113,12 +120,18 @@ public class GetCommentListToUserActivity {
     }
 
     private static void updatePostListAndNotifyRecyclerAdapter(List<CommentModel.Comments> comments, UserCommentAdapter adapter, View bottomNavigation) {
-        int currentListSize = CommentListToUserActivityFromApi.getInstance().getCommentList().size();
-        CommentListToUserActivityFromApi.getInstance().saveCommentInList(comments);
-        int newListSize = CommentListToUserActivityFromApi.getInstance().getCommentList().size();
+        int currentListSize = AnswersFromApi.getInstance().getAnswerList().size();
+        AnswersFromApi.getInstance().saveAnswersInList(comments);
+        int newListSize = AnswersFromApi.getInstance().getAnswerList().size();
         if(newListSize == currentListSize && page == totalPage && ! isGetNewListThis) {
             SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, cont.getResources().getString(R.string.msg_user_have_not_any_answer));
+        } else {
+            adapter.notifyDataSetChanged();
         }
-        adapter.notifyDataSetChanged();
+
+        int currentAdapterPosition =  prefUt.getCurrentAdapterPositionAnswers();
+        if(currentAdapterPosition > 0 && totalAnswers - 1 > currentAdapterPosition){
+            prefUt.saveCurrentAdapterPositionAnswers(currentAdapterPosition + 1);
+        }
     }
 }

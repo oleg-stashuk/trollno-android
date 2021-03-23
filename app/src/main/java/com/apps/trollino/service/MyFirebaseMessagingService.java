@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
 import com.apps.trollino.R;
-import com.apps.trollino.ui.main_group.ActivityInPostActivity;
+import com.apps.trollino.ui.main_group.AnswersActivity;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.networking.user.UpdatePushToken;
 import com.google.firebase.installations.FirebaseInstallations;
@@ -47,7 +47,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 
     private void sendNotification(RemoteMessage remoteMessage) {
-        Intent intent = new Intent(this, ActivityInPostActivity.class);
+        Intent intent = new Intent(this, AnswersActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 

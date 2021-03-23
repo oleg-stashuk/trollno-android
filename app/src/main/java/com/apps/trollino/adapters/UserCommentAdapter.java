@@ -2,7 +2,6 @@ package com.apps.trollino.adapters;
 
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.apps.trollino.R;
@@ -10,13 +9,16 @@ import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
 import com.apps.trollino.data.model.comment.CommentModel;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.ShowTimeAgoHelper;
+import com.apps.trollino.utils.data.PrefUtils;
 
 import java.util.List;
 
 public class UserCommentAdapter extends BaseRecyclerAdapter<CommentModel.Comments> {
+    private PrefUtils prefUtils;
 
-    public UserCommentAdapter(BaseActivity baseActivity, List<CommentModel.Comments> items, OnItemClick<CommentModel.Comments> onItemClick) {
+    public UserCommentAdapter(BaseActivity baseActivity, PrefUtils prefUtils, List<CommentModel.Comments> items, OnItemClick<CommentModel.Comments> onItemClick) {
         super(baseActivity, items, onItemClick);
+        this.prefUtils = prefUtils;
     }
 
     @Override
@@ -41,6 +43,7 @@ public class UserCommentAdapter extends BaseRecyclerAdapter<CommentModel.Comment
                 TextView newCommentTextView = view.findViewById(R.id.new_comment_item_user_comment);
                 TextView timeTextView = view.findViewById(R.id.time_item_user_comment);
 
+                prefUtils.saveCurrentAdapterPositionAnswers(getAdapterPosition());
                 titleTextView.setText(item.getPostTitle());
                 commentTextView.setText(item.getCommentBody());
                 countLikeTextView.setText(item.getCountLike());
@@ -49,7 +52,6 @@ public class UserCommentAdapter extends BaseRecyclerAdapter<CommentModel.Comment
                 if(countNewAnswer > 0) {
                     indicatorImageView.setVisibility(View.VISIBLE);
                     newCommentTextView.setVisibility(View.VISIBLE);
-//                    newCommentTextView.setText(view.getContext().getString(R.string.txt_new_answers) + countNewAnswer);
                 } else {
                     indicatorImageView.setVisibility(View.GONE);
                     newCommentTextView.setVisibility(View.GONE);

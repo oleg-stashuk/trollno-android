@@ -13,9 +13,9 @@ import com.apps.trollino.adapters.UserCommentAdapter;
 import com.apps.trollino.data.model.comment.CommentModel;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.ui.main_group.CommentToPostActivity;
-import com.apps.trollino.utils.data.CommentListToUserActivityFromApi;
+import com.apps.trollino.utils.data.AnswersFromApi;
 import com.apps.trollino.utils.data.PrefUtils;
-import com.apps.trollino.utils.networking.user_action.GetCommentListToUserActivity;
+import com.apps.trollino.utils.networking.user_action.GetAnswersActivity;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 
@@ -29,13 +29,14 @@ public class MakeRecyclerViewForCommentToUserActivity{
         cont = context;
         prefUt = prefUtils;
 
-        UserCommentAdapter adapter = new UserCommentAdapter((BaseActivity) context,
-                CommentListToUserActivityFromApi.getInstance().getCommentList(), userCommentItemListener);
+        UserCommentAdapter adapter = new UserCommentAdapter((BaseActivity) context, prefUtils,
+                AnswersFromApi.getInstance().getAnswerList(), userCommentItemListener);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
+        recyclerView.scrollToPosition(prefUtils.getCurrentAdapterPositionAnswers());
 
         infiniteScroll(recyclerView, shimmer, refreshLayout, adapter, bottomNavigation, includeNoDataForUser, noDataTextView, isNewData);
     }
@@ -54,7 +55,7 @@ public class MakeRecyclerViewForCommentToUserActivity{
                                           SwipyRefreshLayout refreshLayout, UserCommentAdapter adapter,
                                           View includeNoDataForUser, TextView noDataTextView, View bottomNavigation, boolean isGetNewList) {
         new Thread(() -> {
-            GetCommentListToUserActivity.getCommentListToUserActivity(cont, prefUt, adapter, recyclerView, shimmer, refreshLayout, isGetNewList,
+            GetAnswersActivity.getAnswersActivity(cont, prefUt, adapter, recyclerView, shimmer, refreshLayout, isGetNewList,
                     includeNoDataForUser, noDataTextView, bottomNavigation);
         }).start();
     }

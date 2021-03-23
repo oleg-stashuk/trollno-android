@@ -3,7 +3,7 @@ package com.apps.trollino.utils;
 import android.content.Context;
 import android.content.Intent;
 
-import com.apps.trollino.ui.main_group.ActivityInPostActivity;
+import com.apps.trollino.ui.main_group.AnswersActivity;
 import com.apps.trollino.ui.main_group.CommentToPostActivity;
 import com.apps.trollino.ui.main_group.EditUserProfileActivity;
 import com.apps.trollino.ui.main_group.FavoriteActivity;
@@ -13,7 +13,7 @@ import com.apps.trollino.ui.main_group.TapeActivity;
 import com.apps.trollino.utils.data.PrefUtils;
 
 public class OpenActivityHelper {
-    public static final String ACTIVITY_USER_ACTIVITY = "ACTIVITY_USER_ACTIVITY";
+    public static final String ANSWERS_ACTIVITY = "ACTIVITY_USER_ACTIVITY";
     public static final String FAVORITE_ACTIVITY = "FAVORITE_ACTIVITY";
     public static final String PROFILE_ACTIVITY = "PROFILE_ACTIVITY";
     public static final String EDIT_PROFILE_ACTIVITY = "EDIT_PROFILE_ACTIVITY";
@@ -25,8 +25,8 @@ public class OpenActivityHelper {
         Intent intent = null;
 
         switch (currentOpenActivity) {
-            case ACTIVITY_USER_ACTIVITY:
-                intent = new Intent(context, ActivityInPostActivity.class);
+            case ANSWERS_ACTIVITY:
+                intent = new Intent(context, AnswersActivity.class);
                 break;
             case FAVORITE_ACTIVITY:
                 intent = new Intent(context, FavoriteActivity.class);

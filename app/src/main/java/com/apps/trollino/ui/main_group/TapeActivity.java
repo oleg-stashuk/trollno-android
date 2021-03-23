@@ -185,7 +185,7 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
                 break;
             case R.id.activity_button: // "Перейти на экран Активность"
                 removeAllDataFromPostList();
-                startActivity(new Intent(this, ActivityInPostActivity.class));
+                startActivity(new Intent(this, AnswersActivity.class));
                 finish();
                 break;
             case R.id.favorites_button: // "Перейти на экран Избранное"

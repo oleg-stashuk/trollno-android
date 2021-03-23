@@ -102,7 +102,7 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
         if(prefUtils.getCommentIdForActivity().isEmpty()) {
             intent = new Intent(this, PostActivity.class);
         } else {
-            intent = new Intent(this, ActivityInPostActivity.class);
+            intent = new Intent(this, AnswersActivity.class);
         }
         prefUtils.saveCommentIdForActivity("");
         prefUtils.saveCurrentActivity("");

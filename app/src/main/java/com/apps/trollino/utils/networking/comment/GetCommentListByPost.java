@@ -156,8 +156,9 @@ public class GetCommentListByPost {
             adapter.notifyDataSetChanged();
         }
 
-        if(totalCountComment - 1 > prefUt.getCurrentAdapterPositionComment()){
-            prefUt.saveCurrentAdapterPositionComment(prefUt.getCurrentAdapterPositionComment() + 1);
+        int currentAdapterPosition =  prefUt.getCurrentAdapterPositionComment();
+        if(currentAdapterPosition > 0 && totalCountComment - 1 > currentAdapterPosition){
+            prefUt.saveCurrentAdapterPositionComment(currentAdapterPosition + 1);
         }
     }
 }

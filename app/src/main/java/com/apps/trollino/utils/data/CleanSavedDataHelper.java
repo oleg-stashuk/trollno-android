@@ -1,12 +1,10 @@
 package com.apps.trollino.utils.data;
 
-import com.google.gson.internal.$Gson$Preconditions;
-
 public class CleanSavedDataHelper {
 
     public static void cleanAllDataFromApi(PrefUtils prefUtils) {
         CommentListFromApi.getInstance().removeAllDataFromList(prefUtils);
-        CommentListToUserActivityFromApi.getInstance().removeAllDataFromList(prefUtils);
+//        AnswersFromApi.getInstance().removeAllDataFromList(prefUtils);
         DataListFromApi.getInstance().removeAllDataFromList(prefUtils);
         FavoritePostListFromApi.getInstance().removeAllDataFromList(prefUtils);
         PostListByCategoryFromApi.getInstance().removeAllDataFromList(prefUtils);
@@ -49,5 +47,6 @@ public class CleanSavedDataHelper {
 
     public static void cleanAdapterPosition(PrefUtils prefUtils) {
         prefUtils.saveCurrentAdapterPositionComment(0);
+        prefUtils.saveCurrentAdapterPositionAnswers(0);
     }
 }

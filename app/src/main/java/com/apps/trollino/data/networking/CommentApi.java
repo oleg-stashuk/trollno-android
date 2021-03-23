@@ -58,7 +58,7 @@ public interface CommentApi {
             "Accepts: application/json"
     })
     @GET("/user/{uid}/comments?_format=json")
-    Call<CommentModel> getCommentListToUserActivity(@Header("Cookie") String cookie, @Path("uid") String userId, @Query("page") int page);
+    Call<CommentModel> getAnswersActivity(@Header("Cookie") String cookie, @Path("uid") String userId, @Query("page") int page);
 
     @Headers({
             "Content-Type: application/json",

@@ -7,7 +7,7 @@ import android.os.Handler;
 import com.apps.trollino.R;
 import com.apps.trollino.service.MyFirebaseMessagingService;
 import com.apps.trollino.ui.base.BaseActivity;
-import com.apps.trollino.ui.main_group.ActivityInPostActivity;
+import com.apps.trollino.ui.main_group.AnswersActivity;
 import com.apps.trollino.ui.main_group.TapeActivity;
 import com.apps.trollino.utils.data.CleanSavedDataHelper;
 import com.apps.trollino.utils.networking.GetCategoryList;
@@ -69,7 +69,7 @@ public class SplashActivity extends BaseActivity {
         if(isTapeActivity) {
             startActivity(new Intent(SplashActivity.this, TapeActivity.class));
         } else {
-            startActivity(new Intent(SplashActivity.this, ActivityInPostActivity.class));
+            startActivity(new Intent(SplashActivity.this, AnswersActivity.class));
         }
     }
 
