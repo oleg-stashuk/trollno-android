@@ -19,7 +19,6 @@ import com.apps.trollino.data.model.single_post.ItemPostModel;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.ui.main_group.YoutubeActivity;
 import com.apps.trollino.utils.ShowAdvertising;
-import com.apps.trollino.utils.data.Const;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.dialogs.ImageViewDialog;
 import com.google.android.youtube.player.YouTubeInitializationResult;
@@ -157,7 +156,7 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
                     int length = youtubeLink.length();
                     String videoAddress = youtubeLink.substring(length-11, length);
 
-                    youTubeThumbnailView.initialize(Const.YOUTUBE_API_KEY, new YouTubeThumbnailView.OnInitializedListener() {
+                    youTubeThumbnailView.initialize(prefUtils.getYoutubeId(), new YouTubeThumbnailView.OnInitializedListener() {
                         @Override
                         public void onInitializationSuccess(YouTubeThumbnailView youTubeThumbnailView, YouTubeThumbnailLoader youTubeThumbnailLoader) {
                             youTubeThumbnailLoader.setVideo(videoAddress);

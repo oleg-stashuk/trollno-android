@@ -29,28 +29,17 @@ public class GetSettings {
         String cookie = prefUtils.getCookie();
 
         ApiService.getInstance(context).getSettings(cookie, new Callback<SettingsModel>() {
-            int countTry = 0;
-
             @Override
             public void onResponse(Call<SettingsModel> call, Response<SettingsModel> response) {
                 if(response.isSuccessful()) {
                     SettingsModel settingsModel = response.body();
 
-                    List<SettingsModel.KeyModel> adMobIdList = settingsModel.getAdMobIdList();
-                    for(SettingsModel.KeyModel adMobId : adMobIdList) {
-                        prefUtils.saveAdMobId(adMobId.getValue());
-                    }
-
-                    List<SettingsModel.KeyModel> adBannerList = settingsModel.getBannerIdList();
-                    for(SettingsModel.KeyModel adBanner : adBannerList) {
-                        prefUtils.saveBannerId(adBanner.getValue());
-                    }
+                    prefUtils.saveYoutubeId(settingsModel.getYoutubeKeyList().get(0).getValue());
+                    prefUtils.saveAdMobId(settingsModel.getAdMobIdList().get(0).getValue());
+                    prefUtils.saveBannerId(settingsModel.getBannerIdList().get(0).getValue());
 
                     if (prefUtils.getCurrentActivity().equals("")) {
-                        List<SettingsModel.AdvertisingModel> advertisingList = settingsModel.getAdvertisingList();
-                        for(SettingsModel.AdvertisingModel advertising : advertisingList) {
-                            prefUtils.saveCountBetweenAds(advertising.getValue());
-                        }
+                        prefUtils.saveCountBetweenAds( settingsModel.getAdvertisingList().get(0).getValue());
                     } else {
                         List<AvatarImageModel> avatarImageList = settingsModel.getAvatarImageList();
                         AvatarsDialog dialog = new AvatarsDialog();

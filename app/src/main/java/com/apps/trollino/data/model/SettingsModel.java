@@ -19,6 +19,9 @@ public class SettingsModel {
     @SerializedName("field_conf_banner_id")
     @Expose
     private List<KeyModel> bannerIdList;
+    @SerializedName("field_conf_youtube_key")
+    @Expose
+    private List<KeyModel> youtubeKeyList;
 
     public List<AvatarImageModel> getAvatarImageList() {
         return avatarImageList;
@@ -34,6 +37,10 @@ public class SettingsModel {
 
     public List<KeyModel> getBannerIdList() {
         return bannerIdList;
+    }
+
+    public List<KeyModel> getYoutubeKeyList() {
+        return youtubeKeyList;
     }
 
 
