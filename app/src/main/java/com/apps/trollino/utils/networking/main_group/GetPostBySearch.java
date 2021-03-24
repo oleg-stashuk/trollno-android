@@ -29,18 +29,22 @@ import static com.apps.trollino.utils.data.Const.TAG_LOG;
 public class GetPostBySearch {
     private static int page;
     private static int totalPage;
+    private static int totalPosts;
     private static RecyclerView recyclerView;
     private static boolean isGetNewListThis;
+    private static PrefUtils prefUt;
 
     public static void getPostBySearch(Context context, PrefUtils prefUtils,
                                        RecyclerView recycler, SwipyRefreshLayout refreshLayout,
                                        String searchText, View nothingSearch,
                                        PostListAdapter adapter, boolean isGetNewList) {
         recyclerView = recycler;
+        prefUt = prefUtils;
         isGetNewListThis = isGetNewList;
         page = isGetNewList ? 0 : prefUtils.getCurrentPage();
         if(isGetNewList) {
             PostListBySearchFromApi.getInstance().removeAllDataFromList(prefUtils);
+            prefUtils.saveCurrentAdapterPositionPosts(0);
         }
         String cookie = prefUtils.getCookie();
 
@@ -58,6 +62,7 @@ public class GetPostBySearch {
                         List<PostsModel.PostDetails> newPostList = postsModel.getPostDetailsList();
                         updatePostListAndNotifyRecyclerAdapter(newPostList, adapter);
                     }
+                    totalPosts = postsModel.getPagerModel().getTotalItems();
                     totalPage = postsModel.getPagerModel().getTotalPages() -1;
                     saveCurrentPage(prefUtils);
 
@@ -113,8 +118,13 @@ public class GetPostBySearch {
 
         if(newListSize == currentListSize && page == totalPage && ! isGetNewListThis) {
             SnackBarMessageCustom.showSnackBar(recyclerView, "Показаны все результаты поиска");
+        } else {
+            adapter.notifyDataSetChanged();
         }
 
-        adapter.notifyDataSetChanged();
+        int currentAdapterPosition =  prefUt.getCurrentAdapterPositionPosts();
+        if(currentAdapterPosition > 0 && totalPosts - 1 > currentAdapterPosition){
+            prefUt.saveCurrentAdapterPositionAnswers(currentAdapterPosition + 1);
+        }
     }
 }

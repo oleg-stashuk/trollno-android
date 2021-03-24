@@ -32,6 +32,7 @@ public static void makeNewPostsRecyclerView(Context context, PrefUtils prefUtils
         recyclerView.setLayoutManager(new GridLayoutManager(cont, 2));
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
+        recyclerView.getLayoutManager().scrollToPosition(prefUtils.getCurrentAdapterPositionPosts());
 
         infiniteScroll(recyclerView, shimmer, refreshLayout, bottomNavigation, adapter, isNewData);
     }

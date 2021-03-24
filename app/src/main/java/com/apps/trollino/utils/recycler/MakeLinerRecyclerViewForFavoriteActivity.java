@@ -33,7 +33,7 @@ public class MakeLinerRecyclerViewForFavoriteActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
-        recyclerView.scrollToPosition(prefUtils.getCurrentAdapterPositionFavorite());
+        recyclerView.getLayoutManager().scrollToPosition(prefUtils.getCurrentAdapterPositionFavorite());
 
         infiniteScroll(recyclerView, shimmer, refreshLayout, adapter, noFavoriteListView, bottomNavigation, isNewData);
     }

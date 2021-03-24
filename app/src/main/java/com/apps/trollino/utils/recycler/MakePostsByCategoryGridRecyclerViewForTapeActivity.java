@@ -33,6 +33,7 @@ public class MakePostsByCategoryGridRecyclerViewForTapeActivity extends Recycler
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         infiniteScroll(adapter, recyclerView, shimmer, refreshLayout, bottomNavigation,isNewData);
+        recyclerView.getLayoutManager().scrollToPosition(prefUtils.getCurrentAdapterPositionPosts());
     }
 
     // Обработка нажатия на элемент списка

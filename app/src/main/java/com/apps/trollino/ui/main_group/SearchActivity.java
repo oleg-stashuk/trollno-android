@@ -75,6 +75,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
+        recyclerView.getLayoutManager().scrollToPosition(prefUtils.getCurrentAdapterPositionPosts());
         getDataFromApi(isNewData);
     }
 

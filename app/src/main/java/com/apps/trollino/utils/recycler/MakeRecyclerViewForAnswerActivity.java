@@ -36,7 +36,7 @@ public class MakeRecyclerViewForAnswerActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
-        recyclerView.scrollToPosition(prefUtils.getCurrentAdapterPositionAnswers());
+        recyclerView.getLayoutManager().scrollToPosition(prefUtils.getCurrentAdapterPositionAnswers());
 
         infiniteScroll(recyclerView, shimmer, refreshLayout, adapter, bottomNavigation, includeNoDataForUser, noDataTextView, isNewData);
     }

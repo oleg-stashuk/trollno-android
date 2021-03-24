@@ -31,14 +31,21 @@ import static com.apps.trollino.utils.data.Const.TAG_LOG;
 public class GetNewPosts {
     private static int page;
     private static int totalPage;
+    private static int totalPosts;
     private static boolean isGetNewListThis;
     private static Context cont;
+    private static PrefUtils prefUt;
 
     public static void makeGetNewPosts(Context context, PrefUtils prefUtils, PostListAdapter adapter, RecyclerView recycler,
                                        ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout,
                                        View bottomNavigation, boolean isGetNewList) {
         isGetNewListThis = isGetNewList;
         cont = context;
+        prefUt = prefUtils;
+        if(isGetNewList) {
+            DataListFromApi.getInstance().removeAllDataFromList(prefUtils);
+            prefUtils.saveCurrentAdapterPositionPosts(0);
+        }
         page = isGetNewList ? 0 : prefUtils.getCurrentPage();
         String cookie = prefUtils.getCookie();
 
@@ -54,6 +61,7 @@ public class GetNewPosts {
                     PostsModel post = response.body();
                     List<PostsModel.PostDetails> newPostList = post.getPostDetailsList();
 
+                    totalPosts = post.getPagerModel().getTotalItems();
                     totalPage = post.getPagerModel().getTotalPages() - 1;
                     saveCurrentPage(prefUtils);
                     updatePostListAndNotifyRecyclerAdapter(newPostList, adapter, bottomNavigation);
@@ -120,5 +128,10 @@ public class GetNewPosts {
         }
 
         adapter.notifyDataSetChanged();
+
+        int currentAdapterPosition =  prefUt.getCurrentAdapterPositionPosts();
+        if(currentAdapterPosition > 0 && totalPosts - 1 > currentAdapterPosition){
+            prefUt.saveCurrentAdapterPositionAnswers(currentAdapterPosition + 1);
+        }
     }
 }

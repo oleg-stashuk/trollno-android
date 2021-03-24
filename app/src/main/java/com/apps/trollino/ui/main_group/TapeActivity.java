@@ -99,10 +99,12 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
                 updateNewAnswersToComment();
                 selectedTab = tabs.getSelectedTabPosition();
                 if(tabs.getSelectedTabPosition() == 0) {
+                    prefUtils.saveCurrentAdapterPositionPosts(0);
                     updateDataFromApiFresh(twoColumnShimmer, null, true, true);
                 } else if(tabs.getSelectedTabPosition() == 1) {
                     updateDataFromApiDiscuss(oneColumnShimmer, null, true, true);
                 } else {
+                    prefUtils.saveCurrentAdapterPositionPosts(0);
                     prefUtils.saveSelectedCategoryId(tab.getTag().toString());
                     updateDataFromApiOther(twoColumnShimmer, null, true, true);
                 }
