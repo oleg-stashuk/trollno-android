@@ -31,14 +31,17 @@ import static com.apps.trollino.utils.data.Const.TAG_LOG;
 public class GetFavoriteList {
     private static int page;
     private static int totalPage;
+    private static int totalFavorites;
     private static RecyclerView recyclerView;
     private static boolean isGetNewListThis;
     private static Context cont;
+    private static PrefUtils prefUt;
 
     public static void getFavoritePosts(Context context, PrefUtils prefUtils, RecyclerView recycler,
                                         ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout, View noFavoriteListView, View bottomNavigation,
                                         FavoriteAdapter adapter, boolean isGetNewList) {
         cont = context;
+        prefUt = prefUtils;
         recyclerView = recycler;
         isGetNewListThis = isGetNewList;
         page = isGetNewList ? 0 : prefUtils.getCurrentPage();
@@ -66,6 +69,7 @@ public class GetFavoriteList {
                         }
                     }
 
+                    totalFavorites = post.getPagerModel().getTotalItems();
                     totalPage = post.getPagerModel().getTotalPages() - 1;
                     saveCurrentPage(prefUtils);
                     updatePostListAndNotifyRecyclerAdapter(favoritePostList, adapter);
@@ -123,14 +127,19 @@ public class GetFavoriteList {
     }
 
     private static void updatePostListAndNotifyRecyclerAdapter(List<PostsModel.PostDetails> favoritePostList, FavoriteAdapter adapter) {
-        int currentListSize = FavoritePostListFromApi.getInstance().getFavoritePostLis().size();
+        int currentListSize = FavoritePostListFromApi.getInstance().getFavoritePostList().size();
         FavoritePostListFromApi.getInstance().saveFavoritePostInList(favoritePostList);
-        int newListSize = FavoritePostListFromApi.getInstance().getFavoritePostLis().size();
+        int newListSize = FavoritePostListFromApi.getInstance().getFavoritePostList().size();
 
         if(newListSize == currentListSize && page == totalPage && ! isGetNewListThis) {
             SnackBarMessageCustom.showSnackBar(recyclerView, cont.getResources().getString(R.string.msg_show_all_favorite));
+        } else {
+            adapter.notifyDataSetChanged();
         }
 
-        adapter.notifyDataSetChanged();
+        int currentAdapterPosition =  prefUt.getCurrentAdapterPositionFavorite();
+        if(currentAdapterPosition > 0 && totalFavorites - 1 > currentAdapterPosition){
+            prefUt.saveCurrentAdapterPositionAnswers(currentAdapterPosition + 1);
+        }
     }
 }

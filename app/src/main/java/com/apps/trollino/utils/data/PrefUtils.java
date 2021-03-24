@@ -41,6 +41,7 @@ public class PrefUtils {
 
     private final String CURRENT_ADAPTER_POSITION_COMMENT = "CURRENT_ADAPTER_POSITION_COMMENT";
     private final String CURRENT_ADAPTER_POSITION_ANSWERS = "CURRENT_ADAPTER_POSITION_ANSWERS";
+    private final String CURRENT_ADAPTER_POSITION_FAVORITE = "CURRENT_ADAPTER_POSITION_FAVORITE";
 
     private final String SELECTED_POST_ID = "SELECTED_POST_ID";
     private final String POST_FROM_CATEGORY_LIST = "POST_FROM_CATEGORY_LIST";
@@ -257,6 +258,14 @@ public class PrefUtils {
 
     public int getCurrentAdapterPositionAnswers() {
         return sharedPreferences.getInt(CURRENT_ADAPTER_POSITION_ANSWERS, 0);
+    }
+
+    public void saveCurrentAdapterPositionFavorite(int position) {
+        getEditor().putInt(CURRENT_ADAPTER_POSITION_FAVORITE, position).apply();
+    }
+
+    public int getCurrentAdapterPositionFavorite() {
+        return sharedPreferences.getInt(CURRENT_ADAPTER_POSITION_FAVORITE, 0);
     }
 
     public void saveAnswerToUserName(String userName) {

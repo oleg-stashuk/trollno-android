@@ -32,7 +32,7 @@ public class FavoritePostListFromApi {
         }
     }
 
-    public List<PostsModel.PostDetails> getFavoritePostLis() {
+    public List<PostsModel.PostDetails> getFavoritePostList() {
         return favoritePostList;
     }
 

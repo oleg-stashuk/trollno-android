@@ -48,5 +48,6 @@ public class CleanSavedDataHelper {
     public static void cleanAdapterPosition(PrefUtils prefUtils) {
         prefUtils.saveCurrentAdapterPositionComment(0);
         prefUtils.saveCurrentAdapterPositionAnswers(0);
+        prefUtils.saveCurrentAdapterPositionFavorite(0);
     }
 }

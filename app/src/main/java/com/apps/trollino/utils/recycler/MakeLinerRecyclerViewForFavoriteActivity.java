@@ -28,11 +28,12 @@ public class MakeLinerRecyclerViewForFavoriteActivity {
         cont = context;
         prefUt = prefUtils;
 
-        FavoriteAdapter adapter = new FavoriteAdapter((BaseActivity) context, prefUtils, FavoritePostListFromApi.getInstance().getFavoritePostLis(), favoritePostItemListener);
+        FavoriteAdapter adapter = new FavoriteAdapter((BaseActivity) context, prefUtils, FavoritePostListFromApi.getInstance().getFavoritePostList(), favoritePostItemListener);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
+        recyclerView.scrollToPosition(prefUtils.getCurrentAdapterPositionFavorite());
 
         infiniteScroll(recyclerView, shimmer, refreshLayout, adapter, noFavoriteListView, bottomNavigation, isNewData);
     }

@@ -45,6 +45,7 @@ public class FavoriteAdapter extends BaseRecyclerAdapter<PostsModel.PostDetails>
                 TextView titleTextView = itemView.findViewById(R.id.title_favorite_item);
                 ImageButton deleteImageButton = itemView.findViewById(R.id.delete_button_favorite_item);
 
+                prefUtils.saveCurrentAdapterPositionFavorite(getAdapterPosition());
                 titleTextView.setText(item.getTitle());
                 Picasso
                         .get()
