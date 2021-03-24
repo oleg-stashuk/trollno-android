@@ -13,10 +13,10 @@ import com.apps.trollino.utils.data.PrefUtils;
 
 import java.util.List;
 
-public class UserCommentAdapter extends BaseRecyclerAdapter<CommentModel.Comments> {
+public class AnswersAdapter extends BaseRecyclerAdapter<CommentModel.Comments> {
     private PrefUtils prefUtils;
 
-    public UserCommentAdapter(BaseActivity baseActivity, PrefUtils prefUtils, List<CommentModel.Comments> items, OnItemClick<CommentModel.Comments> onItemClick) {
+    public AnswersAdapter(BaseActivity baseActivity, PrefUtils prefUtils, List<CommentModel.Comments> items, OnItemClick<CommentModel.Comments> onItemClick) {
         super(baseActivity, items, onItemClick);
         this.prefUtils = prefUtils;
     }
@@ -28,7 +28,7 @@ public class UserCommentAdapter extends BaseRecyclerAdapter<CommentModel.Comment
 
     @Override
     protected int getCardLayoutID() {
-        return R.layout.item_user_comment;
+        return R.layout.item_answers;
     }
 
     @Override
@@ -36,12 +36,12 @@ public class UserCommentAdapter extends BaseRecyclerAdapter<CommentModel.Comment
         return new BaseItem(view) {
             @Override
             public void bind(CommentModel.Comments item) {
-                TextView titleTextView = view.findViewById(R.id.title_item_user_comment);
-                TextView commentTextView = view.findViewById(R.id.comment_item_user_comment);
-                TextView countLikeTextView = view.findViewById(R.id.count_like_item_user_comment);
-                ImageView indicatorImageView = view.findViewById(R.id.new_comment_indicator_item_user_comment);
-                TextView newCommentTextView = view.findViewById(R.id.new_comment_item_user_comment);
-                TextView timeTextView = view.findViewById(R.id.time_item_user_comment);
+                TextView titleTextView = view.findViewById(R.id.title_item_for_answers);
+                TextView commentTextView = view.findViewById(R.id.comment_item_for_answers);
+                TextView countLikeTextView = view.findViewById(R.id.count_like_item_for_answers);
+                ImageView indicatorImageView = view.findViewById(R.id.new_comment_indicator_item_for_answers);
+                TextView newCommentTextView = view.findViewById(R.id.new_comment_item_for_answers);
+                TextView timeTextView = view.findViewById(R.id.time_item_for_answers);
 
                 prefUtils.saveCurrentAdapterPositionAnswers(getAdapterPosition());
                 titleTextView.setText(item.getPostTitle());

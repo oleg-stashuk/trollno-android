@@ -35,23 +35,23 @@
             android:visibility="gone"/>
 
         <include
-            android:id="@+id/include_user_not_authorization_activity_in_post"
+            android:id="@+id/include_user_not_authorization_for_answers"
             layout="@layout/include_guest_activity"
             android:visibility="gone" />
 
         <include
-            android:id="@+id/include_no_data_for_user_activity_in_post"
+            android:id="@+id/include_no_data_for_user_for_answers"
             layout="@layout/include_no_data_for_user_in_answers"
             android:visibility="gone"/>
 
         <com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
-            android:id="@+id/refresh_layout_activity_in_post"
+            android:id="@+id/refresh_layout_for_answers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:srl_direction="both">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_activity_in_post"
+                android:id="@+id/recycler_for_answers"
                 android:overScrollMode="never"
                 android:visibility="gone"
                 android:layout_width="match_parent"

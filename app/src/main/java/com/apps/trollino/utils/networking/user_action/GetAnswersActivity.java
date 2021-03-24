@@ -8,7 +8,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.apps.trollino.R;
-import com.apps.trollino.adapters.UserCommentAdapter;
+import com.apps.trollino.adapters.AnswersAdapter;
 import com.apps.trollino.data.model.comment.CommentModel;
 import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.utils.SnackBarMessageCustom;
@@ -37,7 +37,7 @@ public class GetAnswersActivity {
     private static Context cont;
     private static PrefUtils prefUt;
 
-    public static void getAnswersActivity(Context context, PrefUtils prefUtils, UserCommentAdapter adapter,
+    public static void getAnswersActivity(Context context, PrefUtils prefUtils, AnswersAdapter adapter,
                                           RecyclerView recycler, ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout,
                                           boolean isGetNewList, View includeNoDataForUser,
                                           TextView noDataTextView, View bottomNavigation) {
@@ -119,7 +119,7 @@ public class GetAnswersActivity {
         }
     }
 
-    private static void updatePostListAndNotifyRecyclerAdapter(List<CommentModel.Comments> comments, UserCommentAdapter adapter, View bottomNavigation) {
+    private static void updatePostListAndNotifyRecyclerAdapter(List<CommentModel.Comments> comments, AnswersAdapter adapter, View bottomNavigation) {
         int currentListSize = AnswersFromApi.getInstance().getAnswerList().size();
         AnswersFromApi.getInstance().saveAnswersInList(comments);
         int newListSize = AnswersFromApi.getInstance().getAnswerList().size();

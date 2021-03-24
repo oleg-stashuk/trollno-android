@@ -18,7 +18,7 @@
  import com.apps.trollino.utils.OpenActivityHelper;
  import com.apps.trollino.utils.data.AnswersFromApi;
  import com.apps.trollino.utils.networking.user_action.GetNewAnswersCount;
- import com.apps.trollino.utils.recycler.MakeRecyclerViewForCommentToUserActivity;
+ import com.apps.trollino.utils.recycler.MakeRecyclerViewForAnswerActivity;
  import com.facebook.shimmer.ShimmerFrameLayout;
  import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
  import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
@@ -40,7 +40,7 @@
 
     @Override
     protected int getLayoutID() {
-        return R.layout.activity_in_post;
+        return R.layout.activity_answers;
     }
 
     @Override
@@ -48,12 +48,12 @@
         initToolbar();
 
         shimmer = findViewById(R.id.include_user_comments_shimmer);
-        refreshLayout = findViewById(R.id.refresh_layout_activity_in_post);
+        refreshLayout = findViewById(R.id.refresh_layout_for_answers);
         bottomNavigation = findViewById(R.id.bottom_navigation_activity);
-        userAuthorizationView = findViewById(R.id.include_user_not_authorization_activity_in_post);
-        includeNoDataForUser = findViewById(R.id.include_no_data_for_user_activity_in_post);
+        userAuthorizationView = findViewById(R.id.include_user_not_authorization_for_answers);
+        includeNoDataForUser = findViewById(R.id.include_no_data_for_user_for_answers);
         noDataTextView = findViewById(R.id.txt_include_no_data);
-        postWithActivityRecyclerView = findViewById(R.id.recycler_activity_in_post);
+        postWithActivityRecyclerView = findViewById(R.id.recycler_for_answers);
         TextView activityBottomNavigationTextView = findViewById(R.id.activity_button);
         indicatorImageView = findViewById(R.id.indicator_image);
         findViewById(R.id.tape_button).setOnClickListener(this);
@@ -99,7 +99,7 @@
      }
 
     private void getDataFromApi(ShimmerFrameLayout shimmerToApi, SwipyRefreshLayout refreshLayoutToApi, boolean isNewData) {
-        MakeRecyclerViewForCommentToUserActivity
+        MakeRecyclerViewForAnswerActivity
                 .makeRecyclerViewForCommentToUserActivity(this, prefUtils, postWithActivityRecyclerView,
                         shimmerToApi, refreshLayoutToApi, includeNoDataForUser , noDataTextView, bottomNavigation, isNewData);
     }
