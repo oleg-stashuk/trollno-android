@@ -53,11 +53,6 @@ public class CommentToPostChildAdapter extends BaseRecyclerAdapter<CommentModel.
                 TextView countLikeTextView = view.findViewById(R.id.count_like_single_comment_child);
                 TextView answerTextView = view.findViewById(R.id.answer_single_comment_child);
 
-                if(item.getCommentId().equals(prefUtils.getCommentIdForActivity())) {
-                    commentTextView.setTextColor(Color.parseColor("#DD6AA0"));
-                    new Thread(() -> PostMarkReadAllAnswersToComment.PostMarkReadAllAnswersToComment(view.getContext(), prefUtils, item.getCommentId())).start();
-                }
-
                 final String comment = item.getCommentBody();
                 boolean isLike = item.getFavoriteFlag().equals("1");
 

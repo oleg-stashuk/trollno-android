@@ -19,6 +19,7 @@ import com.apps.trollino.utils.data.CommentListFromApi;
 import com.apps.trollino.utils.data.Const;
 import com.apps.trollino.utils.dialogs.GuestDialog;
 import com.apps.trollino.utils.networking.comment.PostNewComment;
+import com.apps.trollino.utils.networking.user_action.PostMarkReadAllAnswersToComment;
 import com.apps.trollino.utils.recycler.MakeRecyclerViewForComment;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
@@ -57,8 +58,17 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
 
         prefUtils.saveCurrentActivity(OpenActivityHelper.COMMENT_ACTIVITY);
         currentPostId = prefUtils.getCurrentPostId();
+        sendRequestToMarkReadAllAnswersToComment();
         makeSortCommentSpinner();
         updateCommentBySwipe();
+    }
+
+    private void sendRequestToMarkReadAllAnswersToComment() {
+        if (!prefUtils.getCommentIdForActivity().isEmpty()) {
+            new Thread(() ->
+                    PostMarkReadAllAnswersToComment.PostMarkReadAllAnswersToComment(this, prefUtils)
+            ).start();
+        }
     }
 
     private void makeSortCommentSpinner() {
