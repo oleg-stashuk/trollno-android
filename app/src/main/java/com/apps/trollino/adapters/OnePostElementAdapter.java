@@ -60,7 +60,6 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
                 TextView sourceTextView = view.findViewById(R.id.source_text_element_of_post);
                 TextView sourceLinkTextView = view.findViewById(R.id.link_source_element_of_post);
 
-
                 TextView youtubeTextView = view.findViewById(R.id.youtube_element_of_post);
                 YouTubeThumbnailView youTubeThumbnailView = view.findViewById(R.id.youtube_view_1);
                 ImageView videoImageView = view.findViewById(R.id.image_video_element_of_post);
@@ -121,8 +120,8 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
                     sourceLinkTextView.setVisibility(View.GONE);
                 } else {
                     imageView.setVisibility(View.VISIBLE);
-                    sourceTextView.setVisibility(View.VISIBLE);
-                    sourceLinkTextView.setVisibility(View.VISIBLE);
+                    sourceTextView.setVisibility(image.getResourceTitle().isEmpty() ? View.GONE : View.VISIBLE);
+                    sourceLinkTextView.setVisibility(image.getResourceTitle().isEmpty() ? View.GONE : View.VISIBLE);
 
                     SpannableString content = new SpannableString(image.getResourceTitle());
                     content.setSpan(new UnderlineSpan(), 0, content.length(), 0);

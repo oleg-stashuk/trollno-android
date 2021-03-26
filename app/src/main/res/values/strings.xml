@@ -107,6 +107,7 @@
     <string name="last_post_in_category">Это последний пост в этой категории</string>
     <string name="msg_no_comments">Комментариев пока нет</string>
     <string name="your_comments_will_be_available_here">Общайтесь и тут будут доступны все ваши комментарии.</string>
+    <string name="resource">Ссылка</string>
 
     <string-array name="sort_comment_value">
         <item>по рейтингу</item>

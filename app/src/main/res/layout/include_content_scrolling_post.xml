@@ -25,72 +25,6 @@
             <include
                 layout="@layout/include_shimmer_post"/>
 
-<!--            <com.facebook.shimmer.ShimmerFrameLayout-->
-<!--                android:id="@+id/include_shimmer_post"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:visibility="visible"-->
-<!--                android:padding="20dp">-->
-
-<!--                <LinearLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:orientation="vertical">-->
-
-<!--                    <ImageView-->
-<!--                        android:layout_width="100dp"-->
-<!--                        android:layout_height="50dp"-->
-<!--                        android:layout_marginLeft="10dp"-->
-<!--                        android:layout_marginTop="5dp"-->
-<!--                        android:padding="10dp"-->
-<!--                        android:background="@color/shimmer_item_color"/>-->
-
-<!--                    <ImageView-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="30dp"-->
-<!--                        android:layout_margin="10dp"-->
-<!--                        android:background="@color/shimmer_item_color"/>-->
-
-<!--                    <ImageView-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="30dp"-->
-<!--                        android:layout_margin="10dp"-->
-<!--                        android:background="@color/shimmer_item_color"/>-->
-
-<!--                    <ImageView-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="250dp"-->
-<!--                        android:layout_margin="10dp"-->
-<!--                        android:background="@color/shimmer_item_color"/>-->
-
-<!--                    <ImageView-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="30dp"-->
-<!--                        android:layout_margin="10dp"-->
-<!--                        android:background="@color/shimmer_item_color"/>-->
-
-<!--                    <ImageView-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="30dp"-->
-<!--                        android:layout_margin="10dp"-->
-<!--                        android:background="@color/shimmer_item_color"/>-->
-
-<!--                    <ImageView-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="250dp"-->
-<!--                        android:layout_margin="10dp"-->
-<!--                        android:background="@color/shimmer_item_color"/>-->
-
-<!--                    <ImageView-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="30dp"-->
-<!--                        android:layout_margin="10dp"-->
-<!--                        android:background="@color/shimmer_item_color"/>-->
-
-<!--                </LinearLayout>-->
-
-<!--            </com.facebook.shimmer.ShimmerFrameLayout>-->
-
             <LinearLayout
                 android:id="@+id/post_layout"
                 android:layout_width="match_parent"
@@ -103,7 +37,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="20dp"
                     android:padding="10dp"
                     android:background="@color/colorGreyBackgroundVideo"
                     android:textAllCaps="true"
@@ -116,7 +50,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:lineSpacingExtra="6dp"
+                    android:lineSpacingExtra="4dp"
                     android:textSize="30sp"
                     android:textColor="@color/black"
                     android:fontFamily="@font/roboto_bold" />
@@ -234,14 +168,16 @@
                         app:mrl_rippleHover="true"
                         app:mrl_rippleOverlay="true">
 
-                        <Button
+                        <TextView
                             android:id="@+id/prev_post"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:background="@drawable/button_background"
+                            android:gravity="center"
                             android:padding="10dp"
-                            android:textColor="@color/white"
+                            android:background="@color/colorButtonWhite"
+                            android:textColor="@color/black"
+                            android:textAllCaps="true"
                             android:textStyle="bold"
                             android:text="@string/prev_post"/>
 
@@ -257,14 +193,16 @@
                         app:mrl_rippleHover="true"
                         app:mrl_rippleOverlay="true">
 
-                        <Button
+                        <TextView
                             android:id="@+id/next_post"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:background="@drawable/button_background"
+                            android:gravity="center"
                             android:padding="10dp"
-                            android:textColor="@color/white"
+                            android:background="@color/colorButtonWhite"
+                            android:textColor="@color/black"
+                            android:textAllCaps="true"
                             android:textStyle="bold"
                             android:text="@string/next_post"/>
 

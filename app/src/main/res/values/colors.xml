@@ -21,6 +21,7 @@
     <color name="black">#000000</color>
     <color name="blackTransparent">#80000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="colorButtonWhite">#EEEEEE</color>
     <color name="colorLightGrey">#DCDDE0</color>
     <color name="colorGrey">#BCBEC1</color>
     <color name="colorGreyBackgroundVideo">#E6E6E6</color>

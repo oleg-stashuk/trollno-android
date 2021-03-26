@@ -8,6 +8,7 @@
         android:id="@+id/title_element_of_post"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:padding="10dp"
         android:lineSpacingExtra="4dp"
         android:textSize="24sp"
@@ -41,11 +42,11 @@
             android:id="@+id/link_source_element_of_post"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginStart="3dp"
             android:paddingLeft="10dp"
             style="@style/UrlTextStyle"
-            android:text="Ссылка" />
+            android:text="@string/resource" />
 
     </LinearLayout>
 

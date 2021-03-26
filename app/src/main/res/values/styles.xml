@@ -49,7 +49,7 @@
     </style>
 
     <style name="UrlTextStyle" parent="@android:style/TextAppearance">
-        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textColor">@color/colorSourceText</item>
         <item name="android:inputType">textUri</item>
         <item name="android:linksClickable">true</item>
     </style>
