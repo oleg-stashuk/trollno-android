@@ -18,7 +18,7 @@
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:text="@string/whops" />
+        android:text="@string/msg_no_comments" />
 
     <TextView
         android:id="@+id/txt_include_no_data"
@@ -29,5 +29,5 @@
         android:paddingLeft="30dp"
         android:paddingRight="30dp"
         android:textSize="16sp"
-        android:text="@string/answers_list_empty" />
+        android:text="@string/your_comments_will_be_available_here" />
 </LinearLayout>

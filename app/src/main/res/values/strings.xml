@@ -100,6 +100,13 @@
     <string name="authorisation_by_facebook">Вы вошли через Facebook</string>
     <string name="msg_enter_real_name">Веедите имя, которые будут видеть другие пользователи:</string>
     <string name="name">Имя</string>
+    <string name="msg_enter_name">Введите имя</string>
+    <string name="prev_post">Предыдущий пост</string>
+    <string name="next_post">Следующий пост</string>
+    <string name="first_post_in_category">Это первый пост в этой категории</string>
+    <string name="last_post_in_category">Это последний пост в этой категории</string>
+    <string name="msg_no_comments">Комментариев пока нет</string>
+    <string name="your_comments_will_be_available_here">Общайтесь и тут будут доступны все ваши комментарии.</string>
 
     <string-array name="sort_comment_value">
         <item>по рейтингу</item>
@@ -118,9 +125,4 @@
     // For FaceBook
     <string name="facebook_app_id">316582089429479</string>
     <string name="fb_login_protocol_scheme">fb316582089429479</string>
-    <string name="msg_enter_name">Введите имя</string>
-    <string name="prev_post">Предыдущий пост</string>
-    <string name="next_post">Следующий пост</string>
-    <string name="first_post_in_category">Это первый пост в этой категории</string>
-    <string name="last_post_in_category">Это последний пост в этой категории</string>
 </resources>
