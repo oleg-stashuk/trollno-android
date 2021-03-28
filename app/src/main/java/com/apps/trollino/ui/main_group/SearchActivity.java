@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
@@ -14,6 +15,7 @@ import com.apps.trollino.R;
 import com.apps.trollino.adapters.PostListAdapter;
 import com.apps.trollino.data.model.PostsModel;
 import com.apps.trollino.ui.base.BaseActivity;
+import com.apps.trollino.utils.RecyclerScrollListener;
 import com.apps.trollino.utils.data.DataListFromApi;
 import com.apps.trollino.utils.data.PostListBySearchFromApi;
 import com.apps.trollino.utils.networking.main_group.GetPostBySearch;
@@ -26,6 +28,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     private SwipyRefreshLayout refreshLayout;
     private View nothingSearch;
     private RecyclerView recyclerView;
+    private ProgressBar progressBar;
     private EditText searchEditText;
     private PostListAdapter adapter;
     private String searchString = "";
@@ -39,6 +42,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     protected void initView() {
         refreshLayout = findViewById(R.id.refresh_layout_search);
         recyclerView = findViewById(R.id.recycler_search);
+        progressBar = findViewById(R.id.progress_bar_search);
         nothingSearch = findViewById(R.id.include_nothing_search);
         searchEditText = findViewById(R.id.search_search);
         searchEditText.setOnEditorActionListener(editorActionListener);
@@ -77,6 +81,14 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         recyclerView.setHasFixedSize(true);
         recyclerView.getLayoutManager().scrollToPosition(prefUtils.getCurrentAdapterPositionPosts());
         getDataFromApi(isNewData);
+
+        recyclerView.addOnScrollListener(new RecyclerScrollListener() {
+            @Override
+            public void onScrolledToEnd() {
+                progressBar.setVisibility(View.VISIBLE);
+                makeSearchPostsRecyclerView(false);
+            }
+        });
     }
 
     // Обработка нажатия на элемент списка
@@ -91,7 +103,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                 showMessageToPutDataSearch();
                 refreshLayout.setRefreshing(false);
             } else {
-                makeSearchPostsRecyclerView((direction == SwipyRefreshLayoutDirection.TOP));
+                makeSearchPostsRecyclerView(true);
             }
         });
     }
@@ -100,7 +112,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     private void getDataFromApi(boolean isNewData) {
         new Thread(() -> {
             GetPostBySearch.getPostBySearch(SearchActivity.this, prefUtils, recyclerView, refreshLayout,
-                    searchString, nothingSearch, adapter, isNewData);
+                    searchString, nothingSearch, adapter, isNewData, progressBar);
         }).start();
     }
 

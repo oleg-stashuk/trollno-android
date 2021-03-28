@@ -3,6 +3,7 @@ package com.apps.trollino.utils.networking.main_group;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,7 +38,7 @@ public class GetPostBySearch {
     public static void getPostBySearch(Context context, PrefUtils prefUtils,
                                        RecyclerView recycler, SwipyRefreshLayout refreshLayout,
                                        String searchText, View nothingSearch,
-                                       PostListAdapter adapter, boolean isGetNewList) {
+                                       PostListAdapter adapter, boolean isGetNewList, ProgressBar progressBar) {
         recyclerView = recycler;
         prefUt = prefUtils;
         isGetNewListThis = isGetNewList;
@@ -71,7 +72,7 @@ public class GetPostBySearch {
                     SnackBarMessageCustom.showSnackBar(recycler, errorMessage);
                 }
 
-                hideUpdateProgressView(refreshLayout);
+                hideUpdateProgressView(refreshLayout, progressBar);
             }
 
             @Override
@@ -91,16 +92,17 @@ public class GetPostBySearch {
                     SnackBarMessageCustom.showSnackBar(recycler, t.getLocalizedMessage());
                 }
                 Log.d(TAG_LOG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
-                hideUpdateProgressView(refreshLayout);
+                hideUpdateProgressView(refreshLayout, progressBar);
             }
         });
 
     }
 
-    private static void hideUpdateProgressView(SwipyRefreshLayout refreshLayout) {
+    private static void hideUpdateProgressView(SwipyRefreshLayout refreshLayout, ProgressBar progressBar) {
         if(refreshLayout != null) {
             refreshLayout.setRefreshing(false);
         }
+        progressBar.setVisibility(View.GONE);
     }
 
     private static void saveCurrentPage(PrefUtils prefUtils) {
