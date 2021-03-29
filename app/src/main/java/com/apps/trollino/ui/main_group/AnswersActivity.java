@@ -5,6 +5,7 @@
  import android.view.View;
  import android.widget.ImageView;
  import android.widget.LinearLayout;
+ import android.widget.ProgressBar;
  import android.widget.TextView;
 
  import androidx.appcompat.widget.Toolbar;
@@ -24,12 +25,14 @@
  import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 
  import static com.apps.trollino.utils.SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation;
+ import static com.apps.trollino.utils.recycler.MakeRecyclerViewForAnswerActivity.makeRecyclerViewForCommentToUserActivity;
 
  public class AnswersActivity extends BaseActivity implements View.OnClickListener{
     private RecyclerView postWithActivityRecyclerView;
     private ShimmerFrameLayout shimmer;
     private SwipyRefreshLayout refreshLayout;
     private LinearLayout bottomNavigation;
+    private ProgressBar progressBar;
 
     private View includeNoDataForUser;
     private TextView noDataTextView;
@@ -56,6 +59,7 @@
         postWithActivityRecyclerView = findViewById(R.id.recycler_for_answers);
         TextView activityBottomNavigationTextView = findViewById(R.id.activity_button);
         indicatorImageView = findViewById(R.id.indicator_image);
+        progressBar = findViewById(R.id.progress_bar_answer);
         findViewById(R.id.tape_button).setOnClickListener(this);
         findViewById(R.id.favorites_button).setOnClickListener(this);
         findViewById(R.id.profile_button).setOnClickListener(this);
@@ -99,9 +103,9 @@
      }
 
     private void getDataFromApi(ShimmerFrameLayout shimmerToApi, SwipyRefreshLayout refreshLayoutToApi, boolean isNewData) {
-        MakeRecyclerViewForAnswerActivity
-                .makeRecyclerViewForCommentToUserActivity(this, prefUtils, postWithActivityRecyclerView,
-                        shimmerToApi, refreshLayoutToApi, includeNoDataForUser , noDataTextView, bottomNavigation, isNewData);
+        makeRecyclerViewForCommentToUserActivity(this, prefUtils, postWithActivityRecyclerView,
+                shimmerToApi, refreshLayoutToApi, includeNoDataForUser , noDataTextView,
+                bottomNavigation, isNewData, progressBar);
     }
 
     // Иницировать Toolbar

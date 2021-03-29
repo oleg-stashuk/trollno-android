@@ -3,6 +3,7 @@ package com.apps.trollino.utils.networking.user_action;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,7 +41,7 @@ public class GetAnswersActivity {
     public static void getAnswersActivity(Context context, PrefUtils prefUtils, AnswersAdapter adapter,
                                           RecyclerView recycler, ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout,
                                           boolean isGetNewList, View includeNoDataForUser,
-                                          TextView noDataTextView, View bottomNavigation) {
+                                          TextView noDataTextView, View bottomNavigation, ProgressBar progressBar) {
         String cookie = prefUtils.getCookie();
         String userId = prefUtils.getUserUid();
         prefUt = prefUtils;
@@ -76,7 +77,7 @@ public class GetAnswersActivity {
                     SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, errorMessage);
                 }
 
-                hideUpdateDataProgressView(recycler, shimmer, refreshLayout);
+                hideUpdateDataProgressView(recycler, shimmer, refreshLayout, progressBar);
             }
 
             @Override
@@ -96,19 +97,21 @@ public class GetAnswersActivity {
                 } else {
                     SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(recycler, t.getLocalizedMessage());
                 }
-                hideUpdateDataProgressView(recycler, shimmer, refreshLayout);
+                hideUpdateDataProgressView(recycler, shimmer, refreshLayout, progressBar);
                 Log.d(TAG_LOG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
             }
         });
     }
 
-    private static void hideUpdateDataProgressView(RecyclerView recycler, ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout) {
+    private static void hideUpdateDataProgressView(RecyclerView recycler, ShimmerFrameLayout shimmer,
+                                                   SwipyRefreshLayout refreshLayout, ProgressBar progressBar) {
         if(shimmer != null) {
             ShimmerHide.shimmerHide(recycler, shimmer);
         }
         if (refreshLayout != null) {
             refreshLayout.setRefreshing(false);
         }
+        progressBar.setVisibility(View.GONE);
     }
 
     private static void saveCurrentPage(PrefUtils prefUtils) {
