@@ -3,6 +3,7 @@ package com.apps.trollino.utils.networking.comment;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,7 +44,7 @@ public class GetCommentListByPost {
                                             String postId, String sortBy,
                                             RecyclerView recycler, ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout,
                                             CommentToPostParentAdapter adapter, TextView noCommentTextView,
-                                            TextView countTextView, boolean isGetNewList) {
+                                            TextView countTextView, boolean isGetNewList, ProgressBar progressBar) {
          String sortOrder = Const.SORT_ORDER_BY_DESC;
 
         recyclerView = recycler;
@@ -74,7 +75,7 @@ public class GetCommentListByPost {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
                     SnackBarMessageCustom.showSnackBar(recycler, errorMessage);
                 }
-                hideUpdateProgressView(shimmer, refreshLayout);
+                hideUpdateProgressView(shimmer, refreshLayout, progressBar);
             }
 
             @Override
@@ -93,7 +94,7 @@ public class GetCommentListByPost {
                 } else {
                     SnackBarMessageCustom.showSnackBar(recycler, t.getLocalizedMessage());
                 }
-                hideUpdateProgressView(shimmer, refreshLayout);
+                hideUpdateProgressView(shimmer, refreshLayout, progressBar);
                 Log.d(TAG_LOG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
             }
 
@@ -101,13 +102,15 @@ public class GetCommentListByPost {
 
     }
 
-    private static void hideUpdateProgressView(ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout) {
+    private static void hideUpdateProgressView(ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout,
+                                               ProgressBar progressBar) {
         if(shimmer != null) {
             shimmer.setVisibility(View.GONE);
         }
         if(refreshLayout != null) {
             refreshLayout.setRefreshing(false);
         }
+        progressBar.setVisibility(View.GONE);
     }
 
     // Если для Поста нет комментариев, то выводится на экран сообщение что комментариев нет

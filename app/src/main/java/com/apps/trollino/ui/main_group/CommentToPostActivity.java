@@ -6,6 +6,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -25,6 +26,8 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 
+import static com.apps.trollino.utils.recycler.MakeRecyclerViewForComment.makeRecyclerViewForComment;
+
 public class CommentToPostActivity extends BaseActivity implements View.OnClickListener{
     private ShimmerFrameLayout shimmer;
     private SwipyRefreshLayout topRefreshLayout;
@@ -34,6 +37,7 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
     private Spinner sortCommentSpinner;
     private TextView countTextView;
     private ImageButton sendCommentImageButton;
+    private ProgressBar progressBar;
 
     private String currentPostId;
     private String sortBy;
@@ -55,6 +59,7 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
         countTextView = findViewById(R.id.count_comment_to_post);
         sortCommentSpinner = findViewById(R.id.spinner_comment_to_post);
         noCommentTextView = findViewById(R.id.text_post_without_comment_comment_to_post);
+        progressBar = findViewById(R.id.progress_bar_comment);
 
         prefUtils.saveCurrentActivity(OpenActivityHelper.COMMENT_ACTIVITY);
         currentPostId = prefUtils.getCurrentPostId();
@@ -95,14 +100,14 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
     private void updateCommentBySwipe() {
         topRefreshLayout.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorPrimary));
         topRefreshLayout.setOnRefreshListener(direction -> {
-            getCommentList(null, topRefreshLayout, (direction == SwipyRefreshLayoutDirection.TOP));
+            getCommentList(null, topRefreshLayout, true);
         });
     }
 
     private void getCommentList(ShimmerFrameLayout shimmerToShow, SwipyRefreshLayout refreshTopLayoutToShow, boolean isNewData) {
-        MakeRecyclerViewForComment.makeRecyclerViewForComment(CommentToPostActivity.this,
-                prefUtils, commentsRecyclerView, shimmerToShow, refreshTopLayoutToShow, isNewData, currentPostId, commentEditText,
-                noCommentTextView, countTextView, sortBy);
+        makeRecyclerViewForComment(CommentToPostActivity.this, prefUtils, commentsRecyclerView,
+                shimmerToShow, refreshTopLayoutToShow, isNewData, currentPostId, commentEditText,
+            noCommentTextView, countTextView, sortBy, progressBar);
     }
 
     @Override

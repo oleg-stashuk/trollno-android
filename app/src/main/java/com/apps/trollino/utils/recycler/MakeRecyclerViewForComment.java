@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apps.trollino.adapters.CommentToPostParentAdapter;
 import com.apps.trollino.ui.base.BaseActivity;
+import com.apps.trollino.utils.RecyclerScrollListener;
 import com.apps.trollino.utils.data.CommentListFromApi;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.networking.comment.GetCommentListByPost;
@@ -25,7 +27,8 @@ public class MakeRecyclerViewForComment {
                                                   RecyclerView recyclerView, ShimmerFrameLayout shimmer,
                                                   SwipyRefreshLayout refreshLayout, boolean isNewData,
                                                   String postId, EditText commentEditText,
-                                                  TextView noCommentTextView, TextView countTextView, String sortBy) {
+                                                  TextView noCommentTextView, TextView countTextView,
+                                                  String sortBy, ProgressBar progressBar) {
 
         cont = context;
         prefUt = prefUtils;
@@ -40,18 +43,27 @@ public class MakeRecyclerViewForComment {
         recyclerView.getLayoutManager().scrollToPosition(prefUtils.getCurrentAdapterPositionComment());
 
         infiniteScroll(recyclerView, shimmer, refreshLayout, adapter, postId, noCommentTextView,
-                countTextView, sortBy, isNewData);
+                countTextView, sortBy, isNewData, progressBar);
+
+        recyclerView.addOnScrollListener(new RecyclerScrollListener() {
+            @Override
+            public void onScrolledToEnd() {
+                progressBar.setVisibility(View.VISIBLE);
+                infiniteScroll(recyclerView, shimmer, refreshLayout, adapter, postId, noCommentTextView,
+                        countTextView, sortBy, false, progressBar);
+            }
+        });
     }
 
     // Загрузить/обновить данные с API
     private static void updateDataFromApi(RecyclerView recyclerView, ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout,
                                           CommentToPostParentAdapter adapter, String postId,
                                           TextView noCommentTextView, TextView countTextView, String sortBy,
-                                          boolean isGetNewList) {
+                                          boolean isGetNewList, ProgressBar progressBar) {
         new Thread(() -> {
             GetCommentListByPost.getCommentListByPost(cont, prefUt, postId, sortBy,
                     recyclerView, shimmer, refreshLayout, adapter,
-                    noCommentTextView, countTextView, isGetNewList);
+                    noCommentTextView, countTextView, isGetNewList, progressBar);
         }).start();
     }
 
@@ -59,13 +71,13 @@ public class MakeRecyclerViewForComment {
     private static void infiniteScroll(RecyclerView recyclerView, ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout,
                                        CommentToPostParentAdapter adapter, String postId,
                                        TextView noCommentTextView, TextView countTextView, String sortBy,
-                                       boolean isGetNewList) {
+                                       boolean isGetNewList, ProgressBar progressBar) {
         if(shimmer != null) {
             shimmer.setVisibility(isGetNewList ? View.VISIBLE : View.GONE);
         }
         Handler handler = new Handler();
         handler.postDelayed(() -> updateDataFromApi(recyclerView, shimmer, refreshLayout, adapter, postId,
-                noCommentTextView, countTextView, sortBy, isGetNewList), 1000);
+                noCommentTextView, countTextView, sortBy, isGetNewList, progressBar), 1000);
     }
 
 }
