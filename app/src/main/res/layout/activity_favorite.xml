@@ -45,20 +45,35 @@
             layout="@layout/include_shimmer_post_one_column"
             android:visibility="gone"/>
 
-        <com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
-            android:id="@+id/refresh_layout_favorite"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:srl_direction="both">
+            android:layout_height="wrap_content">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_favorite"
-                android:overScrollMode="never"
+            <com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
+                android:id="@+id/refresh_layout_favorite"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                app:srl_direction="top">
 
-        </com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_favorite"
+                    android:overScrollMode="never"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
+            </com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout>
+
+            <ProgressBar
+                android:id="@+id/progress_bar_favorite"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:visibility="gone"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:progressDrawable="@color/colorPrimary"
+                android:background="@drawable/progress_bar_circle_shape" />
+
+        </RelativeLayout>
     </LinearLayout>
 
     <include

@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
@@ -18,12 +19,11 @@ import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.OpenActivityHelper;
 import com.apps.trollino.utils.data.FavoritePostListFromApi;
 import com.apps.trollino.utils.networking.user_action.GetNewAnswersCount;
-import com.apps.trollino.utils.recycler.MakeLinerRecyclerViewForFavoriteActivity;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
-import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 
 import static com.apps.trollino.utils.SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation;
+import static com.apps.trollino.utils.recycler.MakeLinerRecyclerViewForFavoriteActivity.makeLinerRecyclerViewForFavoriteActivity;
 
 public class FavoriteActivity extends BaseActivity implements View.OnClickListener{
     private ShimmerFrameLayout shimmer;
@@ -33,6 +33,7 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
     private View noFavoriteListView;
     private View userAuthorizationView;
     private ImageView indicatorImageView;
+    private ProgressBar progressBar;
     private boolean isUserAuthorization; // Пользователь авторизирован или нет
     private boolean doubleBackToExitPressedOnce = false;  // для обработки нажатия onBackPressed
 
@@ -53,6 +54,7 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
         userAuthorizationView = findViewById(R.id.include_user_not_authorization_favorite);
         TextView favoriteBottomNavigationTextView = findViewById(R.id.favorites_button);
         indicatorImageView = findViewById(R.id.indicator_image);
+        progressBar = findViewById(R.id.progress_bar_favorite);
         findViewById(R.id.tape_button).setOnClickListener(this);
         findViewById(R.id.activity_button).setOnClickListener(this);
         findViewById(R.id.profile_button).setOnClickListener(this);
@@ -88,13 +90,13 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
     private void updateDataBySwipe() {
         refreshLayout.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorPrimary));
         refreshLayout.setOnRefreshListener(direction -> {
-            getDataFromApi(null, refreshLayout, (direction == SwipyRefreshLayoutDirection.TOP));
+            getDataFromApi(null, refreshLayout, true);
         });
     }
 
     private void getDataFromApi(ShimmerFrameLayout shimmerToShow, SwipyRefreshLayout refreshTopLayoutToShow, boolean isNewData) {
-        MakeLinerRecyclerViewForFavoriteActivity.makeLinerRecyclerViewForFavoriteActivity(this, prefUtils, favoriteRecyclerView,
-                shimmerToShow, refreshTopLayoutToShow,  noFavoriteListView, bottomNavigation, isNewData);
+        makeLinerRecyclerViewForFavoriteActivity(this, prefUtils, favoriteRecyclerView,
+                shimmerToShow, refreshTopLayoutToShow,  noFavoriteListView, bottomNavigation, isNewData, progressBar);
     }
 
     // Иницировать Toolbar

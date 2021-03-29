@@ -3,6 +3,7 @@ package com.apps.trollino.utils.networking.main_group;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,8 +39,9 @@ public class GetFavoriteList {
     private static PrefUtils prefUt;
 
     public static void getFavoritePosts(Context context, PrefUtils prefUtils, RecyclerView recycler,
-                                        ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout, View noFavoriteListView, View bottomNavigation,
-                                        FavoriteAdapter adapter, boolean isGetNewList) {
+                                        ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout,
+                                        View noFavoriteListView, View bottomNavigation,
+                                        FavoriteAdapter adapter, boolean isGetNewList, ProgressBar progressBar) {
         cont = context;
         prefUt = prefUtils;
         recyclerView = recycler;
@@ -84,7 +86,7 @@ public class GetFavoriteList {
                     SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(recycler, errorMessage);
                 }
 
-                hideUpdateProgressView(shimmer, refreshLayout);
+                hideUpdateProgressView(shimmer, refreshLayout, progressBar);
             }
 
             @Override
@@ -99,24 +101,25 @@ public class GetFavoriteList {
                             .setAction(R.string.refresh_button, v -> {
                                 call.clone().enqueue(this);
                             });
-                    snackbar.setAnchorView(bottomNavigation);
+//                    snackbar.setAnchorView(bottomNavigation);
                     snackbar.show();
                 } else {
                     SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, t.getLocalizedMessage());
                 }
                 Log.d(TAG_LOG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
-                hideUpdateProgressView(shimmer, refreshLayout);
+                hideUpdateProgressView(shimmer, refreshLayout, progressBar);
             }
         });
     }
 
-    private static void hideUpdateProgressView(ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout) {
+    private static void hideUpdateProgressView(ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout, ProgressBar progressBar) {
         if(shimmer != null) {
             shimmer.setVisibility(View.GONE);
         }
         if(refreshLayout != null) {
             refreshLayout.setRefreshing(false);
         }
+        progressBar.setVisibility(View.GONE);
     }
 
     private static void saveCurrentPage(PrefUtils prefUtils) {
