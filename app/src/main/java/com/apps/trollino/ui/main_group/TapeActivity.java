@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
@@ -38,6 +39,7 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
     private ShimmerFrameLayout twoColumnShimmer;
     private ShimmerFrameLayout oneColumnShimmer;
     private SwipyRefreshLayout refreshLayout;
+    private ProgressBar progressBar;
     private boolean doubleBackToExitPressedOnce = false;  // для обработки нажатия onBackPressed
     private int selectedTab = 0;
 
@@ -52,6 +54,7 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
         twoColumnShimmer = findViewById(R.id.include_shimmer_post_two_column);
         oneColumnShimmer = findViewById(R.id.include_shimmer_post_one_column);
         refreshLayout = findViewById(R.id.refresh_layout_tape);
+        progressBar = findViewById(R.id.progress_bar_tape);
 
         tabs = findViewById(R.id.tab_layout_tape);
         newsRecyclerView = findViewById(R.id.news_recycler_tape);
@@ -131,30 +134,31 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
 
     private void updateDataFromApiFresh(ShimmerFrameLayout shimmerToApi, SwipyRefreshLayout refreshLayoutToApi, boolean isNewData, boolean IsUpdateData) {
         showCorrectShimmer(false, IsUpdateData);
-        makeNewPostsRecyclerView(this, prefUtils, newsRecyclerView, shimmerToApi, refreshLayoutToApi, isNewData, bottomNavigation);
+        makeNewPostsRecyclerView(this, prefUtils, newsRecyclerView, shimmerToApi,
+                refreshLayoutToApi, isNewData, bottomNavigation, progressBar);
     }
 
     private void updateDataFromApiDiscuss(ShimmerFrameLayout shimmerToApi, SwipyRefreshLayout refreshLayoutToApi, boolean isNewData, boolean IsUpdateData) {
         showCorrectShimmer(true, IsUpdateData);
         makeLinerRecyclerViewForTapeActivity(this, prefUtils, newsRecyclerView,
-                shimmerToApi, refreshLayoutToApi, bottomNavigation, isNewData);
+                shimmerToApi, refreshLayoutToApi, bottomNavigation, isNewData, progressBar);
     }
 
     private void updateDataFromApiOther(ShimmerFrameLayout shimmerToApi, SwipyRefreshLayout refreshLayoutToApi, boolean isNewData, boolean IsUpdateData) {
         showCorrectShimmer(false, IsUpdateData);
         makePostsByCategoryGridRecyclerViewForTapeActivity(this, prefUtils, newsRecyclerView,
-                        shimmerToApi, refreshLayoutToApi, bottomNavigation, isNewData);
+                        shimmerToApi, refreshLayoutToApi, bottomNavigation, isNewData, progressBar);
     }
 
     private void updateDataBySwipe() {
         refreshLayout.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorPrimary));
         refreshLayout.setOnRefreshListener(direction -> {
             if(selectedTab == 0) {
-                updateDataFromApiFresh(null, refreshLayout, (direction == SwipyRefreshLayoutDirection.TOP), true);
+                updateDataFromApiFresh(null, refreshLayout, true, true);
             } else if(selectedTab == 1) {
-                updateDataFromApiDiscuss(null, refreshLayout, (direction == SwipyRefreshLayoutDirection.TOP), true);
+                updateDataFromApiDiscuss(null, refreshLayout, true, true);
             } else {
-                updateDataFromApiOther(null, refreshLayout, (direction == SwipyRefreshLayoutDirection.TOP), true);
+                updateDataFromApiOther(null, refreshLayout, true, true);
             }
         });
     }

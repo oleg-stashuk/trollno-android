@@ -3,6 +3,7 @@ package com.apps.trollino.utils.networking.main_group;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,7 +37,7 @@ public class GetMostDiscusPosts {
 
     public static void makeGetNewPosts(Context context, PrefUtils prefUtils, DiscussPostsAdapter adapter,
                                        RecyclerView recycler, ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout,
-                                       View bottomNavigation, boolean isGetNewList) {
+                                       View bottomNavigation, boolean isGetNewList, ProgressBar progressBar) {
         page = isGetNewList ? 0 : prefUtils.getCurrentPage();
         String cookie = prefUtils.getCookie();
         isGetNewListThis = isGetNewList;
@@ -64,7 +65,7 @@ public class GetMostDiscusPosts {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
                     SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, errorMessage);
                 }
-                hideUpdateProgressView(shimmer, refreshLayout);
+                hideUpdateProgressView(shimmer, refreshLayout, progressBar);
             }
 
             @Override
@@ -84,19 +85,20 @@ public class GetMostDiscusPosts {
                 } else {
                     SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, t.getLocalizedMessage());
                 }
-                hideUpdateProgressView(shimmer, refreshLayout);
+                hideUpdateProgressView(shimmer, refreshLayout, progressBar);
                 Log.d(TAG_LOG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
             }
         });
     }
 
-    private static void hideUpdateProgressView(ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout) {
+    private static void hideUpdateProgressView(ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout, ProgressBar progressBar) {
         if(shimmer != null) {
             shimmer.setVisibility(View.GONE);
         }
         if(refreshLayout != null) {
             refreshLayout.setRefreshing(false);
         }
+        progressBar.setVisibility(View.GONE);
     }
 
     private static void saveCurrentPage(PrefUtils prefUtils) {

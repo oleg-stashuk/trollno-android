@@ -3,6 +3,7 @@ package com.apps.trollino.utils.networking.main_group;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,7 +39,7 @@ public class GetNewPosts {
 
     public static void makeGetNewPosts(Context context, PrefUtils prefUtils, PostListAdapter adapter, RecyclerView recycler,
                                        ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout,
-                                       View bottomNavigation, boolean isGetNewList) {
+                                       View bottomNavigation, boolean isGetNewList, ProgressBar progressBar) {
         isGetNewListThis = isGetNewList;
         cont = context;
         prefUt = prefUtils;
@@ -73,7 +74,7 @@ public class GetNewPosts {
                 if (shimmer != null) {
                     ShimmerHide.shimmerHide(recycler, shimmer);
                 }
-                hideUpdateProgressView(shimmer, refreshLayout);
+                hideUpdateProgressView(shimmer, refreshLayout, progressBar);
             }
 
             @Override
@@ -93,19 +94,20 @@ public class GetNewPosts {
                 } else {
                     SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, t.getLocalizedMessage());
                 }
-                hideUpdateProgressView(shimmer, refreshLayout);
+                hideUpdateProgressView(shimmer, refreshLayout, progressBar);
                 Log.d(TAG_LOG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
             }
         });
     }
 
-    private static void hideUpdateProgressView(ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout) {
+    private static void hideUpdateProgressView(ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout, ProgressBar progressBar) {
         if(shimmer != null) {
             shimmer.setVisibility(View.GONE);
         }
         if(refreshLayout != null) {
             refreshLayout.setRefreshing(false);
         }
+        progressBar.setVisibility(View.GONE);
     }
 
     private static void saveCurrentPage(PrefUtils prefUtils) {

@@ -3,6 +3,7 @@ package com.apps.trollino.utils.recycler;
 import android.content.Context;
 import android.os.Handler;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apps.trollino.adapters.PostListAdapter;
 import com.apps.trollino.data.model.PostsModel;
 import com.apps.trollino.ui.base.BaseActivity;
+import com.apps.trollino.utils.RecyclerScrollListener;
 import com.apps.trollino.utils.data.DataListFromApi;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -24,7 +26,7 @@ public class MakeGridRecyclerViewForTapeActivity {
 
 public static void makeNewPostsRecyclerView(Context context, PrefUtils prefUtils, RecyclerView recyclerView,
                                             ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout, boolean isNewData,
-                                            View bottomNavigation) {
+                                            View bottomNavigation, ProgressBar progressBar) {
         cont = context;
         prefUt = prefUtils;
 
@@ -34,7 +36,15 @@ public static void makeNewPostsRecyclerView(Context context, PrefUtils prefUtils
         recyclerView.setHasFixedSize(true);
         recyclerView.getLayoutManager().scrollToPosition(prefUtils.getCurrentAdapterPositionPosts());
 
-        infiniteScroll(recyclerView, shimmer, refreshLayout, bottomNavigation, adapter, isNewData);
+        infiniteScroll(recyclerView, shimmer, refreshLayout, bottomNavigation, adapter, isNewData, progressBar);
+
+        recyclerView.addOnScrollListener(new RecyclerScrollListener() {
+            @Override
+            public void onScrolledToEnd() {
+                progressBar.setVisibility(View.VISIBLE);
+                infiniteScroll(recyclerView, shimmer, refreshLayout, bottomNavigation, adapter, false, progressBar);
+            }
+        });
     }
 
     // Обработка нажатия на элемент списка
@@ -45,19 +55,20 @@ public static void makeNewPostsRecyclerView(Context context, PrefUtils prefUtils
     // Загрузить/обновить данные с API
     private static void updateDataFromApi(RecyclerView recyclerView, ShimmerFrameLayout shimmer,
                                           SwipyRefreshLayout refreshLayout, View bottomNavigation,
-                                          PostListAdapter adapter, boolean isGetNewList) {
+                                          PostListAdapter adapter, boolean isGetNewList, ProgressBar progressBar) {
         new Thread(() -> {
-            makeGetNewPosts(cont, prefUt, adapter, recyclerView, shimmer, refreshLayout, bottomNavigation, isGetNewList);
+            makeGetNewPosts(cont, prefUt, adapter, recyclerView, shimmer, refreshLayout, bottomNavigation, isGetNewList, progressBar);
         }).start();
     }
 
     // Загрузить/обновить данные с API при скролах ресайклера вверх или вниз, если достигнут конец списка
     private static void infiniteScroll(RecyclerView recyclerView, ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout,
-                                       View bottomNavigation, PostListAdapter adapter, boolean isGetNewList) {
+                                       View bottomNavigation, PostListAdapter adapter, boolean isGetNewList, ProgressBar progressBar) {
         if (shimmer != null) {
             shimmer.setVisibility(isGetNewList ? View.VISIBLE : View.GONE);
         }
         Handler handler = new Handler();
-        handler.postDelayed(() -> updateDataFromApi(recyclerView, shimmer, refreshLayout, bottomNavigation, adapter, isGetNewList), 1000);
+        handler.postDelayed(() -> updateDataFromApi(recyclerView, shimmer, refreshLayout,
+                bottomNavigation, adapter, isGetNewList, progressBar), 1000);
     }
 }
