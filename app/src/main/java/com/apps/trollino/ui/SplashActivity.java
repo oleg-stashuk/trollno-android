@@ -3,6 +3,7 @@ package com.apps.trollino.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 
 import com.apps.trollino.R;
 import com.apps.trollino.service.MyFirebaseMessagingService;
@@ -48,6 +49,13 @@ public class SplashActivity extends BaseActivity {
             MyFirebaseMessagingService firebaseMessagingService = new MyFirebaseMessagingService();
             firebaseMessagingService.getFireBaseToken(this, prefUtils);
         }
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int density  = (int) getResources().getDisplayMetrics().density;
+
+        int widthForImage = displayMetrics.widthPixels / 2 - (density * 24);
+        prefUtils.saveImageWidth(widthForImage);
     }
 
     Runnable openNextActivity = new Runnable() {

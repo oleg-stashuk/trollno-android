@@ -51,6 +51,8 @@ public class PrefUtils {
 
     private final String CURRENT_ACTIVITY = "CURRENT_ACTIVITY";
 
+    private final String WIDTH_FOR_IMAGE = "WIDTH_FOR_IMAGE";
+
     public PrefUtils(SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
     }
@@ -303,5 +305,13 @@ public class PrefUtils {
 
     public void saveCommentIdForActivity(String commentId) {
         getEditor().putString(COMMENT_ID_FROM_ACTIVITY, commentId).apply();
+    }
+
+    public int getImageWidth() {
+        return sharedPreferences.getInt(WIDTH_FOR_IMAGE, 0);
+    }
+
+    public void saveImageWidth(int imageWidth) {
+        getEditor().putInt(WIDTH_FOR_IMAGE, imageWidth).apply();
     }
 }
