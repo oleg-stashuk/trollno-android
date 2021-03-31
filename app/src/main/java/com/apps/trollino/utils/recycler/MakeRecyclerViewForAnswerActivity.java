@@ -28,7 +28,7 @@ public class MakeRecyclerViewForAnswerActivity {
     public static void makeRecyclerViewForCommentToUserActivity(Context context, PrefUtils prefUtils, RecyclerView recyclerView,
                                                                 ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout,
                                                                 View includeNoDataForUser, TextView noDataTextView,
-                                                                View bottomNavigation, boolean isNewData, ProgressBar progressBar) {
+                                                                View bottomNavigation, ProgressBar progressBar) {
         cont = context;
         prefUt = prefUtils;
 
@@ -39,14 +39,16 @@ public class MakeRecyclerViewForAnswerActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
-        recyclerView.getLayoutManager().scrollToPosition(prefUtils.getCurrentAdapterPositionAnswers());
+        prefUtils.saveCurrentAdapterPositionAnswers(0);
+        recyclerView.getLayoutManager().scrollToPosition(0);
 
         infiniteScroll(recyclerView, shimmer, refreshLayout, adapter, bottomNavigation,
-                includeNoDataForUser, noDataTextView, isNewData, progressBar);
+                includeNoDataForUser, noDataTextView, true, progressBar);
 
         recyclerView.addOnScrollListener(new RecyclerScrollListener() {
             @Override
             public void onScrolledToEnd() {
+                recyclerView.getLayoutManager().scrollToPosition(prefUtils.getCurrentAdapterPositionAnswers());
                 progressBar.setVisibility(View.VISIBLE);
                 infiniteScroll(recyclerView, shimmer, refreshLayout, adapter, bottomNavigation,
                         includeNoDataForUser, noDataTextView, false, progressBar);

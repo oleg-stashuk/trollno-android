@@ -46,9 +46,6 @@ public class GetAnswersActivity {
         String userId = prefUtils.getUserUid();
         prefUt = prefUtils;
         page = isGetNewList ? 0 : prefUtils.getCurrentPage();
-        if(isGetNewList) {
-            prefUtils.saveCurrentAdapterPositionAnswers(0);
-        }
         isGetNewListThis = isGetNewList;
         cont = context;
 

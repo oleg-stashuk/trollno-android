@@ -21,7 +21,6 @@
  import com.apps.trollino.utils.networking.user_action.GetNewAnswersCount;
  import com.facebook.shimmer.ShimmerFrameLayout;
  import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
- import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 
  import static com.apps.trollino.utils.SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation;
  import static com.apps.trollino.utils.recycler.MakeRecyclerViewForAnswerActivity.makeRecyclerViewForCommentToUserActivity;
@@ -106,7 +105,7 @@
 
             int AnswerListSize = AnswersFromApi.getInstance().getListSize();
             shimmer.setVisibility(AnswerListSize < 1 ? View.VISIBLE : View.GONE);
-            getDataFromApi(shimmer, null, AnswerListSize < 1);
+            getDataFromApi(shimmer, null);
         } else {
             shimmer.setVisibility(View.GONE);
             userAuthorizationView.setVisibility(View.VISIBLE);
@@ -118,14 +117,14 @@
      private void updateCommentBySwipe() {
          refreshLayout.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorPrimary));
          refreshLayout.setOnRefreshListener(direction -> {
-             getDataFromApi(null, refreshLayout, (direction == SwipyRefreshLayoutDirection.TOP));
+             getDataFromApi(null, refreshLayout);
          });
      }
 
-    private void getDataFromApi(ShimmerFrameLayout shimmerToApi, SwipyRefreshLayout refreshLayoutToApi, boolean isNewData) {
+    private void getDataFromApi(ShimmerFrameLayout shimmerToApi, SwipyRefreshLayout refreshLayoutToApi) {
         makeRecyclerViewForCommentToUserActivity(this, prefUtils, postWithActivityRecyclerView,
                 shimmerToApi, refreshLayoutToApi, includeNoDataForUser , noDataTextView,
-                bottomNavigation, isNewData, progressBar);
+                bottomNavigation, progressBar);
     }
 
     // Иницировать Toolbar
