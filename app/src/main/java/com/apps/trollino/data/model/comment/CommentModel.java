@@ -14,7 +14,6 @@ public class CommentModel {
     @Expose
     private PagerModel pagerModel;
 
-
     public List<Comments> getCommentsList() {
         return commentsList;
     }
@@ -22,7 +21,6 @@ public class CommentModel {
     public PagerModel getPagerModel() {
         return pagerModel;
     }
-
 
 
     public class Comments {
@@ -41,9 +39,6 @@ public class CommentModel {
         @SerializedName("flagged")
         @Expose
         private String favoriteFlag;
-        @SerializedName("count")
-        @Expose
-        private String countLike;
         @SerializedName("name")
         @Expose
         private String authorComment;
@@ -53,19 +48,6 @@ public class CommentModel {
         @SerializedName("newsappm_comment_answers_count")
         @Expose
         private String commentAnswersCount;
-        @SerializedName("newsappm_comment_new_answers_count")
-        @Expose
-        private String commentNewAnswersCount;
-
-        @SerializedName("nid")
-        @Expose
-        private String postId;
-        @SerializedName("title")
-        @Expose
-        private String postTitle;
-        @SerializedName("created")
-        @Expose
-        private String created;
         @SerializedName("newsappm_comment_like_count")
         @Expose
         private String countLikeToComment;
@@ -87,10 +69,6 @@ public class CommentModel {
             return favoriteFlag;
         }
 
-        public String getCountLike() {
-            return countLike;
-        }
-
         public String getAuthorName() {
             return authorComment;
         }
@@ -105,22 +83,6 @@ public class CommentModel {
 
         public String getTime() {
             return time;
-        }
-
-        public String getPostId() {
-            return postId;
-        }
-
-        public String getPostTitle() {
-            return postTitle;
-        }
-
-        public String getCreated() {
-            return created;
-        }
-
-        public String getCommentNewAnswersCount() {
-            return commentNewAnswersCount;
         }
 
         public String getCountLikeToComment() {
