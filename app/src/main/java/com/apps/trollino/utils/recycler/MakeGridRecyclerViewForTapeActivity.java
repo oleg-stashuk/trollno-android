@@ -25,7 +25,7 @@ public class MakeGridRecyclerViewForTapeActivity {
     private static PrefUtils prefUt;
 
 public static void makeNewPostsRecyclerView(Context context, PrefUtils prefUtils, RecyclerView recyclerView,
-                                            ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout, boolean isNewData,
+                                            ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout,
                                             View bottomNavigation, ProgressBar progressBar) {
         cont = context;
         prefUt = prefUtils;
@@ -34,13 +34,16 @@ public static void makeNewPostsRecyclerView(Context context, PrefUtils prefUtils
         recyclerView.setLayoutManager(new GridLayoutManager(cont, 2));
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
-        recyclerView.getLayoutManager().scrollToPosition(prefUtils.getCurrentAdapterPositionPosts());
 
-        infiniteScroll(recyclerView, shimmer, refreshLayout, bottomNavigation, adapter, isNewData, progressBar);
+        prefUtils.saveCurrentAdapterPositionPosts(0);
+        recyclerView.getLayoutManager().scrollToPosition(0);
+
+        infiniteScroll(recyclerView, shimmer, refreshLayout, bottomNavigation, adapter, true, progressBar);
 
         recyclerView.addOnScrollListener(new RecyclerScrollListener() {
             @Override
             public void onScrolledToEnd() {
+                recyclerView.getLayoutManager().scrollToPosition(prefUtils.getCurrentAdapterPositionPosts());
                 progressBar.setVisibility(View.VISIBLE);
                 infiniteScroll(recyclerView, shimmer, refreshLayout, bottomNavigation, adapter, false, progressBar);
             }

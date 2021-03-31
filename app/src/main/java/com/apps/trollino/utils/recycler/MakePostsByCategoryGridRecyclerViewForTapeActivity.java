@@ -26,7 +26,7 @@ public class MakePostsByCategoryGridRecyclerViewForTapeActivity extends Recycler
 
     public static void makePostsByCategoryGridRecyclerViewForTapeActivity(Context context, PrefUtils prefUtils, RecyclerView recyclerView,
                                                                           ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout,
-                                                                          View bottomNavigation, Boolean isNewData, ProgressBar progressBar) {
+                                                                          View bottomNavigation, ProgressBar progressBar) {
         cont = context;
         prefUt = prefUtils;
 
@@ -34,12 +34,14 @@ public class MakePostsByCategoryGridRecyclerViewForTapeActivity extends Recycler
         recyclerView.setLayoutManager(new GridLayoutManager(cont, 2));
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
-        infiniteScroll(adapter, recyclerView, shimmer, refreshLayout, bottomNavigation,isNewData, progressBar);
-        recyclerView.getLayoutManager().scrollToPosition(prefUtils.getCurrentAdapterPositionPosts());
+        infiniteScroll(adapter, recyclerView, shimmer, refreshLayout, bottomNavigation,true, progressBar);
+        recyclerView.getLayoutManager().scrollToPosition(0);
+        prefUtils.saveCurrentAdapterPositionPosts(0);
 
         recyclerView.addOnScrollListener(new RecyclerScrollListener() {
             @Override
             public void onScrolledToEnd() {
+                recyclerView.getLayoutManager().scrollToPosition(prefUtils.getCurrentAdapterPositionPosts());
                 infiniteScroll(adapter, recyclerView, shimmer, refreshLayout, bottomNavigation,false, progressBar);
                 progressBar.setVisibility(View.VISIBLE);
             }

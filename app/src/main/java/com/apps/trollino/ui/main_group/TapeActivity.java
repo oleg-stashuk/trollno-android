@@ -71,7 +71,7 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
 
         prefUtils.saveCurrentActivity("");
         makeTabSelectedListener();
-        updateDataFromApiFresh(twoColumnShimmer, null, true, true);
+        updateDataFromApiFresh(twoColumnShimmer, null, true);
         updateDataBySwipe();
     }
 
@@ -115,13 +115,13 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
                 selectedTab = tabs.getSelectedTabPosition();
                 if(tabs.getSelectedTabPosition() == 0) {
                     prefUtils.saveCurrentAdapterPositionPosts(0);
-                    updateDataFromApiFresh(twoColumnShimmer, null, true, true);
+                    updateDataFromApiFresh(twoColumnShimmer, null, true);
                 } else if(tabs.getSelectedTabPosition() == 1) {
-                    updateDataFromApiDiscuss(oneColumnShimmer, null, true, true);
+                    updateDataFromApiDiscuss(oneColumnShimmer, null, true);
                 } else {
                     prefUtils.saveCurrentAdapterPositionPosts(0);
                     prefUtils.saveSelectedCategoryId(tab.getTag().toString());
-                    updateDataFromApiOther(twoColumnShimmer, null, true, true);
+                    updateDataFromApiOther(twoColumnShimmer, null, true);
                 }
             }
 
@@ -144,33 +144,33 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
     }
 
 
-    private void updateDataFromApiFresh(ShimmerFrameLayout shimmerToApi, SwipyRefreshLayout refreshLayoutToApi, boolean isNewData, boolean IsUpdateData) {
+    private void updateDataFromApiFresh(ShimmerFrameLayout shimmerToApi, SwipyRefreshLayout refreshLayoutToApi, boolean IsUpdateData) {
         showCorrectShimmer(false, IsUpdateData);
         makeNewPostsRecyclerView(this, prefUtils, newsRecyclerView, shimmerToApi,
-                refreshLayoutToApi, isNewData, bottomNavigation, progressBar);
+                refreshLayoutToApi, bottomNavigation, progressBar);
     }
 
-    private void updateDataFromApiDiscuss(ShimmerFrameLayout shimmerToApi, SwipyRefreshLayout refreshLayoutToApi, boolean isNewData, boolean IsUpdateData) {
+    private void updateDataFromApiDiscuss(ShimmerFrameLayout shimmerToApi, SwipyRefreshLayout refreshLayoutToApi, boolean IsUpdateData) {
         showCorrectShimmer(true, IsUpdateData);
         makeLinerRecyclerViewForTapeActivity(this, prefUtils, newsRecyclerView,
-                shimmerToApi, refreshLayoutToApi, bottomNavigation, isNewData, progressBar);
+                shimmerToApi, refreshLayoutToApi, bottomNavigation, progressBar);
     }
 
-    private void updateDataFromApiOther(ShimmerFrameLayout shimmerToApi, SwipyRefreshLayout refreshLayoutToApi, boolean isNewData, boolean IsUpdateData) {
+    private void updateDataFromApiOther(ShimmerFrameLayout shimmerToApi, SwipyRefreshLayout refreshLayoutToApi, boolean IsUpdateData) {
         showCorrectShimmer(false, IsUpdateData);
         makePostsByCategoryGridRecyclerViewForTapeActivity(this, prefUtils, newsRecyclerView,
-                        shimmerToApi, refreshLayoutToApi, bottomNavigation, isNewData, progressBar);
+                        shimmerToApi, refreshLayoutToApi, bottomNavigation, progressBar);
     }
 
     private void updateDataBySwipe() {
         refreshLayout.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorPrimary));
         refreshLayout.setOnRefreshListener(direction -> {
             if(selectedTab == 0) {
-                updateDataFromApiFresh(null, refreshLayout, true, true);
+                updateDataFromApiFresh(null, refreshLayout, true);
             } else if(selectedTab == 1) {
-                updateDataFromApiDiscuss(null, refreshLayout, true, true);
+                updateDataFromApiDiscuss(null, refreshLayout, true);
             } else {
-                updateDataFromApiOther(null, refreshLayout, true, true);
+                updateDataFromApiOther(null, refreshLayout, true);
             }
         });
     }

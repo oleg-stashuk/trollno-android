@@ -45,7 +45,6 @@ public class GetPostsByCategory {
         isGetNewListThis = isGetNewList;
         if(isGetNewList) {
             PostListByCategoryFromApi.getInstance().removeAllDataFromList(prefUtils);
-            prefUtils.saveCurrentAdapterPositionPosts(0);
         }
         cont = context;
         prefUt = prefUtils;

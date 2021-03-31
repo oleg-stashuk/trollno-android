@@ -45,7 +45,6 @@ public class GetNewPosts {
         prefUt = prefUtils;
         if(isGetNewList) {
             DataListFromApi.getInstance().removeAllDataFromList(prefUtils);
-            prefUtils.saveCurrentAdapterPositionPosts(0);
         }
         page = isGetNewList ? 0 : prefUtils.getCurrentPage();
         String cookie = prefUtils.getCookie();

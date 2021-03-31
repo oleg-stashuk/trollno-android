@@ -27,7 +27,7 @@ public class MakeLinerRecyclerViewForTapeActivity {
     public static void makeLinerRecyclerViewForTapeActivity(Context context, PrefUtils prefUtils,
                                                             RecyclerView recyclerView, ShimmerFrameLayout shimmer,
                                                             SwipyRefreshLayout refreshLayout, View bottomNavigation,
-                                                            boolean isNewData, ProgressBar progressBar) {
+                                                            ProgressBar progressBar) {
         cont = context;
         prefUt = prefUtils;
 
@@ -37,7 +37,7 @@ public class MakeLinerRecyclerViewForTapeActivity {
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
 
-        infiniteScroll(recyclerView, shimmer, refreshLayout, bottomNavigation, adapter, isNewData, progressBar);
+        infiniteScroll(recyclerView, shimmer, refreshLayout, bottomNavigation, adapter, true, progressBar);
 
         recyclerView.addOnScrollListener(new RecyclerScrollListener() {
             @Override
