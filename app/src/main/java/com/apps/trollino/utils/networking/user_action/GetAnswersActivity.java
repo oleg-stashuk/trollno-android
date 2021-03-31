@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apps.trollino.R;
 import com.apps.trollino.adapters.AnswersAdapter;
-import com.apps.trollino.data.model.comment.CommentModel;
+import com.apps.trollino.data.model.user_action.AnswersModel;
 import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.utils.SnackBarMessageCustom;
 import com.apps.trollino.utils.data.AnswersFromApi;
@@ -52,21 +52,21 @@ public class GetAnswersActivity {
         isGetNewListThis = isGetNewList;
         cont = context;
 
-        ApiService.getInstance(context).getAnswersActivity(cookie, userId, page, new Callback<CommentModel>() {
+        ApiService.getInstance(context).getAnswersActivity(cookie, userId, page, new Callback<AnswersModel>() {
             @Override
-            public void onResponse(Call<CommentModel> call, Response<CommentModel> response) {
+            public void onResponse(Call<AnswersModel> call, Response<AnswersModel> response) {
                 if(response.isSuccessful()) {
-                    CommentModel commentModel = response.body();
-                    List<CommentModel.Comments> commentList = commentModel.getCommentsList();
-                    totalPage = commentModel.getPagerModel().getTotalPages() - 1;
-                    totalAnswers = commentModel.getPagerModel().getTotalItems();
+                    AnswersModel answerModel = response.body();
+                    List<AnswersModel.Answers> answerList = answerModel.getAnswerList();
+                    totalPage = answerModel.getPagerModel().getTotalPages() - 1;
+                    totalAnswers = answerModel.getPagerModel().getTotalItems();
 
-                    if (commentList.size() == 0 || commentList.isEmpty()) {
+                    if (answerList.size() == 0 || answerList.isEmpty()) {
                         includeNoDataForUser.setVisibility(View.VISIBLE);
                         noDataTextView.setText(context.getResources().getString(R.string.txt_have_no_comments));
                     } else {
                         includeNoDataForUser.setVisibility(View.GONE);
-                        updatePostListAndNotifyRecyclerAdapter(commentList, adapter, bottomNavigation);
+                        updatePostListAndNotifyRecyclerAdapter(answerList, adapter, bottomNavigation);
                         saveCurrentPage(prefUtils);
                     }
                 } else if(response.code() == 403) {
@@ -81,7 +81,7 @@ public class GetAnswersActivity {
             }
 
             @Override
-            public void onFailure(Call<CommentModel> call, Throwable t) {
+            public void onFailure(Call<AnswersModel> call, Throwable t) {
                 t.getStackTrace();
                 boolean isHaveNotInternet = t.getLocalizedMessage().contains(context.getString(R.string.internet_error_from_api));
                 String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
@@ -122,7 +122,7 @@ public class GetAnswersActivity {
         }
     }
 
-    private static void updatePostListAndNotifyRecyclerAdapter(List<CommentModel.Comments> comments, AnswersAdapter adapter, View bottomNavigation) {
+    private static void updatePostListAndNotifyRecyclerAdapter(List<AnswersModel.Answers> comments, AnswersAdapter adapter, View bottomNavigation) {
         int currentListSize = AnswersFromApi.getInstance().getAnswerList().size();
         AnswersFromApi.getInstance().saveAnswersInList(comments);
         int newListSize = AnswersFromApi.getInstance().getAnswerList().size();

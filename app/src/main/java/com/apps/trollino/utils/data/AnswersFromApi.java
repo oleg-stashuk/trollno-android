@@ -1,12 +1,12 @@
 package com.apps.trollino.utils.data;
 
-import com.apps.trollino.data.model.comment.CommentModel;
+import com.apps.trollino.data.model.user_action.AnswersModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AnswersFromApi {
-    private List<CommentModel.Comments> answerListModel;
+    private List<AnswersModel.Answers> answerListModel;
 
     private static volatile AnswersFromApi instance = null;
     public static AnswersFromApi getInstance() {
@@ -20,19 +20,19 @@ public class AnswersFromApi {
         answerListModel = new ArrayList<>();
     }
 
-    public void saveAnswersInList(List<CommentModel.Comments> commentList) {
+    public void saveAnswersInList(List<AnswersModel.Answers> answerList) {
         if (answerListModel.isEmpty()) {
-            answerListModel.addAll(commentList);
+            answerListModel.addAll(answerList);
         } else {
-            for (CommentModel.Comments comment : commentList) {
-                if (! answerListModel.contains(comment)) {
-                    answerListModel.add(comment);
+            for (AnswersModel.Answers answer : answerList) {
+                if (! answerListModel.contains(answer)) {
+                    answerListModel.add(answer);
                 }
             }
         }
     }
 
-    public List<CommentModel.Comments> getAnswerList() {
+    public List<AnswersModel.Answers> getAnswerList() {
         return answerListModel;
     }
 

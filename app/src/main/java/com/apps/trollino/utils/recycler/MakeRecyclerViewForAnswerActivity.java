@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.apps.trollino.adapters.AnswersAdapter;
-import com.apps.trollino.data.model.comment.CommentModel;
+import com.apps.trollino.data.model.user_action.AnswersModel;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.ui.main_group.CommentToPostActivity;
 import com.apps.trollino.utils.RecyclerScrollListener;
@@ -33,7 +33,7 @@ public class MakeRecyclerViewForAnswerActivity {
         prefUt = prefUtils;
 
         AnswersAdapter adapter = new AnswersAdapter((BaseActivity) context, prefUtils,
-                AnswersFromApi.getInstance().getAnswerList(), userCommentItemListener);
+                AnswersFromApi.getInstance().getAnswerList(), answerItemListener);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -55,7 +55,7 @@ public class MakeRecyclerViewForAnswerActivity {
     }
 
     // Обработка нажатия на элемент списка
-    private static final AnswersAdapter.OnItemClick<CommentModel.Comments> userCommentItemListener = (item, position) -> {
+    private static final AnswersAdapter.OnItemClick<AnswersModel.Answers> answerItemListener = (item, position) -> {
         prefUt.saveCommentIdForActivity(item.getCommentId());
         prefUt.saveCurrentPostId(item.getPostId());
         prefUt.saveValuePostFromCategoryList(false);

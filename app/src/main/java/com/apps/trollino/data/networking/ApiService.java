@@ -26,6 +26,7 @@ import com.apps.trollino.data.model.single_post.ItemPostModel;
 import com.apps.trollino.data.model.single_post.MarkPostAsReadModel;
 import com.apps.trollino.data.model.single_post.RequestBookmarkPostModel;
 import com.apps.trollino.data.model.single_post.ResponseBookmarkModel;
+import com.apps.trollino.data.model.user_action.AnswersModel;
 import com.apps.trollino.data.model.user_action.CountNewAnswersModel;
 import com.apps.trollino.data.model.user_action.ReadAnswerRequest;
 import com.apps.trollino.utils.networking_helper.CustomConverterForItemPost;
@@ -217,7 +218,7 @@ public class ApiService {
         commentApi.postUnlikeToComment(cookie, token, new LikeCommentModelRequest(entityCommentId)).enqueue(callback);
     }
 
-    public void getAnswersActivity(String cookie, String userId, int page, Callback<CommentModel> callback) {
+    public void getAnswersActivity(String cookie, String userId, int page, Callback<AnswersModel> callback) {
         commentApi.getAnswersActivity(cookie, userId, page).enqueue(callback);
     }
 

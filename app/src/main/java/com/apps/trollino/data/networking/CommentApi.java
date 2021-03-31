@@ -3,6 +3,7 @@ package com.apps.trollino.data.networking;
 import com.apps.trollino.data.model.comment.CommentModel;
 import com.apps.trollino.data.model.comment.CreateNewCommentRequest;
 import com.apps.trollino.data.model.comment.LikeCommentModelRequest;
+import com.apps.trollino.data.model.user_action.AnswersModel;
 import com.apps.trollino.data.model.user_action.CountNewAnswersModel;
 import com.apps.trollino.data.model.user_action.ReadAnswerRequest;
 
@@ -58,7 +59,7 @@ public interface CommentApi {
             "Accepts: application/json"
     })
     @GET("/user/{uid}/comments?_format=json")
-    Call<CommentModel> getAnswersActivity(@Header("Cookie") String cookie, @Path("uid") String userId, @Query("page") int page);
+    Call<AnswersModel> getAnswersActivity(@Header("Cookie") String cookie, @Path("uid") String userId, @Query("page") int page);
 
     @Headers({
             "Content-Type: application/json",
