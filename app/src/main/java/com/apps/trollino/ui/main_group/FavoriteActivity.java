@@ -98,7 +98,7 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
         if(isUserAuthorization) {
             userAuthorizationView.setVisibility(View.GONE);
             refreshLayout.setVisibility(View.VISIBLE);
-            getDataFromApi(shimmer, null, true);
+            getDataFromApi(shimmer, null);
         } else {
             userAuthorizationView.setVisibility(View.VISIBLE);
             refreshLayout.setVisibility(View.GONE);
@@ -108,13 +108,13 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
     private void updateDataBySwipe() {
         refreshLayout.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorPrimary));
         refreshLayout.setOnRefreshListener(direction -> {
-            getDataFromApi(null, refreshLayout, true);
+            getDataFromApi(null, refreshLayout);
         });
     }
 
-    private void getDataFromApi(ShimmerFrameLayout shimmerToShow, SwipyRefreshLayout refreshTopLayoutToShow, boolean isNewData) {
+    private void getDataFromApi(ShimmerFrameLayout shimmerToShow, SwipyRefreshLayout refreshTopLayoutToShow) {
         makeLinerRecyclerViewForFavoriteActivity(this, prefUtils, favoriteRecyclerView,
-                shimmerToShow, refreshTopLayoutToShow,  noFavoriteListView, bottomNavigation, isNewData, progressBar);
+                shimmerToShow, refreshTopLayoutToShow,  noFavoriteListView, bottomNavigation, progressBar);
     }
 
     // Иницировать Toolbar

@@ -27,7 +27,7 @@ public class MakeLinerRecyclerViewForFavoriteActivity {
     public static void makeLinerRecyclerViewForFavoriteActivity(Context context, PrefUtils prefUtils,
                                                                 RecyclerView recyclerView, ShimmerFrameLayout shimmer,
                                                                 SwipyRefreshLayout refreshLayout, View noFavoriteListView,
-                                                                View bottomNavigation, boolean isNewData, ProgressBar progressBar) {
+                                                                View bottomNavigation, ProgressBar progressBar) {
         cont = context;
         prefUt = prefUtils;
 
@@ -36,13 +36,16 @@ public class MakeLinerRecyclerViewForFavoriteActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
-        recyclerView.getLayoutManager().scrollToPosition(prefUtils.getCurrentAdapterPositionFavorite());
+        recyclerView.getLayoutManager().scrollToPosition(0);
+        prefUtils.saveCurrentAdapterPositionFavorite(0);
 
-        infiniteScroll(recyclerView, shimmer, refreshLayout, adapter, noFavoriteListView, bottomNavigation, isNewData, progressBar);
+        infiniteScroll(recyclerView, shimmer, refreshLayout, adapter, noFavoriteListView,
+                bottomNavigation, true, progressBar);
 
         recyclerView.addOnScrollListener(new RecyclerScrollListener() {
             @Override
             public void onScrolledToEnd() {
+                recyclerView.getLayoutManager().scrollToPosition(prefUtils.getCurrentAdapterPositionFavorite());
                 infiniteScroll(recyclerView, shimmer, refreshLayout, adapter, noFavoriteListView,
                         bottomNavigation, false, progressBar);
                 progressBar.setVisibility(View.VISIBLE);

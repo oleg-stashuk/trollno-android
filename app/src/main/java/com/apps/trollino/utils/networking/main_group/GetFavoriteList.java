@@ -49,7 +49,6 @@ public class GetFavoriteList {
         page = isGetNewList ? 0 : prefUtils.getCurrentPage();
         if(isGetNewList) {
             FavoritePostListFromApi.getInstance().removeAllDataFromList(prefUtils);
-            prefUtils.saveCurrentAdapterPositionFavorite(0);
         }
         String cookie = prefUtils.getCookie();
 
