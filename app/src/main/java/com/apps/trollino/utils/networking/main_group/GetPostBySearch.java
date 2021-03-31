@@ -45,7 +45,6 @@ public class GetPostBySearch {
         page = isGetNewList ? 0 : prefUtils.getCurrentPage();
         if(isGetNewList) {
             PostListBySearchFromApi.getInstance().removeAllDataFromList(prefUtils);
-            prefUtils.saveCurrentAdapterPositionPosts(0);
         }
         String cookie = prefUtils.getCookie();
 

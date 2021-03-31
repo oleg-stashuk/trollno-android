@@ -60,7 +60,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
             } else {
                 PostListBySearchFromApi.getInstance().removeAllDataFromList(prefUtils);
                 nothingSearch.setVisibility(View.GONE);
-                makeSearchPostsRecyclerView(true);
+                makeSearchPostsRecyclerView();
                 hideKeyBoard(); // Hide keyBoard if was press button "Search"
             }
             return true;
@@ -72,21 +72,24 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         showSnackBarMessage(findViewById(R.id.activity_search), getString(R.string.enter_data_to_search));
     }
 
-    public void makeSearchPostsRecyclerView( boolean isNewData) {
+    public void makeSearchPostsRecyclerView() {
         DataListFromApi.getInstance().removeAllDataFromList(prefUtils);
 
         adapter = new PostListAdapter(SearchActivity.this, prefUtils, PostListBySearchFromApi.getInstance().getPostListBySearch(), searchPostsItemListener);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
-        recyclerView.getLayoutManager().scrollToPosition(prefUtils.getCurrentAdapterPositionPosts());
-        getDataFromApi(isNewData);
+
+        prefUtils.saveCurrentAdapterPositionPosts(0);
+        recyclerView.getLayoutManager().scrollToPosition(0);
+        getDataFromApi(true);
 
         recyclerView.addOnScrollListener(new RecyclerScrollListener() {
             @Override
             public void onScrolledToEnd() {
+                recyclerView.getLayoutManager().scrollToPosition(prefUtils.getCurrentAdapterPositionPosts());
                 progressBar.setVisibility(View.VISIBLE);
-                makeSearchPostsRecyclerView(false);
+                getDataFromApi(false);
             }
         });
     }
@@ -103,7 +106,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                 showMessageToPutDataSearch();
                 refreshLayout.setRefreshing(false);
             } else {
-                makeSearchPostsRecyclerView(true);
+                makeSearchPostsRecyclerView();
             }
         });
     }
