@@ -4,16 +4,15 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
-import androidx.databinding.DataBindingUtil;
 
 import com.apps.trollino.R;
-import com.apps.trollino.databinding.ActivityProfileBinding;
 import com.apps.trollino.service.MyFirebaseMessagingService;
 import com.apps.trollino.ui.authorisation.LoginActivity;
 import com.apps.trollino.ui.authorisation.RegistrationActivity;
@@ -25,12 +24,11 @@ import com.apps.trollino.utils.networking.user.UpdateUserProfileSettings;
 import com.apps.trollino.utils.networking.user_action.GetNewAnswersCount;
 import com.facebook.login.LoginManager;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import static com.apps.trollino.utils.SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation;
 
 public class ProfileActivity extends BaseActivity implements View.OnClickListener{
-    private ActivityProfileBinding binding;
-
     private LinearLayout userIncludeLinearLayout;
     private ShimmerFrameLayout userIncludeShimmer;
     private LinearLayout guestIncludeLinearLayout;
@@ -39,6 +37,12 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private TextView emailTextView;
     private TextView nameTextView;
     private ImageView indicatorImageView;
+
+    private Button exitButton;
+    private TextView rateProfile;
+
+    private SwitchMaterial markReadPostSwitch;
+    private SwitchMaterial answerToCommentSwitch;
 
     private boolean doubleBackToExitPressedOnce = false; // для обработки нажатия onBackPressed
 
@@ -49,9 +53,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initView() {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_profile);
         prefUtils.saveCurrentActivity(OpenActivityHelper.PROFILE_ACTIVITY);
-
         initToolbar();
 
         userIncludeLinearLayout = findViewById(R.id.include_user_profile);
@@ -63,6 +65,12 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         emailTextView = findViewById(R.id.email_account_profile_include);
         TextView profileBottomNavigationTextView = findViewById(R.id.profile_button);
         indicatorImageView = findViewById(R.id.indicator_image);
+
+        exitButton = findViewById(R.id.exit_button_profile);
+        rateProfile = findViewById(R.id.rate_profile);
+
+        markReadPostSwitch = findViewById(R.id.mark_read_post_switch);
+        answerToCommentSwitch = findViewById(R.id.answer_to_comment_switch);
 
         findViewById(R.id.login_button_include_profile_for_guest).setOnClickListener(this);
         findViewById(R.id.registration_button_include_profile_for_guest).setOnClickListener(this);
@@ -98,9 +106,9 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             userIncludeLinearLayout.setVisibility(View.GONE);
             userIncludeShimmer.setVisibility(View.VISIBLE);
             guestIncludeLinearLayout.setVisibility(View.GONE);
-            binding.exitButtonProfile.setVisibility(View.VISIBLE);
-            binding.markReadPostSwitch.setVisibility(View.VISIBLE);
-            binding.answerToCommentSwitch.setVisibility(View.VISIBLE);
+            exitButton.setVisibility(View.VISIBLE);
+            markReadPostSwitch.setVisibility(View.VISIBLE);
+            answerToCommentSwitch.setVisibility(View.VISIBLE);
 
             new Thread(() -> {
                 GetUserProfile.getUserProfile(this, prefUtils, userImageView, nameTextView, emailTextView,
@@ -112,32 +120,32 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             userIncludeLinearLayout.setVisibility(View.GONE);
             userIncludeShimmer.setVisibility(View.GONE);
             guestIncludeLinearLayout.setVisibility(View.VISIBLE);
-            binding.exitButtonProfile.setVisibility(View.GONE);
-            binding.markReadPostSwitch.setVisibility(View.GONE);
-            binding.answerToCommentSwitch.setVisibility(View.GONE);
+            exitButton.setVisibility(View.GONE);
+            markReadPostSwitch.setVisibility(View.GONE);
+            answerToCommentSwitch.setVisibility(View.GONE);
         }
     }
 
     private void initSwitch(){
-        binding.markReadPostSwitch.setChecked(prefUtils.isShowReadPost());
-        binding.markReadPostSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        markReadPostSwitch.setChecked(prefUtils.isShowReadPost());
+        markReadPostSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             prefUtils.saveIsShowReadPost(isChecked);
             UpdateUserProfileSettings.updateShowReadPosts(this, prefUtils, isChecked);
         });
 
-        binding.answerToCommentSwitch.setChecked(prefUtils.isSendPushAboutAnswerToComment());
-        binding.answerToCommentSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        answerToCommentSwitch.setChecked(prefUtils.isSendPushAboutAnswerToComment());
+        answerToCommentSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             prefUtils.saveIsSendPushAboutAnswerToComment(isChecked);
             UpdateUserProfileSettings.updateSendPushNewAnswers(this, prefUtils, isChecked);
         });
     }
 
     private void initClickListeners() {
-        binding.rateProfile.setOnClickListener(v -> {
+        rateProfile.setOnClickListener(v -> {
             openPlayMarketForRateTheApp();
         });
 
-        binding.exitButtonProfile.setOnClickListener(v -> {
+        exitButton.setOnClickListener(v -> {
             LoginManager.getInstance().logOut();
             new Thread(
                     () -> PostLogout.postLogout(this, prefUtils, bottomNavigation)
@@ -145,7 +153,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             removeFireBaseToken();
         });
 
-        binding.includeUserProfile.setOnClickListener(v -> {
+        userIncludeLinearLayout.setOnClickListener(v -> {
             startActivity(new Intent(this, EditUserProfileActivity.class));
             finish();
         });
