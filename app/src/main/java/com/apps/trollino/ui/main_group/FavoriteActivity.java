@@ -67,13 +67,31 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
 
         favoriteBottomNavigationTextView.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_favorite_green, 0, 0);
         favoriteBottomNavigationTextView.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        if(isUserAuthorization) {
-            shimmer.setVisibility(View.VISIBLE);
-            new Thread(() -> GetNewAnswersCount.getNewAnswersCount(this, prefUtils, indicatorImageView)).start();
-        }
 
         checkFavoriteListAndUserAuthorization(); // проверить пользователь авторизирован или нет, если да - то проверить есть посты добаленные в избранное или нет
         updateDataBySwipe();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isUserAuthorization) {
+            getAnswersCount();
+            shimmer.setVisibility(View.VISIBLE);
+
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    getAnswersCount();
+                    handler.postDelayed(this, TIME_TO_UPDATE_DATA);
+                }
+            }, TIME_TO_UPDATE_DATA);
+        }
+    }
+
+    private void getAnswersCount() {
+        new Thread(() -> GetNewAnswersCount.getNewAnswersCount(this, prefUtils, indicatorImageView)).start();
     }
 
     private void checkFavoriteListAndUserAuthorization() {

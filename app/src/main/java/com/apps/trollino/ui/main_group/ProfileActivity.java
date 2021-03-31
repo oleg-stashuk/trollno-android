@@ -101,6 +101,27 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (prefUtils.getIsUserAuthorization()) {
+            getAnswersCount();
+
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    getAnswersCount();
+                    handler.postDelayed(this, TIME_TO_UPDATE_DATA);
+                }
+            }, TIME_TO_UPDATE_DATA);
+        }
+    }
+
+    private void getAnswersCount() {
+        new Thread(() -> GetNewAnswersCount.getNewAnswersCount(this, prefUtils, indicatorImageView)).start();
+    }
+
     private void makeIsUserAuthorizationCorrectData() {
         if(prefUtils.getIsUserAuthorization()) {
             userIncludeLinearLayout.setVisibility(View.GONE);
@@ -114,8 +135,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 GetUserProfile.getUserProfile(this, prefUtils, userImageView, nameTextView, emailTextView,
                         bottomNavigation, userIncludeLinearLayout, userIncludeShimmer);
             }).start();
-
-            new Thread(() -> GetNewAnswersCount.getNewAnswersCount(this, prefUtils, indicatorImageView)).start();
         } else {
             userIncludeLinearLayout.setVisibility(View.GONE);
             userIncludeShimmer.setVisibility(View.GONE);

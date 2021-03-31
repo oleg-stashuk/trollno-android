@@ -21,7 +21,6 @@ import com.apps.trollino.utils.networking.user_action.GetNewAnswersCount;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.tabs.TabLayout;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
-import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 
 import java.util.List;
 
@@ -69,7 +68,6 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
         createTabLayout();
         tapeBottomNavigationTextView.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_tape_green, 0, 0);
         tapeBottomNavigationTextView.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        updateNewAnswersToComment();
 
         prefUtils.saveCurrentActivity("");
         makeTabSelectedListener();
@@ -77,11 +75,26 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
         updateDataBySwipe();
     }
 
-    // Request to Api for authorization user is he have not read answers to his comment
-    private void updateNewAnswersToComment() {
-        if(prefUtils.getIsUserAuthorization()) {
-            new Thread(() -> GetNewAnswersCount.getNewAnswersCount(this, prefUtils, indicatorImageView)).start();
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (prefUtils.getIsUserAuthorization()) {
+            getAnswersCount();
+
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    getAnswersCount();
+                    handler.postDelayed(this, TIME_TO_UPDATE_DATA);
+                }
+            }, TIME_TO_UPDATE_DATA);
         }
+    }
+
+    private void getAnswersCount() {
+        new Thread(() -> GetNewAnswersCount.getNewAnswersCount(this, prefUtils, indicatorImageView)).start();
     }
 
     // Add category list from Api to TabLayout
@@ -99,7 +112,6 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                updateNewAnswersToComment();
                 selectedTab = tabs.getSelectedTabPosition();
                 if(tabs.getSelectedTabPosition() == 0) {
                     prefUtils.saveCurrentAdapterPositionPosts(0);

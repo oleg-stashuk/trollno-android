@@ -19,7 +19,6 @@
  import com.apps.trollino.utils.OpenActivityHelper;
  import com.apps.trollino.utils.data.AnswersFromApi;
  import com.apps.trollino.utils.networking.user_action.GetNewAnswersCount;
- import com.apps.trollino.utils.recycler.MakeRecyclerViewForAnswerActivity;
  import com.facebook.shimmer.ShimmerFrameLayout;
  import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
  import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
@@ -77,9 +76,30 @@
         updateCommentBySwipe();
     }
 
+
+     @Override
+     protected void onResume() {
+         super.onResume();
+         if (isUserAuthorization) {
+             getAnswersCount();
+
+             Handler handler = new Handler();
+             handler.postDelayed(new Runnable() {
+                 @Override
+                 public void run() {
+                     getAnswersCount();
+                     handler.postDelayed(this, TIME_TO_UPDATE_DATA);
+                 }
+             }, TIME_TO_UPDATE_DATA);
+         }
+     }
+
+     private void getAnswersCount() {
+         new Thread(() -> GetNewAnswersCount.getNewAnswersCount(this, prefUtils, indicatorImageView)).start();
+     }
+
     private void checkUserAuthorization() {
         if(isUserAuthorization) {
-            new Thread(() -> GetNewAnswersCount.getNewAnswersCount(this, prefUtils, indicatorImageView)).start();
             userAuthorizationView.setVisibility(View.GONE);
             postWithActivityRecyclerView.setVisibility(View.VISIBLE);
             refreshLayout.setVisibility(View.VISIBLE);

@@ -15,6 +15,7 @@ import com.apps.trollino.utils.data.PrefUtils;
 
 public abstract class BaseActivity extends AppCompatActivity {
     protected PrefUtils prefUtils;
+    protected final long TIME_TO_UPDATE_DATA = 60 * 1000;  // 1 minute
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,10 +44,14 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected void hideKeyBoard() {
-        InputMethodManager inputManager = (InputMethodManager)
-                getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
-                InputMethodManager.HIDE_NOT_ALWAYS);
+        try {
+            InputMethodManager inputManager = (InputMethodManager)
+                    getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                    InputMethodManager.HIDE_NOT_ALWAYS);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
