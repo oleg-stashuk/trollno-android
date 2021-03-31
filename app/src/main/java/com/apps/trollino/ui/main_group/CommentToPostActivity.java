@@ -21,10 +21,8 @@ import com.apps.trollino.utils.data.Const;
 import com.apps.trollino.utils.dialogs.GuestDialog;
 import com.apps.trollino.utils.networking.comment.PostNewComment;
 import com.apps.trollino.utils.networking.user_action.PostMarkReadAllAnswersToComment;
-import com.apps.trollino.utils.recycler.MakeRecyclerViewForComment;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
-import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 
 import static com.apps.trollino.utils.recycler.MakeRecyclerViewForComment.makeRecyclerViewForComment;
 
@@ -89,7 +87,7 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
                 sortBy = position == 0 ? Const.SORT_BY_COUNT : Const.SORT_BY_CHANGE;
 
                 CommentListFromApi.getInstance().removeAllDataFromList(prefUtils);
-                getCommentList(shimmer, null, true);
+                getCommentList(shimmer, null);
             }
 
             @Override
@@ -100,13 +98,13 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
     private void updateCommentBySwipe() {
         topRefreshLayout.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorPrimary));
         topRefreshLayout.setOnRefreshListener(direction -> {
-            getCommentList(null, topRefreshLayout, true);
+            getCommentList(null, topRefreshLayout);
         });
     }
 
-    private void getCommentList(ShimmerFrameLayout shimmerToShow, SwipyRefreshLayout refreshTopLayoutToShow, boolean isNewData) {
+    private void getCommentList(ShimmerFrameLayout shimmerToShow, SwipyRefreshLayout refreshTopLayoutToShow) {
         makeRecyclerViewForComment(CommentToPostActivity.this, prefUtils, commentsRecyclerView,
-                shimmerToShow, refreshTopLayoutToShow, isNewData, currentPostId, commentEditText,
+                shimmerToShow, refreshTopLayoutToShow, currentPostId, commentEditText,
             noCommentTextView, countTextView, sortBy, progressBar);
     }
 

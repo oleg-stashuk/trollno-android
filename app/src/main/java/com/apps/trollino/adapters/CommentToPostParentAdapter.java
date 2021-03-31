@@ -1,6 +1,7 @@
 package com.apps.trollino.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -58,6 +59,7 @@ public class CommentToPostParentAdapter extends BaseRecyclerAdapter<CommentModel
                 RecyclerView childCommentRecyclerView = view.findViewById(R.id.recycler_item_single_comment_parent);
 
                 prefUtils.saveCurrentAdapterPositionComment(getAdapterPosition());
+                Log.d("OkHttp_1", "pos " + getAdapterPosition());
 
                 hideCommentTextView.setVisibility(View.GONE);
                 int countAnswer = Integer.parseInt(item.getCommentAnswersCount());

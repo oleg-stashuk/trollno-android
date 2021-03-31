@@ -54,7 +54,6 @@ public class GetCommentListByPost {
         page = isGetNewList ? 0 : prefUtils.getCurrentPage();
         if(isGetNewList) {
             CommentListFromApi.getInstance().removeAllDataFromList(prefUtils);
-            prefUtils.saveCurrentAdapterPositionComment(0);
         }
         String cookie = prefUtils.getCookie();
 

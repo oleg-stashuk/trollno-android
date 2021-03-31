@@ -2,6 +2,7 @@ package com.apps.trollino.utils.recycler;
 
 import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -25,7 +26,7 @@ public class MakeRecyclerViewForComment {
 
     public static void makeRecyclerViewForComment(Context context, PrefUtils prefUtils,
                                                   RecyclerView recyclerView, ShimmerFrameLayout shimmer,
-                                                  SwipyRefreshLayout refreshLayout, boolean isNewData,
+                                                  SwipyRefreshLayout refreshLayout,
                                                   String postId, EditText commentEditText,
                                                   TextView noCommentTextView, TextView countTextView,
                                                   String sortBy, ProgressBar progressBar) {
@@ -40,14 +41,18 @@ public class MakeRecyclerViewForComment {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
-        recyclerView.getLayoutManager().scrollToPosition(prefUtils.getCurrentAdapterPositionComment());
+        Log.d("OkHttp_1", "rec " + prefUtils.getCurrentAdapterPositionComment());
+        prefUtils.saveCurrentAdapterPositionComment(0);
+        recyclerView.getLayoutManager().scrollToPosition(0);
 
         infiniteScroll(recyclerView, shimmer, refreshLayout, adapter, postId, noCommentTextView,
-                countTextView, sortBy, isNewData, progressBar);
+                countTextView, sortBy, true, progressBar);
 
         recyclerView.addOnScrollListener(new RecyclerScrollListener() {
             @Override
             public void onScrolledToEnd() {
+                Log.d("OkHttp_1", "rec onScrolledToEnd " + prefUtils.getCurrentAdapterPositionComment());
+                recyclerView.getLayoutManager().scrollToPosition(prefUtils.getCurrentAdapterPositionComment());
                 progressBar.setVisibility(View.VISIBLE);
                 infiniteScroll(recyclerView, shimmer, refreshLayout, adapter, postId, noCommentTextView,
                         countTextView, sortBy, false, progressBar);
