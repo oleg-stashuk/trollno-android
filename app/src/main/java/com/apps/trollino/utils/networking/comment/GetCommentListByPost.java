@@ -124,7 +124,7 @@ public class GetCommentListByPost {
             for(CommentModel.Comments comment : commentList) {
                 commentCount += Integer.parseInt(comment.getCommentAnswersCount());
             }
-            updatePostListAndNotifyRecyclerAdapter(commentList, adapter);
+                updatePostListAndNotifyRecyclerAdapter(commentList, adapter);
             if (shimmer != null) {
                 ShimmerHide.shimmerHide(recyclerView, shimmer);
             }
@@ -156,6 +156,8 @@ public class GetCommentListByPost {
             SnackBarMessageCustom.showSnackBar(recyclerView, cont.getString(R.string.msg_all_comments_showed));
         } else {
             adapter.notifyDataSetChanged();
+            recyclerView.getLayoutManager().scrollToPosition(0);
+            recyclerView.suppressLayout(false);
         }
 
         int currentAdapterPosition =  prefUt.getCurrentAdapterPositionComment();

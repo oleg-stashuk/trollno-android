@@ -99,6 +99,7 @@ public class CommentToPostActivity extends BaseActivity implements View.OnClickL
         topRefreshLayout.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorPrimary));
         topRefreshLayout.setOnRefreshListener(direction -> {
             getCommentList(null, topRefreshLayout);
+            commentsRecyclerView.suppressLayout(true);
         });
     }
 
