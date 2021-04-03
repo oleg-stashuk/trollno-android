@@ -42,12 +42,16 @@ public class GetUserProfile {
                 if(response.isSuccessful()) {
                     UserProfileModel user = response.body();
 
+                    String name = user.getShowNameModelsList().size() > 0 ?
+                            user.getShowNameModelsList().get(0).getValue() :
+                            user.getNameList().get(0).getValue();
+
                     if (nameView instanceof TextView) {
                         TextView nameTextView = (TextView) nameView;
-                        nameTextView.setText(user.getShowNameModelsList().get(0).getValue());
+                        nameTextView.setText(name);
                     } else if(nameView instanceof EditText) {
                         EditText nameEditText = (EditText) nameView;
-                        nameEditText.setText(user.getShowNameModelsList().get(0).getValue());
+                        nameEditText.setText(name);
                     }
 
                     if (emailView instanceof TextView) {
@@ -109,13 +113,23 @@ public class GetUserProfile {
                 if(response.isSuccessful()) {
                     UserProfileModel user = response.body();
 
-                    List<UserProfileModel.UserBooleanData> showReadPostList = user.getUserShowReadPostList();
-                    UserProfileModel.UserBooleanData dataReadPost = showReadPostList.get(0);
-                    prefUtils.saveIsShowReadPost(dataReadPost.isValue());
+                    try {
+                        List<UserProfileModel.UserBooleanData> showReadPostList = user.getUserShowReadPostList();
+                        UserProfileModel.UserBooleanData dataReadPost = showReadPostList.get(0);
+                        prefUtils.saveIsShowReadPost(dataReadPost.isValue());
+                    } catch (IndexOutOfBoundsException e) {
+                        prefUtils.saveIsShowReadPost(false);
 
-                    List<UserProfileModel.UserBooleanData> sendPushNewAnswerList = user.getUserSendPushNewAnswerList();
-                    UserProfileModel.UserBooleanData dataSendPush = sendPushNewAnswerList.get(0);
-                    prefUtils.saveIsSendPushAboutAnswerToComment(dataSendPush.isValue());
+                    }
+
+                    UserProfileModel.UserBooleanData dataSendPush = null;
+                    try {
+                        List<UserProfileModel.UserBooleanData> sendPushNewAnswerList = user.getUserSendPushNewAnswerList();
+                        dataSendPush = sendPushNewAnswerList.get(0);
+                        prefUtils.saveIsSendPushAboutAnswerToComment(dataSendPush.isValue());
+                    } catch (IndexOutOfBoundsException e) {
+                        prefUtils.saveIsSendPushAboutAnswerToComment(false);
+                    }
 
                     if(dataSendPush.isValue()) {
                         // Get and save firebase token to Api in user account
