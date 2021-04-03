@@ -52,7 +52,7 @@ public class GetItemPost {
             public void onResponse(Call<ItemPostModel> call, Response<ItemPostModel> response) {
                 if(response.isSuccessful()) {
                     model = response.body();
-                    if (prefUtils.getIsUserAuthorization() && ! model.isReadByUser()) {
+                    if (prefUtils.getIsUserAuthorization()) {
                         new Thread(() -> PostMarkPostAsRead.postMarkPostAsRead(context, prefUtils, postId)).start();
                     }
 
