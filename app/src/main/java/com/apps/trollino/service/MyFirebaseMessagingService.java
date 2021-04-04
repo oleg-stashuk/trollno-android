@@ -58,7 +58,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                 .setStyle(new NotificationCompat.BigTextStyle())
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.ic_troll_notification)
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent);;
 
@@ -68,7 +68,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onNewToken(@NonNull String s) {
-        Log.d(TAG_LOG, "!!!!!!!!!!!!! New token: " + s);
+        Log.d(TAG_LOG, "!!!!!!!!!!!!! New firebase token: " + s);
         // TODO: Implement this method to send any registration to your app's servers.
 //        sendRegistrationToServer(s);
         super.onNewToken(s);
