@@ -3,7 +3,7 @@
 
     <!--default theme color-->
     <color name="colorPrimary">#1bbbab</color>
-    <color name="colorPrimaryDark">#109f91</color>
+    <color name="colorPrimaryDark">#1bbbab</color>
     <color name="colorAccent">#4aafff</color>
     <color name="colorBackgroundLight">#F2F2F2</color>
 

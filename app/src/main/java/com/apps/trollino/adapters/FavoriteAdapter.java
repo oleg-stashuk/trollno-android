@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.apps.trollino.R;
@@ -20,10 +21,14 @@ import static com.apps.trollino.utils.data.Const.BASE_URL;
 
 public class FavoriteAdapter extends BaseRecyclerAdapter<PostsModel.PostDetails> {
     private PrefUtils prefUtils;
+    private int widthImage;
+    private  int heightImage;
 
     public FavoriteAdapter(BaseActivity baseActivity, PrefUtils prefUtils, List<PostsModel.PostDetails> items, OnItemClick<PostsModel.PostDetails> onItemClick) {
         super(baseActivity, items, onItemClick);
         this.prefUtils = prefUtils;
+        widthImage = prefUtils.getImageWidthForOneColumn();
+        heightImage = widthImage / 3 * 2;
     }
 
     @Override
@@ -42,8 +47,14 @@ public class FavoriteAdapter extends BaseRecyclerAdapter<PostsModel.PostDetails>
             @Override
             public void bind(final PostsModel.PostDetails item) {
                 ImageView imageView = itemView.findViewById(R.id.image_favorite_item);
+                RelativeLayout imageRelativeLayout = itemView.findViewById(R.id.image_layout_favorite_item);
                 TextView titleTextView = itemView.findViewById(R.id.title_favorite_item);
                 ImageButton deleteImageButton = itemView.findViewById(R.id.delete_button_favorite_item);
+
+                RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(widthImage, heightImage);
+                imageRelativeLayout.getLayoutParams().height = heightImage;
+                imageRelativeLayout.getLayoutParams().width = widthImage;
+                imageView.setLayoutParams(layoutParams);
 
                 prefUtils.saveCurrentAdapterPositionFavorite(getAdapterPosition());
                 titleTextView.setText(item.getTitle());

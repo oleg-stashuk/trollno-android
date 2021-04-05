@@ -4,6 +4,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
@@ -21,10 +22,14 @@ import static com.apps.trollino.utils.data.Const.BASE_URL;
 
 public class DiscussPostsAdapter extends BaseRecyclerAdapter<PostsModel.PostDetails> {
     private PrefUtils prefUtils;
+    private int widthImage;
+    private  int heightImage;
 
     public DiscussPostsAdapter(BaseActivity baseActivity, PrefUtils prefUtils, List<PostsModel.PostDetails> items, OnItemClick<PostsModel.PostDetails> onItemClick) {
         super(baseActivity, items, onItemClick);
         this.prefUtils = prefUtils;
+        widthImage = prefUtils.getImageWidthForOneColumn();
+        heightImage = widthImage / 3 * 2;
     }
 
     @Override
@@ -44,6 +49,7 @@ public class DiscussPostsAdapter extends BaseRecyclerAdapter<PostsModel.PostDeta
             public void bind(final PostsModel.PostDetails item) {
                 FrameLayout frameLayout = itemView.findViewById(R.id.frame_layout_discuss_post);
                 LinearLayout linearLayout = itemView.findViewById(R.id.item_discuss_post);
+                RelativeLayout imageRelativeLayout = itemView.findViewById(R.id.image_layout_item_discuss_post);
                 ImageView postImageView = itemView.findViewById(R.id.image_item_discuss_post);
                 TextView commentCountTextView = itemView.findViewById(R.id.comment_count_discuss_post);
                 TextView titleVideoTextView = itemView.findViewById(R.id.title_discuss_post);
@@ -58,6 +64,10 @@ public class DiscussPostsAdapter extends BaseRecyclerAdapter<PostsModel.PostDeta
                     frameLayout.setVisibility(View.VISIBLE);
                 }
 
+                RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(widthImage, heightImage);
+                imageRelativeLayout.getLayoutParams().height = heightImage;
+                imageRelativeLayout.getLayoutParams().width = widthImage;
+                postImageView.setLayoutParams(layoutParams);
                 String imageUrl = BASE_URL.concat(item.getImageUrl());
                 Picasso
                         .get()

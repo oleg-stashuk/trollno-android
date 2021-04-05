@@ -123,9 +123,7 @@ public class OnePostElementAdapter extends BaseRecyclerAdapter<ItemPostModel.Med
                     sourceTextView.setVisibility(image.getResourceTitle().isEmpty() ? View.GONE : View.VISIBLE);
                     sourceLinkTextView.setVisibility(image.getResourceTitle().isEmpty() ? View.GONE : View.VISIBLE);
 
-                    SpannableString content = new SpannableString(image.getResourceTitle());
-                    content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
-                    sourceLinkTextView.setText(content);
+                    sourceLinkTextView.setText(image.getResourceTitle());
                     sourceLinkTextView.setOnClickListener(v -> {
                         if (! image.getResource().isEmpty() && image.getResource().contains("http")) {
                             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(image.getResource()));

@@ -54,8 +54,11 @@ public class SplashActivity extends BaseActivity {
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int density  = (int) getResources().getDisplayMetrics().density;
 
-        int widthForImage = displayMetrics.widthPixels / 2 - (density * 24);
-        prefUtils.saveImageWidth(widthForImage);
+        int widthForImageForOneColumn = (int) (displayMetrics.widthPixels * 0.4); // 40% of screen
+        prefUtils.saveImageWidthForOneColumn(widthForImageForOneColumn);
+        int widthForImageForTwoColumn = displayMetrics.widthPixels / 2 - (density * 24);
+        prefUtils.saveImageWidth(widthForImageForTwoColumn);
+
     }
 
     Runnable openNextActivity = new Runnable() {

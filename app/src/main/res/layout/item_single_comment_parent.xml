@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="15dp"
+    android:layout_marginTop="10dp"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -107,7 +107,7 @@
         android:gravity="center"
         android:layout_marginTop="5dp"
         android:drawablePadding="5dp"
-        app:drawableLeftCompat="@drawable/ic_drop_down_arrow"
+        app:drawableLeftCompat="@drawable/ic_drop_up_arrow"
         style="@style/PressedTextStyle"
         android:visibility="gone"
         android:lineSpacingExtra="4dp"
@@ -119,9 +119,9 @@
         android:id="@+id/recycler_item_single_comment_parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
         android:layout_marginBottom="25dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginStart="20dp" />
+        android:layout_marginStart="20dp"
+        android:visibility="gone"/>
 
 </LinearLayout>

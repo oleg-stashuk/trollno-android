@@ -52,6 +52,7 @@ public class PrefUtils {
     private final String CURRENT_ACTIVITY = "CURRENT_ACTIVITY";
 
     private final String WIDTH_FOR_IMAGE = "WIDTH_FOR_IMAGE";
+    private final String WIDTH_FOR_IMAGE_ONE_COLUMN = "WIDTH_FOR_IMAGE_ONE_COLUMN";
 
     public PrefUtils(SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
@@ -313,5 +314,13 @@ public class PrefUtils {
 
     public void saveImageWidth(int imageWidth) {
         getEditor().putInt(WIDTH_FOR_IMAGE, imageWidth).apply();
+    }
+
+    public int getImageWidthForOneColumn() {
+        return sharedPreferences.getInt(WIDTH_FOR_IMAGE_ONE_COLUMN, 0);
+    }
+
+    public void saveImageWidthForOneColumn(int imageWidth) {
+        getEditor().putInt(WIDTH_FOR_IMAGE_ONE_COLUMN, imageWidth).apply();
     }
 }

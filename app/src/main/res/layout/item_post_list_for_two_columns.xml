@@ -10,8 +10,7 @@
 
     <RelativeLayout
         android:layout_width="170dp"
-        android:layout_height="113dp"
-        android:layout_gravity="center_vertical">
+        android:layout_height="113dp">
 
         <ImageView
             android:id="@+id/image_post_two_columns"
