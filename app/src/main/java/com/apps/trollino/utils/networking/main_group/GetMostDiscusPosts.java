@@ -33,7 +33,7 @@ public class GetMostDiscusPosts {
     private static int page;
     private static int totalPage;
     private static boolean isGetNewListThis;
-    private static Context cont;
+    private static RecyclerView recyclerView;
 
     public static void makeGetNewPosts(Context context, PrefUtils prefUtils, DiscussPostsAdapter adapter,
                                        RecyclerView recycler, ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout,
@@ -41,7 +41,7 @@ public class GetMostDiscusPosts {
         page = isGetNewList ? 0 : prefUtils.getCurrentPage();
         String cookie = prefUtils.getCookie();
         isGetNewListThis = isGetNewList;
-        cont = context;
+        recyclerView = recycler;
 
         ApiService.getInstance(context).getMostDiscusPosts(cookie, page, new Callback<PostsModel>() {
             @Override
@@ -57,7 +57,7 @@ public class GetMostDiscusPosts {
 
                     totalPage = post.getPagerModel().getTotalPages() - 1;
                     saveCurrentPage(prefUtils);
-                    updatePostListAndNotifyRecyclerAdapter(newPostList, adapter, bottomNavigation);
+                    updatePostListAndNotifyRecyclerAdapter(newPostList, adapter);
                     if (shimmer != null) {
                         ShimmerHide.shimmerHide(recycler, shimmer);
                     }
@@ -109,17 +109,18 @@ public class GetMostDiscusPosts {
         }
     }
 
-    private static void updatePostListAndNotifyRecyclerAdapter(List<PostsModel.PostDetails> newPostList, DiscussPostsAdapter adapter, View bottomNavigation) {
-        int currentListSize = DataListFromApi.getInstance().getDiscussPostsList().size();
+    private static void updatePostListAndNotifyRecyclerAdapter(List<PostsModel.PostDetails> newPostList, DiscussPostsAdapter adapter) {
+//        int currentListSize = DataListFromApi.getInstance().getDiscussPostsList().size();
         DataListFromApi.getInstance().saveDiscussDataInList(newPostList);
-        int newListSize = DataListFromApi.getInstance().getDiscussPostsList().size();
+//        int newListSize = DataListFromApi.getInstance().getDiscussPostsList().size();
 
-        if (newListSize == 0 && isGetNewListThis) {
-            SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, cont.getResources().getString(R.string.msg_nothing_in_category));
-        } else if(newListSize == currentListSize && page == totalPage && ! isGetNewListThis) {
-            SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, cont.getResources().getString(R.string.msg_have_not_new_post));
+
+        if (isGetNewListThis) {
+            recyclerView.getLayoutManager().scrollToPosition(0);
         }
-
+        Log.d("OkHttp_1", "rec disc - " + recyclerView.isLayoutSuppressed());
         adapter.notifyDataSetChanged();
+        recyclerView.suppressLayout(false);
+        Log.d("OkHttp_1", "rec disc - " + recyclerView.isLayoutSuppressed());
     }
 }

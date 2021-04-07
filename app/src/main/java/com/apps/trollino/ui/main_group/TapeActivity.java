@@ -2,6 +2,7 @@ package com.apps.trollino.ui.main_group;
 
 import android.content.Intent;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -31,13 +32,13 @@ import static com.apps.trollino.utils.recycler.MakePostsByCategoryGridRecyclerVi
 
 public class TapeActivity extends BaseActivity implements View.OnClickListener{
     private RecyclerView newsRecyclerView;
+    private SwipyRefreshLayout newRefreshLayout;
     private TabLayout tabs;
     private ImageView indicatorImageView;
 
     private LinearLayout bottomNavigation;
     private ShimmerFrameLayout twoColumnShimmer;
     private ShimmerFrameLayout oneColumnShimmer;
-    private SwipyRefreshLayout refreshLayout;
     private ProgressBar progressBar;
     private boolean doubleBackToExitPressedOnce = false;  // для обработки нажатия onBackPressed
     private int selectedTab = 0;
@@ -52,11 +53,12 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
         bottomNavigation = findViewById(R.id.bottom_navigation_tape);
         twoColumnShimmer = findViewById(R.id.include_shimmer_post_two_column);
         oneColumnShimmer = findViewById(R.id.include_shimmer_post_one_column);
-        refreshLayout = findViewById(R.id.refresh_layout_tape);
         progressBar = findViewById(R.id.progress_bar_tape);
 
+        newsRecyclerView = findViewById(R.id.recycler_tape_new);
+        newRefreshLayout = findViewById(R.id.refresh_layout_tape_new);
+
         tabs = findViewById(R.id.tab_layout_tape);
-        newsRecyclerView = findViewById(R.id.news_recycler_tape);
         TextView tapeBottomNavigationTextView = findViewById(R.id.tape_button);
         indicatorImageView = findViewById(R.id.indicator_image);
         ImageButton searchImageButton = findViewById(R.id.search_button_tape);
@@ -144,10 +146,10 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
     }
 
 
-    private void updateDataFromApiFresh(ShimmerFrameLayout shimmerToApi, SwipyRefreshLayout refreshLayoutToApi, boolean IsUpdateData) {
+    private void updateDataFromApiFresh(ShimmerFrameLayout shimmerToApi, SwipyRefreshLayout newRefreshLayout, boolean IsUpdateData) {
         showCorrectShimmer(false, IsUpdateData);
         makeNewPostsRecyclerView(this, prefUtils, newsRecyclerView, shimmerToApi,
-                refreshLayoutToApi, bottomNavigation, progressBar);
+                newRefreshLayout, bottomNavigation, progressBar);
     }
 
     private void updateDataFromApiDiscuss(ShimmerFrameLayout shimmerToApi, SwipyRefreshLayout refreshLayoutToApi, boolean IsUpdateData) {
@@ -163,15 +165,17 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
     }
 
     private void updateDataBySwipe() {
-        refreshLayout.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorPrimary));
-        refreshLayout.setOnRefreshListener(direction -> {
+        newRefreshLayout.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorPrimary));
+        newRefreshLayout.setOnRefreshListener(direction -> {
+            Log.d("OkHttp_1", "act new - " + newsRecyclerView.isLayoutSuppressed());
             if(selectedTab == 0) {
-                updateDataFromApiFresh(null, refreshLayout, true);
+                updateDataFromApiFresh(null, newRefreshLayout, true);
             } else if(selectedTab == 1) {
-                updateDataFromApiDiscuss(null, refreshLayout, true);
+                updateDataFromApiDiscuss(null, newRefreshLayout, true);
             } else {
-                updateDataFromApiOther(null, refreshLayout, true);
+                updateDataFromApiOther(null, newRefreshLayout, true);
             }
+            newsRecyclerView.suppressLayout(true);
         });
     }
 

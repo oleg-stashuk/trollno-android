@@ -34,8 +34,8 @@ public class GetPostsByCategory {
     private static int totalPage;
     private static int totalPosts;
     private static boolean isGetNewListThis;
-    private static Context cont;
     private static PrefUtils prefUt;
+    private static RecyclerView recyclerView;
 
     public static void getPostsByCategory(Context context, PrefUtils prefUtils, PostListAdapter adapter,
                                           RecyclerView recycler, ShimmerFrameLayout shimmer,
@@ -46,7 +46,7 @@ public class GetPostsByCategory {
         if(isGetNewList) {
             PostListByCategoryFromApi.getInstance().removeAllDataFromList(prefUtils);
         }
-        cont = context;
+        recyclerView = recycler;
         prefUt = prefUtils;
         String cookie = prefUtils.getCookie();
         String categoryId = prefUtils.getSelectedCategoryId();
@@ -66,7 +66,7 @@ public class GetPostsByCategory {
                     totalPosts = post.getPagerModel().getTotalItems();
                     totalPage = post.getPagerModel().getTotalPages() - 1;
                     saveCurrentPage(prefUtils);
-                    updatePostListAndNotifyRecyclerAdapter(newPostList, adapter, bottomNavigation);
+                    updatePostListAndNotifyRecyclerAdapter(newPostList, adapter);
 
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
@@ -119,18 +119,19 @@ public class GetPostsByCategory {
         }
     }
 
-    private static void updatePostListAndNotifyRecyclerAdapter(List<PostsModel.PostDetails> newPostList, PostListAdapter adapter, View bottomNavigation) {
-        int currentListSize = PostListByCategoryFromApi.getInstance().getPostListByCategory().size();
+    private static void updatePostListAndNotifyRecyclerAdapter(List<PostsModel.PostDetails> newPostList, PostListAdapter adapter) {
+//        int currentListSize = PostListByCategoryFromApi.getInstance().getPostListByCategory().size();
         PostListByCategoryFromApi.getInstance().savePostByCategoryInList(newPostList);
-        int newListSize = PostListByCategoryFromApi.getInstance().getPostListByCategory().size();
+//        int newListSize = PostListByCategoryFromApi.getInstance().getPostListByCategory().size();
 
-        if (newListSize == 0 && isGetNewListThis) {
-            SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, cont.getResources().getString(R.string.msg_nothing_in_category));
-        } else if(newListSize == currentListSize && page == totalPage && ! isGetNewListThis) {
-            SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, cont.getResources().getString(R.string.msg_have_not_new_post));
+        if (isGetNewListThis) {
+            recyclerView.getLayoutManager().scrollToPosition(0);
         }
-
+        Log.d("OkHttp_1", "rec cat - " + recyclerView.isLayoutSuppressed());
         adapter.notifyDataSetChanged();
+        recyclerView.suppressLayout(false);
+        Log.d("OkHttp_1", "rec cat - " + recyclerView.isLayoutSuppressed());
+
         int currentAdapterPosition =  prefUt.getCurrentAdapterPositionPosts();
         if(currentAdapterPosition > 0 && totalPosts - 1 > currentAdapterPosition){
             prefUt.saveCurrentAdapterPositionAnswers(currentAdapterPosition + 1);

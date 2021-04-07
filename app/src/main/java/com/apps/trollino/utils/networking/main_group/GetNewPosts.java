@@ -34,15 +34,15 @@ public class GetNewPosts {
     private static int totalPage;
     private static int totalPosts;
     private static boolean isGetNewListThis;
-    private static Context cont;
     private static PrefUtils prefUt;
+    private static RecyclerView recyclerView;
 
     public static void makeGetNewPosts(Context context, PrefUtils prefUtils, PostListAdapter adapter, RecyclerView recycler,
                                        ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout,
                                        View bottomNavigation, boolean isGetNewList, ProgressBar progressBar) {
         isGetNewListThis = isGetNewList;
-        cont = context;
         prefUt = prefUtils;
+        recyclerView = recycler;
         if(isGetNewList) {
             DataListFromApi.getInstance().removeAllDataFromList(prefUtils);
         }
@@ -64,7 +64,7 @@ public class GetNewPosts {
                     totalPosts = post.getPagerModel().getTotalItems();
                     totalPage = post.getPagerModel().getTotalPages() - 1;
                     saveCurrentPage(prefUtils);
-                    updatePostListAndNotifyRecyclerAdapter(newPostList, adapter, bottomNavigation);
+                    updatePostListAndNotifyRecyclerAdapter(newPostList, adapter);
 
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
@@ -117,18 +117,19 @@ public class GetNewPosts {
         }
     }
 
-    private static void updatePostListAndNotifyRecyclerAdapter(List<PostsModel.PostDetails> newPostList, PostListAdapter adapter, View bottomNavigation) {
-        int currentListSize = DataListFromApi.getInstance().getNewPostsList().size();
+    private static void updatePostListAndNotifyRecyclerAdapter(List<PostsModel.PostDetails> newPostList, PostListAdapter adapter) {
+//        int currentListSize = DataListFromApi.getInstance().getNewPostsList().size();
         DataListFromApi.getInstance().saveDataInList(newPostList);
-        int newListSize = DataListFromApi.getInstance().getNewPostsList().size();
+//        int newListSize = DataListFromApi.getInstance().getNewPostsList().size();
 
-        if (newListSize == 0 && isGetNewListThis) {
-            SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, cont.getResources().getString(R.string.msg_nothing_in_category));
-        } else if(newListSize == currentListSize && page == totalPage && ! isGetNewListThis) {
-            SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, cont.getResources().getString(R.string.msg_have_not_new_post));
+        Log.d("OkHttp_1", "rec new 1 - " + recyclerView.isLayoutSuppressed());
+        if (isGetNewListThis) {
+            recyclerView.getLayoutManager().scrollToPosition(0);
         }
-
         adapter.notifyDataSetChanged();
+        recyclerView.suppressLayout(false);
+        Log.d("OkHttp_1", "rec new 2 - " + recyclerView.isLayoutSuppressed());
+
 
         int currentAdapterPosition =  prefUt.getCurrentAdapterPositionPosts();
         if(currentAdapterPosition > 0 && totalPosts - 1 > currentAdapterPosition){

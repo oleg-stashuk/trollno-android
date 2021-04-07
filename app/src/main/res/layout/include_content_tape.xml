@@ -22,13 +22,13 @@
         android:layout_height="wrap_content">
 
         <com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
-            android:id="@+id/refresh_layout_tape"
+            android:id="@+id/refresh_layout_tape_new"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:srl_direction="top">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/news_recycler_tape"
+                android:id="@+id/recycler_tape_new"
                 android:overScrollMode="never"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
