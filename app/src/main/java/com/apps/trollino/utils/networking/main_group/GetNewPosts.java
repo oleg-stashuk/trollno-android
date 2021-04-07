@@ -122,14 +122,11 @@ public class GetNewPosts {
         DataListFromApi.getInstance().saveDataInList(newPostList);
 //        int newListSize = DataListFromApi.getInstance().getNewPostsList().size();
 
-        Log.d("OkHttp_1", "rec new 1 - " + recyclerView.isLayoutSuppressed());
         if (isGetNewListThis) {
             recyclerView.getLayoutManager().scrollToPosition(0);
         }
         adapter.notifyDataSetChanged();
         recyclerView.suppressLayout(false);
-        Log.d("OkHttp_1", "rec new 2 - " + recyclerView.isLayoutSuppressed());
-
 
         int currentAdapterPosition =  prefUt.getCurrentAdapterPositionPosts();
         if(currentAdapterPosition > 0 && totalPosts - 1 > currentAdapterPosition){

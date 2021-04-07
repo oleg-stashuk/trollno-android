@@ -30,6 +30,7 @@ public class UpdateShowName {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if(response.isSuccessful()) {
+                    prefUtils.saveIsUserEnterRealName(true);
                     context.startActivity(OpenActivityHelper.openActivity(context,prefUtils));
                     ((Activity) context).finish();
                 } else {

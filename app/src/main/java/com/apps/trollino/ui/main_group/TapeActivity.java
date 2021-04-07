@@ -2,7 +2,6 @@ package com.apps.trollino.ui.main_group;
 
 import android.content.Intent;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -167,7 +166,6 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
     private void updateDataBySwipe() {
         newRefreshLayout.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorPrimary));
         newRefreshLayout.setOnRefreshListener(direction -> {
-            Log.d("OkHttp_1", "act new - " + newsRecyclerView.isLayoutSuppressed());
             if(selectedTab == 0) {
                 updateDataFromApiFresh(null, newRefreshLayout, true);
             } else if(selectedTab == 1) {

@@ -22,6 +22,7 @@ public class PrefUtils {
     private final String SWITCH_SHOW_READ_POST_KEY = "SWITCH_SHOW_READ_POST_KEY";
     private final String SWITCH_PUSH_ANSWER_TO_COMMENT = "SWITCH_PUSH_ANSWER_TO_COMMENT";
     private final String IS_USER_LOGIN_BY_FACEBOOK = "IS_USER_LOGIN_BY_FACEBOOK";
+    private final String IS_USER_ADD_REAL_NAME = "IS_USER_ADD_REAL_NAME";
 
     private final String COUNT_BETWEEN_ADS = "COUNT_BETWEEN_ADS";
     private final String AD_MOB_ID = "AD_MOB_ID";
@@ -192,6 +193,14 @@ public class PrefUtils {
 
     public void saveIsUserLoginByFacebook(boolean isUserLoginByFacebook) {
         getEditor().putBoolean(IS_USER_LOGIN_BY_FACEBOOK, isUserLoginByFacebook).apply();
+    }
+
+    public boolean isUserEnterRealName() {
+        return sharedPreferences.getBoolean(IS_USER_ADD_REAL_NAME, false);
+    }
+
+    public void saveIsUserEnterRealName(boolean isEnterRealName) {
+        getEditor().putBoolean(IS_USER_ADD_REAL_NAME, isEnterRealName).apply();
     }
 
     public int getCurrentPage() {

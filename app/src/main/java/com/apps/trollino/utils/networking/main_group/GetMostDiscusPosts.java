@@ -118,9 +118,7 @@ public class GetMostDiscusPosts {
         if (isGetNewListThis) {
             recyclerView.getLayoutManager().scrollToPosition(0);
         }
-        Log.d("OkHttp_1", "rec disc - " + recyclerView.isLayoutSuppressed());
         adapter.notifyDataSetChanged();
         recyclerView.suppressLayout(false);
-        Log.d("OkHttp_1", "rec disc - " + recyclerView.isLayoutSuppressed());
     }
 }

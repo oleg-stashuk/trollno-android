@@ -127,10 +127,8 @@ public class GetPostsByCategory {
         if (isGetNewListThis) {
             recyclerView.getLayoutManager().scrollToPosition(0);
         }
-        Log.d("OkHttp_1", "rec cat - " + recyclerView.isLayoutSuppressed());
         adapter.notifyDataSetChanged();
         recyclerView.suppressLayout(false);
-        Log.d("OkHttp_1", "rec cat - " + recyclerView.isLayoutSuppressed());
 
         int currentAdapterPosition =  prefUt.getCurrentAdapterPositionPosts();
         if(currentAdapterPosition > 0 && totalPosts - 1 > currentAdapterPosition){

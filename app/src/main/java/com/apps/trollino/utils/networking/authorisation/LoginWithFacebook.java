@@ -12,6 +12,7 @@ import com.apps.trollino.R;
 import com.apps.trollino.data.model.login.ResponseLoginModel;
 import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.ui.authorisation.EditRealNameActivity;
+import com.apps.trollino.utils.OpenActivityHelper;
 import com.apps.trollino.utils.SnackBarMessageCustom;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
@@ -47,7 +48,11 @@ public class LoginWithFacebook {
                     prefUtils.saveIsUserLoginByFacebook(true);
 
                     new Thread(() -> GetUserProfile.getUserProfileSettings(context, prefUtils)).start();
-                    context.startActivity(new Intent(context, EditRealNameActivity.class));
+                    if (prefUtils.isUserEnterRealName()) {
+                        context.startActivity(OpenActivityHelper.openActivity(context,prefUtils));
+                    } else {
+                        context.startActivity(new Intent(context, EditRealNameActivity.class));
+                    }
                     ((Activity) context).finish();
                 } else {
                     LoginManager.getInstance().logOut();
