@@ -107,6 +107,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                 refreshLayout.setRefreshing(false);
             } else {
                 makeSearchPostsRecyclerView();
+                recyclerView.suppressLayout(true);
             }
         });
     }

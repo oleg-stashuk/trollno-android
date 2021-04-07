@@ -113,15 +113,15 @@ public class GetPostBySearch {
     }
 
     private static void updatePostListAndNotifyRecyclerAdapter(List<PostsModel.PostDetails> newPostList, PostListAdapter adapter) {
-        int currentListSize = PostListBySearchFromApi.getInstance().getPostListBySearch().size();
+//        int currentListSize = PostListBySearchFromApi.getInstance().getPostListBySearch().size();
         PostListBySearchFromApi.getInstance().savePostBySearchInList(newPostList);
-        int newListSize = PostListBySearchFromApi.getInstance().getPostListBySearch().size();
+//        int newListSize = PostListBySearchFromApi.getInstance().getPostListBySearch().size();
 
-        if(newListSize == currentListSize && page == totalPage && ! isGetNewListThis) {
-            SnackBarMessageCustom.showSnackBar(recyclerView, "Показаны все результаты поиска");
-        } else {
-            adapter.notifyDataSetChanged();
+        if (isGetNewListThis) {
+            recyclerView.getLayoutManager().scrollToPosition(0);
         }
+        recyclerView.suppressLayout(false);
+        adapter.notifyDataSetChanged();
 
         int currentAdapterPosition =  prefUt.getCurrentAdapterPositionPosts();
         if(currentAdapterPosition > 0 && totalPosts - 1 > currentAdapterPosition){

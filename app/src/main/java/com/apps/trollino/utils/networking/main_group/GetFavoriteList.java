@@ -35,14 +35,12 @@ public class GetFavoriteList {
     private static int totalFavorites;
     private static RecyclerView recyclerView;
     private static boolean isGetNewListThis;
-    private static Context cont;
     private static PrefUtils prefUt;
 
     public static void getFavoritePosts(Context context, PrefUtils prefUtils, RecyclerView recycler,
                                         ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout,
                                         View noFavoriteListView, View bottomNavigation,
                                         FavoriteAdapter adapter, boolean isGetNewList, ProgressBar progressBar) {
-        cont = context;
         prefUt = prefUtils;
         recyclerView = recycler;
         isGetNewListThis = isGetNewList;
@@ -100,7 +98,6 @@ public class GetFavoriteList {
                             .setAction(R.string.refresh_button, v -> {
                                 call.clone().enqueue(this);
                             });
-//                    snackbar.setAnchorView(bottomNavigation);
                     snackbar.show();
                 } else {
                     SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, t.getLocalizedMessage());
@@ -134,10 +131,10 @@ public class GetFavoriteList {
         FavoritePostListFromApi.getInstance().saveFavoritePostInList(favoritePostList);
         int newListSize = FavoritePostListFromApi.getInstance().getFavoritePostList().size();
 
-        if(newListSize == currentListSize && page == totalPage && ! isGetNewListThis) {
-            SnackBarMessageCustom.showSnackBar(recyclerView, cont.getResources().getString(R.string.msg_show_all_favorite));
-        } else {
+        if(newListSize != currentListSize && page != totalPage && isGetNewListThis) {
             adapter.notifyDataSetChanged();
+            recyclerView.getLayoutManager().scrollToPosition(0);
+            recyclerView.suppressLayout(false);
         }
 
         int currentAdapterPosition =  prefUt.getCurrentAdapterPositionFavorite();

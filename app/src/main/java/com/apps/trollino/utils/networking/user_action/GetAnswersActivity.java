@@ -35,8 +35,8 @@ public class GetAnswersActivity {
     private static int totalPage;
     private static int totalAnswers;
     private static boolean isGetNewListThis;
-    private static Context cont;
     private static PrefUtils prefUt;
+    private static RecyclerView recyclerView;
 
     public static void getAnswersActivity(Context context, PrefUtils prefUtils, AnswersAdapter adapter,
                                           RecyclerView recycler, ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout,
@@ -47,7 +47,7 @@ public class GetAnswersActivity {
         prefUt = prefUtils;
         page = isGetNewList ? 0 : prefUtils.getCurrentPage();
         isGetNewListThis = isGetNewList;
-        cont = context;
+        recyclerView = recycler;
 
         ApiService.getInstance(context).getAnswersActivity(cookie, userId, page, new Callback<AnswersModel>() {
             @Override
@@ -63,7 +63,7 @@ public class GetAnswersActivity {
                         noDataTextView.setText(context.getResources().getString(R.string.txt_have_no_comments));
                     } else {
                         includeNoDataForUser.setVisibility(View.GONE);
-                        updatePostListAndNotifyRecyclerAdapter(answerList, adapter, bottomNavigation);
+                        updatePostListAndNotifyRecyclerAdapter(answerList, adapter);
                         saveCurrentPage(prefUtils);
                     }
                 } else if(response.code() == 403) {
@@ -74,7 +74,7 @@ public class GetAnswersActivity {
                     SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, errorMessage);
                 }
 
-                hideUpdateDataProgressView(recycler, shimmer, refreshLayout, progressBar);
+                hideUpdateDataProgressView(shimmer, refreshLayout, progressBar);
             }
 
             @Override
@@ -94,16 +94,16 @@ public class GetAnswersActivity {
                 } else {
                     SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(recycler, t.getLocalizedMessage());
                 }
-                hideUpdateDataProgressView(recycler, shimmer, refreshLayout, progressBar);
+                hideUpdateDataProgressView(shimmer, refreshLayout, progressBar);
                 Log.d(TAG_LOG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
             }
         });
     }
 
-    private static void hideUpdateDataProgressView(RecyclerView recycler, ShimmerFrameLayout shimmer,
+    private static void hideUpdateDataProgressView(ShimmerFrameLayout shimmer,
                                                    SwipyRefreshLayout refreshLayout, ProgressBar progressBar) {
         if(shimmer != null) {
-            ShimmerHide.shimmerHide(recycler, shimmer);
+            ShimmerHide.shimmerHide(recyclerView, shimmer);
         }
         if (refreshLayout != null) {
             refreshLayout.setRefreshing(false);
@@ -119,15 +119,15 @@ public class GetAnswersActivity {
         }
     }
 
-    private static void updatePostListAndNotifyRecyclerAdapter(List<AnswersModel.Answers> comments, AnswersAdapter adapter, View bottomNavigation) {
+    private static void updatePostListAndNotifyRecyclerAdapter(List<AnswersModel.Answers> comments, AnswersAdapter adapter) {
         int currentListSize = AnswersFromApi.getInstance().getAnswerList().size();
         AnswersFromApi.getInstance().saveAnswersInList(comments);
         int newListSize = AnswersFromApi.getInstance().getAnswerList().size();
-        if(newListSize == currentListSize && page == totalPage && ! isGetNewListThis) {
-            SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, cont.getResources().getString(R.string.msg_user_have_not_any_answer));
-        } else {
+        if(newListSize != currentListSize && page != totalPage && isGetNewListThis) {
             adapter.notifyDataSetChanged();
+            recyclerView.getLayoutManager().scrollToPosition(0);
         }
+        recyclerView.suppressLayout(false);
 
         int currentAdapterPosition =  prefUt.getCurrentAdapterPositionAnswers();
         if(currentAdapterPosition > 0 && totalAnswers - 1 > currentAdapterPosition){

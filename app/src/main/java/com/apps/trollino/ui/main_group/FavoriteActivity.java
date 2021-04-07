@@ -109,6 +109,7 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
         refreshLayout.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorPrimary));
         refreshLayout.setOnRefreshListener(direction -> {
             getDataFromApi(null, refreshLayout);
+            favoriteRecyclerView.suppressLayout(true);
         });
     }
 

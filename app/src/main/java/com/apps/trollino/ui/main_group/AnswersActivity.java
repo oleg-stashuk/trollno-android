@@ -26,7 +26,7 @@
  import static com.apps.trollino.utils.recycler.MakeRecyclerViewForAnswerActivity.makeRecyclerViewForCommentToUserActivity;
 
  public class AnswersActivity extends BaseActivity implements View.OnClickListener{
-    private RecyclerView postWithActivityRecyclerView;
+    private RecyclerView answersRecyclerView;
     private ShimmerFrameLayout shimmer;
     private SwipyRefreshLayout refreshLayout;
     private LinearLayout bottomNavigation;
@@ -54,7 +54,7 @@
         userAuthorizationView = findViewById(R.id.include_user_not_authorization_for_answers);
         includeNoDataForUser = findViewById(R.id.include_no_data_for_user_for_answers);
         noDataTextView = findViewById(R.id.txt_include_no_data);
-        postWithActivityRecyclerView = findViewById(R.id.recycler_for_answers);
+        answersRecyclerView = findViewById(R.id.recycler_for_answers);
         TextView activityBottomNavigationTextView = findViewById(R.id.activity_button);
         indicatorImageView = findViewById(R.id.indicator_image);
         progressBar = findViewById(R.id.progress_bar_answer);
@@ -100,7 +100,7 @@
     private void checkUserAuthorization() {
         if(isUserAuthorization) {
             userAuthorizationView.setVisibility(View.GONE);
-            postWithActivityRecyclerView.setVisibility(View.VISIBLE);
+            answersRecyclerView.setVisibility(View.VISIBLE);
             refreshLayout.setVisibility(View.VISIBLE);
 
             int AnswerListSize = AnswersFromApi.getInstance().getListSize();
@@ -109,7 +109,7 @@
         } else {
             shimmer.setVisibility(View.GONE);
             userAuthorizationView.setVisibility(View.VISIBLE);
-            postWithActivityRecyclerView.setVisibility(View.GONE);
+            answersRecyclerView.setVisibility(View.GONE);
             refreshLayout.setVisibility(View.GONE);
         }
     }
@@ -118,11 +118,12 @@
          refreshLayout.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorPrimary));
          refreshLayout.setOnRefreshListener(direction -> {
              getDataFromApi(null, refreshLayout);
+             answersRecyclerView.suppressLayout(true);
          });
      }
 
     private void getDataFromApi(ShimmerFrameLayout shimmerToApi, SwipyRefreshLayout refreshLayoutToApi) {
-        makeRecyclerViewForCommentToUserActivity(this, prefUtils, postWithActivityRecyclerView,
+        makeRecyclerViewForCommentToUserActivity(this, prefUtils, answersRecyclerView,
                 shimmerToApi, refreshLayoutToApi, includeNoDataForUser , noDataTextView,
                 bottomNavigation, progressBar);
     }

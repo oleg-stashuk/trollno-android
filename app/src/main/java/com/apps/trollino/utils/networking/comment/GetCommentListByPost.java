@@ -152,9 +152,7 @@ public class GetCommentListByPost {
         CommentListFromApi.getInstance().saveCommentInList(commentList);
         int newListSize = CommentListFromApi.getInstance().getCommentList().size();
 
-        if(newListSize == currentListSize && page == totalPage && ! isGetNewListThis) {
-            SnackBarMessageCustom.showSnackBar(recyclerView, cont.getString(R.string.msg_all_comments_showed));
-        } else {
+        if(newListSize != currentListSize && page != totalPage && isGetNewListThis) {
             adapter.notifyDataSetChanged();
             recyclerView.getLayoutManager().scrollToPosition(0);
             recyclerView.suppressLayout(false);
