@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat;
 
 import com.apps.trollino.R;
 import com.apps.trollino.data.model.profile.RequestBlockUserModel;
+import com.apps.trollino.service.MyFirebaseMessagingService;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.OpenActivityHelper;
 import com.apps.trollino.utils.Validation;
@@ -137,6 +138,8 @@ public class EditUserProfileActivity extends BaseActivity implements View.OnClic
                     dialog1.cancel();
                 })
                 .setPositiveButton(R.string.remove_account_confirm_button, (dialog, which) -> {
+                    MyFirebaseMessagingService fireBaseService = new MyFirebaseMessagingService();
+                    fireBaseService.onDeletedFireBaseToken(this, prefUtils);
                     new Thread(() -> BlockUserProfile.blockUserProfile(this, prefUtils, new RequestBlockUserModel(), findViewById(R.id.activity_edit_user_profile))).start();
                     dialog.cancel();
                 });
