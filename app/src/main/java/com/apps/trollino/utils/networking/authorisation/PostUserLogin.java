@@ -8,7 +8,6 @@ import android.view.View;
 import com.apps.trollino.R;
 import com.apps.trollino.data.model.login.ResponseLoginModel;
 import com.apps.trollino.data.networking.ApiService;
-import com.apps.trollino.service.MyFirebaseMessagingService;
 import com.apps.trollino.utils.OpenActivityHelper;
 import com.apps.trollino.utils.SnackBarMessageCustom;
 import com.apps.trollino.utils.data.PrefUtils;

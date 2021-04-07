@@ -60,8 +60,6 @@ public class EditUserProfileActivity extends BaseActivity implements View.OnClic
         updateButton = findViewById(R.id.update_button_edit_user_profile);
         updateButton.setOnClickListener(this);
 
-        prefUtils.saveIsUserLoginByFacebook(true);
-
         loginByFacebook.setVisibility(prefUtils.isUserLoginByFacebook() ? View.VISIBLE : View.GONE);
         updateButton.setVisibility(prefUtils.isUserLoginByFacebook() ? View.GONE : View.VISIBLE);
         passwordBlock.setVisibility(prefUtils.isUserLoginByFacebook() ? View.GONE : View.VISIBLE);
