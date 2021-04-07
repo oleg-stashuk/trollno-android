@@ -58,6 +58,10 @@ public class SplashActivity extends BaseActivity {
         prefUtils.saveImageWidthForOneColumn(widthForImageForOneColumn);
         int widthForImageForTwoColumn = displayMetrics.widthPixels / 2 - (density * 24);
         prefUtils.saveImageWidth(widthForImageForTwoColumn);
+
+        if(!prefUtils.getIsUserAuthorization()) {
+            CleanSavedDataHelper.cleanAllDataIfUserRemoveOrLogout(prefUtils);
+        }
     }
 
     Runnable openNextActivity = new Runnable() {

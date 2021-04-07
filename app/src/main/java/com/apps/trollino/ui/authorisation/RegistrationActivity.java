@@ -12,6 +12,7 @@ import com.apps.trollino.R;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.OpenActivityHelper;
 import com.apps.trollino.utils.Validation;
+import com.apps.trollino.utils.data.CleanSavedDataHelper;
 import com.apps.trollino.utils.networking.authorisation.PostUserRegistration;
 
 public class RegistrationActivity extends BaseActivity implements View.OnClickListener {
@@ -108,6 +109,7 @@ public class RegistrationActivity extends BaseActivity implements View.OnClickLi
             case R.id.registration_button_registration:
                 if(inputFieldIsValid()){
                     hideKeyBoard();
+                    CleanSavedDataHelper.cleanAllDataIfUserRemoveOrLogout(prefUtils);
                     new Thread(() -> PostUserRegistration.postRegistration(this, name, email, password, prefUtils, findViewById(R.id.activity_registration))).start();
                 }
                 break;

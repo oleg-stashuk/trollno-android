@@ -62,7 +62,8 @@ public class GetUserProfile {
                         emailEditText.setText(user.getMailList().get(0).getValue());
                     }
 
-                    String imageUrl = user.getUserImageList().get(0).getImageUrl();
+                    String imageUrl = user.getUserImageList().size() > 0 ?
+                            user.getUserImageList().get(0).getImageUrl() : "";
                     Picasso
                             .get()
                             .load(imageUrl)
