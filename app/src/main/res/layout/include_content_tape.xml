@@ -17,6 +17,23 @@
     <include
         layout="@layout/include_shimmer_post_one_column"/>
 
+
+    <com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
+        android:id="@+id/refresh_layout_tape_discuss"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:srl_direction="top">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_tape_discuss"
+            android:overScrollMode="never"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

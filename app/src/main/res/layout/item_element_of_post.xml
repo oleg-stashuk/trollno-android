@@ -45,6 +45,7 @@
             android:layout_marginLeft="3dp"
             android:layout_marginStart="3dp"
             android:paddingLeft="3dp"
+            android:textSize="14sp"
             style="@style/UrlTextStyle"
             android:text="@string/resource" />
 

@@ -3,7 +3,6 @@ package com.apps.trollino.utils.networking.main_group;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
-import android.widget.ProgressBar;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,33 +29,24 @@ import retrofit2.Response;
 import static com.apps.trollino.utils.data.Const.TAG_LOG;
 
 public class GetMostDiscusPosts {
-    private static int page;
-    private static int totalPage;
-    private static boolean isGetNewListThis;
     private static RecyclerView recyclerView;
 
     public static void makeGetNewPosts(Context context, PrefUtils prefUtils, DiscussPostsAdapter adapter,
-                                       RecyclerView recycler, ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout,
-                                       View bottomNavigation, boolean isGetNewList, ProgressBar progressBar) {
-        page = isGetNewList ? 0 : prefUtils.getCurrentPage();
+                                       RecyclerView recycler, ShimmerFrameLayout shimmer,
+                                       SwipyRefreshLayout refreshLayout, View bottomNavigation) {
         String cookie = prefUtils.getCookie();
-        isGetNewListThis = isGetNewList;
         recyclerView = recycler;
 
-        ApiService.getInstance(context).getMostDiscusPosts(cookie, page, new Callback<PostsModel>() {
+        ApiService.getInstance(context).getMostDiscusPosts(cookie, 0, new Callback<PostsModel>() {
             @Override
             public void onResponse(Call<PostsModel> call, Response<PostsModel> response) {
                 if (response.isSuccessful()) {
-                    if(isGetNewList) {
-                        DataListFromApi.getInstance().removeAllDataFromList(prefUtils);
-                        PostListByCategoryFromApi.getInstance().removeAllDataFromList(prefUtils);
-                    }
+                    DataListFromApi.getInstance().removeAllDataFromList(prefUtils);
+                    PostListByCategoryFromApi.getInstance().removeAllDataFromList(prefUtils);
 
                     PostsModel post = response.body();
                     List<PostsModel.PostDetails> newPostList = post.getPostDetailsList();
 
-                    totalPage = post.getPagerModel().getTotalPages() - 1;
-                    saveCurrentPage(prefUtils);
                     updatePostListAndNotifyRecyclerAdapter(newPostList, adapter);
                     if (shimmer != null) {
                         ShimmerHide.shimmerHide(recycler, shimmer);
@@ -65,7 +55,7 @@ public class GetMostDiscusPosts {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
                     SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, errorMessage);
                 }
-                hideUpdateProgressView(shimmer, refreshLayout, progressBar);
+                hideUpdateProgressView(shimmer, refreshLayout);
             }
 
             @Override
@@ -85,39 +75,24 @@ public class GetMostDiscusPosts {
                 } else {
                     SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, t.getLocalizedMessage());
                 }
-                hideUpdateProgressView(shimmer, refreshLayout, progressBar);
+                hideUpdateProgressView(shimmer, refreshLayout);
                 Log.d(TAG_LOG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
             }
         });
     }
 
-    private static void hideUpdateProgressView(ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout, ProgressBar progressBar) {
+    private static void hideUpdateProgressView(ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout) {
         if(shimmer != null) {
             shimmer.setVisibility(View.GONE);
         }
         if(refreshLayout != null) {
             refreshLayout.setRefreshing(false);
         }
-        progressBar.setVisibility(View.GONE);
-    }
-
-    private static void saveCurrentPage(PrefUtils prefUtils) {
-        if(page < totalPage) {
-            prefUtils.saveCurrentPage(page + 1);
-        } else {
-            prefUtils.saveCurrentPage(totalPage);
-        }
     }
 
     private static void updatePostListAndNotifyRecyclerAdapter(List<PostsModel.PostDetails> newPostList, DiscussPostsAdapter adapter) {
-//        int currentListSize = DataListFromApi.getInstance().getDiscussPostsList().size();
         DataListFromApi.getInstance().saveDiscussDataInList(newPostList);
-//        int newListSize = DataListFromApi.getInstance().getDiscussPostsList().size();
-
-
-        if (isGetNewListThis) {
-            recyclerView.getLayoutManager().scrollToPosition(0);
-        }
+        recyclerView.getLayoutManager().scrollToPosition(0);
         adapter.notifyDataSetChanged();
         recyclerView.suppressLayout(false);
     }

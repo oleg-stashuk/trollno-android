@@ -32,6 +32,8 @@ import static com.apps.trollino.utils.recycler.MakePostsByCategoryGridRecyclerVi
 public class TapeActivity extends BaseActivity implements View.OnClickListener{
     private RecyclerView newsRecyclerView;
     private SwipyRefreshLayout newRefreshLayout;
+    private RecyclerView discussRecyclerView;
+    private SwipyRefreshLayout discussRefreshLayout;
     private TabLayout tabs;
     private ImageView indicatorImageView;
 
@@ -56,6 +58,8 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
 
         newsRecyclerView = findViewById(R.id.recycler_tape_new);
         newRefreshLayout = findViewById(R.id.refresh_layout_tape_new);
+        discussRecyclerView = findViewById(R.id.recycler_tape_discuss);
+        discussRefreshLayout = findViewById(R.id.refresh_layout_tape_discuss);
 
         tabs = findViewById(R.id.tab_layout_tape);
         TextView tapeBottomNavigationTextView = findViewById(R.id.tape_button);
@@ -115,11 +119,14 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
             public void onTabSelected(TabLayout.Tab tab) {
                 selectedTab = tabs.getSelectedTabPosition();
                 if(tabs.getSelectedTabPosition() == 0) {
+                    showCorrectRecycler(false);
                     prefUtils.saveCurrentAdapterPositionPosts(0);
                     updateDataFromApiFresh(twoColumnShimmer, null, true);
                 } else if(tabs.getSelectedTabPosition() == 1) {
+                    showCorrectRecycler(true);
                     updateDataFromApiDiscuss(oneColumnShimmer, null, true);
                 } else {
+                    showCorrectRecycler(false);
                     prefUtils.saveCurrentAdapterPositionPosts(0);
                     prefUtils.saveSelectedCategoryId(tab.getTag().toString());
                     updateDataFromApiOther(twoColumnShimmer, null, true);
@@ -132,6 +139,13 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
             @Override
             public void onTabReselected(TabLayout.Tab tab) {}
         });
+    }
+
+    private void showCorrectRecycler(boolean isDiscuss) {
+        discussRecyclerView.setVisibility(isDiscuss ? View.VISIBLE : View.GONE);
+        discussRefreshLayout.setVisibility(isDiscuss ? View.VISIBLE : View.GONE);
+        newsRecyclerView.setVisibility(isDiscuss ? View.GONE : View.VISIBLE);
+        newRefreshLayout.setVisibility(isDiscuss ? View.GONE : View.VISIBLE);
     }
 
     private void showCorrectShimmer(Boolean isOneColumn, boolean IsUpdateData) {
@@ -153,8 +167,8 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
 
     private void updateDataFromApiDiscuss(ShimmerFrameLayout shimmerToApi, SwipyRefreshLayout refreshLayoutToApi, boolean IsUpdateData) {
         showCorrectShimmer(true, IsUpdateData);
-        makeLinerRecyclerViewForTapeActivity(this, prefUtils, newsRecyclerView,
-                shimmerToApi, refreshLayoutToApi, bottomNavigation, progressBar);
+        makeLinerRecyclerViewForTapeActivity(this, prefUtils, discussRecyclerView,
+                shimmerToApi, refreshLayoutToApi, bottomNavigation);
     }
 
     private void updateDataFromApiOther(ShimmerFrameLayout shimmerToApi, SwipyRefreshLayout refreshLayoutToApi, boolean IsUpdateData) {
@@ -168,12 +182,18 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
         newRefreshLayout.setOnRefreshListener(direction -> {
             if(selectedTab == 0) {
                 updateDataFromApiFresh(null, newRefreshLayout, true);
-            } else if(selectedTab == 1) {
-                updateDataFromApiDiscuss(null, newRefreshLayout, true);
             } else {
                 updateDataFromApiOther(null, newRefreshLayout, true);
             }
             newsRecyclerView.suppressLayout(true);
+        });
+
+        discussRefreshLayout.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorPrimary));
+        discussRefreshLayout.setOnRefreshListener(direction -> {
+            if(selectedTab == 1) {
+                updateDataFromApiDiscuss(null, discussRefreshLayout, true);
+            }
+            discussRecyclerView.suppressLayout(true);
         });
     }
 
