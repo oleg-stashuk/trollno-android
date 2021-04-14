@@ -58,48 +58,67 @@ public class CommentToPostParentAdapter extends BaseRecyclerAdapter<CommentModel
                 RecyclerView childCommentRecyclerView = view.findViewById(R.id.recycler_item_single_comment_parent);
 
                 prefUtils.saveCurrentAdapterPositionComment(getAdapterPosition());
-
                 hideCommentTextView.setVisibility(View.GONE);
-                int countAnswer = Integer.parseInt(item.getCommentAnswersCount());
-                if(countAnswer > 0) {
-                    showMoreTextView.setVisibility(View.VISIBLE);
+                showMoreTextView.setVisibility(View.GONE);
+
+                if (!item.getCommentId().equals("commentId")) {
+                    imageImageView.setVisibility(View.VISIBLE);
+                    timeTextView .setVisibility(View.VISIBLE);
+                    commentBodyTextView.setVisibility(View.VISIBLE);
+                    likeImageView.setVisibility(View.VISIBLE);
+                    countLikeTextView.setVisibility(View.VISIBLE);
+                    answerTextView.setVisibility(View.VISIBLE);
+
+                    int countAnswer = Integer.parseInt(item.getCommentAnswersCount());
+                    if(countAnswer > 0) {
+                        boolean isRecyclerVisible = childCommentRecyclerView.getVisibility() == View.VISIBLE;
+                        showMoreTextView.setVisibility(isRecyclerVisible ? View.GONE : View.VISIBLE);
+                        hideCommentTextView.setVisibility(isRecyclerVisible ? View.VISIBLE : View.GONE);
+                    }
+
+                    showMoreTextView.setOnClickListener(v -> {
+                        // Загрузить дочерние комментарии
+                        GetCommentListByComment.getCommentListByComment(view.getContext(), prefUtils, item.getCommentId(),
+                                childCommentRecyclerView, commentEditText, view);
+
+                        showMoreTextView.setVisibility(View.GONE);
+                        hideCommentTextView.setVisibility(View.VISIBLE);
+                    });
+
+                    hideCommentTextView.setOnClickListener(v -> {
+                        showMoreTextView.setVisibility(View.VISIBLE);
+                        hideCommentTextView.setVisibility(View.GONE);
+                        childCommentRecyclerView.setVisibility(View.GONE);
+                    });
+
+                    Picasso
+                            .get()
+                            .load(BASE_URL.concat(item.getUrlUserImage()))
+                            .into(imageImageView);
+
+                    nameTextView.setText(item.getAuthorName());
+                    timeTextView.setText(ShowTimeAgoHelper.showTimeAgo(item.getTime()));
+
+                    final String comment = item.getCommentBody();
+                    checkCommentLength(commentBodyTextView, comment, view.getContext()); // Проверить длинну комментария + обработка нажатия на кнопку "Весь комментарий"
+
+                    boolean isLike = item.getFavoriteFlag().equals("1");
+                    changeLikeImage(isLike, likeImageView); // Проверить пользователь оценил комент или нет
+
+                    countLikeTextView.setText(item.getCountLikeToComment());
+                    likeImageClickListener(view.getContext(), likeImageView, item.getCommentId(), isLike); // обработка нажатия на кномку "оценить комент"
+
+                    answerClickListener(answerTextView, item.getAuthorName(), item.getCommentId()); // обработка нажатия на кнопку "Ответить"
                 } else {
-                    showMoreTextView.setVisibility(View.GONE);
-                }
-
-                showMoreTextView.setOnClickListener(v -> {
-                    // Загрузить дочерние комментарии
-                    GetCommentListByComment.getCommentListByComment(view.getContext(), prefUtils, item.getCommentId(),
-                            childCommentRecyclerView, commentEditText, view);
-
-                    showMoreTextView.setVisibility(View.GONE);
-                    hideCommentTextView.setVisibility(View.VISIBLE);
-                });
-
-                hideCommentTextView.setOnClickListener(v -> {
-                    showMoreTextView.setVisibility(View.VISIBLE);
-                    hideCommentTextView.setVisibility(View.GONE);
+                    nameTextView.setText("");
+                    imageImageView.setVisibility(View.GONE);
+                    timeTextView .setVisibility(View.GONE);
+                    commentBodyTextView.setVisibility(View.GONE);
+                    likeImageView.setVisibility(View.GONE);
+                    countLikeTextView.setVisibility(View.GONE);
+                    answerTextView.setVisibility(View.GONE);
                     childCommentRecyclerView.setVisibility(View.GONE);
-                });
-
-                Picasso
-                        .get()
-                        .load(BASE_URL.concat(item.getUrlUserImage()))
-                        .into(imageImageView);
-
-                nameTextView.setText(item.getAuthorName());
-                timeTextView.setText(ShowTimeAgoHelper.showTimeAgo(item.getTime()));
-
-                final String comment = item.getCommentBody();
-                checkCommentLength(commentBodyTextView, comment, view.getContext()); // Проверить длинну комментария + обработка нажатия на кнопку "Весь комментарий"
-
-                boolean isLike = item.getFavoriteFlag().equals("1");
-                changeLikeImage(isLike, likeImageView); // Проверить пользователь оценил комент или нет
-
-                countLikeTextView.setText(item.getCountLikeToComment());
-                likeImageClickListener(view.getContext(), likeImageView, item.getCommentId(), isLike); // обработка нажатия на кномку "оценить комент"
-
-                answerClickListener(answerTextView, item.getAuthorName(), item.getCommentId()); // обработка нажатия на кнопку "Ответить"
+                }
             }
 
 

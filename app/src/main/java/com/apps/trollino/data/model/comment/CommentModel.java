@@ -23,7 +23,7 @@ public class CommentModel {
     }
 
 
-    public class Comments {
+    public static class Comments {
         @SerializedName("cid")
         @Expose
         private String commentId;
@@ -51,6 +51,10 @@ public class CommentModel {
         @SerializedName("newsappm_comment_like_count")
         @Expose
         private String countLikeToComment;
+
+        public Comments() {
+            this.commentId = "commentId";
+        }
 
 
         public String getCommentId() {

@@ -1,7 +1,6 @@
 package com.apps.trollino.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -17,7 +16,6 @@ import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.dialogs.GuestDialog;
 import com.apps.trollino.utils.networking.comment.PostLikeToComment;
 import com.apps.trollino.utils.networking.comment.PostUnlikeToComment;
-import com.apps.trollino.utils.networking.user_action.PostMarkReadAllAnswersToComment;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

@@ -37,7 +37,6 @@ public class GetCommentListByPost {
     private static int totalCountComment;
     private static RecyclerView recyclerView;
     private static boolean isGetNewListThis;
-    private static Context cont;
     private static PrefUtils prefUt;
 
     public static void getCommentListByPost(Context context, PrefUtils prefUtils,
@@ -48,7 +47,6 @@ public class GetCommentListByPost {
          String sortOrder = Const.SORT_ORDER_BY_DESC;
 
         recyclerView = recycler;
-        cont = context;
         prefUt = prefUtils;
         isGetNewListThis = isGetNewList;
         page = isGetNewList ? 0 : prefUtils.getCurrentPage();
@@ -152,11 +150,11 @@ public class GetCommentListByPost {
         CommentListFromApi.getInstance().saveCommentInList(commentList);
         int newListSize = CommentListFromApi.getInstance().getCommentList().size();
 
+        adapter.notifyDataSetChanged();
         if(newListSize != currentListSize && page != totalPage && isGetNewListThis) {
-            adapter.notifyDataSetChanged();
             recyclerView.getLayoutManager().scrollToPosition(0);
-            recyclerView.suppressLayout(false);
         }
+        recyclerView.suppressLayout(false);
 
         int currentAdapterPosition =  prefUt.getCurrentAdapterPositionComment();
         if(currentAdapterPosition > 0 && totalCountComment - 1 > currentAdapterPosition){

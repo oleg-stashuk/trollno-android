@@ -24,11 +24,17 @@ public class CommentListFromApi {
         if (commentListModel.isEmpty()) {
             commentListModel.addAll(commentList);
         } else {
+            if(commentListModel.get(commentListModel.size()-1).getCommentId().equals("commentId")) {
+                commentListModel.remove(commentListModel.size()-1);
+            }
             for (CommentModel.Comments comment : commentList) {
                 if (! commentListModel.contains(comment)) {
                     commentListModel.add(comment);
                 }
             }
+        }
+        if (Integer.parseInt(commentListModel.get(commentListModel.size()-1).getCommentAnswersCount()) > 0){
+            commentListModel.add(new CommentModel.Comments());
         }
     }
 

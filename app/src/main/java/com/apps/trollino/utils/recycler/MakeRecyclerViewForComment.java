@@ -2,7 +2,6 @@ package com.apps.trollino.utils.recycler;
 
 import android.content.Context;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -41,7 +40,7 @@ public class MakeRecyclerViewForComment {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
-        Log.d("OkHttp_1", "rec " + prefUtils.getCurrentAdapterPositionComment());
+
         prefUtils.saveCurrentAdapterPositionComment(0);
         recyclerView.getLayoutManager().scrollToPosition(0);
 
@@ -51,7 +50,6 @@ public class MakeRecyclerViewForComment {
         recyclerView.addOnScrollListener(new RecyclerScrollListener() {
             @Override
             public void onScrolledToEnd() {
-                Log.d("OkHttp_1", "rec onScrolledToEnd " + prefUtils.getCurrentAdapterPositionComment());
                 recyclerView.getLayoutManager().scrollToPosition(prefUtils.getCurrentAdapterPositionComment());
                 progressBar.setVisibility(View.VISIBLE);
                 infiniteScroll(recyclerView, shimmer, refreshLayout, adapter, postId, noCommentTextView,
