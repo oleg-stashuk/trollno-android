@@ -48,6 +48,9 @@ public class GetAnswersActivity {
         page = isGetNewList ? 0 : prefUtils.getCurrentPage();
         isGetNewListThis = isGetNewList;
         recyclerView = recycler;
+        if(isGetNewList) {
+            AnswersFromApi.getInstance().removeAllDataFromList(prefUtils);
+        }
 
         ApiService.getInstance(context).getAnswersActivity(cookie, userId, page, new Callback<AnswersModel>() {
             @Override
