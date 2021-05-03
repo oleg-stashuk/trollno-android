@@ -10,8 +10,8 @@ import com.apps.trollino.R;
 import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
 import com.apps.trollino.data.model.comment.CommentModel;
 import com.apps.trollino.ui.base.BaseActivity;
-import com.apps.trollino.utils.ClickableSpanText;
 import com.apps.trollino.utils.ShowTimeAgoHelper;
+import com.apps.trollino.utils.SpanText;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.dialogs.GuestDialog;
 import com.apps.trollino.utils.networking.comment.PostLikeToComment;
@@ -105,9 +105,11 @@ public class CommentToPostChildAdapter extends BaseRecyclerAdapter<CommentModel.
 
             private void checkCommentLength(final TextView commentTextView, final String comment, Context context) {
                 if (comment.length() > COUNT_SYMBOL_TO_HIDE_PAR_OF_COMMENT) {
-                    ClickableSpanText.makeClickableSpanText(commentTextView, comment, context); // Добавить кликабельную часть текста + обработка нажатия
+                    // Добавить кликабельную часть текста + обработка нажатия + выделить имя
+                    SpanText.makeClickableSpanTextWithSpanName(commentTextView, comment, context);
                 } else {
-                    commentTextView.setText(comment);
+                    // Выделить имя
+                    SpanText.makeSpanName(commentTextView, comment, context); // Выделить имя
                 }
             }
 

@@ -12,7 +12,7 @@ import com.apps.trollino.R;
 import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
 import com.apps.trollino.data.model.comment.CommentModel;
 import com.apps.trollino.ui.base.BaseActivity;
-import com.apps.trollino.utils.ClickableSpanText;
+import com.apps.trollino.utils.SpanText;
 import com.apps.trollino.utils.ShowTimeAgoHelper;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.dialogs.GuestDialog;
@@ -158,7 +158,7 @@ public class CommentToPostParentAdapter extends BaseRecyclerAdapter<CommentModel
 
             private void checkCommentLength(final TextView commentTextView, final String comment, Context context) {
                 if (comment.length() > COUNT_SYMBOL_TO_HIDE_PAR_OF_COMMENT) {
-                    ClickableSpanText.makeClickableSpanText(commentTextView, comment, context); // Добавить кликабельную часть текста + обработка нажатия
+                    SpanText.makeClickableSpanText(commentTextView, comment, context); // Добавить кликабельную часть текста + обработка нажатия
                 } else {
                     commentTextView.setText(comment);
                 }
