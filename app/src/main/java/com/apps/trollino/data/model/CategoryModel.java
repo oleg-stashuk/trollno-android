@@ -10,6 +10,19 @@ public class CategoryModel {
     @SerializedName("name")
     @Expose
     private String nameCategory;
+    @SerializedName("weight")
+    @Expose
+    private String weight;
+
+    private int postInCategory;
+
+    public CategoryModel(String idCategory, String nameCategory, String weight, int postInCategory) {
+        this.idCategory = idCategory;
+        this.nameCategory = nameCategory;
+        this.weight = weight;
+        this.postInCategory = postInCategory;
+    }
+
 
     public String getIdCategory() {
         return idCategory;
@@ -17,6 +30,18 @@ public class CategoryModel {
 
     public String getNameCategory() {
         return nameCategory;
+    }
+
+    public String getWeight() {
+        return weight;
+    }
+
+    public int getPostInCategory() {
+        return postInCategory;
+    }
+
+    public void setPostInCategory(int postInCategory) {
+        this.postInCategory = postInCategory;
     }
 
     @Override
