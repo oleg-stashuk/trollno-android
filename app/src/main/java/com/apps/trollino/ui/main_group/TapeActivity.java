@@ -200,6 +200,7 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
     public void onBackPressed() {
         removeAllDataFromPostList();
         if (doubleBackToExitPressedOnce) {
+            removeAllDataFromDB();
             super.onBackPressed();
             return;
         }

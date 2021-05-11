@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.apps.trollino.R;
 import com.apps.trollino.utils.SnackBarMessageCustom;
+import com.apps.trollino.utils.data.CleanSavedDataHelper;
 import com.apps.trollino.utils.data.PrefUtils;
 
 public abstract class BaseActivity extends AppCompatActivity {
@@ -41,6 +42,10 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected void showSnackBarMessage(View view, String text) {
         SnackBarMessageCustom.showSnackBar(view, text);
+    }
+
+    protected void removeAllDataFromDB() {
+        CleanSavedDataHelper.updateExistingCategory(this);
     }
 
     protected void hideKeyBoard() {

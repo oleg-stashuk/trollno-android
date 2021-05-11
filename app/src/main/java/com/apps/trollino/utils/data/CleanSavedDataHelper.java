@@ -1,5 +1,13 @@
 package com.apps.trollino.utils.data;
 
+import android.content.Context;
+
+import com.apps.trollino.R;
+import com.apps.trollino.data.model.CategoryModel;
+import com.apps.trollino.db_room.category.CategoryStoreProvider;
+
+import java.util.List;
+
 public class CleanSavedDataHelper {
 
     public static void cleanAllDataFromApi(PrefUtils prefUtils) {
@@ -51,5 +59,23 @@ public class CleanSavedDataHelper {
         prefUtils.saveCurrentAdapterPositionAnswers(0);
         prefUtils.saveCurrentAdapterPositionFavorite(0);
         prefUtils.saveCurrentAdapterPositionPosts(0);
+    }
+
+    // Если список категорий не загрузился с АПИ, то сбросить сохраненные позиции постов
+    public static void updateExistingCategory(Context context) {
+        List<CategoryModel> categoryList = CategoryStoreProvider.getInstance(context).getCategoryList();
+        if (!categoryList.isEmpty()) {
+            for(CategoryModel category : categoryList) {
+                category.setPostInCategory(0);
+                CategoryStoreProvider.getInstance(context).updateCategory(category);
+            }
+        } else {
+            categoryList.add(0, new CategoryModel(Const.CATEGORY_FRESH_ID,
+                    context.getResources().getString(R.string.fresh_txt), "0", 0));
+            categoryList.add(1, new CategoryModel(Const.CATEGORY_DISCUSSED_ID,
+                    context.getResources().getString(R.string.discuss_post), "0", 0));
+
+            CategoryStoreProvider.getInstance(context).addCategoryToList(categoryList); // Добавить категории в БД
+        }
     }
 }

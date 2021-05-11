@@ -135,6 +135,7 @@ public class FavoriteActivity extends BaseActivity implements View.OnClickListen
     public void onBackPressed() {
         prefUtils.saveCurrentActivity("");
         if (doubleBackToExitPressedOnce) {
+            removeAllDataFromDB();
             super.onBackPressed();
             return;
         }

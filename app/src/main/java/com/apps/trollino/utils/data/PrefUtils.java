@@ -19,7 +19,7 @@ public class PrefUtils {
     private final String COUNT_BETWEEN_ADS = "COUNT_BETWEEN_ADS";
     private final String AD_MOB_ID = "AD_MOB_ID";
     private final String BANNER_ID = "BANNER_ID";
-    private final String YOUTUBE_API_KEY = "BANNER_ID";
+    private final String YOUTUBE_API_KEY = "YOUTUBE_API_KEY";
 
     private final String CURRENT_PAGE = "NEW_POST_CURRENT_PAGE"; // запоминание текущей страницы данных с Api для постов из категории "Свежее"
     private final String SELECTED_CATEGORY_ID = "SELECTED_CATEGORY_ID"; // запоминание ID выбранной категории

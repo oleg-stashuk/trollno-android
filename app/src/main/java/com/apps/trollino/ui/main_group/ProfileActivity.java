@@ -197,6 +197,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     public void onBackPressed() {
         prefUtils.saveCurrentActivity("");
         if (doubleBackToExitPressedOnce) {
+            removeAllDataFromDB();
             super.onBackPressed();
             return;
         }

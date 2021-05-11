@@ -146,6 +146,7 @@
         prefUtils.saveCommentIdForActivity("");
         prefUtils.saveCurrentActivity("");
         if (doubleBackToExitPressedOnce) {
+            removeAllDataFromDB();
             super.onBackPressed();
             return;
         }
