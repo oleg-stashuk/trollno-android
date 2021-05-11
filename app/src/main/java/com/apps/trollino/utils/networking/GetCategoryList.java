@@ -7,10 +7,9 @@ import android.view.View;
 import com.apps.trollino.R;
 import com.apps.trollino.data.model.CategoryModel;
 import com.apps.trollino.data.networking.ApiService;
-import com.apps.trollino.utils.SnackBarMessageCustom;
+import com.apps.trollino.db_room.category.CategoryStoreProvider;
+import com.apps.trollino.utils.data.Const;
 import com.apps.trollino.utils.data.PrefUtils;
-import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -28,34 +27,40 @@ public class GetCategoryList {
         ApiService.getInstance(context).getCategoryList(cookie, new Callback<List<CategoryModel>>() {
             @Override
             public void onResponse(Call<List<CategoryModel>> call, Response<List<CategoryModel>> response) {
-                if(response.isSuccessful()) {
-                    if (response.body().size() != 0) {
-                        prefUtils.saveCategoryList(response.body());
-                    }
+                if(response.isSuccessful() && response.body().size() != 0) {
+                    List<CategoryModel> list = response.body();
+                    replaceCategoryInBD(context, list);
                 } else {
-                    String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
-                    SnackBarMessageCustom.showSnackBar(view ,errorMessage);
+                    updateExistingCategory(context);
                 }
             }
 
             @Override
             public void onFailure(Call<List<CategoryModel>> call, Throwable t) {
                 t.getStackTrace();
-                boolean isHaveNotInternet = t.getLocalizedMessage().contains(context.getString(R.string.internet_error_from_api));
-                String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
-                if (isHaveNotInternet) {
-                    Snackbar
-                            .make(view, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
-                            .setMaxInlineActionWidth(3)
-                            .setAction(R.string.refresh_button, v -> {
-                                call.clone().enqueue(this);
-                            })
-                            .show();
-                } else {
-                    SnackBarMessageCustom.showSnackBar(view, t.getLocalizedMessage());
-                }
                 Log.d(TAG_LOG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
             }
         });
+    }
+
+    // Загрузить список категорий с АПИ в БД
+    private static void replaceCategoryInBD(Context context, List<CategoryModel> list) {
+        CategoryStoreProvider.getInstance(context).removeAllCategory(); // удалить все категории с БД
+
+        list.add(0, new CategoryModel(Const.CATEGORY_FRESH_ID,
+                context.getResources().getString(R.string.fresh_txt), "0", 0));
+        list.add(1, new CategoryModel(Const.CATEGORY_DISCUSSED_ID,
+                context.getResources().getString(R.string.discuss_post), "0", 0));
+
+        CategoryStoreProvider.getInstance(context).addCategoryToList(list); // Добавить все категории в БД
+    }
+
+    // Если список категорий не загрузился с АПИ, то сбросить сохраненные позиции постов
+    private static void updateExistingCategory(Context context) {
+        List<CategoryModel> categoryList = CategoryStoreProvider.getInstance(context).getCategoryList();
+        for(CategoryModel category : categoryList) {
+            category.setPostInCategory(0);
+            CategoryStoreProvider.getInstance(context).updateCategory(category);
+        }
     }
 }

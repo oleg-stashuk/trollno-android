@@ -17,6 +17,7 @@ import com.apps.trollino.adapters.OnePostElementAdapter;
 import com.apps.trollino.data.model.CategoryModel;
 import com.apps.trollino.data.model.single_post.ItemPostModel;
 import com.apps.trollino.data.networking.ApiService;
+import com.apps.trollino.db_room.category.CategoryStoreProvider;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.SnackBarMessageCustom;
 import com.apps.trollino.utils.data.PrefUtils;
@@ -99,18 +100,11 @@ public class GetItemPost {
     }
 
     private static void setPostCategory(TextView categoryTextView) {
-        List<CategoryModel> categoryList = prefUt.getCategoryList();
         List<ItemPostModel.CategoryPost> categoryIdList = model.getCategory();
-        String categoryId = "";
-        for(ItemPostModel.CategoryPost id : categoryIdList) {
-            categoryId = String.valueOf(id.getIdCategory());
-        }
+        String categoryId = String.valueOf(categoryIdList.get(0).getIdCategory());
 
-        for(CategoryModel category : categoryList) {
-            if (categoryId.equals(category.getIdCategory())){
-                categoryTextView.setText(category.getNameCategory());
-            }
-        }
+        CategoryModel categoryModel = CategoryStoreProvider.getInstance(cont).getCategoryById(categoryId);
+        categoryTextView.setText(categoryModel.getNameCategory());
     }
 
     private static void setPostTitle(TextView titleTextView) {
