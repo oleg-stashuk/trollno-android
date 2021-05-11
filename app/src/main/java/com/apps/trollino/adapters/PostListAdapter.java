@@ -1,5 +1,6 @@
 package com.apps.trollino.adapters;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -11,8 +12,11 @@ import androidx.core.content.ContextCompat;
 
 import com.apps.trollino.R;
 import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
+import com.apps.trollino.data.model.CategoryModel;
 import com.apps.trollino.data.model.PostsModel;
+import com.apps.trollino.db_room.category.CategoryStoreProvider;
 import com.apps.trollino.ui.base.BaseActivity;
+import com.apps.trollino.utils.data.Const;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.squareup.picasso.Picasso;
 
@@ -21,15 +25,19 @@ import java.util.List;
 import static com.apps.trollino.utils.data.Const.BASE_URL;
 
 public class PostListAdapter extends BaseRecyclerAdapter<PostsModel.PostDetails> {
-    private PrefUtils prefUtils;
-    private int widthImage;
-    private  int heightImage;
+    private final PrefUtils prefUtils;
+    private final int widthImage;
+    private final int heightImage;
+    private final boolean isPostListFromCategory;
 
-    public PostListAdapter(BaseActivity baseActivity, PrefUtils prefUtils, List<PostsModel.PostDetails> items, OnItemClick<PostsModel.PostDetails> onItemClick) {
+    public PostListAdapter(BaseActivity baseActivity, PrefUtils prefUtils,
+                           List<PostsModel.PostDetails> items,
+                           OnItemClick<PostsModel.PostDetails> onItemClick) {
         super(baseActivity, items, onItemClick);
         this.prefUtils = prefUtils;
         widthImage = prefUtils.getImageWidth();
         heightImage = widthImage / 3 * 2;
+        isPostListFromCategory = prefUtils.isPostFromCategoryList();
     }
 
     @Override
@@ -57,7 +65,19 @@ public class PostListAdapter extends BaseRecyclerAdapter<PostsModel.PostDetails>
                 RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(widthImage, heightImage);
                 postImageView.setLayoutParams(layoutParams);
 
+                // Сохранить просмотренную позицию в БД
+                int adapterPosition = getAdapterPosition();
+                CategoryModel category = CategoryStoreProvider.getInstance(
+                        view.getContext()).getCategoryById(isPostListFromCategory ? item.getCategoryId() : Const.CATEGORY_FRESH_ID);
+                category.setPostInCategory(adapterPosition);
+                CategoryStoreProvider.getInstance(view.getContext()).updateCategory(category);
+//                Log.d("OkHttp_1", "Adapter " + item.getCategoryName() + " " + item.getCategoryId() + " -> " +
+//                        isPostListFromCategory + " - adapterPosition " + adapterPosition);
+
+                // Удалить после добавления БД для постов
                 prefUtils.saveCurrentAdapterPositionPosts(getAdapterPosition());
+                // Удалить после добавления БД для постов
+
                 if(!prefUtils.getIsUserAuthorization() || (item.getRead() == 0 && prefUtils.getIsUserAuthorization()) || !prefUtils.isShowReadPost()) {
                     linearLayout.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.white));
                     titleVideoTextView.setTextColor(ContextCompat.getColor(view.getContext(), R.color.black));

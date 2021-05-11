@@ -271,7 +271,7 @@ public class PrefUtils {
         getEditor().putString(SELECTED_POST_ID, postId).apply();
     }
 
-    public boolean IsPostFromCategoryList() {
+    public boolean isPostFromCategoryList() {
         return sharedPreferences.getBoolean(POST_FROM_CATEGORY_LIST, false);
     }
 

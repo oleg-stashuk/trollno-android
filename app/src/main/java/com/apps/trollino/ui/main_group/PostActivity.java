@@ -67,7 +67,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener{
 
         prefUtils.saveCurrentActivity(OpenActivityHelper.POST_ACTIVITY);
         currentPostId = prefUtils.getCurrentPostId();
-        isPostFromCategory = prefUtils.IsPostFromCategoryList();
+        isPostFromCategory = prefUtils.isPostFromCategoryList();
 
         categoryTextView.setFocusable(true);
     }

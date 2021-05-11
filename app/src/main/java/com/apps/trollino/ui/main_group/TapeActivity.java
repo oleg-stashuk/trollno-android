@@ -2,6 +2,7 @@ package com.apps.trollino.ui.main_group;
 
 import android.content.Intent;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -76,6 +77,7 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
         tapeBottomNavigationTextView.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
 
         prefUtils.saveCurrentActivity("");
+        prefUtils.saveValuePostFromCategoryList(false);
         makeTabSelectedListener();
         updateDataFromApiFresh(twoColumnShimmer, null, true);
         updateDataBySwipe();
@@ -106,9 +108,12 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
     // Add category list from Api to TabLayout
     private void createTabLayout() {
         List<CategoryModel> categoryListFromDB = CategoryStoreProvider.getInstance(this).getCategoryList();
+//        Log.d("OkHttp_1", "****************");
         for (CategoryModel category : categoryListFromDB) {
             tabs.addTab(tabs.newTab().setText(category.getNameCategory()).setTag(category.getIdCategory()));
+//            Log.d("OkHttp_1", "LIST " + category.getNameCategory() + " - > " + category.getPostInCategory());
         }
+//        Log.d("OkHttp_1", "****************");
     }
 
     // Обработка нажатия на элементы горизонтального ScrollBar
@@ -120,12 +125,15 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
                 if(tabs.getSelectedTabPosition() == 0) {
                     showCorrectRecycler(false);
                     prefUtils.saveCurrentAdapterPositionPosts(0);
+                    prefUtils.saveValuePostFromCategoryList(false);
                     updateDataFromApiFresh(twoColumnShimmer, null, true);
                 } else if(tabs.getSelectedTabPosition() == 1) {
                     showCorrectRecycler(true);
+                    prefUtils.saveValuePostFromCategoryList(false);
                     updateDataFromApiDiscuss(oneColumnShimmer, null, true);
                 } else {
                     showCorrectRecycler(false);
+                    prefUtils.saveValuePostFromCategoryList(true);
                     prefUtils.saveCurrentAdapterPositionPosts(0);
                     prefUtils.saveSelectedCategoryId(tab.getTag().toString());
                     updateDataFromApiOther(twoColumnShimmer, null, true);
