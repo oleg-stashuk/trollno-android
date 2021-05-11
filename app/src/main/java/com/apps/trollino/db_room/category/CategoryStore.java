@@ -16,4 +16,7 @@ public interface CategoryStore {
 
     // Обновить данные в категории
     void updateCategory(CategoryModel category);
+
+    // Получить категорию с БД по id
+    CategoryModel getCategoryById(String categoryId);
 }

@@ -51,4 +51,9 @@ public class RoomCategoryStore implements CategoryStore{
     public void updateCategory(CategoryModel category) {
         categoryDao.updateCategoryData(CategoryConverter.categoryConverter(category));
     }
+
+    @Override
+    public CategoryModel getCategoryById(String categoryId) {
+        return CategoryConverter.categoryConverter(categoryDao.getCategoryById(categoryId));
+    }
 }

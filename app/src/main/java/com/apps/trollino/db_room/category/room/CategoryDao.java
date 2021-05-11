@@ -24,4 +24,9 @@ public interface CategoryDao {
     // Обновить данные для одной категории
     @Update
     void updateCategoryData(CategoryEntity categoryEntity);
+
+    // Получить категорию с БД по id
+    @Query("SELECT * FROM CategoryEntity WHERE idCategory = :idCategory")
+    CategoryEntity getCategoryById(String idCategory);
+
 }
