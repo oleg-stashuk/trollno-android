@@ -22,7 +22,7 @@ public class PostsModel {
     }
 
 
-    public class PostDetails {
+    public static class PostDetails {
         @SerializedName("nid")
         @Expose
         private String postId;
@@ -56,6 +56,17 @@ public class PostsModel {
         @SerializedName("newsappm_node_active_discus")
         @Expose
         private int commentActiveDiscus; // 0 - post did not read, 1 - post read. For unverified user is always 0
+
+        public PostDetails(String postId, String title, String categoryId, String categoryName,
+                           String imageUrl, boolean isRead, boolean isCommentActiveDiscus) {
+            this.postId = postId;
+            this.title = title;
+            this.categoryId = categoryId;
+            this.categoryName = categoryName;
+            this.imageUrl = imageUrl;
+            this.read = isRead ? 1 : 0; // 0 - пост не прочитан, 1 - пост прочитан. Для неверифицированных пользователей всегда 0
+            this.commentActiveDiscus = isCommentActiveDiscus ? 1 : 0; // 0 не в осуждаемом, 1 - в обсуждаемом
+        }
 
         public String getPostId() {
             return postId;
@@ -95,6 +106,11 @@ public class PostsModel {
 
         public int getRead() {
             return read;
+        }
+
+        public void setRead(boolean isReadPost) {
+            // 0 - пост не прочитан, 1 - постпрочитан. Для неверифицированных пользователей всегда 0
+            this.read = isReadPost ? 1 : 0;
         }
 
         public int getCommentActiveDiscus() {

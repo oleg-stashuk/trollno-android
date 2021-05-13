@@ -12,7 +12,7 @@ public class PostEntity {
     public String titleEntity;
     public String categoryIdEntity;
     public String categoryNameEntity;
-    public String imageUrl;
-    public int read; // 0 - пост не прочитан, 1 - постпрочитан. Для неверифицированных пользователей всегда 0
-    public int commentActiveDiscus; // 0 не в осуждаемом, 1 - в обсуждаемом
+    public String imageUrlEntity;
+    public boolean isReadPostEntity;
+    public boolean isCommentActiveDiscusEntity;
 }
