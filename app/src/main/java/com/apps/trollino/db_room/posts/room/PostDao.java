@@ -13,9 +13,17 @@ public interface PostDao {
     @Insert
     void add(PostEntity postEntity);
 
+    // Добавить пост в БД из категории "Свежее"
+    @Insert
+    void addFreshPost(PostEntity postEntity);
+
     // Получить список постов с БД по id и имени категории
     @Query("SELECT * FROM PostEntity WHERE categoryIdEntity = :idCategory AND categoryNameEntity = :nameCategory")
     List<PostEntity> getPostByCategory(String idCategory, String nameCategory);
+
+    // Получить список постов с БД по имени категории
+    @Query("SELECT * FROM PostEntity WHERE categoryNameEntity = :nameCategory")
+    List<PostEntity> getPostByPostName(String nameCategory);
 
     // Получить список постов с БД по id поста
     @Query("SELECT * FROM PostEntity WHERE postIdEntity = :postId")

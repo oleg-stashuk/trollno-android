@@ -88,6 +88,10 @@ public class PostsModel {
             return categoryName;
         }
 
+        public void setCategoryName(String categoryName) {
+            this.categoryName = categoryName;
+        }
+
         public String getCreated() {
             return created;
         }
