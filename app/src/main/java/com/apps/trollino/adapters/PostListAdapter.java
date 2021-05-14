@@ -1,6 +1,5 @@
 package com.apps.trollino.adapters;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -41,6 +40,12 @@ public class PostListAdapter extends BaseRecyclerAdapter<PostsModel.PostDetails>
     }
 
     @Override
+    public void addItems(List<PostsModel.PostDetails> items) {
+        super.addItems(items);
+        notifyDataSetChanged();
+    }
+
+    @Override
     public void setOnItemClick(OnItemClick<PostsModel.PostDetails> onItemClick) {
         super.setOnItemClick(onItemClick);
     }
@@ -68,7 +73,7 @@ public class PostListAdapter extends BaseRecyclerAdapter<PostsModel.PostDetails>
                 // Сохранить просмотренную позицию в БД
                 int adapterPosition = getAdapterPosition();
                 CategoryModel category = CategoryStoreProvider.getInstance(
-                        view.getContext()).getCategoryById(isPostListFromCategory ? item.getCategoryId() : Const.CATEGORY_FRESH_ID);
+                        view.getContext()).getCategoryById(isPostListFromCategory ? item.getCategoryId() : Const.CATEGORY_FRESH);
                 category.setPostInCategory(adapterPosition);
                 CategoryStoreProvider.getInstance(view.getContext()).updateCategory(category);
 //                Log.d("OkHttp_1", "Adapter " + item.getCategoryName() + " " + item.getCategoryId() + " -> " +

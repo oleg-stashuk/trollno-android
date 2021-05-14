@@ -62,11 +62,11 @@ public abstract class BaseRecyclerAdapter<I> extends RecyclerView.Adapter<Recycl
 
     protected abstract  BaseItem createViewHolder(View view);
 
-//    public void addItems(List<I> items) {
-//        this.items.clear();
-//        this.items.addAll(items);
-//        notifyDataSetChanged();
-//    }
+    public void addItems(List<I> items) {
+        this.items.clear();
+        this.items.addAll(items);
+        notifyDataSetChanged();
+    }
 
     private void onItemClick(int position) {
         if (onItemClick != null) {

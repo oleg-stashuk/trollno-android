@@ -48,9 +48,9 @@ public class GetCategoryList {
     private static void replaceCategoryInBD(Context context, List<CategoryModel> list) {
         CategoryStoreProvider.getInstance(context).removeAllCategory(); // удалить все категории с БД
 
-        list.add(0, new CategoryModel(Const.CATEGORY_FRESH_ID,
+        list.add(0, new CategoryModel(Const.CATEGORY_FRESH,
                 context.getResources().getString(R.string.fresh_txt), "0", 0));
-        list.add(1, new CategoryModel(Const.CATEGORY_DISCUSSED_ID,
+        list.add(1, new CategoryModel(Const.CATEGORY_DISCUSSED,
                 context.getResources().getString(R.string.discuss_post), "0", 0));
 
         CategoryStoreProvider.getInstance(context).addCategoryToList(list); // Добавить все категории в БД

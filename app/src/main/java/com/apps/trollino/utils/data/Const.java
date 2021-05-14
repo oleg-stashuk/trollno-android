@@ -12,6 +12,6 @@ public class Const {
     public static final String SORT_ORDER_BY_DESC = "DESC"; // сортировать по возрастанию
     public static final String SORT_ORDER_BY_ASC = "ASC"; // сортировать по убыванию
 
-    public static final String CATEGORY_FRESH_ID = "fresh_id";
-    public static final String CATEGORY_DISCUSSED_ID = "discussed_id";
+    public static final String CATEGORY_FRESH = "fresh";
+    public static final String CATEGORY_DISCUSSED = "discussed";
 }
