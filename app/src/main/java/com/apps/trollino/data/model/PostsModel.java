@@ -112,6 +112,10 @@ public class PostsModel {
             return read;
         }
 
+        public boolean isRead() {
+            return read == 1; // 0 - пост не прочитан, 1 - пост прочитан. Для неверифицированных пользователей всегда 0
+        }
+
         public void setRead(boolean isReadPost) {
             // 0 - пост не прочитан, 1 - постпрочитан. Для неверифицированных пользователей всегда 0
             this.read = isReadPost ? 1 : 0;
@@ -119,6 +123,10 @@ public class PostsModel {
 
         public int getCommentActiveDiscus() {
             return commentActiveDiscus;
+        }
+
+        public boolean isCommentActiveDiscus() {
+            return commentActiveDiscus == 1; // 0 не в осуждаемом, 1 - в обсуждаемом
         }
 
         @Override
@@ -141,7 +149,9 @@ public class PostsModel {
 
             final PostDetails other = (PostDetails) obj;
             if ((this.postId == null) ? (other.postId != null) : !this.postId.equals(other.postId)) {
-                return false;
+               if((this.categoryName == null) ? (other.categoryName != null) : !this.categoryName.equals(other.categoryName)) {
+                    return false;
+                }
             }
             return true;
         }

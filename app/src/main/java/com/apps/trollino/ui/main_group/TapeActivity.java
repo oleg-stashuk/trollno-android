@@ -2,7 +2,6 @@ package com.apps.trollino.ui.main_group;
 
 import android.content.Intent;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -105,15 +104,12 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
         new Thread(() -> GetNewAnswersCount.getNewAnswersCount(this, prefUtils, indicatorImageView)).start();
     }
 
-    // Add category list from Api to TabLayout
+    // Добавить категории в TabLayout с БД
     private void createTabLayout() {
         List<CategoryModel> categoryListFromDB = CategoryStoreProvider.getInstance(this).getCategoryList();
-//        Log.d("OkHttp_1", "****************");
         for (CategoryModel category : categoryListFromDB) {
             tabs.addTab(tabs.newTab().setText(category.getNameCategory()).setTag(category.getIdCategory()));
-//            Log.d("OkHttp_1", "LIST " + category.getNameCategory() + " - > " + category.getPostInCategory());
         }
-//        Log.d("OkHttp_1", "****************");
     }
 
     // Обработка нажатия на элементы горизонтального ScrollBar
