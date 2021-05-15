@@ -15,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apps.trollino.R;
 import com.apps.trollino.data.model.CategoryModel;
 import com.apps.trollino.db_room.category.CategoryStoreProvider;
+import com.apps.trollino.db_room.posts.PostStoreProvider;
 import com.apps.trollino.ui.base.BaseActivity;
+import com.apps.trollino.utils.data.Const;
 import com.apps.trollino.utils.data.DataListFromApi;
 import com.apps.trollino.utils.data.PostListByCategoryFromApi;
 import com.apps.trollino.utils.networking.user_action.GetNewAnswersCount;
@@ -26,7 +28,7 @@ import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import java.util.List;
 
 import static com.apps.trollino.utils.SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation;
-import static com.apps.trollino.utils.recycler.MakeGridRecyclerViewForTapeActivity.makeNewPostsRecyclerView;
+import static com.apps.trollino.utils.recycler.MakeFreshPostForTapeActivity.makeNewPostsRecyclerView;
 import static com.apps.trollino.utils.recycler.MakeLinerRecyclerViewForTapeActivity.makeLinerRecyclerViewForTapeActivity;
 import static com.apps.trollino.utils.recycler.MakePostsByCategoryGridRecyclerViewForTapeActivity.makePostsByCategoryGridRecyclerViewForTapeActivity;
 
@@ -37,11 +39,11 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
     private SwipyRefreshLayout discussRefreshLayout;
     private TabLayout tabs;
     private ImageView indicatorImageView;
-
     private LinearLayout bottomNavigation;
     private ShimmerFrameLayout twoColumnShimmer;
     private ShimmerFrameLayout oneColumnShimmer;
     private ProgressBar progressBar;
+
     private boolean doubleBackToExitPressedOnce = false;  // для обработки нажатия onBackPressed
     private int selectedTab = 0;
 
@@ -52,36 +54,23 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
 
     @Override
     protected void initView() {
-        bottomNavigation = findViewById(R.id.bottom_navigation_tape);
-        twoColumnShimmer = findViewById(R.id.include_shimmer_post_two_column);
-        oneColumnShimmer = findViewById(R.id.include_shimmer_post_one_column);
-        progressBar = findViewById(R.id.progress_bar_tape);
-
-        newsRecyclerView = findViewById(R.id.recycler_tape_new);
-        newRefreshLayout = findViewById(R.id.refresh_layout_tape_new);
-        discussRecyclerView = findViewById(R.id.recycler_tape_discuss);
-        discussRefreshLayout = findViewById(R.id.refresh_layout_tape_discuss);
-
-        tabs = findViewById(R.id.tab_layout_tape);
-        TextView tapeBottomNavigationTextView = findViewById(R.id.tape_button);
-        indicatorImageView = findViewById(R.id.indicator_image);
-        ImageButton searchImageButton = findViewById(R.id.search_button_tape);
-        searchImageButton.setOnClickListener(this);
-        findViewById(R.id.activity_button).setOnClickListener(this);
-        findViewById(R.id.favorites_button).setOnClickListener(this);
-        findViewById(R.id.profile_button).setOnClickListener(this);
-
+        findView();
         createTabLayout();
-        tapeBottomNavigationTextView.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_tape_green, 0, 0);
-        tapeBottomNavigationTextView.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        makeTabSelectedListener();
+        updateDataBySwipe();
 
         prefUtils.saveCurrentActivity("");
         prefUtils.saveValuePostFromCategoryList(false);
-        makeTabSelectedListener();
-        updateDataFromApiFresh(twoColumnShimmer, null, true);
-        updateDataBySwipe();
-    }
 
+        twoColumnShimmer.setVisibility(View.GONE);
+        oneColumnShimmer.setVisibility(View.GONE);
+        // Если список постов из категории "Свежее" пуст, то показать Shimmer
+        if(PostStoreProvider.getInstance(this).getPostByPostName(Const.CATEGORY_FRESH).size() > 0) {
+            updateDataFromApiFresh(null, null);
+        } else {
+            updateDataFromApiFresh(twoColumnShimmer, null);
+        }
+    }
 
     @Override
     protected void onResume() {
@@ -98,6 +87,30 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
                 }
             }, TIME_TO_UPDATE_DATA);
         }
+    }
+
+    private void findView() {
+        bottomNavigation = findViewById(R.id.bottom_navigation_tape);
+        twoColumnShimmer = findViewById(R.id.include_shimmer_post_two_column);
+        oneColumnShimmer = findViewById(R.id.include_shimmer_post_one_column);
+        progressBar = findViewById(R.id.progress_bar_tape);
+
+        newsRecyclerView = findViewById(R.id.recycler_tape_new);
+        newRefreshLayout = findViewById(R.id.refresh_layout_tape_new);
+        discussRecyclerView = findViewById(R.id.recycler_tape_discuss);
+        discussRefreshLayout = findViewById(R.id.refresh_layout_tape_discuss);
+
+        tabs = findViewById(R.id.tab_layout_tape);
+        indicatorImageView = findViewById(R.id.indicator_image);
+        ImageButton searchImageButton = findViewById(R.id.search_button_tape);
+        searchImageButton.setOnClickListener(this);
+        findViewById(R.id.activity_button).setOnClickListener(this);
+        findViewById(R.id.favorites_button).setOnClickListener(this);
+        findViewById(R.id.profile_button).setOnClickListener(this);
+
+        TextView tapeBottomNavigationTextView = findViewById(R.id.tape_button);
+        tapeBottomNavigationTextView.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_tape_green, 0, 0);
+        tapeBottomNavigationTextView.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
     }
 
     private void getAnswersCount() {
@@ -120,9 +133,8 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
                 selectedTab = tabs.getSelectedTabPosition();
                 if(tabs.getSelectedTabPosition() == 0) {
                     showCorrectRecycler(false);
-                    prefUtils.saveCurrentAdapterPositionPosts(0);
                     prefUtils.saveValuePostFromCategoryList(false);
-                    updateDataFromApiFresh(twoColumnShimmer, null, true);
+                    updateDataFromApiFresh(null, null);
                 } else if(tabs.getSelectedTabPosition() == 1) {
                     showCorrectRecycler(true);
                     prefUtils.saveValuePostFromCategoryList(false);
@@ -161,9 +173,7 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
         }
     }
 
-
-    private void updateDataFromApiFresh(ShimmerFrameLayout shimmerToApi, SwipyRefreshLayout newRefreshLayout, boolean IsUpdateData) {
-        showCorrectShimmer(false, IsUpdateData);
+    private void updateDataFromApiFresh(ShimmerFrameLayout shimmerToApi, SwipyRefreshLayout newRefreshLayout) {
         makeNewPostsRecyclerView(this, prefUtils, newsRecyclerView, shimmerToApi,
                 newRefreshLayout, bottomNavigation, progressBar);
     }
@@ -184,7 +194,7 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
         newRefreshLayout.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorPrimary));
         newRefreshLayout.setOnRefreshListener(direction -> {
             if(selectedTab == 0) {
-                updateDataFromApiFresh(null, newRefreshLayout, true);
+                updateDataFromApiFresh(null, newRefreshLayout);
             } else {
                 updateDataFromApiOther(null, newRefreshLayout, true);
             }
