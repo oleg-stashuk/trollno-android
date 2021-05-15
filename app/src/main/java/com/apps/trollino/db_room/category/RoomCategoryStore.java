@@ -53,6 +53,13 @@ public class RoomCategoryStore implements CategoryStore{
     }
 
     @Override
+    public void updatePositionInCategory(String idCategory, int postPositionInCategory) {
+        CategoryModel category = getCategoryById(idCategory);
+        category.setPostInCategory(postPositionInCategory);
+        updateCategory(category);
+    }
+
+    @Override
     public CategoryModel getCategoryById(String categoryId) {
         return CategoryConverter.categoryConverter(categoryDao.getCategoryById(categoryId));
     }

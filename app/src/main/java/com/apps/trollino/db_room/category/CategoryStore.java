@@ -17,6 +17,9 @@ public interface CategoryStore {
     // Обновить данные в категории
     void updateCategory(CategoryModel category);
 
+    // Обновить позицию поста в категории
+    void updatePositionInCategory(String idCategory, int postPositionInCategory);
+
     // Получить категорию с БД по id
     CategoryModel getCategoryById(String categoryId);
 }
