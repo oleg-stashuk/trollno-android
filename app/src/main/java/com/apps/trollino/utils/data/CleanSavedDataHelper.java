@@ -5,6 +5,7 @@ import android.content.Context;
 import com.apps.trollino.R;
 import com.apps.trollino.data.model.CategoryModel;
 import com.apps.trollino.db_room.category.CategoryStoreProvider;
+import com.apps.trollino.db_room.posts.PostStoreProvider;
 
 import java.util.List;
 
@@ -70,12 +71,19 @@ public class CleanSavedDataHelper {
                 CategoryStoreProvider.getInstance(context).updateCategory(category);
             }
         } else {
-            categoryList.add(0, new CategoryModel(Const.CATEGORY_FRESH_ID,
+            categoryList.add(0, new CategoryModel(Const.CATEGORY_FRESH,
                     context.getResources().getString(R.string.fresh_txt), "0", 0));
-            categoryList.add(1, new CategoryModel(Const.CATEGORY_DISCUSSED_ID,
+            categoryList.add(1, new CategoryModel(Const.CATEGORY_DISCUSSED,
                     context.getResources().getString(R.string.discuss_post), "0", 0));
 
             CategoryStoreProvider.getInstance(context).addCategoryToList(categoryList); // Добавить категории в БД
         }
+    }
+
+    // Очистить БД при загрузке приложения
+    public static void cleanBD(Context context) {
+        updateExistingCategory(context);
+        PostStoreProvider.getInstance(context).clearPostDB();
+//        PostStoreProvider.getInstance(context).removeDataFromDBbyCategoryName(Const.CATEGORY_FRESH);
     }
 }

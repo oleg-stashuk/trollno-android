@@ -28,6 +28,7 @@ public class SplashActivity extends BaseActivity {
     protected void initView() {
         handler = new Handler();
         CleanSavedDataHelper.cleanAllDataFromApi(prefUtils);
+        removeAllDataFromDB();
         prefUtils.saveCommentIdForActivity("");
         prefUtils.saveCurrentActivity("");
 

@@ -126,7 +126,7 @@ public class PostsModel {
         }
 
         public boolean isCommentActiveDiscus() {
-            return commentActiveDiscus == 1; // 0 не в осуждаемом, 1 - в обсуждаемом
+            return commentActiveDiscus == 1; // 0 не в обсуждаемом, 1 - в обсуждаемом
         }
 
         @Override

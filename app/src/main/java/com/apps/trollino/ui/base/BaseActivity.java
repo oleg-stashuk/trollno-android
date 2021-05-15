@@ -45,7 +45,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected void removeAllDataFromDB() {
-        CleanSavedDataHelper.updateExistingCategory(this);
+        CleanSavedDataHelper.cleanBD(this);
     }
 
     protected void hideKeyBoard() {
