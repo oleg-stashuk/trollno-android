@@ -68,6 +68,9 @@ public class CleanSavedDataHelper {
         if (!categoryList.isEmpty()) {
             for(CategoryModel category : categoryList) {
                 category.setPostInCategory(0);
+                category.setCurrentPage(0);
+                category.setTotalPages(0);
+                category.setTotalItems(0);
                 CategoryStoreProvider.getInstance(context).updateCategory(category);
             }
         } else {

@@ -11,7 +11,10 @@ public class CategoryConverter {
               categoryEntity.idCategory,
               categoryEntity.nameCategory,
               categoryEntity.weightCategory,
-              categoryEntity.savedPostPosition);
+              categoryEntity.savedPostPosition,
+              categoryEntity.currentPage,
+              categoryEntity.totalPages,
+              categoryEntity.totalItems);
     }
 
     // Конвертировать объект CategoryModel в CategoryEntity
@@ -22,6 +25,9 @@ public class CategoryConverter {
         categoryEntity.nameCategory = categoryModel.getNameCategory();
         categoryEntity.weightCategory = categoryModel.getWeight();
         categoryEntity.savedPostPosition = categoryModel.getPostInCategory();
+        categoryEntity.currentPage = categoryModel.getCurrentPage();
+        categoryEntity.totalPages = categoryModel.getTotalPages();
+        categoryEntity.totalItems = categoryModel.getTotalItems();
 
         return categoryEntity;
     }

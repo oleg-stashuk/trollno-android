@@ -15,12 +15,26 @@ public class CategoryModel {
     private String weight;
 
     private int postInCategory;
+    private int currentPage;
+    private int totalPages;
+    private int totalItems;
 
     public CategoryModel(String idCategory, String nameCategory, String weight, int postInCategory) {
         this.idCategory = idCategory;
         this.nameCategory = nameCategory;
         this.weight = weight;
         this.postInCategory = postInCategory;
+    }
+
+    public CategoryModel(String idCategory, String nameCategory, String weight, int postInCategory,
+                         int currentPage, int totalPages, int totalItems) {
+        this.idCategory = idCategory;
+        this.nameCategory = nameCategory;
+        this.weight = weight;
+        this.postInCategory = postInCategory;
+        this.currentPage = currentPage;
+        this.totalPages = totalPages;
+        this.totalItems = totalItems;
     }
 
 
@@ -47,5 +61,29 @@ public class CategoryModel {
     @Override
     public String toString() {
         return "Category id: " + getIdCategory() + " name: " + getNameCategory();
+    }
+
+    public int getCurrentPage() {
+        return currentPage;
+    }
+
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
+    }
+
+    public int getTotalPages() {
+        return totalPages;
+    }
+
+    public void setTotalPages(int totalPages) {
+        this.totalPages = totalPages;
+    }
+
+    public int getTotalItems() {
+        return totalItems;
+    }
+
+    public void setTotalItems(int totalItems) {
+        this.totalItems = totalItems;
     }
 }

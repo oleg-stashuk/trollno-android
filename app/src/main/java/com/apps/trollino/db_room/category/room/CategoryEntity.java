@@ -12,4 +12,7 @@ public class CategoryEntity {
     public String nameCategory;
     public String weightCategory;
     public int savedPostPosition;
+    public int currentPage;
+    public int totalPages;
+    public int totalItems;
 }
