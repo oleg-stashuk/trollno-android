@@ -15,7 +15,6 @@ import com.apps.trollino.db_room.category.CategoryStoreProvider;
 import com.apps.trollino.db_room.posts.PostStoreProvider;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.RecyclerScrollListener;
-import com.apps.trollino.utils.data.Const;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
@@ -23,6 +22,7 @@ import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import java.util.Objects;
 
 import static com.apps.trollino.utils.OpenPostActivityHelper.openPostActivity;
+import static com.apps.trollino.utils.data.Const.CATEGORY_FRESH;
 import static com.apps.trollino.utils.networking.main_group.GetNewPosts.makeGetNewPosts;
 
 public class MakeFreshPostForTapeActivity {
@@ -38,12 +38,12 @@ public class MakeFreshPostForTapeActivity {
         prefUt = prefUtils;
 
         PostListAdapter adapter = new PostListAdapter((BaseActivity) cont, prefUtils,
-                PostStoreProvider.getInstance(context).getPostByPostName(Const.CATEGORY_FRESH), newPostsItemListener);
+                PostStoreProvider.getInstance(context).getPostByCategoryName(CATEGORY_FRESH), newPostsItemListener);
         recyclerView.setLayoutManager(new GridLayoutManager(cont, 2));
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
 
-        int savedPostPosition = CategoryStoreProvider.getInstance(context).getCategoryById(Const.CATEGORY_FRESH).getPostInCategory();
+        int savedPostPosition = CategoryStoreProvider.getInstance(context).getCategoryById(CATEGORY_FRESH).getPostInCategory();
         Objects.requireNonNull(recyclerView.getLayoutManager()).scrollToPosition(
                 savedPostPosition > 2 ? savedPostPosition - 2 : savedPostPosition);
 

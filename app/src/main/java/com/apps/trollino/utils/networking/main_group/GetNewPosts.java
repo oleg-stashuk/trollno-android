@@ -22,7 +22,6 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.snackbar.Snackbar;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -57,7 +56,8 @@ public class GetNewPosts {
                     }
 
                     List<PostsModel.PostDetails> newPostList = response.body().getPostDetailsList();
-                    savePostListToDB(newPostList, adapter);
+                    PostStoreProvider.getInstance(context).checkNewPostListAndSaveUnique(newPostList, CATEGORY_FRESH);
+                    updatePostListAndNotifyRecyclerAdapter(adapter);
 
                     int currentPage = response.body().getPagerModel().getCurrentPage();
                     int totalPageForDB = response.body().getPagerModel().getTotalPages();
@@ -108,25 +108,8 @@ public class GetNewPosts {
         progressBar.setVisibility(View.GONE);
     }
 
-    private static void savePostListToDB(List<PostsModel.PostDetails> postListFromApi, PostListAdapter adapter) {
-        List<PostsModel.PostDetails> postListFromDB = PostStoreProvider.getInstance(cont)
-                .getPostByPostName(CATEGORY_FRESH);
-
-        List<PostsModel.PostDetails> newPostList = new ArrayList<>();
-        for(PostsModel.PostDetails post : postListFromApi) {
-            if (! postListFromDB.contains(post)) {
-                newPostList.add(post);
-            }
-        }
-        if (newPostList.size() > 0) {
-            PostStoreProvider.getInstance(cont).addFreshPost(newPostList);
-        }
-
-        updatePostListAndNotifyRecyclerAdapter(adapter);
-    }
-
     private static void updatePostListAndNotifyRecyclerAdapter(PostListAdapter adapter) {
-        adapter.addItems(PostStoreProvider.getInstance(cont).getPostByPostName(CATEGORY_FRESH));
+        adapter.addItems(PostStoreProvider.getInstance(cont).getPostByCategoryName(CATEGORY_FRESH));
         adapter.notifyDataSetChanged();
         recyclerView.suppressLayout(false);
 

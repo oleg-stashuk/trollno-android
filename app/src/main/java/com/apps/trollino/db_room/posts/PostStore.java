@@ -15,7 +15,7 @@ public interface PostStore {
     List<PostsModel.PostDetails> getPostByPostId(String idCategory, String nameCategory);
 
     // Получить список постов с БД по имени категории
-    List<PostsModel.PostDetails> getPostByPostName(String nameCategory);
+    List<PostsModel.PostDetails> getPostByCategoryName(String nameCategory);
 
     // Получить список постов с БД по id поста
     List<PostsModel.PostDetails> getPostByPostId(String idPost);
@@ -28,4 +28,7 @@ public interface PostStore {
 
     // Обновить данные для поста
     void updatePostInDB(PostsModel.PostDetails post);
+
+    // Проверить уникальность подгруженных постов с АПИ и новые добавить в БД по имени категории
+    void checkNewPostListAndSaveUnique(List<PostsModel.PostDetails> postListFromApi, String nameCategory);
 }

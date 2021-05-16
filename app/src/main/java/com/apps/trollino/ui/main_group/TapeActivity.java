@@ -65,7 +65,7 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
         twoColumnShimmer.setVisibility(View.GONE);
         oneColumnShimmer.setVisibility(View.GONE);
         // Если список постов из категории "Свежее" пуст, то показать Shimmer
-        if(PostStoreProvider.getInstance(this).getPostByPostName(Const.CATEGORY_FRESH).size() > 0) {
+        if(PostStoreProvider.getInstance(this).getPostByCategoryName(Const.CATEGORY_FRESH).size() > 0) {
             updateDataFromApiFresh(null, null);
         } else {
             updateDataFromApiFresh(twoColumnShimmer, null);

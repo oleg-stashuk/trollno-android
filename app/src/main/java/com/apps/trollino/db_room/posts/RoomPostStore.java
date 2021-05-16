@@ -8,10 +8,11 @@ import com.apps.trollino.data.model.PostsModel;
 import com.apps.trollino.db_room.posts.room.PostDao;
 import com.apps.trollino.db_room.posts.room.PostDataBase;
 import com.apps.trollino.db_room.posts.room.PostEntity;
-import com.apps.trollino.utils.data.Const;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.apps.trollino.utils.data.Const.CATEGORY_FRESH;
 
 public class RoomPostStore implements PostStore{
     private PostDao postDao;
@@ -34,7 +35,7 @@ public class RoomPostStore implements PostStore{
     @Override
     public void addFreshPost(List<PostsModel.PostDetails> postList) {
         for (PostsModel.PostDetails post : postList) {
-            post.setCategoryName(Const.CATEGORY_FRESH);
+            post.setCategoryName(CATEGORY_FRESH);
             postDao.add(PostConverter.postConverter(post));
         }
     }
@@ -50,7 +51,7 @@ public class RoomPostStore implements PostStore{
     }
 
     @Override
-    public List<PostsModel.PostDetails> getPostByPostName(String nameCategory) {
+    public List<PostsModel.PostDetails> getPostByCategoryName(String nameCategory) {
         List<PostEntity> postEntityList = postDao.getPostByPostName(nameCategory);
         List<PostsModel.PostDetails> postList = new ArrayList<>();
         for(PostEntity postEntity : postEntityList) {
@@ -82,5 +83,24 @@ public class RoomPostStore implements PostStore{
     @Override
     public void updatePostInDB(PostsModel.PostDetails post) {
         postDao.updatePostInDB(PostConverter.postConverter(post));
+    }
+
+    @Override
+    public void checkNewPostListAndSaveUnique(List<PostsModel.PostDetails> postListFromApi, String nameCategory) {
+        List<PostsModel.PostDetails> postListFromDB = getPostByCategoryName(nameCategory);
+
+        List<PostsModel.PostDetails> newPostList = new ArrayList<>();
+        for(PostsModel.PostDetails post : postListFromApi) {
+            if (! postListFromDB.contains(post)) {
+                newPostList.add(post);
+            }
+        }
+        if (newPostList.size() > 0) {
+            if (nameCategory.equals(CATEGORY_FRESH)) {
+                addFreshPost(newPostList);
+            } else {
+
+            }
+        }
     }
 }
