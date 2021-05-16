@@ -3,7 +3,6 @@ package com.apps.trollino.utils.recycler;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -24,7 +23,6 @@ import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import java.util.Objects;
 
 import static com.apps.trollino.utils.OpenPostActivityHelper.openPostActivity;
-import static com.apps.trollino.utils.data.Const.TAG_LOG;
 import static com.apps.trollino.utils.networking.main_group.GetNewPosts.makeGetNewPosts;
 
 public class MakeFreshPostForTapeActivity {
@@ -48,11 +46,10 @@ public class MakeFreshPostForTapeActivity {
         int savedPostPosition = CategoryStoreProvider.getInstance(context).getCategoryById(Const.CATEGORY_FRESH).getPostInCategory();
         Objects.requireNonNull(recyclerView.getLayoutManager()).scrollToPosition(
                 savedPostPosition > 2 ? savedPostPosition - 2 : savedPostPosition);
-        Log.d(TAG_LOG, "savedPostPosition in DB " + savedPostPosition);
 
         if (shimmer != null || refreshLayout != null) {
             isGetNewList = true;
-            shimmer.setVisibility(shimmer != null ? View.VISIBLE : View.GONE);
+            if (shimmer != null ) shimmer.setVisibility(View.VISIBLE);
             infiniteScroll(recyclerView, shimmer, refreshLayout, bottomNavigation, adapter, progressBar);
         }
 

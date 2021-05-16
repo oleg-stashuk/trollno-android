@@ -65,31 +65,28 @@ public class PostListAdapter extends BaseRecyclerAdapter<PostsModel.PostDetails>
                 ImageView postImageView = itemView.findViewById(R.id.image_post_two_columns);
                 ImageView imageDiscussImageView = itemView.findViewById(R.id.discuss_image_post_two_columns);
                 TextView textDiscussImageView = itemView.findViewById(R.id.discuss_text_post_two_columns);
-                TextView titleVideoTextView = itemView.findViewById(R.id.title_post_two_columns);
+                TextView titleTextView = itemView.findViewById(R.id.title_post_two_columns);
 
                 RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(widthImage, heightImage);
                 postImageView.setLayoutParams(layoutParams);
 
                 // Сохранить просмотренную позицию в БД
                 int adapterPosition = getAdapterPosition();
+//                Log.d("OkHttp_1", "adapterPosition " + adapterPosition + " - " + item.getTitle());
                 CategoryModel category = CategoryStoreProvider.getInstance(
                         view.getContext()).getCategoryById(isPostListFromCategory ? item.getCategoryId() : Const.CATEGORY_FRESH);
                 category.setPostInCategory(adapterPosition);
                 CategoryStoreProvider.getInstance(view.getContext()).updateCategory(category);
-//                Log.d("OkHttp_1", "Adapter " + item.getCategoryName() + " " + item.getCategoryId() + " -> " +
-//                        isPostListFromCategory + " - adapterPosition " + adapterPosition);
 
-                // Удалить после добавления БД для постов
-                prefUtils.saveCurrentAdapterPositionPosts(getAdapterPosition());
-                // Удалить после добавления БД для постов
-
-                if(!prefUtils.getIsUserAuthorization() || (item.getRead() == 0 && prefUtils.getIsUserAuthorization()) || !prefUtils.isShowReadPost()) {
+                if(!prefUtils.getIsUserAuthorization() ||
+                        (!item.isRead() && prefUtils.getIsUserAuthorization()) ||
+                        !prefUtils.isShowReadPost()) {
                     linearLayout.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.white));
-                    titleVideoTextView.setTextColor(ContextCompat.getColor(view.getContext(), R.color.black));
+                    titleTextView.setTextColor(ContextCompat.getColor(view.getContext(), R.color.black));
                     frameLayout.setVisibility(View.GONE);
                 } else {
                     linearLayout.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.colorLightTransparent));
-                    titleVideoTextView.setTextColor(ContextCompat.getColor(view.getContext(), R.color.blackTransparent));
+                    titleTextView.setTextColor(ContextCompat.getColor(view.getContext(), R.color.blackTransparent));
                     frameLayout.setVisibility(View.VISIBLE);
                 }
 
@@ -99,8 +96,8 @@ public class PostListAdapter extends BaseRecyclerAdapter<PostsModel.PostDetails>
                         .load(imageUrl)
                         .into(postImageView);
 
-                titleVideoTextView.setText(item.getTitle());
-                if(item.getCommentActiveDiscus() != 0) {
+                titleTextView.setText(item.getTitle());
+                if(item.isCommentActiveDiscus()) {
                     imageDiscussImageView.setVisibility(View.VISIBLE);
                     textDiscussImageView.setVisibility(View.VISIBLE);
                 } else {
