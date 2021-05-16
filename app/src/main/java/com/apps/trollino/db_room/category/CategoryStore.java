@@ -17,9 +17,15 @@ public interface CategoryStore {
     // Обновить данные в категории
     void updateCategory(CategoryModel category);
 
+    // Обновить данные в категории по id категории
+    void updatePagesInCategory(String idCategory, int currentPage, int totalPages, int totalItems);
+
     // Обновить позицию поста в категории
     void updatePositionInCategory(String idCategory, int postPositionInCategory);
 
     // Получить категорию с БД по id
     CategoryModel getCategoryById(String categoryId);
+
+    // Вычислить следующую страницу для загрузки постов
+    int getNextPage(String categoryId, boolean isGetNewList);
 }

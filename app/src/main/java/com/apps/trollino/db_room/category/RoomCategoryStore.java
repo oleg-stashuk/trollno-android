@@ -53,6 +53,15 @@ public class RoomCategoryStore implements CategoryStore{
     }
 
     @Override
+    public void updatePagesInCategory(String idCategory, int currentPage, int totalPages, int totalItems) {
+        CategoryModel category = getCategoryById(idCategory);
+        category.setCurrentPage(currentPage);
+        category.setTotalPages(totalPages);
+        category.setTotalItems(totalItems);
+        updateCategory(category);
+    }
+
+    @Override
     public void updatePositionInCategory(String idCategory, int postPositionInCategory) {
         CategoryModel category = getCategoryById(idCategory);
         category.setPostInCategory(postPositionInCategory);
@@ -62,5 +71,17 @@ public class RoomCategoryStore implements CategoryStore{
     @Override
     public CategoryModel getCategoryById(String categoryId) {
         return CategoryConverter.categoryConverter(categoryDao.getCategoryById(categoryId));
+    }
+
+    @Override
+    public int getNextPage(String categoryId, boolean isGetNewList) {
+        if (isGetNewList) {
+            return 0;
+        } else {
+            CategoryModel category = getCategoryById(categoryId);
+            int currentPage = category.getCurrentPage(); // начинается с 0
+            int totalPage = category.getTotalPages(); // начинается с 1
+            return currentPage == totalPage - 1 ? currentPage : currentPage + 1;
+        }
     }
 }

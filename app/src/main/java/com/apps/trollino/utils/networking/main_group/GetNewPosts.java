@@ -15,7 +15,6 @@ import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.db_room.category.CategoryStoreProvider;
 import com.apps.trollino.db_room.posts.PostStoreProvider;
 import com.apps.trollino.utils.SnackBarMessageCustom;
-import com.apps.trollino.utils.data.Const;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
 import com.apps.trollino.utils.networking_helper.ShimmerHide;
@@ -30,11 +29,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.apps.trollino.utils.data.Const.CATEGORY_FRESH;
 import static com.apps.trollino.utils.data.Const.TAG_LOG;
 
 public class GetNewPosts {
-    private static int page;
-    private static int totalPage;
     private static boolean isGetNewListThis;
     private static RecyclerView recyclerView;
     @SuppressLint("StaticFieldLeak")
@@ -46,7 +44,7 @@ public class GetNewPosts {
         isGetNewListThis = isGetNewList;
         recyclerView = recycler;
         cont = context;
-        page = isGetNewList ? 0 : prefUtils.getCurrentPage();
+        int page = CategoryStoreProvider.getInstance(context).getNextPage(CATEGORY_FRESH, isGetNewList);
         String cookie = prefUtils.getCookie();
 
         ApiService.getInstance(context).getNewPosts(cookie, page, new Callback<PostsModel>() {
@@ -54,15 +52,19 @@ public class GetNewPosts {
             public void onResponse(Call<PostsModel> call, Response<PostsModel> response) {
                 if (response.isSuccessful()) {
                     if(isGetNewList) {
-                        PostStoreProvider.getInstance(context).removeDataFromDBbyCategoryName(Const.CATEGORY_FRESH);
-                        CategoryStoreProvider.getInstance(context).updatePositionInCategory(Const.CATEGORY_FRESH, 0);
+                        PostStoreProvider.getInstance(context).removeDataFromDBbyCategoryName(CATEGORY_FRESH);
+                        CategoryStoreProvider.getInstance(context).updatePositionInCategory(CATEGORY_FRESH, 0);
                     }
 
                     List<PostsModel.PostDetails> newPostList = response.body().getPostDetailsList();
                     savePostListToDB(newPostList, adapter);
 
-                    totalPage = response.body().getPagerModel().getTotalPages() - 1;
-                    saveCurrentPage(prefUtils);
+                    int currentPage = response.body().getPagerModel().getCurrentPage();
+                    int totalPageForDB = response.body().getPagerModel().getTotalPages();
+                    int totalItem = response.body().getPagerModel().getTotalItems();
+                    CategoryStoreProvider.getInstance(context).updatePagesInCategory(CATEGORY_FRESH,
+                            currentPage, totalPageForDB, totalItem);
+
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
                     SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, errorMessage);
@@ -106,17 +108,9 @@ public class GetNewPosts {
         progressBar.setVisibility(View.GONE);
     }
 
-    private static void saveCurrentPage(PrefUtils prefUtils) {
-        if(page < totalPage) {
-            prefUtils.saveCurrentPage(page + 1);
-        } else {
-            prefUtils.saveCurrentPage(totalPage);
-        }
-    }
-
     private static void savePostListToDB(List<PostsModel.PostDetails> postListFromApi, PostListAdapter adapter) {
         List<PostsModel.PostDetails> postListFromDB = PostStoreProvider.getInstance(cont)
-                .getPostByPostName(Const.CATEGORY_FRESH);
+                .getPostByPostName(CATEGORY_FRESH);
 
         List<PostsModel.PostDetails> newPostList = new ArrayList<>();
         for(PostsModel.PostDetails post : postListFromApi) {
@@ -132,7 +126,7 @@ public class GetNewPosts {
     }
 
     private static void updatePostListAndNotifyRecyclerAdapter(PostListAdapter adapter) {
-        adapter.addItems(PostStoreProvider.getInstance(cont).getPostByPostName(Const.CATEGORY_FRESH));
+        adapter.addItems(PostStoreProvider.getInstance(cont).getPostByPostName(CATEGORY_FRESH));
         adapter.notifyDataSetChanged();
         recyclerView.suppressLayout(false);
 
@@ -140,7 +134,7 @@ public class GetNewPosts {
             recyclerView.getLayoutManager().scrollToPosition(0);
         } else {
             recyclerView.getLayoutManager().scrollToPosition(CategoryStoreProvider.getInstance(cont)
-                    .getCategoryById(Const.CATEGORY_FRESH).getPostInCategory());
+                    .getCategoryById(CATEGORY_FRESH).getPostInCategory());
         }
     }
 }
