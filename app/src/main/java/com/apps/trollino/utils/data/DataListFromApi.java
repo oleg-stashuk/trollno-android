@@ -10,7 +10,6 @@ import java.util.List;
 import static com.apps.trollino.utils.data.Const.TAG_LOG;
 
 public class DataListFromApi {
-    private List<PostsModel.PostDetails> newPostList;
     private List<PostsModel.PostDetails> discussPostList;
 
     private static volatile DataListFromApi instance = null;
@@ -22,24 +21,7 @@ public class DataListFromApi {
     }
 
     private DataListFromApi() {
-        newPostList = new ArrayList<>();
         discussPostList = new ArrayList<>();
-    }
-
-    public void saveDataInList(List<PostsModel.PostDetails> postList) {
-        if (newPostList.isEmpty()) {
-            newPostList.addAll(postList);
-        } else {
-            for (PostsModel.PostDetails postFromApi : postList) {
-                if (! newPostList.contains(postFromApi)) {
-                    newPostList.add(postFromApi);
-                }
-            }
-        }
-    }
-
-    public List<PostsModel.PostDetails> getNewPostsList() {
-        return newPostList;
     }
 
     public void saveDiscussDataInList(List<PostsModel.PostDetails> postList) {
@@ -52,7 +34,6 @@ public class DataListFromApi {
     }
 
     public void removeAllDataFromList(PrefUtils prefUtils) {
-        newPostList.clear();
         discussPostList.clear();
         try {
             prefUtils.saveCurrentPage(0);
