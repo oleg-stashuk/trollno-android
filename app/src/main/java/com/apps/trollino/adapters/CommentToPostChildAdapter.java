@@ -25,6 +25,7 @@ import static com.apps.trollino.utils.data.Const.COUNT_SYMBOL_TO_HIDE_PAR_OF_COM
 
 
 public class CommentToPostChildAdapter extends BaseRecyclerAdapter<CommentModel.Comments> {
+
     private EditText commentEditText;
     private PrefUtils prefUtils;
 
