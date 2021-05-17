@@ -8,10 +8,12 @@ import androidx.room.PrimaryKey;
 public class PostEntity {
     @PrimaryKey
     @NonNull
-    public String postIdEntity;
+    public String postIdUniqueEntity;
+    public String postIdFromAPIEntity;
     public String titleEntity;
     public String categoryIdEntity;
     public String categoryNameEntity;
+    public String commentCountEntity;
     public String imageUrlEntity;
     public boolean isReadPostEntity;
     public boolean isCommentActiveDiscusEntity;

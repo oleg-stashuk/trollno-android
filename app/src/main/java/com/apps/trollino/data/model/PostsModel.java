@@ -23,6 +23,7 @@ public class PostsModel {
 
 
     public static class PostDetails {
+        private String postIdUnique;
         @SerializedName("nid")
         @Expose
         private String postId;
@@ -57,12 +58,14 @@ public class PostsModel {
         @Expose
         private int commentActiveDiscus; // 0 - post did not read, 1 - post read. For unverified user is always 0
 
-        public PostDetails(String postId, String title, String categoryId, String categoryName,
-                           String imageUrl, boolean isRead, boolean isCommentActiveDiscus) {
+        public PostDetails( String postIdUnique, String postId, String title, String categoryId, String categoryName,
+                            String commentCount, String imageUrl, boolean isRead, boolean isCommentActiveDiscus) {
+            this.postIdUnique = postIdUnique;
             this.postId = postId;
             this.title = title;
             this.categoryId = categoryId;
             this.categoryName = categoryName;
+            this.commentCount = commentCount;
             this.imageUrl = imageUrl;
             this.read = isRead ? 1 : 0; // 0 - пост не прочитан, 1 - пост прочитан. Для неверифицированных пользователей всегда 0
             this.commentActiveDiscus = isCommentActiveDiscus ? 1 : 0; // 0 не в осуждаемом, 1 - в обсуждаемом
@@ -127,6 +130,14 @@ public class PostsModel {
 
         public boolean isCommentActiveDiscus() {
             return commentActiveDiscus == 1; // 0 не в обсуждаемом, 1 - в обсуждаемом
+        }
+
+        public String getPostIdUnique() {
+            return postIdUnique;
+        }
+
+        public void setPostIdUnique(String postIdUnique) {
+            this.postIdUnique = postIdUnique;
         }
 
         @Override
