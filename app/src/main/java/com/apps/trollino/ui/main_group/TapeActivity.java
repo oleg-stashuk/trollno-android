@@ -64,12 +64,10 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
 
         twoColumnShimmer.setVisibility(View.GONE);
         oneColumnShimmer.setVisibility(View.GONE);
+
         // Если список постов из категории "Свежее" пуст, то показать Shimmer
-        if(PostStoreProvider.getInstance(this).getPostByCategoryName(Const.CATEGORY_FRESH).size() > 0) {
-            updateDataFromApiFresh(null, null);
-        } else {
-            updateDataFromApiFresh(twoColumnShimmer, null);
-        }
+        int freshPostsSize = PostStoreProvider.getInstance(this).getPostByCategoryName(Const.CATEGORY_FRESH).size();
+        updateDataFromApiFresh(freshPostsSize > 0 ? null : twoColumnShimmer, null);
     }
 
     @Override
@@ -138,7 +136,8 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
                 } else if(tabs.getSelectedTabPosition() == 1) {
                     showCorrectRecycler(true);
                     prefUtils.saveValuePostFromCategoryList(false);
-                    updateDataFromApiDiscuss(oneColumnShimmer, null, true);
+                    int discussedListSize = PostStoreProvider.getInstance(TapeActivity.this).getPostByCategoryName(Const.CATEGORY_DISCUSSED).size();
+                    updateDataFromApiDiscuss(discussedListSize > 0 ? null : oneColumnShimmer, null);
                 } else {
                     showCorrectRecycler(false);
                     prefUtils.saveValuePostFromCategoryList(true);
@@ -178,8 +177,7 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
                 newRefreshLayout, bottomNavigation, progressBar);
     }
 
-    private void updateDataFromApiDiscuss(ShimmerFrameLayout shimmerToApi, SwipyRefreshLayout refreshLayoutToApi, boolean IsUpdateData) {
-        showCorrectShimmer(true, IsUpdateData);
+    private void updateDataFromApiDiscuss(ShimmerFrameLayout shimmerToApi, SwipyRefreshLayout refreshLayoutToApi) {
         makeLinerRecyclerViewForTapeActivity(this, prefUtils, discussRecyclerView,
                 shimmerToApi, refreshLayoutToApi, bottomNavigation);
     }
@@ -204,7 +202,7 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
         discussRefreshLayout.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorPrimary));
         discussRefreshLayout.setOnRefreshListener(direction -> {
             if(selectedTab == 1) {
-                updateDataFromApiDiscuss(null, discussRefreshLayout, true);
+                updateDataFromApiDiscuss(null, discussRefreshLayout);
             }
             discussRecyclerView.suppressLayout(true);
         });

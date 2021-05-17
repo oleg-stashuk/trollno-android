@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat;
 import com.apps.trollino.R;
 import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
 import com.apps.trollino.data.model.PostsModel;
+import com.apps.trollino.db_room.category.CategoryStoreProvider;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.squareup.picasso.Picasso;
@@ -19,11 +20,12 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import static com.apps.trollino.utils.data.Const.BASE_URL;
+import static com.apps.trollino.utils.data.Const.CATEGORY_DISCUSSED;
 
 public class DiscussPostsAdapter extends BaseRecyclerAdapter<PostsModel.PostDetails> {
-    private PrefUtils prefUtils;
-    private int widthImage;
-    private  int heightImage;
+    private final PrefUtils prefUtils;
+    private final int widthImage;
+    private final int heightImage;
 
     public DiscussPostsAdapter(BaseActivity baseActivity, PrefUtils prefUtils, List<PostsModel.PostDetails> items, OnItemClick<PostsModel.PostDetails> onItemClick) {
         super(baseActivity, items, onItemClick);
@@ -52,15 +54,19 @@ public class DiscussPostsAdapter extends BaseRecyclerAdapter<PostsModel.PostDeta
                 RelativeLayout imageRelativeLayout = itemView.findViewById(R.id.image_layout_item_discuss_post);
                 ImageView postImageView = itemView.findViewById(R.id.image_item_discuss_post);
                 TextView commentCountTextView = itemView.findViewById(R.id.comment_count_discuss_post);
-                TextView titleVideoTextView = itemView.findViewById(R.id.title_discuss_post);
+                TextView titleTextView = itemView.findViewById(R.id.title_discuss_post);
 
-                if(!prefUtils.getIsUserAuthorization() || (item.getRead() == 0 && prefUtils.getIsUserAuthorization()) || !prefUtils.isShowReadPost()) {
+                CategoryStoreProvider.getInstance(view.getContext()).updatePositionInCategory(CATEGORY_DISCUSSED, getAdapterPosition());
+
+                if(!prefUtils.getIsUserAuthorization() ||
+                        (!item.isRead() && prefUtils.getIsUserAuthorization()) ||
+                        !prefUtils.isShowReadPost()) {
                     linearLayout.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.white));
-                    titleVideoTextView.setTextColor(ContextCompat.getColor(view.getContext(), R.color.black));
+                    titleTextView.setTextColor(ContextCompat.getColor(view.getContext(), R.color.black));
                     frameLayout.setVisibility(View.GONE);
                 } else {
                     linearLayout.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.colorLightTransparent));
-                    titleVideoTextView.setTextColor(ContextCompat.getColor(view.getContext(), R.color.blackTransparent));
+                    titleTextView.setTextColor(ContextCompat.getColor(view.getContext(), R.color.blackTransparent));
                     frameLayout.setVisibility(View.VISIBLE);
                 }
 
@@ -68,14 +74,15 @@ public class DiscussPostsAdapter extends BaseRecyclerAdapter<PostsModel.PostDeta
                 imageRelativeLayout.getLayoutParams().height = heightImage;
                 imageRelativeLayout.getLayoutParams().width = widthImage;
                 postImageView.setLayoutParams(layoutParams);
+
                 String imageUrl = BASE_URL.concat(item.getImageUrl());
                 Picasso
                         .get()
                         .load(imageUrl)
                         .into(postImageView);
 
-                titleVideoTextView.setText(item.getTitle());
-                commentCountTextView.setText(String.valueOf(item.getCommentCount()));
+                titleTextView.setText(item.getTitle());
+                commentCountTextView.setText(item.getCommentCount());
             }
         };
     }

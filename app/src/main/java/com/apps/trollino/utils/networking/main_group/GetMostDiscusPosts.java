@@ -10,9 +10,9 @@ import com.apps.trollino.R;
 import com.apps.trollino.adapters.DiscussPostsAdapter;
 import com.apps.trollino.data.model.PostsModel;
 import com.apps.trollino.data.networking.ApiService;
+import com.apps.trollino.db_room.category.CategoryStoreProvider;
+import com.apps.trollino.db_room.posts.PostStoreProvider;
 import com.apps.trollino.utils.SnackBarMessageCustom;
-import com.apps.trollino.utils.data.DataListFromApi;
-import com.apps.trollino.utils.data.PostListByCategoryFromApi;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
 import com.apps.trollino.utils.networking_helper.ShimmerHide;
@@ -26,28 +26,31 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.apps.trollino.utils.data.Const.CATEGORY_DISCUSSED;
 import static com.apps.trollino.utils.data.Const.TAG_LOG;
 
 public class GetMostDiscusPosts {
-    private static RecyclerView recyclerView;
 
     public static void makeGetNewPosts(Context context, PrefUtils prefUtils, DiscussPostsAdapter adapter,
                                        RecyclerView recycler, ShimmerFrameLayout shimmer,
                                        SwipyRefreshLayout refreshLayout, View bottomNavigation) {
         String cookie = prefUtils.getCookie();
-        recyclerView = recycler;
 
         ApiService.getInstance(context).getMostDiscusPosts(cookie, 0, new Callback<PostsModel>() {
             @Override
             public void onResponse(Call<PostsModel> call, Response<PostsModel> response) {
                 if (response.isSuccessful()) {
-                    DataListFromApi.getInstance().removeAllDataFromList(prefUtils);
-                    PostListByCategoryFromApi.getInstance().removeAllDataFromList(prefUtils);
+                    PostStoreProvider.getInstance(context).removeDataFromDBbyCategoryName(CATEGORY_DISCUSSED);
+                    CategoryStoreProvider.getInstance(context).updatePositionInCategory(CATEGORY_DISCUSSED, 0);
 
-                    PostsModel post = response.body();
-                    List<PostsModel.PostDetails> newPostList = post.getPostDetailsList();
+                    List<PostsModel.PostDetails> newPostList = response.body().getPostDetailsList();
+                    PostStoreProvider.getInstance(context).addDiscussedPost(newPostList);
 
-                    updatePostListAndNotifyRecyclerAdapter(newPostList, adapter);
+                    adapter.addItems(newPostList);
+                    adapter.notifyDataSetChanged();
+                    recycler.getLayoutManager().scrollToPosition(0);
+                    recycler.suppressLayout(false);
+
                     if (shimmer != null) {
                         ShimmerHide.shimmerHide(recycler, shimmer);
                     }
@@ -88,12 +91,5 @@ public class GetMostDiscusPosts {
         if(refreshLayout != null) {
             refreshLayout.setRefreshing(false);
         }
-    }
-
-    private static void updatePostListAndNotifyRecyclerAdapter(List<PostsModel.PostDetails> newPostList, DiscussPostsAdapter adapter) {
-        DataListFromApi.getInstance().saveDiscussDataInList(newPostList);
-        recyclerView.getLayoutManager().scrollToPosition(0);
-        adapter.notifyDataSetChanged();
-        recyclerView.suppressLayout(false);
     }
 }
