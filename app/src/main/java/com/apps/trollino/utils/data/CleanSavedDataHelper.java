@@ -13,7 +13,6 @@ public class CleanSavedDataHelper {
 
     public static void cleanAllDataFromApi(PrefUtils prefUtils) {
         CommentListFromApi.getInstance().removeAllDataFromList(prefUtils);
-        DataListFromApi.getInstance().removeAllDataFromList(prefUtils);
         FavoritePostListFromApi.getInstance().removeAllDataFromList(prefUtils);
         PostListByCategoryFromApi.getInstance().removeAllDataFromList(prefUtils);
         PostListBySearchFromApi.getInstance().removeAllDataFromList(prefUtils);

@@ -18,7 +18,6 @@ import com.apps.trollino.db_room.category.CategoryStoreProvider;
 import com.apps.trollino.db_room.posts.PostStoreProvider;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.data.Const;
-import com.apps.trollino.utils.data.DataListFromApi;
 import com.apps.trollino.utils.data.PostListByCategoryFromApi;
 import com.apps.trollino.utils.networking.user_action.GetNewAnswersCount;
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -223,7 +222,6 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
     }
 
     private void removeAllDataFromPostList() {
-        DataListFromApi.getInstance().removeAllDataFromList(prefUtils);
         PostListByCategoryFromApi.getInstance().removeAllDataFromList(prefUtils);
     }
 

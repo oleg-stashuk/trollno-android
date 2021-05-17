@@ -16,11 +16,9 @@ import com.apps.trollino.adapters.PostListAdapter;
 import com.apps.trollino.data.model.PostsModel;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.RecyclerScrollListener;
-import com.apps.trollino.utils.data.DataListFromApi;
 import com.apps.trollino.utils.data.PostListBySearchFromApi;
 import com.apps.trollino.utils.networking.main_group.GetPostBySearch;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
-import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 
 import static com.apps.trollino.utils.OpenPostActivityHelper.openPostActivity;
 
@@ -73,8 +71,6 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     }
 
     public void makeSearchPostsRecyclerView() {
-        DataListFromApi.getInstance().removeAllDataFromList(prefUtils);
-
         adapter = new PostListAdapter(SearchActivity.this, prefUtils, PostListBySearchFromApi.getInstance().getPostListBySearch(), searchPostsItemListener);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         recyclerView.setAdapter(adapter);

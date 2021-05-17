@@ -12,7 +12,6 @@ import com.apps.trollino.adapters.PostListAdapter;
 import com.apps.trollino.data.model.PostsModel;
 import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.utils.SnackBarMessageCustom;
-import com.apps.trollino.utils.data.DataListFromApi;
 import com.apps.trollino.utils.data.PostListByCategoryFromApi;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
@@ -56,7 +55,6 @@ public class GetPostsByCategory {
             public void onResponse(Call<PostsModel> call, Response<PostsModel> response) {
                 if(response.isSuccessful()) {
                     if(isGetNewList) {
-                        DataListFromApi.getInstance().removeAllDataFromList(prefUtils);
                         PostListByCategoryFromApi.getInstance().removeAllDataFromList(prefUtils);
                     }
 
