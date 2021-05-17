@@ -12,6 +12,7 @@ import com.apps.trollino.db_room.posts.room.PostEntity;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.apps.trollino.utils.data.Const.CATEGORY_DISCUSSED;
 import static com.apps.trollino.utils.data.Const.CATEGORY_FRESH;
 
 public class RoomPostStore implements PostStore{
@@ -35,13 +36,23 @@ public class RoomPostStore implements PostStore{
     @Override
     public void addFreshPost(List<PostsModel.PostDetails> postList) {
         for (PostsModel.PostDetails post : postList) {
+            post.setPostIdUnique(post.getPostId().concat(CATEGORY_FRESH));
             post.setCategoryName(CATEGORY_FRESH);
             postDao.add(PostConverter.postConverter(post));
         }
     }
 
     @Override
-    public List<PostsModel.PostDetails> getPostByPostId(String idCategory, String nameCategory) {
+    public void addDiscussedPost(List<PostsModel.PostDetails> postList) {
+        for (PostsModel.PostDetails post : postList) {
+            post.setPostIdUnique(post.getPostId().concat(CATEGORY_DISCUSSED));
+            post.setCategoryName(CATEGORY_DISCUSSED);
+            postDao.add(PostConverter.postConverter(post));
+        }
+    }
+
+    @Override
+    public List<PostsModel.PostDetails> getPostsByPostId(String idCategory, String nameCategory) {
         List<PostEntity> postEntityList = postDao.getPostByCategory(idCategory, nameCategory);
         List<PostsModel.PostDetails> postList = new ArrayList<>();
         for(PostEntity postEntity : postEntityList) {
@@ -61,7 +72,7 @@ public class RoomPostStore implements PostStore{
     }
 
     @Override
-    public List<PostsModel.PostDetails> getPostByPostId(String idPost) {
+    public List<PostsModel.PostDetails> getPostsByPostId(String idPost) {
         List<PostEntity> postEntityList = postDao.getPostByPostId(idPost);
         List<PostsModel.PostDetails> postList = new ArrayList<>();
         for(PostEntity postEntity : postEntityList) {
@@ -99,7 +110,7 @@ public class RoomPostStore implements PostStore{
             if (nameCategory.equals(CATEGORY_FRESH)) {
                 addFreshPost(newPostList);
             } else {
-
+                // Для постов из разных категорий
             }
         }
     }

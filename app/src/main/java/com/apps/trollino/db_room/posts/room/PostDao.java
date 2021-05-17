@@ -26,7 +26,7 @@ public interface PostDao {
     List<PostEntity> getPostByPostName(String nameCategory);
 
     // Получить список постов с БД по id поста
-    @Query("SELECT * FROM PostEntity WHERE postIdEntity = :postId")
+    @Query("SELECT * FROM PostEntity WHERE postIdFromAPIEntity = :postId")
     List<PostEntity> getPostByPostId(String postId);
 
     // Удалить все с таблицы постов с БД

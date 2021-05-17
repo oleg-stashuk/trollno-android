@@ -6,19 +6,22 @@ import java.util.List;
 
 public interface PostStore {
     // Добавить пост в БД
-    void add(List<PostsModel.PostDetails> post);
+    void add(List<PostsModel.PostDetails> postList);
 
     // Добавить пост в БД из категории "Свежее"
-    void addFreshPost(List<PostsModel.PostDetails> post);
+    void addFreshPost(List<PostsModel.PostDetails> postList);
+
+    // Добавить пост в БД из категории "Обсуждаемое"
+    void addDiscussedPost(List<PostsModel.PostDetails> postList);
 
     // Получить список постов с БД по id и имени категории
-    List<PostsModel.PostDetails> getPostByPostId(String idCategory, String nameCategory);
+    List<PostsModel.PostDetails> getPostsByPostId(String idCategory, String nameCategory);
 
     // Получить список постов с БД по имени категории
     List<PostsModel.PostDetails> getPostByCategoryName(String nameCategory);
 
     // Получить список постов с БД по id поста
-    List<PostsModel.PostDetails> getPostByPostId(String idPost);
+    List<PostsModel.PostDetails> getPostsByPostId(String idPost);
 
     // Удалить все с таблицы постов с БД
     void clearPostDB();
