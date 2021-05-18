@@ -19,13 +19,6 @@ public class CategoryModel {
     private int totalPages;
     private int totalItems;
 
-    public CategoryModel(String idCategory, String nameCategory, String weight, int postInCategory) {
-        this.idCategory = idCategory;
-        this.nameCategory = nameCategory;
-        this.weight = weight;
-        this.postInCategory = postInCategory;
-    }
-
     public CategoryModel(String idCategory, String nameCategory, String weight, int postInCategory,
                          int currentPage, int totalPages, int totalItems) {
         this.idCategory = idCategory;

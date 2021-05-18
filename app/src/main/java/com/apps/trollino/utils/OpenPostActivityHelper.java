@@ -12,7 +12,6 @@ import com.apps.trollino.utils.data.PrefUtils;
 public class OpenPostActivityHelper {
 
     public static void openPostActivity(Context context, PostsModel.PostDetails item, PrefUtils prefUtils, boolean isFromCategory) {
-        CleanSavedDataHelper.cleanAllDataFromApi(prefUtils);
         Intent intent = new Intent(context, PostActivity.class);
         prefUtils.saveCurrentPostId(item.getPostId());
         prefUtils.saveValuePostFromCategoryList(isFromCategory);

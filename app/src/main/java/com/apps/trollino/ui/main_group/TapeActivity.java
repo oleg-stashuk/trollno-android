@@ -18,7 +18,6 @@ import com.apps.trollino.db_room.category.CategoryStoreProvider;
 import com.apps.trollino.db_room.posts.PostStoreProvider;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.data.Const;
-import com.apps.trollino.utils.data.PostListByCategoryFromApi;
 import com.apps.trollino.utils.networking.user_action.GetNewAnswersCount;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.tabs.TabLayout;
@@ -199,7 +198,6 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
 
     @Override
     public void onBackPressed() {
-        removeAllDataFromPostList();
         if (doubleBackToExitPressedOnce) {
             removeAllDataFromDB();
             super.onBackPressed();
@@ -211,30 +209,22 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
         new Handler().postDelayed(() -> doubleBackToExitPressedOnce=false, 2000);
     }
 
-    private void removeAllDataFromPostList() {
-        PostListByCategoryFromApi.getInstance().removeAllDataFromList(prefUtils);
-    }
-
     @Override
     public void onClick(View view) {
         switch(view.getId()) {
             case R.id.search_button_tape: // "Перейти на экран Поиска"
-                removeAllDataFromPostList();
                 startActivity(new Intent(this, SearchActivity.class));
                 finish();
                 break;
             case R.id.activity_button: // "Перейти на экран Активность"
-                removeAllDataFromPostList();
                 startActivity(new Intent(this, AnswersActivity.class));
                 finish();
                 break;
             case R.id.favorites_button: // "Перейти на экран Избранное"
-                removeAllDataFromPostList();
                 startActivity(new Intent(this, FavoriteActivity.class));
                 finish();
                 break;
             case R.id.profile_button: // "Перейти на экран Профиль"
-                removeAllDataFromPostList();
                 startActivity(new Intent(this, ProfileActivity.class));
                 finish();
                 break;

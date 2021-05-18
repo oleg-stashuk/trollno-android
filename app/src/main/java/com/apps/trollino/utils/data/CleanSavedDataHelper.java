@@ -14,7 +14,6 @@ public class CleanSavedDataHelper {
     public static void cleanAllDataFromApi(PrefUtils prefUtils) {
         CommentListFromApi.getInstance().removeAllDataFromList(prefUtils);
         FavoritePostListFromApi.getInstance().removeAllDataFromList(prefUtils);
-        PostListByCategoryFromApi.getInstance().removeAllDataFromList(prefUtils);
         PostListBySearchFromApi.getInstance().removeAllDataFromList(prefUtils);
 
         prefUtils.saveCurrentPage(0);
@@ -74,9 +73,9 @@ public class CleanSavedDataHelper {
             }
         } else {
             categoryList.add(0, new CategoryModel(Const.CATEGORY_FRESH,
-                    context.getResources().getString(R.string.fresh_txt), "0", 0));
+                    context.getResources().getString(R.string.fresh_txt), "0", 0, 0, 0, 0));
             categoryList.add(1, new CategoryModel(Const.CATEGORY_DISCUSSED,
-                    context.getResources().getString(R.string.discuss_post), "0", 0));
+                    context.getResources().getString(R.string.discuss_post), "0", 0, 0, 0, 0));
 
             CategoryStoreProvider.getInstance(context).addCategoryToList(categoryList); // Добавить категории в БД
         }
@@ -86,6 +85,5 @@ public class CleanSavedDataHelper {
     public static void cleanBD(Context context) {
         updateExistingCategory(context);
         PostStoreProvider.getInstance(context).clearPostDB();
-//        PostStoreProvider.getInstance(context).removeDataFromDBbyCategoryName(Const.CATEGORY_FRESH);
     }
 }

@@ -205,8 +205,6 @@ public class PrefUtils {
         getEditor().putString(NEXT_POST_ID, postId).apply();
     }
 
-
-
     public boolean getIsFavorite() {
         return sharedPreferences.getBoolean(IS_FAVORITE, false);
     }
