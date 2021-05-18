@@ -29,7 +29,7 @@ import java.util.List;
 import static com.apps.trollino.utils.SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation;
 import static com.apps.trollino.utils.recycler.MakeFreshPostForTapeActivity.makeNewPostsRecyclerView;
 import static com.apps.trollino.utils.recycler.MakeLinerRecyclerViewForTapeActivity.makeLinerRecyclerViewForTapeActivity;
-import static com.apps.trollino.utils.recycler.MakePostsByCategoryGridRecyclerViewForTapeActivity.makePostsByCategoryGridRecyclerViewForTapeActivity;
+import static com.apps.trollino.utils.recycler.MakePostsByCategoryGridRecyclerViewForTapeActivity.makePostsByCategoryGridRecycler;
 
 public class TapeActivity extends BaseActivity implements View.OnClickListener{
     private RecyclerView newsRecyclerView;
@@ -135,14 +135,18 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
                 } else if(tabs.getSelectedTabPosition() == 1) {
                     showCorrectRecycler(true);
                     prefUtils.saveValuePostFromCategoryList(false);
-                    int discussedListSize = PostStoreProvider.getInstance(TapeActivity.this).getPostByCategoryName(Const.CATEGORY_DISCUSSED).size();
+                    int discussedListSize = PostStoreProvider.getInstance(TapeActivity.this)
+                            .getPostByCategoryName(Const.CATEGORY_DISCUSSED).size();
                     updateDataFromApiDiscuss(discussedListSize > 0 ? null : oneColumnShimmer, null);
                 } else {
                     showCorrectRecycler(false);
                     prefUtils.saveValuePostFromCategoryList(true);
-                    prefUtils.saveCurrentAdapterPositionPosts(0);
                     prefUtils.saveSelectedCategoryId(tab.getTag().toString());
-                    updateDataFromApiOther(twoColumnShimmer, null, true);
+                    String categoryName = CategoryStoreProvider.getInstance(TapeActivity.this)
+                            .getCategoryById(tab.getTag().toString()).getNameCategory();
+                    int categoryListSize = PostStoreProvider.getInstance(TapeActivity.this)
+                            .getPostByCategoryName(categoryName).size();
+                    updateDataFromApiOther(categoryListSize > 0 ? null : twoColumnShimmer, null);
                 }
             }
 
@@ -161,16 +165,6 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
         newRefreshLayout.setVisibility(isDiscuss ? View.GONE : View.VISIBLE);
     }
 
-    private void showCorrectShimmer(Boolean isOneColumn, boolean IsUpdateData) {
-        if (IsUpdateData) {
-            twoColumnShimmer.setVisibility(View.GONE);
-            oneColumnShimmer.setVisibility(View.GONE);
-        } else {
-            twoColumnShimmer.setVisibility(isOneColumn ? View.GONE : View.VISIBLE);
-            oneColumnShimmer.setVisibility(isOneColumn ? View.VISIBLE : View.GONE);
-        }
-    }
-
     private void updateDataFromApiFresh(ShimmerFrameLayout shimmerToApi, SwipyRefreshLayout newRefreshLayout) {
         makeNewPostsRecyclerView(this, prefUtils, newsRecyclerView, shimmerToApi,
                 newRefreshLayout, bottomNavigation, progressBar);
@@ -181,10 +175,9 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
                 shimmerToApi, refreshLayoutToApi, bottomNavigation);
     }
 
-    private void updateDataFromApiOther(ShimmerFrameLayout shimmerToApi, SwipyRefreshLayout refreshLayoutToApi, boolean IsUpdateData) {
-        showCorrectShimmer(false, IsUpdateData);
-        makePostsByCategoryGridRecyclerViewForTapeActivity(this, prefUtils, newsRecyclerView,
-                        shimmerToApi, refreshLayoutToApi, bottomNavigation, progressBar);
+    private void updateDataFromApiOther(ShimmerFrameLayout shimmerToApi, SwipyRefreshLayout refreshLayoutToApi) {
+        makePostsByCategoryGridRecycler(this, prefUtils, newsRecyclerView,
+                shimmerToApi, refreshLayoutToApi, bottomNavigation, progressBar);
     }
 
     private void updateDataBySwipe() {
@@ -193,7 +186,7 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
             if(selectedTab == 0) {
                 updateDataFromApiFresh(null, newRefreshLayout);
             } else {
-                updateDataFromApiOther(null, newRefreshLayout, true);
+                updateDataFromApiOther(null, newRefreshLayout);
             }
             newsRecyclerView.suppressLayout(true);
         });
