@@ -62,7 +62,7 @@ public class GetPostsByCategory {
                     }
 
                     List<PostsModel.PostDetails> newPostList = response.body().getPostDetailsList();
-                    PostStoreProvider.getInstance(context).checkNewPostListAndSaveUnique(newPostList, categoryId);
+                    PostStoreProvider.getInstance(context).checkNewPostListAndSaveUnique(newPostList, categoryName);
 
                     updatePostListAndNotifyRecyclerAdapter(adapter);
 

@@ -12,10 +12,12 @@
     tools:showIn="@layout/activity_tape">
 
     <include
-        layout="@layout/include_shimmer_post_two_column"/>
+        layout="@layout/include_shimmer_post_two_column"
+        android:visibility="gone"/>
 
     <include
-        layout="@layout/include_shimmer_post_one_column"/>
+        layout="@layout/include_shimmer_post_one_column"
+        android:visibility="gone"/>
 
 
     <com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout

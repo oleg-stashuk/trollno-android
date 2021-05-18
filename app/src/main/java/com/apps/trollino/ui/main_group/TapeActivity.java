@@ -61,9 +61,6 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
         prefUtils.saveCurrentActivity("");
         prefUtils.saveValuePostFromCategoryList(false);
 
-        twoColumnShimmer.setVisibility(View.GONE);
-        oneColumnShimmer.setVisibility(View.GONE);
-
         // Если список постов из категории "Свежее" пуст, то показать Shimmer
         int freshPostsSize = PostStoreProvider.getInstance(this).getPostByCategoryName(Const.CATEGORY_FRESH).size();
         updateDataFromApiFresh(freshPostsSize > 0 ? null : twoColumnShimmer, null);
