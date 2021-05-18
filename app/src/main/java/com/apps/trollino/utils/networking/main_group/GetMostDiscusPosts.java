@@ -44,7 +44,7 @@ public class GetMostDiscusPosts {
                     CategoryStoreProvider.getInstance(context).updatePositionInCategory(CATEGORY_DISCUSSED, 0);
 
                     List<PostsModel.PostDetails> newPostList = response.body().getPostDetailsList();
-                    PostStoreProvider.getInstance(context).addDiscussedPost(newPostList);
+                    PostStoreProvider.getInstance(context).add(newPostList, CATEGORY_DISCUSSED);
 
                     adapter.addItems(newPostList);
                     adapter.notifyDataSetChanged();

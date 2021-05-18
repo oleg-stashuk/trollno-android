@@ -27,35 +27,14 @@ public class RoomPostStore implements PostStore{
     }
 
     @Override
-    public void add(List<PostsModel.PostDetails> postList) {
+    public void add(List<PostsModel.PostDetails> postList, String nameCategory) {
         for (PostsModel.PostDetails post : postList) {
-            postDao.add(PostConverter.postConverter(post));
-        }
-    }
-
-    @Override
-    public void addFreshPost(List<PostsModel.PostDetails> postList) {
-        for (PostsModel.PostDetails post : postList) {
-            post.setPostIdUnique(post.getPostId().concat(CATEGORY_FRESH));
-            post.setCategoryName(CATEGORY_FRESH);
-            postDao.add(PostConverter.postConverter(post));
-        }
-    }
-
-    @Override
-    public void addDiscussedPost(List<PostsModel.PostDetails> postList) {
-        for (PostsModel.PostDetails post : postList) {
-            post.setPostIdUnique(post.getPostId().concat(CATEGORY_DISCUSSED));
-            post.setCategoryName(CATEGORY_DISCUSSED);
-            postDao.add(PostConverter.postConverter(post));
-        }
-    }
-
-    @Override
-    public void addPostsByCategory(List<PostsModel.PostDetails> postList) {
-        for (PostsModel.PostDetails post : postList) {
-            post.setPostIdUnique(post.getPostId());
-            post.setCategoryName(post.getCategoryName());
+            if(nameCategory.equals(CATEGORY_FRESH) || nameCategory.equals(CATEGORY_DISCUSSED)) {
+                post.setPostIdUnique(post.getPostId().concat(nameCategory));
+            } else {
+                post.setPostIdUnique(post.getPostId());
+            }
+            post.setCategoryName(nameCategory);
             postDao.add(PostConverter.postConverter(post));
         }
     }
@@ -116,11 +95,7 @@ public class RoomPostStore implements PostStore{
             }
         }
         if (newPostList.size() > 0) {
-            if (categoryName.equals(CATEGORY_FRESH)) {
-                addFreshPost(newPostList);
-            } else {
-                addPostsByCategory(newPostList);
-            }
+            add(newPostList, categoryName);
         }
     }
 }
