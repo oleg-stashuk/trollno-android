@@ -14,6 +14,9 @@ public interface PostStore {
     // Добавить пост в БД из категории "Обсуждаемое"
     void addDiscussedPost(List<PostsModel.PostDetails> postList);
 
+    // Добавить пост в БД из разных категорий
+    void addPostsByCategory(List<PostsModel.PostDetails> postList);
+
     // Получить список постов с БД по id и имени категории
     List<PostsModel.PostDetails> getPostsByPostId(String idCategory, String nameCategory);
 

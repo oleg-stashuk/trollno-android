@@ -52,6 +52,15 @@ public class RoomPostStore implements PostStore{
     }
 
     @Override
+    public void addPostsByCategory(List<PostsModel.PostDetails> postList) {
+        for (PostsModel.PostDetails post : postList) {
+            post.setPostIdUnique(post.getPostId());
+            post.setCategoryName(post.getCategoryName());
+            postDao.add(PostConverter.postConverter(post));
+        }
+    }
+
+    @Override
     public List<PostsModel.PostDetails> getPostsByPostId(String idCategory, String nameCategory) {
         List<PostEntity> postEntityList = postDao.getPostByCategory(idCategory, nameCategory);
         List<PostsModel.PostDetails> postList = new ArrayList<>();
@@ -97,8 +106,8 @@ public class RoomPostStore implements PostStore{
     }
 
     @Override
-    public void checkNewPostListAndSaveUnique(List<PostsModel.PostDetails> postListFromApi, String nameCategory) {
-        List<PostsModel.PostDetails> postListFromDB = getPostByCategoryName(nameCategory);
+    public void checkNewPostListAndSaveUnique(List<PostsModel.PostDetails> postListFromApi, String categoryName) {
+        List<PostsModel.PostDetails> postListFromDB = getPostByCategoryName(categoryName);
 
         List<PostsModel.PostDetails> newPostList = new ArrayList<>();
         for(PostsModel.PostDetails post : postListFromApi) {
@@ -107,10 +116,10 @@ public class RoomPostStore implements PostStore{
             }
         }
         if (newPostList.size() > 0) {
-            if (nameCategory.equals(CATEGORY_FRESH)) {
+            if (categoryName.equals(CATEGORY_FRESH)) {
                 addFreshPost(newPostList);
             } else {
-                // Для постов из разных категорий
+                addPostsByCategory(newPostList);
             }
         }
     }
