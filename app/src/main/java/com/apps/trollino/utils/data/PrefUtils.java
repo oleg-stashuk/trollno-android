@@ -37,6 +37,7 @@ public class PrefUtils {
 
     private final String SELECTED_POST_ID = "SELECTED_POST_ID";
     private final String POST_FROM_CATEGORY_LIST = "POST_FROM_CATEGORY_LIST";
+    private final String SELECTED_CATEGORY_POSITION = "SELECTED_CATEGORY_POSITION";
 
     private final String COMMENT_ID_FROM_ACTIVITY = "COMMENT_ID_FROM_ACTIVITY";
 
@@ -275,6 +276,14 @@ public class PrefUtils {
 
     public void saveValuePostFromCategoryList(boolean postFromCategoryList) {
         getEditor().putBoolean(POST_FROM_CATEGORY_LIST, postFromCategoryList).apply();
+    }
+
+    public int getSelectedCategoryPosition() {
+        return sharedPreferences.getInt(SELECTED_CATEGORY_POSITION, 0);
+    }
+
+    public void saveSelectedCategoryPosition(int categoryPosition) {
+        getEditor().putInt(SELECTED_CATEGORY_POSITION, categoryPosition).apply();
     }
 
     public String getCommentIdForActivity() {

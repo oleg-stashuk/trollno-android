@@ -43,7 +43,7 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
     private ProgressBar progressBar;
 
     private boolean doubleBackToExitPressedOnce = false;  // для обработки нажатия onBackPressed
-    private int selectedTab = 0;
+    private int selectedTab;
 
     @Override
     protected int getLayoutID() {
@@ -58,7 +58,8 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
         updateDataBySwipe();
 
         prefUtils.saveCurrentActivity("");
-        prefUtils.saveValuePostFromCategoryList(false);
+        selectedTab = prefUtils.getSelectedCategoryPosition();
+        tabs.getTabAt(selectedTab).select();
 
         // Если список постов из категории "Свежее" пуст, то показать Shimmer
         int freshPostsSize = PostStoreProvider.getInstance(this).getPostByCategoryName(Const.CATEGORY_FRESH).size();
@@ -124,19 +125,17 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 selectedTab = tabs.getSelectedTabPosition();
+                prefUtils.saveSelectedCategoryPosition(selectedTab);
                 if(tabs.getSelectedTabPosition() == 0) {
                     showCorrectRecycler(false);
-                    prefUtils.saveValuePostFromCategoryList(false);
                     updateDataFromApiFresh(null, null);
                 } else if(tabs.getSelectedTabPosition() == 1) {
                     showCorrectRecycler(true);
-                    prefUtils.saveValuePostFromCategoryList(false);
                     int discussedListSize = PostStoreProvider.getInstance(TapeActivity.this)
                             .getPostByCategoryName(Const.CATEGORY_DISCUSSED).size();
                     updateDataFromApiDiscuss(discussedListSize > 0 ? null : oneColumnShimmer, null);
                 } else {
                     showCorrectRecycler(false);
-                    prefUtils.saveValuePostFromCategoryList(true);
                     prefUtils.saveSelectedCategoryId(tab.getTag().toString());
                     String categoryName = CategoryStoreProvider.getInstance(TapeActivity.this)
                             .getCategoryById(tab.getTag().toString()).getNameCategory();

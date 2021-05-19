@@ -82,8 +82,9 @@ public class CleanSavedDataHelper {
     }
 
     // Очистить БД при загрузке приложения
-    public static void cleanBD(Context context) {
+    public static void cleanBD(Context context, PrefUtils prefUtils) {
         updateExistingCategory(context);
         PostStoreProvider.getInstance(context).clearPostDB();
+        prefUtils.saveSelectedCategoryPosition(0);
     }
 }
