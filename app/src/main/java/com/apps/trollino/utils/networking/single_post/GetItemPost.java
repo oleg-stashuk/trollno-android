@@ -15,11 +15,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apps.trollino.R;
 import com.apps.trollino.adapters.OnePostElementAdapter;
 import com.apps.trollino.data.model.CategoryModel;
+import com.apps.trollino.data.model.PostsModel;
 import com.apps.trollino.data.model.single_post.ItemPostModel;
 import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.db_room.category.CategoryStoreProvider;
+import com.apps.trollino.db_room.posts.PostStoreProvider;
 import com.apps.trollino.ui.base.BaseActivity;
 import com.apps.trollino.utils.SnackBarMessageCustom;
+import com.apps.trollino.utils.data.Const;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.apps.trollino.utils.networking_helper.ErrorMessageFromApi;
 import com.apps.trollino.utils.networking_helper.ShimmerHide;
@@ -55,6 +58,13 @@ public class GetItemPost {
                     model = response.body();
                     if (prefUtils.getIsUserAuthorization()) {
                         new Thread(() -> PostMarkPostAsRead.postMarkPostAsRead(context, prefUtils, postId)).start();
+
+                        // отметить пост в БД как прочитанный
+                        List <PostsModel.PostDetails> postList = PostStoreProvider.getInstance(context).getPostsByPostId(postId);
+                        for(PostsModel.PostDetails post : postList) {
+                            post.setRead(true);
+                            PostStoreProvider.getInstance(context).updatePostInDB(post);
+                        }
                     }
 
                     setPostCategory(categoryTextView);
