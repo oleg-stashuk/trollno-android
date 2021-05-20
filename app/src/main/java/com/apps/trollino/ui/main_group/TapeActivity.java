@@ -61,9 +61,11 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
         selectedTab = prefUtils.getSelectedCategoryPosition();
         tabs.getTabAt(selectedTab).select();
 
-        // Если список постов из категории "Свежее" пуст, то показать Shimmer
+        // Если список постов из категории "Свежее" пуст, то загрузить с API
         int freshPostsSize = PostStoreProvider.getInstance(this).getPostByCategoryName(Const.CATEGORY_FRESH).size();
-        updateDataFromApiFresh(freshPostsSize > 0 ? null : twoColumnShimmer, null);
+        if (selectedTab == 0) {
+            updateDataFromApiFresh(freshPostsSize > 0 ? null : twoColumnShimmer, null);
+        }
     }
 
     @Override
