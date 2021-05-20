@@ -8,6 +8,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.apps.trollino.R;
 import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
@@ -26,10 +27,13 @@ public class DiscussPostsAdapter extends BaseRecyclerAdapter<PostsModel.PostDeta
     private final PrefUtils prefUtils;
     private final int widthImage;
     private final int heightImage;
+    private final LinearLayoutManager linearLayoutManager;
 
-    public DiscussPostsAdapter(BaseActivity baseActivity, PrefUtils prefUtils, List<PostsModel.PostDetails> items, OnItemClick<PostsModel.PostDetails> onItemClick) {
+    public DiscussPostsAdapter(BaseActivity baseActivity, PrefUtils prefUtils, LinearLayoutManager linearLayoutManager,
+                               List<PostsModel.PostDetails> items, OnItemClick<PostsModel.PostDetails> onItemClick) {
         super(baseActivity, items, onItemClick);
         this.prefUtils = prefUtils;
+        this.linearLayoutManager = linearLayoutManager;
         widthImage = prefUtils.getImageWidthForOneColumn();
         heightImage = widthImage / 3 * 2;
     }
@@ -56,7 +60,10 @@ public class DiscussPostsAdapter extends BaseRecyclerAdapter<PostsModel.PostDeta
                 TextView commentCountTextView = itemView.findViewById(R.id.comment_count_discuss_post);
                 TextView titleTextView = itemView.findViewById(R.id.title_discuss_post);
 
-                CategoryStoreProvider.getInstance(view.getContext()).updatePositionInCategory(CATEGORY_DISCUSSED, getAdapterPosition());
+                int firstCompletelyVisiblePosition = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
+
+                CategoryStoreProvider.getInstance(view.getContext())
+                        .updatePositionInCategory(CATEGORY_DISCUSSED, firstCompletelyVisiblePosition);
 
                 if(!prefUtils.getIsUserAuthorization() ||
                         (!item.isRead() && prefUtils.getIsUserAuthorization()) ||

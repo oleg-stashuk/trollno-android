@@ -32,9 +32,9 @@ public class MakeLinerRecyclerViewForTapeActivity {
         cont = context;
         prefUt = prefUtils;
 
-        DiscussPostsAdapter adapter = new DiscussPostsAdapter((BaseActivity) context, prefUtils,
-                PostStoreProvider.getInstance(context).getPostByCategoryName(CATEGORY_DISCUSSED), discussedItemListener);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+        DiscussPostsAdapter adapter = new DiscussPostsAdapter((BaseActivity) context, prefUtils, linearLayoutManager,
+                PostStoreProvider.getInstance(context).getPostByCategoryName(CATEGORY_DISCUSSED), discussedItemListener);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
