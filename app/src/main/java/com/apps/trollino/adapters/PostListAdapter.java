@@ -8,6 +8,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.apps.trollino.R;
 import com.apps.trollino.adapters.base.BaseRecyclerAdapter;
@@ -15,25 +16,27 @@ import com.apps.trollino.data.model.CategoryModel;
 import com.apps.trollino.data.model.PostsModel;
 import com.apps.trollino.db_room.category.CategoryStoreProvider;
 import com.apps.trollino.ui.base.BaseActivity;
-import com.apps.trollino.utils.data.Const;
 import com.apps.trollino.utils.data.PrefUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import static com.apps.trollino.utils.data.Const.BASE_URL;
+import static com.apps.trollino.utils.data.Const.CATEGORY_FRESH;
 
 public class PostListAdapter extends BaseRecyclerAdapter<PostsModel.PostDetails> {
     private final PrefUtils prefUtils;
     private final int widthImage;
     private final int heightImage;
     private final boolean isPostListFromCategory;
+    private final GridLayoutManager gridLayoutManager;
 
-    public PostListAdapter(BaseActivity baseActivity, PrefUtils prefUtils,
+    public PostListAdapter(BaseActivity baseActivity, PrefUtils prefUtils, GridLayoutManager gridLayoutManager,
                            List<PostsModel.PostDetails> items,
                            OnItemClick<PostsModel.PostDetails> onItemClick) {
         super(baseActivity, items, onItemClick);
         this.prefUtils = prefUtils;
+        this.gridLayoutManager = gridLayoutManager;
         widthImage = prefUtils.getImageWidth();
         heightImage = widthImage / 3 * 2;
         isPostListFromCategory = prefUtils.isPostFromCategoryList();
@@ -70,13 +73,21 @@ public class PostListAdapter extends BaseRecyclerAdapter<PostsModel.PostDetails>
                 RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(widthImage, heightImage);
                 postImageView.setLayoutParams(layoutParams);
 
-                // Сохранить просмотренную позицию в БД
-                int adapterPosition = getAdapterPosition();
-//                Log.d("OkHttp_1", "adapterPosition " + adapterPosition + " - " + item.getTitle());
                 CategoryModel category = CategoryStoreProvider.getInstance(
-                        view.getContext()).getCategoryById(isPostListFromCategory ? item.getCategoryId() : Const.CATEGORY_FRESH);
-                category.setPostInCategory(adapterPosition);
-                CategoryStoreProvider.getInstance(view.getContext()).updateCategory(category);
+                        view.getContext()).getCategoryById(isPostListFromCategory ? item.getCategoryId() : CATEGORY_FRESH);
+
+                // Сохранить просмотренную позицию в БД
+                int position = getAdapterPosition();
+                if (position % 2 == 0) {
+                    int positionFirstCompletelyVisible = gridLayoutManager.findFirstCompletelyVisibleItemPosition();
+                    if(position == 0) {
+                        positionFirstCompletelyVisible=  0;
+                    } else if(position != 0 && positionFirstCompletelyVisible < 0) {
+                        positionFirstCompletelyVisible = category.getPostInCategory() + 2;
+                    }
+                    category.setPostInCategory(positionFirstCompletelyVisible);
+                    CategoryStoreProvider.getInstance(view.getContext()).updateCategory(category);
+                }
 
                 if(!prefUtils.getIsUserAuthorization() ||
                         (!item.isRead() && prefUtils.getIsUserAuthorization()) ||

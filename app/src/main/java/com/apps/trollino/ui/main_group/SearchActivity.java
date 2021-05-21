@@ -71,8 +71,10 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     }
 
     public void makeSearchPostsRecyclerView() {
-        adapter = new PostListAdapter(SearchActivity.this, prefUtils, PostListBySearchFromApi.getInstance().getPostListBySearch(), searchPostsItemListener);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
+        adapter = new PostListAdapter(SearchActivity.this, prefUtils, gridLayoutManager,
+                PostListBySearchFromApi.getInstance().getPostListBySearch(), searchPostsItemListener);
+        recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
 

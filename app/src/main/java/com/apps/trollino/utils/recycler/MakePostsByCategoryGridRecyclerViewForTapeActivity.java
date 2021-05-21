@@ -20,6 +20,8 @@ import com.apps.trollino.utils.networking.main_group.GetPostsByCategory;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 
+import java.util.Objects;
+
 import static com.apps.trollino.utils.OpenPostActivityHelper.openPostActivity;
 
 public class MakePostsByCategoryGridRecyclerViewForTapeActivity extends RecyclerView.OnScrollListener{
@@ -36,27 +38,30 @@ public class MakePostsByCategoryGridRecyclerViewForTapeActivity extends Recycler
         String categoryId = prefUtils.getSelectedCategoryId();
         String categoryName = CategoryStoreProvider.getInstance(context).getCategoryById(categoryId).getNameCategory();
 
-        PostListAdapter adapter = new PostListAdapter((BaseActivity) context, prefUtils,
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 2);
+        PostListAdapter adapter = new PostListAdapter((BaseActivity) context, prefUtils, gridLayoutManager,
                 PostStoreProvider.getInstance(context).getPostByCategoryName(categoryName), postsItemListener);
-        recyclerView.setLayoutManager(new GridLayoutManager(cont, 2));
+        recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
 
         int savedPosition = CategoryStoreProvider.getInstance(context).getCategoryById(categoryId).getPostInCategory();
-        recyclerView.getLayoutManager().scrollToPosition(savedPosition);
+        Objects.requireNonNull(recyclerView.getLayoutManager()).scrollToPosition(savedPosition);
 
 
         if (shimmer != null || refreshLayout != null) {
             isGetNewList = true;
             if (shimmer != null) shimmer.setVisibility(View.VISIBLE);
             infiniteScroll(adapter, recyclerView, shimmer, refreshLayout, bottomNavigation, progressBar);
+            CategoryStoreProvider.getInstance(context).updatePositionInCategory(categoryId, 0);
         }
 
         recyclerView.addOnScrollListener(new RecyclerScrollListener() {
             @Override
             public void onScrolledToEnd() {
                 isGetNewList = false;
-                recyclerView.getLayoutManager().scrollToPosition(prefUtils.getCurrentAdapterPositionPosts());
+                Objects.requireNonNull(recyclerView.getLayoutManager()).scrollToPosition(
+                        PostStoreProvider.getInstance(context).getPostByCategoryName(categoryId).size()-1);
                 infiniteScroll(adapter, recyclerView, shimmer, refreshLayout, bottomNavigation, progressBar);
                 progressBar.setVisibility(View.VISIBLE);
             }
