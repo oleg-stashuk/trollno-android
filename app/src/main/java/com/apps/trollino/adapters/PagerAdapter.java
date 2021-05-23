@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import com.apps.trollino.ui.fragment.DiscussedPostsFragment;
 import com.apps.trollino.ui.fragment.FifthCategoryPostFragment;
 import com.apps.trollino.ui.fragment.FirstCategoryPostFragment;
-import com.apps.trollino.ui.fragment.FourthCategoryPostFragment;
+import com.apps.trollino.ui.fragment.SixthTabFragment;
 import com.apps.trollino.ui.fragment.FreshPostsFragment;
 import com.apps.trollino.ui.fragment.FourthTabFragment;
 import com.apps.trollino.ui.fragment.SixthCategoryPostFragment;
@@ -37,7 +37,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
             case 4:
                 return new FifthTabFragment();
             case 5:
-                return new FourthCategoryPostFragment();
+                return new SixthTabFragment();
             case 6:
                 return new FifthCategoryPostFragment();
             case 7:
