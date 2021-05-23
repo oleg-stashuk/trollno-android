@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".ui.fragment.FifthCategoryPostFragment">
+
+    <include
+        layout="@layout/include_shimmer_post_two_column"
+        android:visibility="gone"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
+            android:id="@+id/refresh_fifth_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srl_direction="top">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_fifth_category"
+                android:overScrollMode="never"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout>
+
+        <ProgressBar
+            android:id="@+id/progress_fifth_category"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:visibility="gone"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:progressDrawable="@color/colorPrimary"
+            android:background="@drawable/progress_bar_circle_shape" />
+    </RelativeLayout>
+
+</LinearLayout>
