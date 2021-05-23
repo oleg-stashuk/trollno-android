@@ -11,58 +11,9 @@
     android:orientation="vertical"
     tools:showIn="@layout/activity_tape">
 
-    <include
-        layout="@layout/include_shimmer_post_two_column"
-        android:visibility="gone"/>
-
-    <include
-        layout="@layout/include_shimmer_post_one_column"
-        android:visibility="gone"/>
-
-
-    <com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
-        android:id="@+id/refresh_layout_tape_discuss"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:srl_direction="top">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_tape_discuss"
-            android:overScrollMode="never"
-            android:visibility="gone"
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/view_pager"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-    </com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
-            android:id="@+id/refresh_layout_tape_new"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:srl_direction="top">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_tape_new"
-                android:overScrollMode="never"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-        </com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout>
-
-        <ProgressBar
-            android:id="@+id/progress_bar_tape"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:visibility="gone"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:progressDrawable="@color/colorPrimary"
-            android:background="@drawable/progress_bar_circle_shape" />
-    </RelativeLayout>
+            android:layout_height="match_parent"/>
 
 </LinearLayout>
