@@ -72,12 +72,12 @@ public class FreshPostAdapter extends RecyclerView.Adapter<FreshPostAdapter.Fres
     }
 
     public class FreshPostHolder extends RecyclerView.ViewHolder {
-        private FrameLayout frameLayout ;
-        private LinearLayout linearLayout;
-        private ImageView postImageView;
-        private ImageView imageDiscussImageView;
-        private TextView textDiscussImageView;
-        private TextView titleTextView;
+        private final FrameLayout frameLayout ;
+        private final LinearLayout linearLayout;
+        private final ImageView postImageView;
+        private final ImageView imageDiscussImageView;
+        private final TextView textDiscussImageView;
+        private final TextView titleTextView;
 
         public FreshPostHolder(@NonNull View itemView) {
             super(itemView);

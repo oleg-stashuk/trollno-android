@@ -9,7 +9,7 @@ import android.widget.ProgressBar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.apps.trollino.R;
-import com.apps.trollino.adapters.PostListAdapter;
+import com.apps.trollino.adapters.FreshPostAdapter;
 import com.apps.trollino.data.model.PostsModel;
 import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.db_room.category.CategoryStoreProvider;
@@ -37,9 +37,9 @@ public class GetNewPosts {
     @SuppressLint("StaticFieldLeak")
     private static Context cont;
 
-    public static void makeGetNewPosts(Context context, PrefUtils prefUtils, PostListAdapter adapter, RecyclerView recycler,
+    public static void makeGetNewPosts(Context context, PrefUtils prefUtils, FreshPostAdapter adapter, RecyclerView recycler,
                                        ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout,
-                                       View bottomNavigation, boolean isGetNewList, ProgressBar progressBar) {
+                                       boolean isGetNewList, ProgressBar progressBar) {
         isGetNewListThis = isGetNewList;
         recyclerView = recycler;
         cont = context;
@@ -52,7 +52,6 @@ public class GetNewPosts {
                 if (response.isSuccessful()) {
                     if(isGetNewList) {
                         PostStoreProvider.getInstance(context).removeDataFromDBbyCategoryName(CATEGORY_FRESH);
-                        CategoryStoreProvider.getInstance(context).updatePositionInCategory(CATEGORY_FRESH, 0);
                     }
 
                     List<PostsModel.PostDetails> newPostList = response.body().getPostDetailsList();
@@ -67,7 +66,7 @@ public class GetNewPosts {
 
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
-                    SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, errorMessage);
+                    SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(recycler, errorMessage);
                 }
                 if (shimmer != null) {
                     ShimmerHide.shimmerHide(recycler, shimmer);
@@ -82,15 +81,15 @@ public class GetNewPosts {
                 String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
                 if (isHaveNotInternet) {
                     Snackbar snackbar  = Snackbar
-                            .make(bottomNavigation, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
+                            .make(recycler, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
                             .setMaxInlineActionWidth(3)
                             .setAction(R.string.refresh_button, v -> {
                                 call.clone().enqueue(this);
                             });
-                    snackbar.setAnchorView(bottomNavigation);
+                    snackbar.setAnchorView(recycler);
                     snackbar.show();
                 } else {
-                    SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, t.getLocalizedMessage());
+                    SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(recycler, t.getLocalizedMessage());
                 }
                 hideUpdateProgressView(shimmer, refreshLayout, progressBar);
                 Log.d(TAG_LOG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
@@ -108,7 +107,7 @@ public class GetNewPosts {
         progressBar.setVisibility(View.GONE);
     }
 
-    private static void updatePostListAndNotifyRecyclerAdapter(PostListAdapter adapter) {
+    private static void updatePostListAndNotifyRecyclerAdapter(FreshPostAdapter adapter) {
         adapter.addItems(PostStoreProvider.getInstance(cont).getPostByCategoryName(CATEGORY_FRESH));
         adapter.notifyDataSetChanged();
         recyclerView.suppressLayout(false);
