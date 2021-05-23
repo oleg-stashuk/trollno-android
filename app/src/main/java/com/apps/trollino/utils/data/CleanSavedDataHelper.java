@@ -46,7 +46,6 @@ public class CleanSavedDataHelper {
         prefUtils.saveCommentIdToAnswer("");
         prefUtils.saveAnswerToUserName("");
 
-        prefUtils.saveSelectedCategoryId("");
         prefUtils.savePrevPostId("");
         prefUtils.saveNextPostId("");
         prefUtils.saveIsFavorite(false);
