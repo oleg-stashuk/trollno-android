@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context=".ui.fragment.ThirdCategoryPostFragment">
+    tools:context=".ui.fragment.FifthTabFragment">
 
     <include
         layout="@layout/include_shimmer_post_two_column"
@@ -16,13 +16,13 @@
         android:layout_height="wrap_content">
 
         <com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
-            android:id="@+id/refresh_third_category"
+            android:id="@+id/refresh_fifth_tab"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:srl_direction="top">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_third_category"
+                android:id="@+id/recycler_fifth_tab"
                 android:overScrollMode="never"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
@@ -30,7 +30,7 @@
         </com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout>
 
         <ProgressBar
-            android:id="@+id/progress_third_category"
+            android:id="@+id/progress_fifth_tab"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:visibility="gone"

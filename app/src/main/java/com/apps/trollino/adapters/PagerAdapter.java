@@ -12,7 +12,7 @@ import com.apps.trollino.ui.fragment.FourthCategoryPostFragment;
 import com.apps.trollino.ui.fragment.FreshPostsFragment;
 import com.apps.trollino.ui.fragment.FourthTabFragment;
 import com.apps.trollino.ui.fragment.SixthCategoryPostFragment;
-import com.apps.trollino.ui.fragment.ThirdCategoryPostFragment;
+import com.apps.trollino.ui.fragment.FifthTabFragment;
 
 public class PagerAdapter extends FragmentPagerAdapter {
     private final int totalPage;
@@ -35,7 +35,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
             case 3:
                 return new FourthTabFragment();
             case 4:
-                return new ThirdCategoryPostFragment();
+                return new FifthTabFragment();
             case 5:
                 return new FourthCategoryPostFragment();
             case 6:
