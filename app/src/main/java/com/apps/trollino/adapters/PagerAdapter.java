@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.apps.trollino.ui.fragment.DiscussedPostsFragment;
-import com.apps.trollino.ui.fragment.FifthCategoryPostFragment;
+import com.apps.trollino.ui.fragment.SeventhTabFragment;
 import com.apps.trollino.ui.fragment.FirstCategoryPostFragment;
 import com.apps.trollino.ui.fragment.SixthTabFragment;
 import com.apps.trollino.ui.fragment.FreshPostsFragment;
@@ -39,7 +39,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
             case 5:
                 return new SixthTabFragment();
             case 6:
-                return new FifthCategoryPostFragment();
+                return new SeventhTabFragment();
             case 7:
                 return new SixthCategoryPostFragment();
             default:

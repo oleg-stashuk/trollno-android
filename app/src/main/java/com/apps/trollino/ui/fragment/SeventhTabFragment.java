@@ -29,7 +29,7 @@ import java.util.Objects;
 import static com.apps.trollino.utils.OpenPostActivityHelper.openPostActivity;
 import static com.apps.trollino.utils.networking.main_group.GetPostsByCategory.getPostsByCategory;
 
-public class SixthTabFragment extends BaseFragment {
+public class SeventhTabFragment extends BaseFragment {
     private ShimmerFrameLayout shimmer;
     private SwipyRefreshLayout refreshLayout;
     private RecyclerView recycler;
@@ -48,22 +48,22 @@ public class SixthTabFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_sixth_tab, container, false);
+        return inflater.inflate(R.layout.fragment_seventh_tab, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         shimmer = view.findViewById(R.id.include_shimmer_post_two_column);
-        refreshLayout = view.findViewById(R.id.refresh_sixth_tab);
-        recycler = view.findViewById(R.id.recycler_sixth_tab);
-        progressBar = view.findViewById(R.id.progress_sixth_tab);
+        refreshLayout = view.findViewById(R.id.refresh_seventh_tab);
+        recycler = view.findViewById(R.id.recycler_seventh_tab);
+        progressBar = view.findViewById(R.id.progress_seventh_tab);
     }
 
     @Override
     protected void initView() {
-        categoryId = CategoryStoreProvider.getInstance(context).getCategoryList().get(5).getIdCategory();
-        categoryName = CategoryStoreProvider.getInstance(context).getCategoryList().get(5).getNameCategory();
+        categoryId = CategoryStoreProvider.getInstance(context).getCategoryList().get(6).getIdCategory();
+        categoryName = CategoryStoreProvider.getInstance(context).getCategoryList().get(6).getNameCategory();
         postsList = PostStoreProvider.getInstance(context).getPostByCategoryName(categoryName);
 
         createAdapter();
