@@ -26,13 +26,13 @@ import static com.apps.trollino.utils.data.Const.BASE_URL;
 import static com.apps.trollino.utils.data.Const.CATEGORY_DISCUSSED;
 
 public class DiscussPostAdapter extends RecyclerView.Adapter<DiscussPostAdapter.FreshPostHolder>{
-    private List<PostsModel.PostDetails> postList;
+    private final List<PostsModel.PostDetails> postList;
 
     private final PrefUtils prefUtils;
     private final int widthImage;
     private final int heightImage;
     private final LinearLayoutManager linearLayoutManager;
-    private OnItemClick<PostsModel.PostDetails> onItemClick;
+    private final OnItemClick<PostsModel.PostDetails> onItemClick;
 
     public DiscussPostAdapter(PrefUtils prefUtils, LinearLayoutManager linearLayoutManager,
                               List<PostsModel.PostDetails> postList, OnItemClick<PostsModel.PostDetails> onItemClick) {

@@ -51,7 +51,6 @@ public class GetPostsByCategory {
         isGetNewListThis = isGetNewList;
         recyclerView = recycler;
         cont = context;
-        Log.d(TAG_LOG, "request to API " + categoryId + " " + categoryName);
 
         ApiService.getInstance(context).getPostsByCategory(cookie, categoryId, page, new Callback<PostsModel>() {
             @Override

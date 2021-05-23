@@ -28,7 +28,7 @@ import java.util.Objects;
 import static com.apps.trollino.utils.OpenPostActivityHelper.openPostActivity;
 import static com.apps.trollino.utils.data.Const.CATEGORY_DISCUSSED;
 
-public class DiscussedPostsFragment extends BaseFragment {
+public class DiscussTabFragment extends BaseFragment {
     private ShimmerFrameLayout shimmer;
     private SwipyRefreshLayout swipyRefresh;
     private RecyclerView recycler;
@@ -44,15 +44,15 @@ public class DiscussedPostsFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_discussed_posts, container, false);
+        return inflater.inflate(R.layout.fragment_discuss_tab, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         shimmer = view.findViewById(R.id.include_shimmer_post_one_column);
-        swipyRefresh = view.findViewById(R.id.refresh_discuss);
-        recycler = view.findViewById(R.id.recycler_discuss);
+        swipyRefresh = view.findViewById(R.id.refresh_discuss_tab);
+        recycler = view.findViewById(R.id.recycler_discuss_tab);
     }
 
     @Override
@@ -65,8 +65,7 @@ public class DiscussedPostsFragment extends BaseFragment {
 
     private void createAdapter() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
-        adapter = new DiscussPostAdapter(prefUtils, linearLayoutManager,
-                postsList, discussedItemListener);
+        adapter = new DiscussPostAdapter(prefUtils, linearLayoutManager, postsList, discussedItemListener);
         recycler.setLayoutManager(linearLayoutManager);
         recycler.setAdapter(adapter);
         recycler.setHasFixedSize(true);
@@ -75,7 +74,8 @@ public class DiscussedPostsFragment extends BaseFragment {
             shimmer.setVisibility(View.VISIBLE);
             updateDataFromApi(shimmer, null);
         } else {
-            int savedPostPosition = CategoryStoreProvider.getInstance(context).getCategoryById(CATEGORY_DISCUSSED).getPostInCategory();
+            int savedPostPosition = CategoryStoreProvider.getInstance(context)
+                    .getCategoryById(CATEGORY_DISCUSSED).getPostInCategory();
             Objects.requireNonNull(recycler.getLayoutManager()).scrollToPosition(savedPostPosition);
         }
     }

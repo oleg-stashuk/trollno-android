@@ -38,7 +38,6 @@ public class SeventhTabFragment extends BaseFragment {
     private PostByCategoryAdapter adapter;
     private List<PostsModel.PostDetails> postsList;
     private String categoryId;
-    private String categoryName;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,7 +62,7 @@ public class SeventhTabFragment extends BaseFragment {
     @Override
     protected void initView() {
         categoryId = CategoryStoreProvider.getInstance(context).getCategoryList().get(6).getIdCategory();
-        categoryName = CategoryStoreProvider.getInstance(context).getCategoryList().get(6).getNameCategory();
+        String categoryName = CategoryStoreProvider.getInstance(context).getCategoryList().get(6).getNameCategory();
         postsList = PostStoreProvider.getInstance(context).getPostByCategoryName(categoryName);
 
         createAdapter();
@@ -84,7 +83,6 @@ public class SeventhTabFragment extends BaseFragment {
             int savedPostPosition = CategoryStoreProvider.getInstance(context).getCategoryById(categoryId).getPostInCategory();
             Objects.requireNonNull(recycler.getLayoutManager()).scrollToPosition(savedPostPosition);
         }
-
 
         // Загрузить/обновить данные с API при скролах ресайклера вниз, если достигнут конец списка
         recycler.addOnScrollListener(new RecyclerScrollListener() {

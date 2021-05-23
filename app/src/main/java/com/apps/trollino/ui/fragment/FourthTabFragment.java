@@ -38,7 +38,6 @@ public class FourthTabFragment extends BaseFragment {
     private PostByCategoryAdapter adapter;
     private List<PostsModel.PostDetails> postsList;
     private String categoryId;
-    private String categoryName;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,7 +49,6 @@ public class FourthTabFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_fourth_tab, container, false);
     }
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -64,7 +62,7 @@ public class FourthTabFragment extends BaseFragment {
     @Override
     protected void initView() {
         categoryId = CategoryStoreProvider.getInstance(context).getCategoryList().get(3).getIdCategory();
-        categoryName = CategoryStoreProvider.getInstance(context).getCategoryList().get(3).getNameCategory();
+        String categoryName = CategoryStoreProvider.getInstance(context).getCategoryList().get(3).getNameCategory();
         postsList = PostStoreProvider.getInstance(context).getPostByCategoryName(categoryName);
 
         createAdapter();
@@ -85,7 +83,6 @@ public class FourthTabFragment extends BaseFragment {
             int savedPostPosition = CategoryStoreProvider.getInstance(context).getCategoryById(categoryId).getPostInCategory();
             Objects.requireNonNull(recycler.getLayoutManager()).scrollToPosition(savedPostPosition);
         }
-
 
         // Загрузить/обновить данные с API при скролах ресайклера вниз, если достигнут конец списка
         recycler.addOnScrollListener(new RecyclerScrollListener() {

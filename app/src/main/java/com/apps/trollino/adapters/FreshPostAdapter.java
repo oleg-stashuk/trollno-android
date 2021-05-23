@@ -27,14 +27,13 @@ import static com.apps.trollino.utils.data.Const.BASE_URL;
 import static com.apps.trollino.utils.data.Const.CATEGORY_FRESH;
 
 public class FreshPostAdapter extends RecyclerView.Adapter<FreshPostAdapter.FreshPostHolder>{
-    private List<PostsModel.PostDetails> postList;
+    private final List<PostsModel.PostDetails> postList;
 
     private final PrefUtils prefUtils;
     private final int widthImage;
     private final int heightImage;
-    private final boolean isPostListFromCategory;
     private final GridLayoutManager gridLayoutManager;
-    private OnItemClick<PostsModel.PostDetails> onItemClick;
+    private final OnItemClick<PostsModel.PostDetails> onItemClick;
 
     public FreshPostAdapter(PrefUtils prefUtils, GridLayoutManager gridLayoutManager,
                             List<PostsModel.PostDetails> postList, OnItemClick<PostsModel.PostDetails> onItemClick) {
@@ -43,7 +42,6 @@ public class FreshPostAdapter extends RecyclerView.Adapter<FreshPostAdapter.Fres
         this.gridLayoutManager = gridLayoutManager;
         widthImage = prefUtils.getImageWidth();
         heightImage = widthImage / 3 * 2;
-        isPostListFromCategory = prefUtils.isPostFromCategoryList();
         this.onItemClick = onItemClick;
     }
 

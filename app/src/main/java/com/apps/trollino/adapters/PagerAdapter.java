@@ -5,11 +5,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.apps.trollino.ui.fragment.DiscussedPostsFragment;
+import com.apps.trollino.ui.fragment.DiscussTabFragment;
 import com.apps.trollino.ui.fragment.SeventhTabFragment;
-import com.apps.trollino.ui.fragment.FirstCategoryPostFragment;
+import com.apps.trollino.ui.fragment.ThirdTabFragment;
 import com.apps.trollino.ui.fragment.SixthTabFragment;
-import com.apps.trollino.ui.fragment.FreshPostsFragment;
+import com.apps.trollino.ui.fragment.FreshTabFragment;
 import com.apps.trollino.ui.fragment.FourthTabFragment;
 import com.apps.trollino.ui.fragment.EighthTabFragment;
 import com.apps.trollino.ui.fragment.FifthTabFragment;
@@ -27,11 +27,11 @@ public class PagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new FreshPostsFragment();
+                return new FreshTabFragment();
             case 1:
-                return new DiscussedPostsFragment();
+                return new DiscussTabFragment();
             case 2:
-                return new FirstCategoryPostFragment();
+                return new ThirdTabFragment();
             case 3:
                 return new FourthTabFragment();
             case 4:

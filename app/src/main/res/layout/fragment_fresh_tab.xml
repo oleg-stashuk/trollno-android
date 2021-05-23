@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.fragment.FreshPostsFragment">
+    tools:context=".ui.fragment.FreshTabFragment">
 
     <include
         layout="@layout/include_shimmer_post_two_column"
@@ -17,13 +17,13 @@
         android:layout_height="wrap_content">
 
         <com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
-            android:id="@+id/refresh_fresh"
+            android:id="@+id/refresh_fresh_tab"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:srl_direction="top">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_fresh"
+                android:id="@+id/recycler_fresh_tab"
                 android:overScrollMode="never"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
@@ -31,7 +31,7 @@
         </com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout>
 
         <ProgressBar
-            android:id="@+id/progress_fresh"
+            android:id="@+id/progress_fresh_tab"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:visibility="gone"

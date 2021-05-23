@@ -84,7 +84,6 @@ public class EighthTabFragment extends BaseFragment {
             Objects.requireNonNull(recycler.getLayoutManager()).scrollToPosition(savedPostPosition);
         }
 
-
         // Загрузить/обновить данные с API при скролах ресайклера вниз, если достигнут конец списка
         recycler.addOnScrollListener(new RecyclerScrollListener() {
             @Override
