@@ -7,7 +7,7 @@ import android.view.View;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.apps.trollino.R;
-import com.apps.trollino.adapters.DiscussPostsAdapter;
+import com.apps.trollino.adapters.DiscussPostAdapter;
 import com.apps.trollino.data.model.PostsModel;
 import com.apps.trollino.data.networking.ApiService;
 import com.apps.trollino.db_room.category.CategoryStoreProvider;
@@ -31,9 +31,9 @@ import static com.apps.trollino.utils.data.Const.TAG_LOG;
 
 public class GetMostDiscusPosts {
 
-    public static void makeGetNewPosts(Context context, PrefUtils prefUtils, DiscussPostsAdapter adapter,
+    public static void makeGetNewPosts(Context context, PrefUtils prefUtils, DiscussPostAdapter adapter,
                                        RecyclerView recycler, ShimmerFrameLayout shimmer,
-                                       SwipyRefreshLayout refreshLayout, View bottomNavigation) {
+                                       SwipyRefreshLayout refreshLayout) {
         String cookie = prefUtils.getCookie();
 
         ApiService.getInstance(context).getMostDiscusPosts(cookie, 0, new Callback<PostsModel>() {
@@ -56,7 +56,7 @@ public class GetMostDiscusPosts {
                     }
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
-                    SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, errorMessage);
+                    SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(recycler, errorMessage);
                 }
                 hideUpdateProgressView(shimmer, refreshLayout);
             }
@@ -68,15 +68,15 @@ public class GetMostDiscusPosts {
                 String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
                 if (isHaveNotInternet) {
                     Snackbar snackbar  = Snackbar
-                            .make(bottomNavigation, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
+                            .make(recycler, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
                             .setMaxInlineActionWidth(3)
                             .setAction(R.string.refresh_button, v -> {
                                 call.clone().enqueue(this);
                             });
-                    snackbar.setAnchorView(bottomNavigation);
+                    snackbar.setAnchorView(recycler);
                     snackbar.show();
                 } else {
-                    SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(bottomNavigation, t.getLocalizedMessage());
+                    SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(recycler, t.getLocalizedMessage());
                 }
                 hideUpdateProgressView(shimmer, refreshLayout);
                 Log.d(TAG_LOG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
