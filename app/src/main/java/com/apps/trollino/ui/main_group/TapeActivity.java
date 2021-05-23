@@ -102,8 +102,9 @@ public class TapeActivity extends BaseActivity implements View.OnClickListener{
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                selectedTab = tabs.getSelectedTabPosition();
                 prefUtils.saveSelectedCategoryPosition(selectedTab);
-                viewPager.setCurrentItem(tabs.getSelectedTabPosition());
+                viewPager.setCurrentItem(selectedTab);
             }
 
             @Override
