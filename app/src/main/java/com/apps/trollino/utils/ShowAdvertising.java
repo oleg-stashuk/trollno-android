@@ -35,7 +35,7 @@ public class ShowAdvertising {
         }
 
         AdView mAdView = new AdView(context);
-        mAdView.setAdSize(AdSize.SMART_BANNER);
+        mAdView.setAdSize(AdSize.MEDIUM_RECTANGLE);
         mAdView.setAdUnitId(bannerId);
         adViewRelativeLayout.addView(mAdView);
         AdRequest adRequest = new AdRequest.Builder().build();

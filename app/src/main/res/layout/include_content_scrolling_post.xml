@@ -83,12 +83,12 @@
 
                 <RelativeLayout
                     android:id="@+id/ad_mob_in_post"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:background="@color/white"
                     android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:layout_alignParentBottom="true"/>
+                    android:paddingBottom="10dp"/>
 
             </LinearLayout>
 
