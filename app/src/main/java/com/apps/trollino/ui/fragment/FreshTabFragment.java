@@ -82,12 +82,13 @@ public class FreshTabFragment extends BaseFragment {
             Objects.requireNonNull(recycler.getLayoutManager()).scrollToPosition(savedPostPosition);
         }
 
-
         // Загрузить/обновить данные с API при скролах ресайклера вниз, если достигнут конец списка
         recycler.addOnScrollListener(new RecyclerScrollListener() {
             @Override
             public void onScrolledToEnd() {
                 progressBar.setVisibility(View.VISIBLE);
+                CategoryStoreProvider.getInstance(context)
+                        .updatePositionInCategory(CATEGORY_FRESH, postsList.size() - 1);
                 Objects.requireNonNull(recycler.getLayoutManager()).scrollToPosition(postsList.size() - 1);
                 updateDataFromApi(null, null, false);
             }

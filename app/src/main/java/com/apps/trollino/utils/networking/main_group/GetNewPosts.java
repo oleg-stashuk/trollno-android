@@ -23,6 +23,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -112,11 +113,10 @@ public class GetNewPosts {
         adapter.notifyDataSetChanged();
         recyclerView.suppressLayout(false);
 
-        if (isGetNewListThis) {
-            recyclerView.getLayoutManager().scrollToPosition(0);
-        } else {
-            recyclerView.getLayoutManager().scrollToPosition(CategoryStoreProvider.getInstance(cont)
-                    .getCategoryById(CATEGORY_FRESH).getPostInCategory());
-        }
+        int savedPosition = CategoryStoreProvider.getInstance(cont).getCategoryById(CATEGORY_FRESH).getPostInCategory();
+        int listSize = PostStoreProvider.getInstance(cont).getPostByCategoryName(CATEGORY_FRESH).size();
+
+        Objects.requireNonNull(recyclerView.getLayoutManager()).scrollToPosition(isGetNewListThis ? 0 :
+                listSize - 1 > savedPosition ? savedPosition + 1 : savedPosition);
     }
 }

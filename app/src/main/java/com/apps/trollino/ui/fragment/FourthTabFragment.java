@@ -89,6 +89,8 @@ public class FourthTabFragment extends BaseFragment {
             @Override
             public void onScrolledToEnd() {
                 progressBar.setVisibility(View.VISIBLE);
+                CategoryStoreProvider.getInstance(context)
+                        .updatePositionInCategory(categoryId, postsList.size() - 1);
                 Objects.requireNonNull(recycler.getLayoutManager()).scrollToPosition(postsList.size() - 1);
                 updateDataFromApi(null, null, false);
             }

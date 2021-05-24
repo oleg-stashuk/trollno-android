@@ -18,6 +18,7 @@ import com.apps.trollino.data.model.PostsModel;
 import com.apps.trollino.db_room.category.CategoryStoreProvider;
 import com.apps.trollino.db_room.posts.PostStoreProvider;
 import com.apps.trollino.ui.fragment.base.BaseFragment;
+import com.apps.trollino.utils.RecyclerScrollListener;
 import com.apps.trollino.utils.networking.main_group.GetMostDiscusPosts;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
@@ -78,6 +79,16 @@ public class DiscussTabFragment extends BaseFragment {
                     .getCategoryById(CATEGORY_DISCUSSED).getPostInCategory();
             Objects.requireNonNull(recycler.getLayoutManager()).scrollToPosition(savedPostPosition);
         }
+
+        // Загрузить/обновить данные с API при скролах ресайклера вниз, если достигнут конец списка
+        recycler.addOnScrollListener(new RecyclerScrollListener() {
+            @Override
+            public void onScrolledToEnd() {
+                CategoryStoreProvider.getInstance(context)
+                        .updatePositionInCategory(CATEGORY_DISCUSSED, postsList.size() - 1);
+                Objects.requireNonNull(recycler.getLayoutManager()).scrollToPosition(postsList.size() - 1);
+            }
+        });
     }
 
     // Обработка нажатия на элемент списка

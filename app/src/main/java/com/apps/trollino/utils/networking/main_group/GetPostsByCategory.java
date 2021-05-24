@@ -120,7 +120,10 @@ public class GetPostsByCategory {
         adapter.notifyDataSetChanged();
         recyclerView.suppressLayout(false);
 
+        int savedPosition = CategoryStoreProvider.getInstance(cont).getCategoryById(categoryIdThis).getPostInCategory();
+        int listSize = PostStoreProvider.getInstance(cont).getPostByCategoryName(categoryName).size();
+
         Objects.requireNonNull(recyclerView.getLayoutManager()).scrollToPosition(isGetNewListThis ? 0 :
-                CategoryStoreProvider.getInstance(cont).getCategoryById(categoryIdThis).getPostInCategory());
+                listSize - 1 > savedPosition ? savedPosition + 1 : savedPosition);
     }
 }
