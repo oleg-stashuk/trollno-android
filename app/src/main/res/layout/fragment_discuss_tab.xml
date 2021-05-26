@@ -11,18 +11,27 @@
         layout="@layout/include_shimmer_post_one_column"
         android:visibility="gone"/>
 
-    <com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
-        android:id="@+id/refresh_discuss_tab"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:srl_direction="top">
+        android:layout_height="wrap_content">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_discuss_tab"
-            android:overScrollMode="never"
+        <com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
+            android:id="@+id/refresh_discuss_tab"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            app:srl_direction="top">
 
-    </com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_discuss_tab"
+                android:overScrollMode="never"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout>
 
+        <View
+            android:id="@+id/line_discuss_tab"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
 </LinearLayout>

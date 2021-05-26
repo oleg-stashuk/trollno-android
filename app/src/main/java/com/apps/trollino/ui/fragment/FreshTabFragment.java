@@ -35,6 +35,7 @@ public class FreshTabFragment extends BaseFragment {
     private SwipyRefreshLayout refreshLayout;
     private RecyclerView recycler;
     private ProgressBar progressBar;
+    private View bottomLine;
 
     private FreshPostAdapter adapter;
     private List<PostsModel.PostDetails> postsList;
@@ -57,6 +58,7 @@ public class FreshTabFragment extends BaseFragment {
         refreshLayout = view.findViewById(R.id.refresh_fresh_tab);
         recycler = view.findViewById(R.id.recycler_fresh_tab);
         progressBar = view.findViewById(R.id.progress_fresh_tab);
+        bottomLine = view.findViewById(R.id.line_fresh_tab);
     }
 
     @Override
@@ -102,10 +104,14 @@ public class FreshTabFragment extends BaseFragment {
     // Загрузить/обновить данные с API
     private void updateDataFromApi(ShimmerFrameLayout shimmerToApi, SwipyRefreshLayout refreshLayoutToApi, boolean isGetNewList) {
         if (isGetNewList) CategoryStoreProvider.getInstance(context).updatePositionInCategory(CATEGORY_FRESH, 0);
-        new Handler().postDelayed(() ->
-                        new Thread(() -> makeGetNewPosts(context, prefUtils, adapter, recycler, shimmerToApi,
-                                refreshLayoutToApi, isGetNewList, progressBar)).start()
-                , 1000);
+        try {
+            new Handler().postDelayed(() ->
+                            new Thread(() -> makeGetNewPosts(context, prefUtils, adapter, recycler, shimmerToApi,
+                                    refreshLayoutToApi, isGetNewList, progressBar, bottomLine)).start()
+                    , 1000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void updateDataBySwipe() {

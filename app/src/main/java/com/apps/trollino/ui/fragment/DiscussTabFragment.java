@@ -33,6 +33,7 @@ public class DiscussTabFragment extends BaseFragment {
     private ShimmerFrameLayout shimmer;
     private SwipyRefreshLayout swipyRefresh;
     private RecyclerView recycler;
+    private View bottomLine;
 
     private DiscussPostAdapter adapter;
     private List<PostsModel.PostDetails> postsList;
@@ -54,6 +55,7 @@ public class DiscussTabFragment extends BaseFragment {
         shimmer = view.findViewById(R.id.include_shimmer_post_one_column);
         swipyRefresh = view.findViewById(R.id.refresh_discuss_tab);
         recycler = view.findViewById(R.id.recycler_discuss_tab);
+        bottomLine = view.findViewById(R.id.line_discuss_tab);
     }
 
     @Override
@@ -97,10 +99,14 @@ public class DiscussTabFragment extends BaseFragment {
 
     // Загрузить/обновить данные с API
     private void updateDataFromApi(ShimmerFrameLayout shimmerToApi, SwipyRefreshLayout refreshLayoutToApi) {
-        new Handler().postDelayed(() ->
-                        new Thread(() -> GetMostDiscusPosts.makeGetNewPosts(context, prefUtils, adapter,
-                                recycler, shimmerToApi, refreshLayoutToApi)).start()
-                , 1000);
+        try {
+            new Handler().postDelayed(() ->
+                            new Thread(() -> GetMostDiscusPosts.makeGetNewPosts(context, prefUtils, adapter,
+                                    recycler, shimmerToApi, refreshLayoutToApi, bottomLine)).start()
+                    , 1000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void updateDataBySwipe() {

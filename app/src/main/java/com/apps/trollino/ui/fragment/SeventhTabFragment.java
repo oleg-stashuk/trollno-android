@@ -34,6 +34,7 @@ public class SeventhTabFragment extends BaseFragment {
     private SwipyRefreshLayout refreshLayout;
     private RecyclerView recycler;
     private ProgressBar progressBar;
+    private View bottomLine;
 
     private PostByCategoryAdapter adapter;
     private List<PostsModel.PostDetails> postsList;
@@ -57,6 +58,7 @@ public class SeventhTabFragment extends BaseFragment {
         refreshLayout = view.findViewById(R.id.refresh_seventh_tab);
         recycler = view.findViewById(R.id.recycler_seventh_tab);
         progressBar = view.findViewById(R.id.progress_seventh_tab);
+        bottomLine = view.findViewById(R.id.line_seventh_tab);
     }
 
     @Override
@@ -103,10 +105,14 @@ public class SeventhTabFragment extends BaseFragment {
 
     private void updateDataFromApi(ShimmerFrameLayout shimmerToApi, SwipyRefreshLayout refreshLayoutToApi, boolean isGetNewList) {
         if (isGetNewList) CategoryStoreProvider.getInstance(context).updatePositionInCategory(categoryId, 0);
-        new Handler().postDelayed(() ->
-                        new Thread(() -> getPostsByCategory(context, prefUtils, adapter, recycler,
-                                shimmerToApi, refreshLayoutToApi, isGetNewList, progressBar, categoryId)).start()
-                , 1000);
+        try {
+            new Handler().postDelayed(() ->
+                            new Thread(() -> getPostsByCategory(context, prefUtils, adapter, recycler, shimmerToApi,
+                                    refreshLayoutToApi, isGetNewList, progressBar, bottomLine, categoryId)).start()
+                    , 1000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void updateDataBySwipe() {

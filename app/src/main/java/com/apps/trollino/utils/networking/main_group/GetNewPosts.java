@@ -40,7 +40,7 @@ public class GetNewPosts {
 
     public static void makeGetNewPosts(Context context, PrefUtils prefUtils, FreshPostAdapter adapter, RecyclerView recycler,
                                        ShimmerFrameLayout shimmer, SwipyRefreshLayout refreshLayout,
-                                       boolean isGetNewList, ProgressBar progressBar) {
+                                       boolean isGetNewList, ProgressBar progressBar, View line) {
         isGetNewListThis = isGetNewList;
         recyclerView = recycler;
         cont = context;
@@ -67,7 +67,7 @@ public class GetNewPosts {
 
                 } else {
                     String errorMessage = ErrorMessageFromApi.errorMessageFromApi(response.errorBody());
-                    SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(recycler, errorMessage);
+                    SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(line, errorMessage);
                 }
                 if (shimmer != null) {
                     ShimmerHide.shimmerHide(recycler, shimmer);
@@ -80,17 +80,21 @@ public class GetNewPosts {
                 t.getStackTrace();
                 boolean isHaveNotInternet = t.getLocalizedMessage().contains(context.getString(R.string.internet_error_from_api));
                 String noInternetMessage = context.getResources().getString(R.string.internet_error_message);
-                if (isHaveNotInternet) {
-                    Snackbar snackbar  = Snackbar
-                            .make(recycler, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
-                            .setMaxInlineActionWidth(3)
-                            .setAction(R.string.refresh_button, v -> {
-                                call.clone().enqueue(this);
-                            });
-                    snackbar.setAnchorView(recycler);
-                    snackbar.show();
-                } else {
-                    SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(recycler, t.getLocalizedMessage());
+                try {
+                    if (isHaveNotInternet) {
+                        Snackbar snackbar  = Snackbar
+                                .make(line, noInternetMessage, Snackbar.LENGTH_INDEFINITE)
+                                .setMaxInlineActionWidth(3)
+                                .setAction(R.string.refresh_button, v -> {
+                                    call.clone().enqueue(this);
+                                });
+                        snackbar.setAnchorView(line);
+                        snackbar.show();
+                    } else {
+                        SnackBarMessageCustom.showSnackBarOnTheTopByBottomNavigation(line, t.getLocalizedMessage());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
                 hideUpdateProgressView(shimmer, refreshLayout, progressBar);
                 Log.d(TAG_LOG, "t.getLocalizedMessage() " + t.getLocalizedMessage());
