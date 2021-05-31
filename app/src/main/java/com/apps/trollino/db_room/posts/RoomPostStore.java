@@ -16,7 +16,7 @@ import static com.apps.trollino.utils.data.Const.CATEGORY_DISCUSSED;
 import static com.apps.trollino.utils.data.Const.CATEGORY_FRESH;
 
 public class RoomPostStore implements PostStore{
-    private PostDao postDao;
+    private final PostDao postDao;
 
     public RoomPostStore(Context context) {
         postDao = Room
@@ -35,7 +35,18 @@ public class RoomPostStore implements PostStore{
                 post.setPostIdUnique(post.getPostId());
             }
             post.setCategoryName(nameCategory);
-            postDao.add(PostConverter.postConverter(post));
+            try {
+                postDao.add(PostConverter.postConverter(post));
+            } catch (Exception e) {
+                e.printStackTrace();
+                List<PostsModel.PostDetails> postDBList = getPostsByPostId(post.getPostId());
+                for(PostsModel.PostDetails postDB : postDBList){
+                    if(!postDB.getCategoryName().equals(CATEGORY_FRESH) && !postDB.getCategoryName().equals(CATEGORY_DISCUSSED)) {
+                        postDB.setCategoryName(nameCategory);
+                        updatePostInDB(postDB);
+                    }
+                }
+            }
         }
     }
 
