@@ -6,13 +6,14 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.apps.trollino.ui.fragment.DiscussTabFragment;
-import com.apps.trollino.ui.fragment.SeventhTabFragment;
-import com.apps.trollino.ui.fragment.ThirdTabFragment;
-import com.apps.trollino.ui.fragment.SixthTabFragment;
-import com.apps.trollino.ui.fragment.FreshTabFragment;
-import com.apps.trollino.ui.fragment.FourthTabFragment;
 import com.apps.trollino.ui.fragment.EighthTabFragment;
 import com.apps.trollino.ui.fragment.FifthTabFragment;
+import com.apps.trollino.ui.fragment.FourthTabFragment;
+import com.apps.trollino.ui.fragment.FreshTabFragment;
+import com.apps.trollino.ui.fragment.NinthTabFragment;
+import com.apps.trollino.ui.fragment.SeventhTabFragment;
+import com.apps.trollino.ui.fragment.SixthTabFragment;
+import com.apps.trollino.ui.fragment.ThirdTabFragment;
 
 public class PagerAdapter extends FragmentPagerAdapter {
     private final int totalPage;
@@ -42,6 +43,8 @@ public class PagerAdapter extends FragmentPagerAdapter {
                 return new SeventhTabFragment();
             case 7:
                 return new EighthTabFragment();
+            case 8:
+                return new NinthTabFragment();
             default:
                 return null;
         }
