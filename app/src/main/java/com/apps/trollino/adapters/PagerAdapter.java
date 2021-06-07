@@ -13,6 +13,7 @@ import com.apps.trollino.ui.fragment.FreshTabFragment;
 import com.apps.trollino.ui.fragment.NinthTabFragment;
 import com.apps.trollino.ui.fragment.SeventhTabFragment;
 import com.apps.trollino.ui.fragment.SixthTabFragment;
+import com.apps.trollino.ui.fragment.TenthTabFragment;
 import com.apps.trollino.ui.fragment.ThirdTabFragment;
 
 public class PagerAdapter extends FragmentPagerAdapter {
@@ -45,6 +46,8 @@ public class PagerAdapter extends FragmentPagerAdapter {
                 return new EighthTabFragment();
             case 8:
                 return new NinthTabFragment();
+            case 9:
+                return new TenthTabFragment();
             default:
                 return null;
         }
