@@ -56,10 +56,10 @@ public class TenthTabFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         shimmer = view.findViewById(R.id.include_shimmer_post_two_column);
-        refreshLayout = view.findViewById(R.id.refresh_ninth_tab);
-        recycler = view.findViewById(R.id.recycler_ninth_tab);
-        progressBar = view.findViewById(R.id.progress_ninth_tab);
-        bottomLine = view.findViewById(R.id.line_ninth_tab);
+        refreshLayout = view.findViewById(R.id.refresh_tenth_tab);
+        recycler = view.findViewById(R.id.recycler_tenth_tab);
+        progressBar = view.findViewById(R.id.progress_tenth_tab);
+        bottomLine = view.findViewById(R.id.line_tenth_tab);
     }
 
     @Override
