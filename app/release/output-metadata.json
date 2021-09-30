@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.app.trollino",
+  "applicationId": "com.trollno.android",
   "variantName": "processReleaseResources",
   "elements": [
     {
