@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.apps.trollino">
+    package="com.app.trollno">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission
@@ -18,7 +18,7 @@
         android:usesCleartextTraffic="true">
         <!-- android:hardwareAccelerated="false" -->
         <service
-            android:name=".service.MyFirebaseMessagingService"
+            android:name="com.app.trollno.service.MyFirebaseMessagingService"
             android:directBootAware="true"
             android:exported="false">
             <intent-filter>
@@ -58,74 +58,74 @@
             android:value="@string/banner_admob_id" />
 
         <activity
-            android:name=".ui.main_group.YoutubeActivity"
+            android:name="com.app.trollno.ui.main_group.YoutubeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".ui.main_group.EditUserProfileActivity"
+            android:name="com.app.trollno.ui.main_group.EditUserProfileActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".ui.main_group.CommentToPostActivity"
+            android:name="com.app.trollno.ui.main_group.CommentToPostActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".ui.main_group.AnswersActivity"
+            android:name="com.app.trollno.ui.main_group.AnswersActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".ui.main_group.PostActivity"
+            android:name="com.app.trollno.ui.main_group.PostActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".ui.main_group.SearchActivity"
+            android:name="com.app.trollno.ui.main_group.SearchActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".ui.main_group.TapeActivity"
+            android:name="com.app.trollno.ui.main_group.TapeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".ui.main_group.FavoriteActivity"
+            android:name="com.app.trollno.ui.main_group.FavoriteActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".ui.authorisation.ForgotPasswordActivity"
+            android:name="com.app.trollno.ui.authorisation.ForgotPasswordActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".ui.authorisation.RegistrationActivity"
+            android:name="com.app.trollno.ui.authorisation.RegistrationActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".ui.authorisation.LoginActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:noHistory="false"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".ui.authorisation.EditRealNameActivity"
+            android:name="com.app.trollno.ui.authorisation.LoginActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:noHistory="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".ui.main_group.ProfileActivity"
+            android:name="com.app.trollno.ui.authorisation.EditRealNameActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:noHistory="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name="com.app.trollno.ui.main_group.ProfileActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".ui.SplashActivity"
+            android:name="com.app.trollno.ui.SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden">
