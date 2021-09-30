@@ -1,38 +1,47 @@
 {
   "project_info": {
-    "project_number": "464154282894",
-    "project_id": "trollno-84a0e",
-    "storage_bucket": "trollno-84a0e.appspot.com"
+    "project_number": "1037230999202",
+    "project_id": "trollno-apps",
+    "storage_bucket": "trollno-apps.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:464154282894:android:b36e890c4dafd4dbbcf2df",
+        "mobilesdk_app_id": "1:1037230999202:android:ca0b400ac1918792e2b9fb",
         "android_client_info": {
           "package_name": "com.trollno.android"
         }
       },
       "oauth_client": [
         {
-          "client_id": "464154282894-n62o1du30em0fpancfcmhnfp8am6ddh0.apps.googleusercontent.com",
+          "client_id": "1037230999202-eu5tiskqumcae2og0udvvni84q8aq4ma.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.trollno.android",
+            "certificate_hash": "42b2297db22858f29b73054a745ad6a2019eb52c"
+          }
+        },
+        {
+          "client_id": "1037230999202-j07j7o2jss6tumbug4vc524qhm81snp3.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAItNzxJRY6IC7jypSrElBr7F2AQBd59lA"
+          "current_key": "AIzaSyDl-yvq7Ecca8A-XZCazkSwpbssZi5D_pE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "464154282894-n62o1du30em0fpancfcmhnfp8am6ddh0.apps.googleusercontent.com",
+              "client_id": "1037230999202-j07j7o2jss6tumbug4vc524qhm81snp3.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
         }
-      }
+      },
+      "admob_app_id": "ca-app-pub-3622792692520676~3752627039"
     }
   ],
   "configuration_version": "1"
