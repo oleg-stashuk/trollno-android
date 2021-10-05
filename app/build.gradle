@@ -11,8 +11,8 @@ android {
         applicationId "com.trollno.android"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 8
-        versionName "1.8"
+        versionCode 9
+        versionName "1.1"
         multiDexEnabled true
     }
 
